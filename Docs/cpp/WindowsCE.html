@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin on Windows CE</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin on Windows CE</H1>
+<hr>
+<p>
+Since version 2.14 Simkin has been available for Windows CE 3.0. 
+<p>
+The porting effort was generously funded by HP Labs in Bristol.
+<p>
+There are various issues with the support for C++ on Windows CE 3.0:
+<p>
+<ol>
+<li>C++ Exceptions are not supported</li>
+<li>C++ Streams are not supported</li>
+<li>Unicode characters are used</li>
+</ol>
+<p>
+Simkin contains preprocessor directives to provide a special version of the library to address these issues:
+<ol>
+<li><b>EXCEPTIONS_DEFINED</b><br>if undefined, code using C++ exceptions is disabled. 
+<br>An <a href="api/classskExecutableContext.html">skExecutableContext</a> object is passed to method calls which uses an <a href="api/classskScriptError.html">skScriptError</a> object to catch any errors that would normally be thrown as a C++ exception.<p>
+</li>
+<li><b>STREAMS_ENABLED</b><br>if defined this disables all the code within Simkin which relies on C++ streams<p>
+</li>
+<li><b>UNICODE_STRINGS</b><br>if defined, this enables code which uses unicode wide character strings rather than standard 8-bit characters
+</ol>
+In order to run the library examples in Windows CE, you will need to copy the Simkin script files (either TreeNode or XML) onto the device, and save them in <b>Unicode</b> format.
+<p>
+The Windows CE version works with either TreeNode format files, or with a special version of the <b>Expat</b> XML parser, which can be downloaded <a href="http://www.simkin.co.uk/Expat-1.95.5-ce.zip">from the Simkin site</a>. We are not aware of a version of the <b>Xerces</b> XML parser which works on Windows CE.
+<p>
+Project files for Embedded C++ version 3.0 have been provided.
+</body>
+</html>

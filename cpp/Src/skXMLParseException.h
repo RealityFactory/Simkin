@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,20 +16,20 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skXMLParseException.h,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skXMLParseException.h,v 1.5 2002/12/13 17:21:54 sdw Exp $
 */
 
 #ifndef sk_XMLPARSEEXCEPTION_H
 #define sk_XMLPARSEEXCEPTION_H
 
-#include "skString.h"
+#include "skException.h"
 
 const int skXMLParseException_Code=5;
 
 /**
  * This class represents an exception during the parsing of an XML document - using the Simkin DOM classes.
  */
-class CLASSEXPORT skXMLParseException 
+class CLASSEXPORT skXMLParseException : public skException
 {
  public:
   /** Constructs a new exception */
@@ -38,6 +38,7 @@ class CLASSEXPORT skXMLParseException
   int getLineNum() const { return m_LineNum; }
   /** returns a string describing the error */
   skString getErrorMessage() const { return m_Error; }
+  skString toString() const { return m_Error; }
  private:
   int m_LineNum;
   skString m_Error;

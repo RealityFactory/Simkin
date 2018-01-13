@@ -18,6 +18,24 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Demo_Expat"=.\EXAMPLES\DEMO_EXPAT\Demo_Expat.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name expat_1_95_5
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Simkin_Expat
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "Demo_XML"=.\examples\demo_xml\Demo_XML.dsp - Package Owner=<4>
 
 Package=<5>
@@ -45,10 +63,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name XercesLib
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Simkin_Xerces
+    Project_Dep_Name Simkin_Expat
     End Project Dependency
 }}}
 
@@ -81,10 +96,10 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name expat
+    Project_Dep_Name Simkin_Expat
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name Simkin_Expat
+    Project_Dep_Name expat_1_95_5
     End Project Dependency
 }}}
 
@@ -100,6 +115,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name Simkin_Expat_DLL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name expat_1_95_5
     End Project Dependency
 }}}
 
@@ -179,6 +197,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name expat_1_95_5
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -192,7 +213,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name expat
+    Project_Dep_Name expat_1_95_5
     End Project Dependency
 }}}
 
@@ -252,7 +273,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "XercesLib"="..\..\..\xerces-c-src1_5_2\Projects\Win32\VC6\xerces-all\XercesLib\XercesLib.dsp" - Package Owner=<4>
+Project: "XercesLib"="..\..\..\xerces-c-src2_1_0\Projects\Win32\VC6\xerces-all\XercesLib\XercesLib.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -264,7 +285,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "expat"="..\..\..\Expat-1.95.2\Source\lib\expat.dsp" - Package Owner=<4>
+Project: "expat_1_95_5"="..\..\..\EXPAT-1.95.5\WIN32\expat_1_95_5.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

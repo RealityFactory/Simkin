@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTracer.cpp,v 1.7 2002/02/06 23:21:54 sdw Exp $
+* $Id: skTracer.cpp,v 1.10 2002/12/13 17:21:54 sdw Exp $
 */
 #include "skTracer.h"
 
@@ -25,11 +25,15 @@ void skTracer::trace(const skString& s)
 //------------------------------------------
 {
 #ifdef STREAMS_ENABLED
-    cout << s;
-	cout.flush();
+  cout << s;
+  cout.flush();
 #else
 #ifdef UNICODE_STRINGS
+#ifndef _WIN32_WCE
 	wprintf((const Char *)s);
+#else
+	NKDbgPrintfW((const Char *)s);
+#endif
 #else
 	printf((const Char *)s);
 #endif

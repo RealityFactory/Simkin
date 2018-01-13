@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -17,9 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 #include "skInterpreter.h"
-#include "skXMLExecutable.h"
+#include "skElementExecutable.h"
 #include "skRValueArray.h"
-#include <util/PlatformUtils.hpp>
 
 /**
  * This example shows the simplest possible application which just prints "Hello World"
@@ -28,22 +27,21 @@
 // A simple piece of XML, that just shows "Hello World" on the console
 const char * g_XML="<object><function name=\"main\"> trace(\"Hello World\"); </function></object>";
 
+skLITERAL(main);
+
 void main(){
-  // Initialize the Xerces-C library
-  XMLPlatformUtils::Initialize();
 
   // Set up global interpreter
   skInterpreter i;
-  skInterpreter::setInterpreter(&i);
+  // And an executable context
+  skExecutableContext ctxt(&i);
 
   // create an XMLExecutable object with the xml string
-  skXMLExecutable executable("Hello World",g_XML);
+  skElementExecutable executable("Hello World",g_XML,ctxt);
 
   // call the "main" method
   skRValueArray args;
   skRValue return_value;
-  executable.method("main",args,return_value);
+  executable.method(s_main,args,return_value,ctxt);
 
-  // Terminate the Xerces-C library
-  XMLPlatformUtils::Terminate();
 }

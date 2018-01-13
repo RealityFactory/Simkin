@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringBuffer.cpp,v 1.3 2002/01/08 23:04:40 sdw Exp $
+  $Id: skStringBuffer.cpp,v 1.7 2002/12/13 17:21:54 sdw Exp $
 */
 #include "skStringBuffer.h"
 
@@ -79,7 +79,7 @@ skStringBuffer::~skStringBuffer()
 void skStringBuffer::append(Char ch)
 //---------------------------------------------------
 {
-  ensureCapacity(m_Length+1);
+  ensureCapacity(m_Length+1+1);
   m_Buffer[m_Length++]=ch;
   m_Buffer[m_Length]=0;
 }
@@ -125,10 +125,10 @@ skString skStringBuffer::toStringCopy() const
 void skStringBuffer::ensureCapacity(USize capacity)
 //---------------------------------------------------
 {
-  if (capacity>m_Capacity){
+  if (capacity+1>m_Capacity){
     USize increment=max(capacity-m_Capacity,m_GrowthIncrement);
     USize new_capacity=m_Capacity+increment;
-	assert(new_capacity>=capacity);
+    assert(new_capacity>=capacity);
     Char * new_buffer=new Char[new_capacity];
     memset(new_buffer,0,new_capacity);
     if (m_Buffer){

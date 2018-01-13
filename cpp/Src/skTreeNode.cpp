@@ -1,5 +1,5 @@
 /*
-  copyright 1996-2001
+  copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNode.cpp,v 1.15 2001/11/22 11:13:21 sdw Exp $
+  $Id: skTreeNode.cpp,v 1.21 2002/12/16 16:11:46 sdw Exp $
 */
 
 #include <string.h>
@@ -28,6 +28,7 @@
 #include <fstream.h>
 #endif
 #include <ctype.h>
+#include "skExecutableContext.h"
 
 static skString false_string=skSTR("false");
 static skString true_string=skSTR("true");
@@ -90,7 +91,7 @@ skTreeNodeList& skTreeNodeList::operator=(const skTreeNodeList& l)
       growTo(l.m_Entries);
       m_Entries=l.m_Entries;
       for (USize i=0;i<l.m_Entries;i++)
-      m_Array[i]=new skTreeNode(*(skTreeNode*)l.m_Array[i]);
+        m_Array[i]=new skTreeNode(*(skTreeNode*)l.m_Array[i]);
     }
   }
   return *this;	
@@ -167,7 +168,7 @@ skTreeNode& skTreeNode::operator=(const skTreeNode& node)
     delete m_Items;
     m_Items=0;
     if (node.m_Items)
-    m_Items=new skTreeNodeList(*node.m_Items);
+      m_Items=new skTreeNodeList(*node.m_Items);
   }
   return * this;
 }
@@ -489,7 +490,7 @@ void skTreeNode::write(ostream& out,USize tabstops) const
 }
 #endif
 //-----------------------------------------------------------------
-skTreeNode * skTreeNode::read(const skString& s)
+skTreeNode * skTreeNode::read(const skString& s,skExecutableContext& ctxt)
 //-----------------------------------------------------------------
 {
   skTreeNode * pnode=0;
@@ -501,7 +502,23 @@ skTreeNode * skTreeNode::read(const skString& s)
 #endif
   if (i.good()){
     skTreeNodeReader r(i,s);
-    pnode=r.read();
+    pnode=r.read(ctxt);
+  }
+#else
+#ifdef UNICODE_STRINGS
+  FILE * i=_wfopen(s,skSTR("rb"));
+  if (i){
+    unsigned short format;
+    fread(&format,sizeof(format),1,i);
+    skTreeNodeReader r(i,s);
+    pnode=r.read(ctxt);
+#else
+  FILE * i=fopen(s,skSTR("r"));
+  if (i){
+    skTreeNodeReader r(i,s);
+    pnode=r.read(ctxt);
+#endif
+    fclose(i);
   }
 #endif
   return pnode;	
@@ -517,6 +534,15 @@ skTreeNodeReader::skTreeNodeReader(istream& in)
 //-----------------------------------------------------------------
 {
     pimp=new P_TreeNodeReader(in);
+    pimp->m_Error=false;
+    pimp->grabBuffer();
+}
+#else
+//-----------------------------------------------------------------
+skTreeNodeReader::skTreeNodeReader(FILE * f)
+//-----------------------------------------------------------------
+{
+    pimp=new P_TreeNodeReader(f);
     pimp->m_Error=false;
     pimp->grabBuffer();
 }
@@ -536,7 +562,17 @@ void P_TreeNodeReader::grabBuffer()
 }
 #ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------
-skTreeNodeReader::skTreeNodeReader(istream& in,const char * fileName)
+skTreeNodeReader::skTreeNodeReader(istream& in,skString fileName)
+//-----------------------------------------------------------------
+{
+  pimp=new P_TreeNodeReader(in);
+  pimp->m_Error=false;
+  pimp->m_FileName=fileName;
+  pimp->grabBuffer();
+}
+#else
+//-----------------------------------------------------------------
+skTreeNodeReader::skTreeNodeReader(FILE * in,skString fileName)
 //-----------------------------------------------------------------
 {
   pimp=new P_TreeNodeReader(in);
@@ -563,7 +599,17 @@ skTreeNodeReader::~skTreeNodeReader()
 //-----------------------------------------------------------------
 P_TreeNodeReader::P_TreeNodeReader(istream& in)
 //-----------------------------------------------------------------
-: m_In(in),m_UnLex(false),m_LastLexeme(L_EOF),m_Pos(0)
+  : m_In(in),m_UnLex(false),m_LastLexeme(L_EOF),m_Pos(0)
+#ifdef USECLASSBUFFER
+, m_UsingClassLexText(false)
+#endif
+{
+}
+#else
+//-----------------------------------------------------------------
+P_TreeNodeReader::P_TreeNodeReader(FILE * in)
+//-----------------------------------------------------------------
+  : m_In(in),m_UnLex(false),m_LastLexeme(L_EOF),m_Pos(0),m_Peeked(false)
 #ifdef USECLASSBUFFER
 , m_UsingClassLexText(false)
 #endif
@@ -592,7 +638,7 @@ void P_TreeNodeReader::error(const skString& msg)
   m_LexText[50]=0;
 }
 //-----------------------------------------------------------------
-skTreeNode * skTreeNodeReader::read()
+skTreeNode * skTreeNodeReader::read(skExecutableContext& ctxt)
 //-----------------------------------------------------------------
 {       
   skTreeNode * pret=0;
@@ -602,7 +648,11 @@ skTreeNode * skTreeNodeReader::read()
   if (pimp->m_Error){
     delete pret;
     pret=0;
-    THROW(skTreeNodeReaderException(pimp->m_FileName,pimp->m_LexText),skBoundsException_Code);
+#ifdef EXCEPTIONS_DEFINED
+    throw skTreeNodeReaderException(pimp->m_FileName,pimp->m_LexText);
+#else
+    ctxt.m_Error.setError(skScriptError::TREENODEPARSE_ERROR,new skTreeNodeReaderException(pimp->m_FileName,pimp->m_LexText));
+#endif
   }
   return pret;	
 }
@@ -632,17 +682,17 @@ skTreeNode * P_TreeNodeReader::parseTreeNode(skTreeNode * pparent)
       switch (lexeme){
       case L_TEXT:
       case L_IDENT:
-	unLex();
-	break;
+        unLex();
+        break;
       case L_LBRACE:
-	parseTreeNodeList(pnode);
-	break;
+        parseTreeNodeList(pnode);
+        break;
       case L_RBRACE:
-	if (pparent)
-	  unLex();
-	else
-	  error(skSTR("Unexpected right brace parsing text after label - no parent node"));
-	break;
+        if (pparent)
+	        unLex();
+        else
+	        error(skSTR("Unexpected right brace parsing text after label - no parent node"));
+        break;
       }
       break;
     case L_LBRACE:
@@ -650,9 +700,9 @@ skTreeNode * P_TreeNodeReader::parseTreeNode(skTreeNode * pparent)
       break;
     case L_RBRACE:
       if (pparent)
-	unLex();
-      else
-	error(skSTR("Unexpected right brace parsing after label - no parent node"));
+        unLex();
+            else
+        error(skSTR("Unexpected right brace parsing after label - no parent node"));
       break;
     }
     break;
@@ -671,9 +721,9 @@ skTreeNode * P_TreeNodeReader::parseTreeNode(skTreeNode * pparent)
       break;
     case L_RBRACE:
       if (pparent)
-	unLex();
+        unLex();
       else
-	error(skSTR("Unexpected right brace parsing text with no label - no parent node"));
+        error(skSTR("Unexpected right brace parsing text with no label - no parent node"));
       break;
     }
     break;
@@ -718,7 +768,10 @@ bool P_TreeNodeReader::eof()
   bool eof=false;
 #ifdef STREAMS_ENABLED
   if (m_In.eof())
-	  eof=true;
+    eof=true;
+#else
+  if (feof(m_In))
+    eof=true;
 #endif
   return eof;
 }
@@ -729,6 +782,16 @@ int P_TreeNodeReader::get()
   int c=0;
 #ifdef STREAMS_ENABLED
   c=m_In.get();
+#else
+  if (m_Peeked){
+    c=m_PeekedChar;
+    m_Peeked=false;
+  }else
+#ifdef UNICODE_STRINGS
+    c=fgetwc(m_In);
+#else
+    c=fgetc(m_In);
+#endif
 #endif
   return c;
 }
@@ -739,6 +802,10 @@ int P_TreeNodeReader::peek()
   int c=0;
 #ifdef STREAMS_ENABLED
   c=m_In.peek();
+#else
+  c=get();
+  m_Peeked=true;
+  m_PeekedChar=c;
 #endif
   return c;
 }
@@ -755,84 +822,84 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
     while (loop && !eof() && m_Error==false){
       c=get();
       if (c=='\n')
-	m_LineNum++;
+        m_LineNum++;
       switch (c){
       case '{':
-	addToLexText((unsigned char)c);
-	m_LastLexeme=L_LBRACE;
-	loop=0;
-	break;
+        addToLexText((unsigned char)c);
+        m_LastLexeme=L_LBRACE;
+        loop=0;
+        break;
       case '}':
-	addToLexText((unsigned char)c);
-	m_LastLexeme=L_RBRACE;
-	loop=0;
-	break;
+        addToLexText((unsigned char)c);
+        m_LastLexeme=L_RBRACE;
+        loop=0;
+        break;
       case EOF:
-	m_LastLexeme=L_EOF;
-	loop=0;
-	break;
+        m_LastLexeme=L_EOF;
+        loop=0;
+        break;
       case '[':{
-	int textloop=1;
-	int num_braces=1;
-	m_LastLexeme=L_TEXT;
-	while(textloop && !eof()){
-	  c=get();
-	  switch(c){
-	  case EOF:
-	    m_LastLexeme=L_ERROR;
-	    error(skSTR("Expected EOF in text string"));
-	    textloop=0;
-	    break;
-	  case '\\':
-	    // let any character through
-	    c=get();
-	    addToLexText((unsigned char)c);
-	    break;
-	  case '[':
-	    num_braces++;
-	    addToLexText((unsigned char)c);
-	    break;
-	  case ']':
-	    num_braces--;
-	    if (num_braces==0)
-	      textloop=0;
-	    else
+        int textloop=1;
+        int num_braces=1;
+        m_LastLexeme=L_TEXT;
+        while(textloop && !eof()){
+          c=get();
+          switch(c){
+          case EOF:
+	          m_LastLexeme=L_ERROR;
+	          error(skSTR("Expected EOF in text string"));
+	          textloop=0;
+	          break;
+          case '\\':
+	          // let any character through
+	          c=get();
+	          addToLexText((unsigned char)c);
+	          break;
+          case '[':
+	          num_braces++;
+	          addToLexText((unsigned char)c);
+	          break;
+          case ']':
+	          num_braces--;
+	          if (num_braces==0)
+	            textloop=0;
+	          else
+	            addToLexText((unsigned char)c);
+	          break;
+          default:
+	            addToLexText((unsigned char)c);
+          }
+        }
+        loop=0;
+        break;	
+    }
+    case '/':
+    case '.':
+    case '\\':
+    case '~':
+    case '_':
+    case '-':
+    case ':':
+    default:
+      if (c==':' || c=='-' || c=='.' || c=='/' || c=='\\' || c=='_' || c=='~' || ISALNUM(c)){
+	      m_LastLexeme=L_IDENT;
 	      addToLexText((unsigned char)c);
-	    break;
-	  default:
-	      addToLexText((unsigned char)c);
-	  }
-	}
-	loop=0;
-	break;	
-      }
-      case '/':
-      case '.':
-      case '\\':
-      case '~':
-      case '_':
-      case '-':
-      case ':':
-      default:
-	if (c==':' || c=='-' || c=='.' || c=='/' || c=='\\' || c=='_' || c=='~' || isalnum(c)){
-	  m_LastLexeme=L_IDENT;
-	  addToLexText((unsigned char)c);
-	  int identloop=1;
-	  while (identloop && !eof())
-	    if (isalnum(peek()) || peek()=='\\' 
-		|| peek()=='_' || peek()=='~' || peek()=='-' 
-		|| peek()=='/' || peek()=='.' || peek()==':'){
-	      c=get();
-	      addToLexText((unsigned char)c);
-	    }else
-	      identloop=0;
-	  loop=0;	
-	}else
-	  if (!isspace(c)){
-	    m_LastLexeme=L_ERROR;
-	    error(skSTR("Expected ~ _ or alpha numeric character"));
-	    loop=0;	
-	  }
+	      int identloop=1;
+	      while (identloop && !eof())
+	        if (ISALNUM(peek()) || peek()=='\\' 
+	      || peek()=='_' || peek()=='~' || peek()=='-' 
+	      || peek()=='/' || peek()=='.' || peek()==':'){
+	          c=get();
+	          addToLexText((unsigned char)c);
+	        }else
+	          identloop=0;
+	      loop=0;	
+      }else
+        if (!ISSPACE(c)){
+	        m_LastLexeme=L_ERROR;
+	        error(skSTR("Expected ~ _ or alpha numeric character"));
+	        loop=0;	
+        }
       }
     }
     m_LexText[m_Pos]=0;

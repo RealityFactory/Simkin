@@ -1,5 +1,20 @@
 Simkin for C++
-(c)2000-2001 Simon Whiteside
+(c)1996-2002 Simon Whiteside
+
+Simkin Version 2.14
+Date: 14/12/2002
+-------------------
+
+* fixed bug in skStringBuffer::append(char) (thanks Gabriel Bouvigne)
+* fixed bug in skTreeNodeObject when the node is changed, the method cache is invalid (thanks Enzo Petrelli)
+* fixes to bugs in Expat XML DOM. 
+* fixes to memory leaks in Expat parser (thanks Rich Goldstein)
+* fixed missing <= >= operators for floats (thanks Dave Zarlengo)
+* added new class skScriptError to propagate exceptions when C++ exceptions are not available (such as in Windows CE)
+* added skExecutableContext parameter to calls in skiExecutable - this is to remove the need for a global interpreter object and to allow for compilers where C++ exceptions are not available
+* removed the global interpreter objects from skInterpreter
+* further unicode changes to support Windows CE
+* updated to work with Xerces 2.1.0 (with deprecated DOM) and Expat 1.95.5
 
 Simkin Version 2.13
 Date: 13/2/2002

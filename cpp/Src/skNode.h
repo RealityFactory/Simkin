@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,12 +16,14 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skNode.h,v 1.7 2001/11/22 11:13:21 sdw Exp $
+* $Id: skNode.h,v 1.11 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef skNODE_H
 #define skNODE_H
 
 #include "skAlist.h"
+
+class CLASSEXPORT skElement;
 
 /**
  * This class describes a node within an XML document hierarchy. It is part of the classes used in the Simkin XML DOM (Document Object Model)
@@ -54,17 +56,34 @@ class CLASSEXPORT skNode
    */
   virtual skNode * clone()=0;
   /**
+   * This abstract virtual function writes a textual representation of this node and its children to a string
+   * @return the string containing the node
+   */
+  virtual skString toString() const=0;
+#ifdef STREAMS_ENABLED
+  /**
    * This abstract virtual function writes a textual representation of this node and its children to the given stream
    * @param out - the stream to write to
    */
   virtual void write(ostream& out) const=0;
+#endif
   /**
    * This static method searches the given text for characters which must be "escaped" in an XML document
    */
   static skString escapeXMLDelimiters(const skString& text);
+  /** Increments the reference count for this node */
+  void addRef();
+  /** Decrements the reference count for this node. When this reaches zero, the node deletes itself */
+  void deRef();
+  /** Sets the owning element */
+  void setParent(skElement * parent);
+  /** Returns the owning element  */
+  skElement * getParent();
  protected:
   /** Blank constructor */
   skNode();
+  /** Pointer to the parent Element */
+  skElement * m_Parent;
  private:
   /** Prevent nodes from being copied by the default C++ behaviour */
   skNode(const skNode&);
@@ -78,10 +97,13 @@ EXTERN_TEMPLATE template class CLASSEXPORT skTAList<skNode>;
 class CLASSEXPORT skNodeList : public skTAList<skNode>{
 };
 
+#ifdef STREAMS_ENABLED
 /** 
  * This stream operator writes the given node out to the given stream by invoking write()
  * @param out - the stream to write to
  * @param node - the node to be written
  */
 CLASSEXPORT ostream& operator<<(ostream& out,const skNode& node);
+#endif
+
 #endif

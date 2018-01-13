@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skExecutable.cpp,v 1.24 2002/02/13 16:53:16 sdw Exp $
+  $Id: skExecutable.cpp,v 1.28 2002/12/13 17:21:54 sdw Exp $
 */
 #include "skExecutable.h"
 #include "skRValue.h"
@@ -111,32 +111,30 @@ bool skExecutable::getValueAt(const skRValue& array_index,const skString& attrib
   return false;
 }
 //------------------------------------------
-bool skExecutable::method(const skString& s,skRValueArray& args,skRValue& r)
+bool skExecutable::method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt)
   //------------------------------------------
 {
   bool bRet=false;
   if (s==s_trace){
     if (args.entries()>0)
-      skInterpreter::getInterpreter()->trace(args[0].str()+skSTR("\n"));
+      ctxt.m_Interpreter->trace(args[0].str()+skSTR("\n"));
     bRet=true;
-  }else  if (s==s_isObject){
+  }else if (s==s_isObject){
     if (args.entries()==1){
       bRet=true;
       r=skRValue((bool)(args[0].type()==skRValue::T_Object));
     }
-  }else
-    if (s==s_length){
-      if (args.entries()==1){
-	bRet=true;
-	r=skRValue(args[0].str().length());
-      }
-    }else
-      if (s==s_charAt){
-	if (args.entries()==2){
-	  bRet=true;
-	  r=(char)(args[0].str().at((char)args[1].intValue()));
-	}
-      }
+  }else if (s==s_length){
+    if (args.entries()==1){
+      bRet=true;
+      r=skRValue(args[0].str().length());
+    }
+  }else if (s==s_charAt){
+    if (args.entries()==2){
+	    bRet=true;
+	    r=(char)(args[0].str().at((char)args[1].intValue()));
+    }
+  }
   return bRet;
 }
 //------------------------------------------

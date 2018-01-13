@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,13 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: InheritsExecutable.h,v 1.4 2001/11/22 11:13:21 sdw Exp $
+  $Id: InheritsExecutable.h,v 1.5 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef INHERITSEXECUTABLE_H
 #define INHERITSEXECUTABLE_H
 
 #include "InheritsElement.h"
-#include "sax/InputSource.hpp"
+#include <xercesc/sax/InputSource.hpp>
 
 /**
  * This class loads an XML file and makes sure any <inherits> tags are resolved.

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAttribute.h,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skAttribute.h,v 1.7 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef skATTRIBUTE_H
 #define skATTRIBUTE_H
@@ -51,8 +51,9 @@ class CLASSEXPORT skAttribute
   }
   /** this method sets the value of the attribute */
   void setValue(const skString& name){
-    m_Name=name;
+    m_Value=name;
   }
+  skString toString() const;
  private:
   skString m_Name;
   skString m_Value;
@@ -65,5 +66,7 @@ EXTERN_TEMPLATE template class CLASSEXPORT skTAList<skAttribute>;
  */
 class CLASSEXPORT skAttributeList : public skTAList<skAttribute>{
 };
+#ifdef STREAMS_ENABLED
 CLASSEXPORT ostream& operator<<(ostream& out,const skAttribute& a);
+#endif
 #endif

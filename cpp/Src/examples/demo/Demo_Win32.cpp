@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
     This library is free software; you can redistribute it and/or
@@ -21,12 +21,14 @@
   This file provides Windows-specific event handling
 
 
-  $Id: Demo_Win32.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_Win32.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32_WCE)
+#include "skString.h"
+
 #include <windows.h>
 
-extern int main(int argc,char * argv[]);
+extern int main(int argc,Char * argv[]);
 
 HINSTANCE g_ModuleHandle;
 HWND g_MainWindow;
@@ -54,6 +56,16 @@ int ProcessEventLoop()
   }
   return 0;
 }
+// Entry point for Windows CE applications
+#ifdef _WIN32_WCE
+//-----------------------------------------------------------------
+int WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPWSTR lpCmdLine,int nShowCmd)
+//-----------------------------------------------------------------
+{
+  g_ModuleHandle=hInstance;
+  return main(1,&lpCmdLine);
+}
+#else
 //-----------------------------------------------------------------
 int PASCAL WinMain(HINSTANCE hinstCurrent, HINSTANCE hinstPrevious,
 		   LPSTR lpszCmdLine, int nCmdShow)
@@ -62,4 +74,6 @@ int PASCAL WinMain(HINSTANCE hinstCurrent, HINSTANCE hinstPrevious,
   g_ModuleHandle=hinstCurrent;
   return main(1,&lpszCmdLine);
 }
+#endif
+
 #endif

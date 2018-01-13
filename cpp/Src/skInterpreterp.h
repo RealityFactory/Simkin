@@ -1,7 +1,7 @@
 /*
 	Interpreter implementation class
-	$Id: skInterpreterp.h,v 1.29 2001/11/22 11:13:21 sdw Exp $
-	Copyright 1996-2001
+	$Id: skInterpreterp.h,v 1.32 2002/12/13 17:21:54 sdw Exp $
+	Copyright 1996-2002
 	Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@ class P_Interpreter
 {   
  public:
   /** Constructor for implementation class */
-  P_Interpreter();
+  P_Interpreter(skInterpreter * owner);
   /** Destructor for implementation class */
   ~P_Interpreter();
 						
@@ -50,7 +50,7 @@ class P_Interpreter
    * @param obj - the object owning the current method
    * @param var - the local variables
    * @param ids - the parse tree giving the method name
-*/
+  */
   skRValue evalMethod(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skIdListNode * ids);
   /** this method actually executes a method
    * @param ctxt - the current source code context
@@ -156,7 +156,7 @@ class P_Interpreter
    */
   bool executeForStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skForNode * n,skRValue& r);
 
-    // Misc runtime routines
+  // Misc runtime routines
 
   /** Adds a new local variable to the current list
    * @param var - the local variables
@@ -180,87 +180,85 @@ class P_Interpreter
    * @param attribute - the name of the attribute, if present
    * @return the value associated with the name
    */
-    skRValue findValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attribute); 
-    /**
-     * This method reports a runtime error by throwing a skRuntimeException
-     * @param ctxt - the current source code context
-     * @param s - a message describing the error
-     */
-    void runtimeError(skContext& ctxt,const skString& s); 
-    /** This method follows a dotted list of id's to retrieve the associated value
-     * @param ctxt - the current source code context
-     * @param obj - the object owning the current method
-     * @param var - the local variables
-     * @param idlist - the list of ids in the dotted name
-     * @param object - this object receives the value corresponding to the id list
-     */
-    void followIdList(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skIdListNode * idList,skRValue& object); 
+  skRValue findValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attribute); 
+  /**
+   * This method reports a runtime error by throwing a skRuntimeException
+   * @param ctxt - the current source code context
+   * @param s - a message describing the error
+   */
+  void runtimeError(skContext& ctxt,const skString& s); 
+  /** This method follows a dotted list of id's to retrieve the associated value
+   * @param ctxt - the current source code context
+   * @param obj - the object owning the current method
+   * @param var - the local variables
+   * @param idlist - the list of ids in the dotted name
+   * @param object - this object receives the value corresponding to the id list
+   */
+  void followIdList(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skIdListNode * idList,skRValue& object); 
 
-    /** This method sends a message to the tracer output
-     * @param s - the message to sent to the tracer output
-     */
-    void trace(const skString& s);
+  /** This method sends a message to the tracer output
+   * @param s - the message to sent to the tracer output
+   */
+  void trace(const skString& s);
 
-    /** This method extracts a value of the form foo[1] - first dereferencing foo
-     * @param ctxt - the current source code context
-     * @param obj - the object owning the current method
-     * @param var - the local variables
-     * @param robject - the object owning the field name
-     * @param field_name - the field name being accessed
-     * @param array_index - the parse tree for the array index (if any)
-     * @param attrib - the name of the attribute, if present
-     * @param ret - the value to receive the associated value
-     */
-    bool extractFieldArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret);
-    /** This method extracts a value of the form robject[1] - assumes robject is already a collection object
-     * @param ctxt - the current source code context
-     * @param obj - the object owning the current method
-     * @param var - the local variables
-     * @param robject - the object owning the field name
-     * @param array_index - the parse tree for the array index (if any)
-     * @param attrib - the name of the attribute, if present
-     * @param ret - the value to receive the associated value
-     */
-    bool extractArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) ;
-    /** This method extracts an instance variable with the given name
-     * @param ctxt - the current source code context
-     * @param robject - the object owning the field name
-     * @param name - the field name being accessed
-     * @param attrib - the name of the attribute, if present
-     * @param ret - the value to receive the associated value
-     */
-    bool extractValue(skContext& ctxt,skRValue& robject,const skString& name,const skString& attrib,skRValue& ret) ;
-    
-    /** This method is a wrapper around calling the setValueAt method
-     * @param ctxt - the current source code context
-     * @param obj - the object owning the current method
-     * @param robject - the object owning the field name
-     * @param array_index - the parse tree for the array index (if any)
-     * @param attr - the name of the attribute, if present
-     * @param value - the value to be set
-     */
-    bool insertArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value);
-    /** This method is a wrapper around calling the setValue method
-     * @param ctxt - the current source code context
-     * @param robject - the object owning the field name
-     * @param name - the field name being accessed
-     * @param attr - the name of the attribute, if present
-     * @param value - the value to be set
-     */
-    bool insertValue(skContext& ctxt,skRValue& robject,const skString& name, const skString& attr,const skRValue& value);
+  /** This method extracts a value of the form foo[1] - first dereferencing foo
+   * @param ctxt - the current source code context
+   * @param obj - the object owning the current method
+   * @param var - the local variables
+   * @param robject - the object owning the field name
+   * @param field_name - the field name being accessed
+   * @param array_index - the parse tree for the array index (if any)
+   * @param attrib - the name of the attribute, if present
+   * @param ret - the value to receive the associated value
+   */
+  bool extractFieldArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret);
+  /** This method extracts a value of the form robject[1] - assumes robject is already a collection object
+   * @param ctxt - the current source code context
+   * @param obj - the object owning the current method
+   * @param var - the local variables
+   * @param robject - the object owning the field name
+   * @param array_index - the parse tree for the array index (if any)
+   * @param attrib - the name of the attribute, if present
+   * @param ret - the value to receive the associated value
+   */
+  bool extractArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) ;
+  /** This method extracts an instance variable with the given name
+   * @param ctxt - the current source code context
+   * @param robject - the object owning the field name
+   * @param name - the field name being accessed
+   * @param attrib - the name of the attribute, if present
+   * @param ret - the value to receive the associated value
+   */
+  bool extractValue(skContext& ctxt,skRValue& robject,const skString& name,const skString& attrib,skRValue& ret) ;
 
-    // Variables
-    /** this is the list of global variables */
-    skRValueTable m_GlobalVars; 
-    /** this flag controls whether the interpreter outputs tracing information about the execution of statements */
-    bool m_Tracing; 
-    /** This variable points to an associated object for capturing tracing output */
-    skTraceCallback * m_TraceCallback; 
-    /** This variable points to an associated object which receives information about which statements are being executed */
-    skStatementStepper * m_StatementStepper; // the statement stepper
-    /** This variable holds a global instance of the interpreter. */
-    THREAD static skInterpreter * g_GlobalInterpreter;	//	used by clients - one per thread (on Windows only at the moment)
+  /** This method is a wrapper around calling the setValueAt method
+   * @param ctxt - the current source code context
+   * @param obj - the object owning the current method
+   * @param robject - the object owning the field name
+   * @param array_index - the parse tree for the array index (if any)
+   * @param attr - the name of the attribute, if present
+   * @param value - the value to be set
+   */
+  bool insertArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value);
+  /** This method is a wrapper around calling the setValue method
+   * @param ctxt - the current source code context
+   * @param robject - the object owning the field name
+   * @param name - the field name being accessed
+   * @param attr - the name of the attribute, if present
+   * @param value - the value to be set
+   */
+  bool insertValue(skContext& ctxt,skRValue& robject,const skString& name, const skString& attr,const skRValue& value);
 
+  // Variables
+  /** this is the list of global variables */
+  skRValueTable m_GlobalVars; 
+  /** this flag controls whether the interpreter outputs tracing information about the execution of statements */
+  bool m_Tracing; 
+  /** This variable points to an associated object for capturing tracing output */
+  skTraceCallback * m_TraceCallback; 
+  /** This variable points to an associated object which receives information about which statements are being executed */
+  skStatementStepper * m_StatementStepper; // the statement stepper
+  skInterpreter * pown;
 };    
 
 //---------------------------------------------------
@@ -268,11 +266,11 @@ inline skString P_Interpreter::checkIndirectId(skContext& ctxt,skiExecutable * o
 //---------------------------------------------------
 {
   // look for an initial "@" in a field name, and de-reference it if necessary
-    skString ret=name;
-    if (name.at(0)=='@'){
-	ret=name.substr(1,name.length()-1);
-	skRValue new_name=findValue(ctxt,obj,var,ret,0,skString());
-	ret=new_name.str();
-    }
-    return ret;
+  skString ret=name;
+  if (name.at(0)=='@'){
+    ret=name.substr(1,name.length()-1);
+    skRValue new_name=findValue(ctxt,obj,var,ret,0,skString());
+    ret=new_name.str();
+  }
+  return ret;
 }	

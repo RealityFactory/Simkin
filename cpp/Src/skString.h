@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skString.h,v 1.17 2002/01/08 23:04:40 sdw Exp $
+* $Id: skString.h,v 1.20 2002/12/13 17:21:54 sdw Exp $
 */
 
 
@@ -114,6 +114,11 @@ class CLASSEXPORT skString
    */
   operator const Char * () const;
   /**
+   * Case-insensitive equality
+   * @return true if the other string is the same as the current one, ignoring case
+   */
+  bool equalsIgnoreCase(const skString&) const;
+  /**
    * Returns a hash value for this string
    */
   USize hash() const;
@@ -192,6 +197,16 @@ class CLASSEXPORT skString
    * returns a version of this string with leading blanks removed
    */
   skString ltrim() const;
+  /**
+  * Reads the contents of a file as a string
+  * @param filename the name of the file to read from
+  */
+  static skString readFromFile(const skString& filename);
+  /**
+  * Writes the string to a file
+  * @param filename the name of the file to write to
+  */
+  void writeToFile(const skString& filename);
  protected:
   /**
    * Constructor - internal taking a P_String and not copying it
@@ -221,6 +236,11 @@ inline USize hashKey(const skString * s)
 {
     return s->hash();
 }
+/*
+ * An operator to add strings
+ */
+CLASSEXPORT skString operator+(const Char * s1,const skString& s2);
+
 #ifdef STREAMS_ENABLED
 /*
  * A streaming operator to write a string to an output stream

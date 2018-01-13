@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,11 +16,12 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParseException.h,v 1.9 2001/11/22 11:13:21 sdw Exp $
+  $Id: skParseException.h,v 1.11 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef SKPARSEEXCEPTION_H
 #define SKPARSEEXCEPTION_H
 
+#include "skException.h"
 #include "skString.h"
 #include "skValist.h"
 
@@ -92,12 +93,11 @@ EXTERN_TEMPLATE template class CLASSEXPORT skTVAList<skCompileError>;
 class CLASSEXPORT skCompileErrorList : public skTVAList<skCompileError> 
 {
 };
-const int skParseException_Code=2;
-
 /**
  * This exception is thrown when there are parse errors in some Simkin script
  */
-class CLASSEXPORT skParseException {
+class CLASSEXPORT skParseException : public skException
+{
  public:
   /**
    * Constructor - the exception is passed a list of errors

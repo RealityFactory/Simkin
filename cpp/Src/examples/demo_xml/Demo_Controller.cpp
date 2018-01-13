@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
     This library is free software; you can redistribute it and/or
@@ -21,18 +21,36 @@
   This file implements the class which controls the behaviour of the
   view in the demo.
 
-  $Id: Demo_Controller.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_Controller.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
 #include "Demo_Controller.h"
 #include "skRValueArray.h"
-#include "dom/DOM_NodeList.hpp"
+#include <xercesc/dom/deprecated/DOM_NodeList.hpp>
+
+skLITERAL(View);
+skLITERAL(Title);
+skLITERAL(X);
+skLITERAL(Y);
+skLITERAL(Height);
+skLITERAL(Controls);
+skLITERAL(Text);
+skLITERAL(Type);
+skLITERAL(Width);
+skLITERAL(Id);
+skLITERAL(Method);
+skLITERAL(reload);
+skLITERAL(setFocus);
+skLITERAL(run);
+skLITERAL(getText);
+skLITERAL(user);
+skLITERAL(close);
 
 //-----------------------------------------------------------------
-Controller::Controller(const skString& fileName)
+Controller::Controller(const skString& fileName,skInterpreter * interp)
   //-----------------------------------------------------------------
   //	this class loads the demo script file, whose methods
   //	are an extension of the class functionality
-  : skXMLExecutable(fileName),m_View(0),m_FileName(fileName)
+  : skXMLExecutable(fileName),m_View(0),m_FileName(fileName),m_Context(interp)
 {
   init();
 }
@@ -61,38 +79,38 @@ void Controller::init()
   //	load the view description from the file
   //	and create the controls contained within the view definition
   DOM_Element code=getElement();
-  DOM_Element viewNode=findChild(code,"View");
+  DOM_Element viewNode=findChild(code,s_View);
   if (viewNode.isNull()==false){
-    skString title=getStringAttribute(viewNode,"Title");
-    int x_pos=getIntegerAttribute(viewNode,"X");
-    int y_pos=getIntegerAttribute(viewNode,"Y");
-    int width=getIntegerAttribute(viewNode,"Width");
-    int height=getIntegerAttribute(viewNode,"Height");
+    skString title=getStringAttribute(viewNode,s_Title);
+    int x_pos=getIntegerAttribute(viewNode,s_X);
+    int y_pos=getIntegerAttribute(viewNode,s_Y);
+    int width=getIntegerAttribute(viewNode,s_Width);
+    int height=getIntegerAttribute(viewNode,s_Height);
     m_View=new View(*this,title,x_pos,y_pos,width,height);
       //	look for some controls
-    DOM_Element controls=findChild(viewNode,"Controls");
+    DOM_Element controls=findChild(viewNode,s_Controls);
     if (controls.isNull()==false){
       DOM_NodeList controlsList=controls.getChildNodes();
       for (unsigned int i=0;i<controlsList.getLength();i++){
-	DOM_Node node=controlsList.item(i);
-	int nodeType=node.getNodeType();
-	if (nodeType==DOM_Node::ELEMENT_NODE){
-	  DOM_Element control=*(DOM_Element *)&node;
-	  skString type=getStringAttribute(control,"Type");
-	  int id=getIntegerAttribute(control,"Id");
-	  skString text=getStringAttribute(control,"Text");
-	  int x_pos=getIntegerAttribute(control,"X");
-	  int y_pos=getIntegerAttribute(control,"Y");
-	  int width=getIntegerAttribute(control,"Width");
-	  int height=getIntegerAttribute(control,"Height");
-	  m_View->addControl(type,id,text,x_pos,y_pos,width,height);
-	}
+        DOM_Node node=controlsList.item(i);
+        int nodeType=node.getNodeType();
+        if (nodeType==DOM_Node::ELEMENT_NODE){
+	        DOM_Element control=*(DOM_Element *)&node;
+	        skString type=getStringAttribute(control,s_Type);
+	        int id=getIntegerAttribute(control,s_Id);
+	        skString text=getStringAttribute(control,s_Text);
+	        int x_pos=getIntegerAttribute(control,s_X);
+	        int y_pos=getIntegerAttribute(control,s_Y);
+	        int width=getIntegerAttribute(control,s_Width);
+	        int height=getIntegerAttribute(control,s_Height);
+	        m_View->addControl(type,id,text,x_pos,y_pos,width,height);
+        }
       }
     }
   }
   skRValueArray args;
   skRValue ret;
-  method("init",args,ret);
+  method("init",args,ret,m_Context);
 }
 //-----------------------------------------------------------------
 void Controller::buttonPressed(int id)
@@ -102,40 +120,40 @@ void Controller::buttonPressed(int id)
 {
   DOM_Element code=getElement();
   //	look for the node for this control, matching on id
-  DOM_Element viewNode=findChild(code,"View");
+  DOM_Element viewNode=findChild(code,s_View);
   if (viewNode.isNull()==false){
-    DOM_Element controls=findChild(viewNode,"Controls");
+    DOM_Element controls=findChild(viewNode,s_Controls);
     if (controls.isNull()==false){
       DOM_NodeList controlsList=controls.getChildNodes();
       for (unsigned int i=0;i<controlsList.getLength();i++){
-	DOM_Node node=controlsList.item(i);
-	int nodeType=node.getNodeType();
-	if (nodeType==DOM_Node::ELEMENT_NODE){
-	  DOM_Element control=*(DOM_Element *)&controlsList.item(i);
-	  int this_id=getIntegerAttribute(control,"Id");
-	  if (this_id==id){
-	    skString methodName=getStringAttribute(control,"Method");
-	    if (methodName.length()){
-	      //	call a method on ourselves, if one is set up
-	      skRValueArray args;
-	      skRValue ret;
-	      method(methodName,args,ret);
-	    }
-	    break;
-	  }
-	}
+        DOM_Node node=controlsList.item(i);
+        int nodeType=node.getNodeType();
+        if (nodeType==DOM_Node::ELEMENT_NODE){
+	        DOM_Element control=*(DOM_Element *)&controlsList.item(i);
+	        int this_id=getIntegerAttribute(control,s_Id);
+	        if (this_id==id){
+	          skString methodName=getStringAttribute(control,s_Method);
+	          if (methodName.length()){
+	            //	call a method on ourselves, if one is set up
+	            skRValueArray args;
+	            skRValue ret;
+	            method(methodName,args,ret,m_Context);
+	          }
+	          break;
+	        }
+        }
       }
     }
   }
 }
 //-----------------------------------------------------------------
-bool Controller::method(const skString& s,skRValueArray& args,skRValue& ret)
+bool Controller::method(const skString& s,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt)
   //-----------------------------------------------------------------
   //	this is the function called by the Simkin interpreter when a method 
   //	is invoked on this object
 {
   bool bRet=false;
-  if (IS_METHOD(s,"reload")){
+  if (IS_METHOD(s,s_reload)){
     //	this code causes the script file to be re-read and
     //	the view recreated
     delete m_View;
@@ -143,35 +161,30 @@ bool Controller::method(const skString& s,skRValueArray& args,skRValue& ret)
     load(m_FileName);
     init();
     bRet=true;
-  }else
-    if (IS_METHOD(s,"setFocus") && m_View && args.entries()==1){
-      //	sets focus to a control
-      m_View->setFocus(args[0].intValue());
-      bRet=true;
-    }else
-      if (IS_METHOD(s,"close") && m_View){
-	//	closes the view and the application
-	m_View->close();
-	bRet=true;
-      }else
-	if (IS_METHOD(s,"run") && m_View && args.entries()==1){
+  }else if (IS_METHOD(s,s_setFocus) && m_View && args.entries()==1){
+    //	sets focus to a control
+    m_View->setFocus(args[0].intValue());
+    bRet=true;
+  }else if (IS_METHOD(s,s_close) && m_View){
+	  //	closes the view and the application
+    m_View->close();
+    bRet=true;
+  }else if (IS_METHOD(s,s_run) && m_View && args.entries()==1){
 	  //	run a command as a separate process
 	  m_View->run(args[0].str());
 	  bRet=true;
+  }else if (IS_METHOD(s,s_getText) && m_View && args.entries()==1){
+	  //	retrieves the text for a control
+	  ret=m_View->getText(args[0].intValue());
+	  bRet=true;
+	}else if (IS_METHOD(s,s_user) && m_View && args.entries()==1){
+	  //	shows a message box to the user
+	  m_View->user(args[0].str());
+	  bRet=true;
 	}else
-	  if (IS_METHOD(s,"getText") && m_View && args.entries()==1){
-	    //	retrieves the text for a control
-	    ret=m_View->getText(args[0].intValue());
-	    bRet=true;
-	  }else
-	    if (IS_METHOD(s,"user") && m_View && args.entries()==1){
-	      //	shows a message box to the user
-	      m_View->user(args[0].str());
-	      bRet=true;
-	    }else
-	      //	we pass any other method up to the base class, which in turn looks inside
-	      //	the demo script file for a matching method
-	      bRet=skXMLExecutable::method(s,args,ret);
+	  //	we pass any other method up to the base class, which in turn looks inside
+	  //	the demo script file for a matching method
+	  bRet=skXMLExecutable::method(s,args,ret,ctxt);
   return bRet;
 }
 

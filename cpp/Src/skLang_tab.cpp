@@ -74,7 +74,7 @@ typedef union{
 #line 60 "sklang.y"
 
 int yylex(YYSTYPE * lvalp,void * yylloc, void* context);
-void real_yyerror(char * msg, void* context);
+void real_yyerror(Char * msg, void* context);
 #define yyerror(x) real_yyerror(x, YYPARSE_PARAM)
 
 #ifndef YYLTYPE
@@ -422,7 +422,7 @@ static const short yycheck[] = {     2,
 #define YYPURE 1
 
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
-#line 3 "/usr/local/share/bison.simple"
+#line 3 "../Src/bison.simple"
 /* This file comes from bison-1.28.  */
 
 /* Skeleton output parser for bison,
@@ -527,7 +527,7 @@ do								\
       goto yybackup;						\
     }								\
   else								\
-    { yyerror ("syntax error: cannot back up"); YYERROR; }	\
+    { yyerror (skSTR("syntax error: cannot back up")); YYERROR; }	\
 while (0)
 
 #define YYTERROR	1
@@ -606,12 +606,12 @@ int yydebug;			/*  nonzero means print parse trace	*/
    in available built-in functions on various systems.  */
 static void
 __yy_memcpy (to, from, count)
-     char *to;
-     char *from;
+     Char *to;
+     Char *from;
      unsigned int count;
 {
-  register char *f = from;
-  register char *t = to;
+  register Char *f = from;
+  register Char *t = to;
   register int i = count;
 
   while (i-- > 0)
@@ -623,10 +623,10 @@ __yy_memcpy (to, from, count)
 /* This is the most reliable way to avoid incompatibilities
    in available built-in functions on various systems.  */
 static void
-__yy_memcpy (char *to, char *from, unsigned int count)
+__yy_memcpy (Char *to, Char *from, unsigned int count)
 {
-  register char *t = to;
-  register char *f = from;
+  register Char *t = to;
+  register Char *f = from;
   register int i = count;
 
   while (i-- > 0)
@@ -636,7 +636,7 @@ __yy_memcpy (char *to, char *from, unsigned int count)
 #endif
 #endif
 
-#line 217 "/usr/local/share/bison.simple"
+#line 217 "../Src/bison.simple"
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
@@ -778,7 +778,7 @@ yynewstate:
       /* Extend the stack our own way.  */
       if (yystacksize >= YYMAXDEPTH)
 	{
-	  yyerror("parser stack overflow");
+	  yyerror(skSTR("parser stack overflow"));
 	  if (yyfree_stacks)
 	    {
 	      free (yyss);
@@ -796,14 +796,14 @@ yynewstate:
       yyfree_stacks = 1;
 #endif
       yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));
-      __yy_memcpy ((char *)yyss, (char *)yyss1,
+      __yy_memcpy ((Char *)yyss, (Char *)yyss1,
 		   size * (unsigned int) sizeof (*yyssp));
       yyvs = (YYSTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yyvsp));
-      __yy_memcpy ((char *)yyvs, (char *)yyvs1,
+      __yy_memcpy ((Char *)yyvs, (Char *)yyvs1,
 		   size * (unsigned int) sizeof (*yyvsp));
 #ifdef YYLSP_NEEDED
       yyls = (YYLTYPE *) YYSTACK_ALLOC (yystacksize * sizeof (*yylsp));
-      __yy_memcpy ((char *)yyls, (char *)yyls1,
+      __yy_memcpy ((Char *)yyls, (Char *)yyls1,
 		   size * (unsigned int) sizeof (*yylsp));
 #endif
 #endif /* no yyoverflow */
@@ -1246,7 +1246,7 @@ case 70:
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
-#line 543 "/usr/local/share/bison.simple"
+#line 543 "../Src/bison.simple"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -1312,30 +1312,30 @@ yyerrlab:   /* here on detecting error */
       if (yyn > YYFLAG && yyn < YYLAST)
 	{
 	  int size = 0;
-	  char *msg;
+	  Char *msg;
 	  int x, count;
 
 	  count = 0;
 	  /* Start X at -yyn if nec to avoid negative indexes in yycheck.  */
 	  for (x = (yyn < 0 ? -yyn : 0);
-	       x < (sizeof(yytname) / sizeof(char *)); x++)
+	       x < (sizeof(yytname) / sizeof(Char *)); x++)
 	    if (yycheck[x + yyn] == x)
 	      size += strlen(yytname[x]) + 15, count++;
-	  msg = (char *) malloc(size + 15);
+	  msg = (Char *) malloc(size + 15);
 	  if (msg != 0)
 	    {
-	      strcpy(msg, "parse error");
+	      STRCPY(msg, "parse error");
 
 	      if (count < 5)
 		{
 		  count = 0;
 		  for (x = (yyn < 0 ? -yyn : 0);
-		       x < (sizeof(yytname) / sizeof(char *)); x++)
+		       x < (sizeof(yytname) / sizeof(Char *)); x++)
 		    if (yycheck[x + yyn] == x)
 		      {
-			strcat(msg, count == 0 ? ", expecting `" : " or `");
-			strcat(msg, yytname[x]);
-			strcat(msg, "'");
+			STRCAT(msg, count == 0 ? skSTR(", expecting `") : skSTR(" or `"));
+			STRCAT(msg, yytname[x]);
+			STRCAT(msg, skSTR("'"));
 			count++;
 		      }
 		}
@@ -1343,11 +1343,11 @@ yyerrlab:   /* here on detecting error */
 	      free(msg);
 	    }
 	  else
-	    yyerror ("parse error; also virtual memory exceeded");
+	    yyerror (skSTR("parse error; also virtual memory exceeded"));
 	}
       else
 #endif /* YYERROR_VERBOSE */
-	yyerror("parse error");
+	yyerror(skSTR("parse error"));
     }
 
   goto yyerrlab1;

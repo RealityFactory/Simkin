@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObject.cpp,v 1.22 2001/11/22 11:13:21 sdw Exp $
+  $Id: skTreeNodeObject.cpp,v 1.27 2002/12/13 17:21:54 sdw Exp $
 */
 
 #include "skTreeNodeObject.h"
@@ -136,6 +136,7 @@ void skTreeNodeObject::setNode(skTreeNode * n)
 {
   m_Node=n;
   delete m_MethodCache;
+  m_MethodCache=0;
 }
 //------------------------------------------
 bool skTreeNodeObject::getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value)
@@ -160,21 +161,21 @@ bool skTreeNodeObject::getValue(const skString& name,const skString& attrib,skRV
     bRet=true;
     v=m_Node->numChildren();
   }else
-  if (name == s_label){
-    bRet=true;
-    v=m_Node->label();
-  }else{
-    skTreeNode * child=m_Node->findChild(name);
-    if (child){
+    if (name == s_label){
       bRet=true;
-      v=skRValue(new skTreeNodeObject(m_Location+s_colon+name,child,false),true);
-    }else
-      bRet=skExecutable::getValue(name,attrib,v);
+      v=m_Node->label();
+    }else{
+      skTreeNode * child=m_Node->findChild(name);
+      if (child){
+        bRet=true;
+        v=skRValue(new skTreeNodeObject(m_Location+s_colon+name,child,false),true);
+      }else
+        bRet=skExecutable::getValue(name,attrib,v);
   }
   return bRet;
 }
 //------------------------------------------
-bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& ret)
+bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt)
 //------------------------------------------
 {
   bool bRet=false;
@@ -190,29 +191,28 @@ bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& re
     if (m_Node){
       skMethodDefNode * methNode=0;
       if (m_MethodCache!=0)
-	methNode=m_MethodCache->value(&s);
+        methNode=m_MethodCache->value(&s);
       if (methNode==0){
-	// if no parse tree is found - try and build one
-	skTreeNode * func_node=0;
-	func_node=m_Node->findChild(s);
-	if (func_node){
-	  bRet=true;
-	  assert(skInterpreter::getInterpreter());
-	  skInterpreter::getInterpreter()->executeString(location,this,func_node->data(),args,ret,&methNode);
-	  if (methNode){
-	    if (m_MethodCache==0)
-	      m_MethodCache=new skMethodTable();
-	    m_MethodCache->insertKeyAndValue(new skString(s),methNode);
-	  }
-	}else
-	  bRet=skExecutable::method(s,args,ret);
+        // if no parse tree is found - try and build one
+        skTreeNode * func_node=0;
+        func_node=m_Node->findChild(s);
+        if (func_node){
+	        bRet=true;
+	        ctxt.m_Interpreter->executeString(location,this,func_node->data(),args,ret,&methNode,ctxt);
+	        if (methNode){
+	          if (m_MethodCache==0)
+	            m_MethodCache=new skMethodTable();
+	          m_MethodCache->insertKeyAndValue(new skString(s),methNode);
+	        }
+        }else
+          bRet=skExecutable::method(s,args,ret,ctxt);
       }else{
-	// otherwise execute the parse tree immediately
-	skInterpreter::getInterpreter()->executeParseTree(location,this,methNode,args,ret);
-	bRet=true;
+        // otherwise execute the parse tree immediately
+        ctxt.m_Interpreter->executeParseTree(location,this,methNode,args,ret,ctxt);
+        bRet=true;
       }
     }else
-      bRet=skExecutable::method(s,args,ret);
+      bRet=skExecutable::method(s,args,ret,ctxt);
   }
   return bRet;
 }

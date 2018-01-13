@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
     This library is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@
 
   The class is implemented separately for each target platform.
 
-  $Id: Demo_View.h,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_View.h,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef DEMO_VIEW_H
 #define DEMO_VIEW_H

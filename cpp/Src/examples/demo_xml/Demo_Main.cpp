@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
     This library is free software; you can redistribute it and/or
@@ -22,7 +22,7 @@
 
   This function provides an entry point for the demo.
 
-  $Id: Demo_Main.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_Main.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
 
 //	these functions are implemented in Demo_xxx.cpp where xxx is the platform
@@ -34,8 +34,8 @@ extern int ProcessEventLoop();
 
 #include "Demo_Controller.h"
 #include "skInterpreter.h"
-#include <util/PlatformUtils.hpp>
-#include <sax/SAXParseException.hpp>
+#include <xercesc/util/PlatformUtils.hpp>
+#include <xercesc/sax/SAXParseException.hpp>
 
 //-----------------------------------------------------------------
 int main(int argc,char * argv[])
@@ -44,12 +44,10 @@ int main(int argc,char * argv[])
   XMLPlatformUtils::Initialize();
   //	create an interpreter
   skInterpreter interp;
-  //	make it the "global" interpreter
-  skInterpreter::setInterpreter(&interp);
   try{
     InitializeEventLoop();
     //	create a controller
-    Controller controller("Demo.xml");
+    Controller controller("Demo.xml",&interp);
     if (controller.getElement().isNull()==false){
       //	go into event processing
       int r=ProcessEventLoop();

@@ -15,9 +15,9 @@ for each item in collection {
 }
 </pre>
 As with other features in Simkin, the interpreter is agnostic about the underlying object model of the application. The implementation of a collection is left to the Java or C++ classes within the application.
-<p>When the interpreter encounters the <code>for each</code> statement, it calls the <code>createIterator</code> method on the underlying <a href="../cpp/api/class_skExecutable.html">skExecutable</a> class (C++) or <a href="../java/api/simkin/Executable.html">Executable </a> interface (Java).
+<p>When the interpreter encounters the <code>for each</code> statement, it calls the <code>createIterator</code> method on the underlying <a href="../cpp/api/classskExecutable.html">skExecutable</a> class (C++) or <a href="../java/api/simkin/Executable.html">Executable </a> interface (Java).
 <p>
-This function should return a new class which is an instance of a class derived from the <a href="../cpp/api/class_skExecutableIterator.html">skExecutableIterator</a> class (C++), or implementing the <a href="../java/api/simkin/ExecutableIterator.html">ExecutableIterator</a> interface (Java).
+This function should return a new class which is an instance of a class derived from the <a href="../cpp/api/classskExecutableIterator.html">skExecutableIterator</a> class (C++), or implementing the <a href="../java/api/simkin/ExecutableIterator.html">ExecutableIterator</a> interface (Java).
 <p>The <code>for each</code> statement has two forms: 
 <ol>
 <li><i>unqualified</i> - this means the scripter wants to iterate over <i>all</i> members of the collection, e.g.:

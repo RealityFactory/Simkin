@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,9 +16,10 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.cpp,v 1.4 2001/11/22 11:13:21 sdw Exp $
+* $Id: skElement.cpp,v 1.8 2002/12/13 17:21:54 sdw Exp $
 */
 #include "skElement.h"
+#include "skStringBuffer.h"
 
 //------------------------------------------
 skElement::skElement(const skString& tagname)
@@ -31,12 +32,21 @@ void skElement::appendChild(skNode * child)
 //------------------------------------------
 {
   m_ChildNodes.append(child);
+  child->setParent(this);
 }
 //------------------------------------------
 void skElement::removeAndDestroyChild(skNode * child)
 //------------------------------------------
 {
+  child->setParent(0);
   m_ChildNodes.removeAndDestroy(child);
+}
+//------------------------------------------
+void skElement::removeChild(skNode * child)
+//------------------------------------------
+{
+  child->setParent(0);
+  m_ChildNodes.remove(child);
 }
 //------------------------------------------
 void skElement::setAttribute(const skString& name,const skString& value)
@@ -105,6 +115,7 @@ skString skElement::getTagName() const
   }
   return element;
 }
+#ifdef STREAMS_ENABLED
 //------------------------------------------
 void skElement::write(ostream& out) const
 //------------------------------------------
@@ -123,4 +134,35 @@ ostream& operator<<(ostream& out,const skAttribute& a)
 {
   out << a.getName() << "=\"" << skNode::escapeXMLDelimiters(a.getValue()) << "\"";
   return out;
+}
+#endif
+//------------------------------------------
+skString skElement::toString() const
+//------------------------------------------
+{
+  skStringBuffer buffer(100);
+  buffer.append(skSTR("<"));
+  buffer.append(m_TagName);
+  for (USize i=0;i<m_Attributes.entries();i++){
+    buffer.append(skSTR(" "));
+    buffer.append(m_Attributes[i]->toString());
+  }
+  buffer.append(skSTR(">"));
+  for (USize j=0;j<m_ChildNodes.entries();j++)
+    buffer.append(m_ChildNodes[j]->toString());
+  buffer.append(skSTR("</"));
+  buffer.append(m_TagName);
+  buffer.append(skSTR(">"));
+  return buffer.toString();
+}
+//------------------------------------------
+skString skAttribute::toString() const
+//------------------------------------------
+{
+  skStringBuffer buffer(100);
+  buffer.append(getName());
+  buffer.append(skSTR("=\""));
+  buffer.append(skNode::escapeXMLDelimiters(getValue()));
+  buffer.append(skSTR("\""));
+  return buffer.toString();
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.cpp,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skExpatParser.cpp,v 1.8 2002/12/13 17:28:15 sdw Exp $
 */
 #include "skExpatParser.h"
 #include "skXMLParseException.h"
@@ -27,6 +27,12 @@ skExpatParser::skExpatParser()
 //-----------------------------------------------------------------
   : m_InCData(false),m_RootElement(0)
 {
+}
+//-----------------------------------------------------------------
+skExpatParser::~skExpatParser()
+//-----------------------------------------------------------------
+{
+  delete m_RootElement;
 }
 //-----------------------------------------------------------------
 skExpatParser::skExpatParser(const skExpatParser&)
@@ -40,13 +46,13 @@ skExpatParser& skExpatParser::operator=(const skExpatParser&)
   return *this;
 }
 //-----------------------------------------------------------------
-void skExpatParser::startElementHandler(void *userData, const char *name, const char **atts)
+void skExpatParser::startElementHandler(void *userData, const Char *name, const Char **atts)
 //-----------------------------------------------------------------
 {
   ((skExpatParser *)userData)->startElement(name,atts);
 }
 //-----------------------------------------------------------------
-void skExpatParser::startElement(const char *name, const char **attr)
+void skExpatParser::startElement(const Char *name, const Char **attr)
 //-----------------------------------------------------------------
 {
   skElement * elem=new skElement(name);
@@ -60,13 +66,13 @@ void skExpatParser::startElement(const char *name, const char **attr)
   m_ElementStack.append(elem);
 }
 //-----------------------------------------------------------------
-void skExpatParser::endElementHandler(void *userData, const char *name)
+void skExpatParser::endElementHandler(void *userData, const Char *name)
 //-----------------------------------------------------------------
 {
   ((skExpatParser *)userData)->endElement(name);
 }
 //-----------------------------------------------------------------
-void skExpatParser::endElement(const char *name)
+void skExpatParser::endElement(const Char *name)
 //-----------------------------------------------------------------
 {
   // pop latest off the stack
@@ -115,6 +121,7 @@ void skExpatParser::endCData ()
 {
   m_InCData=false;
 }
+#ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------
 skElement * skExpatParser::parse(istream& in)
 //-----------------------------------------------------------------
@@ -128,24 +135,29 @@ skElement * skExpatParser::parse(istream& in)
   XML_SetCharacterDataHandler(parser, characterDataHandler);
   XML_SetCdataSectionHandler(parser, startCDataHandler, endCDataHandler);
   const int BUFSIZE=2048;
-  char buf[BUFSIZE];
+  Char buf[BUFSIZE];
   bool done=false;
   do {
-    memset(buf,0,BUFSIZE);
+    memset(buf,0,BUFSIZE*sizeof(Char));
     in.read(buf, BUFSIZE-1);
     if (in.good()==0)
       done=true;
     int buf_len=strlen(buf);
     if (!XML_Parse(parser, buf, buf_len, done)) {
-	  THROW(skXMLParseException(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser)),skXMLParseException_Code);
+      skXMLParseException e(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser));
+      XML_ParserFree(parser);
+      throw e;
     }
   } while (done==false);
+  XML_ParserFree(parser);
   elem=m_RootElement;
+  m_RootElement=0;
   m_ElementStack.clear();
   return elem;
 }
+#endif
 //-----------------------------------------------------------------
-skElement * skExpatParser::parse(const skString& in)
+skElement * skExpatParser::parse(const skString& in,skExecutableContext& context)
 //-----------------------------------------------------------------
 {
   m_InCData=false;
@@ -156,10 +168,21 @@ skElement * skExpatParser::parse(const skString& in)
   XML_SetElementHandler(parser, startElementHandler, endElementHandler);
   XML_SetCharacterDataHandler(parser, characterDataHandler);
   XML_SetCdataSectionHandler(parser, startCDataHandler, endCDataHandler);
-  if (!XML_Parse(parser, in, in.length(), true)) {
-	  THROW(skXMLParseException(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser)),skXMLParseException_Code);
+  if (!XML_Parse(parser, (const char *)(const Char *)in, sizeof(Char)*in.length(), true)) {
+    delete m_RootElement;
+    m_RootElement=0;
+#ifdef EXCEPTIONS_DEFINED
+    skXMLParseException e(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser));
+    XML_ParserFree(parser);
+    throw (e,skXMLParseException_Code);
+#else
+    context.m_Error.setError(skScriptError::XMLPARSE_ERROR,new skXMLParseException(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser)));
+#endif
   }
+  XML_ParserFree(parser);
   elem=m_RootElement;
+  // release control of the root element
+  m_RootElement=0;
   m_ElementStack.clear();
   return elem;
 }

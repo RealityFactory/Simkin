@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
   
     This library is free software; you can redistribute it and/or
@@ -16,15 +16,16 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementExecutable.h,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skElementExecutable.h,v 1.8 2002/12/16 16:11:46 sdw Exp $
 */
 
 #ifndef skELEMENTEXECUTABLE_H
 #define skELEMENTEXECUTABLE_H
 
 #include "skElementObject.h"
+#ifdef STREAMS_ENABLED
 #include <iostream.h>
-
+#endif
 /**
  * This class is a base class for objects which store their data and methods in an XML document
  * Each instance is associated with an XML document which is loaded on construction. 
@@ -38,35 +39,52 @@ class CLASSEXPORT skElementExecutable : public skElementObject {
   skElementExecutable();
   /**
    * Constructor - passed the name of a file to load an XML document from
+   * @param fileName name of XML file
+   * @param context context object to receive errors
    */
-  skElementExecutable(const skString& fileName);
+  skElementExecutable(const skString& fileName,skExecutableContext& context);
+#ifdef STREAMS_ENABLED
   /**
    * Constructor taking an input stream containing an XML document
+   * @param scriptLocation the name of the XML source
+   * @param in a stream containing the XML document
    */
   skElementExecutable(const skString& scriptLocation,istream& in);
+#endif
   /**
    * Constructor taking a String containing an XML document
+   * @param scriptLocation the name of the XML source
+   * @param in a stream containing the XML document
+   * @param context context object to receive errors
    */
-  skElementExecutable(const skString& scriptLocation,const skString& in);
+  skElementExecutable(const skString& scriptLocation,const skString& in,skExecutableContext& context);
+#ifdef STREAMS_ENABLED
   /**
    * This method causes the  to be reloaded
    * @param in - stream containing the 
    */
   void load(const skString& scriptLocation,istream& in);
+#endif
   /**
    * This method causes the  to be reloaded
-   * @param in - string containing the 
+   * @param scriptLocation the name of the XML source
+   * @param in - string containing the XML document
+   * @param context context object to receive errors
    */
-  void load(const skString& scriptLocation,const skString& in);
+  void load(const skString& scriptLocation,const skString& in,skExecutableContext& context);
   /**
    * This method causes the  to be loaded from a file
+   * @param fileName name of XML file
+   * @param context context object to receive errors
    */
-  void load(const skString& fileName);
+  void load(const skString& fileName,skExecutableContext& context);
+#ifdef STREAMS_ENABLED
   /**
    * Call this method to save the state of the object back to a stream
    * @exception IOException if there was an error writing to the stream
    */
   void save(ostream& out);
+#endif
   /**
    * This method saves the current state as an  document out to the given file
    */

@@ -10,7 +10,17 @@ Simkin IfElse Statement</H1>
 <hr>
 <p>
 This statement allows you to optionally execute one of two sets of
-statements dependent on the truth of an expression:
+statements dependent on the truth of an expression.
+<p>
+The format of the statement is:
+<pre>
+if (&lt;expression&gt;) {
+ &lt;statements...&gt;
+}else{
+ &lt;statements...&gt;
+}
+</pre>
+You must use "{" and "}" to indicate the statements in both the "if" and "else" parts of the statement.
 <p>For example:
 <pre>
 if (transaction.complete()) {
@@ -19,5 +29,6 @@ if (transaction.complete()) {
   transaction.continue();
 }
 </pre>
+
 </BODY>
 </HTML>

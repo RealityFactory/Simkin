@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodp.h,v 1.14 2001/11/22 11:13:21 sdw Exp $
+  $Id: skTreeNodp.h,v 1.16 2002/12/13 17:21:54 sdw Exp $
 */
 #include "skAlist.h"
 
@@ -69,6 +69,9 @@ class P_TreeNodeReader
 #ifdef STREAMS_ENABLED
   /** Construct a reader from a given stream */
   P_TreeNodeReader(istream& in);
+#else
+  /** Construct a reader from a given file */
+  P_TreeNodeReader(FILE * file);
 #endif
   enum Lexeme		{ L_IDENT, L_TEXT, L_LBRACE, L_RBRACE, L_EOF, L_ERROR };
   /** this method sets up the LexText buffer */
@@ -112,6 +115,13 @@ class P_TreeNodeReader
 #ifdef STREAMS_ENABLED
   /** the input stream */
   istream& m_In;
+#else
+  /** the file handle */
+  FILE * m_In;
+  /** whether a character has been peeked from the file */
+  bool m_Peeked;
+  /** the value of the character peeked */
+  int m_PeekedChar;
 #endif
   /** a flag indicating whether there was a parse error in the input stream */
   bool 	m_Error;

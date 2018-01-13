@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementObject.h,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skElementObject.h,v 1.10 2002/12/16 16:11:46 sdw Exp $
 */
 
 
@@ -25,7 +25,10 @@
 
 #include "skExecutable.h"
 #include "skElement.h"
+
+#ifdef STREAMS_ENABLED
 #include <iostream.h>
+#endif
 
 class skMethodTable;
 
@@ -60,6 +63,7 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * Constructor which takes an Element
    * @param location - used to identify the source of the document in error messages
    * @param elem - the element to be stored
+   * @param created - if true, this object will destroy the associated skElement object in its destructor
    */
   skElementObject(const skString& location,skElement * elem,bool created);
   /**
@@ -98,7 +102,7 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param return_value - the RValue to receive the value
    * @return true if the field was found, false otherwise
    */
-  bool setValue(const skString& s,const skString& attribute,const skRValue& return_value);
+  virtual bool setValue(const skString& s,const skString& attribute,const skRValue& return_value);
   /**
    * Sets a value within the nth element of the  element. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present.
    * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
@@ -106,22 +110,22 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param value - the value to be set
    * @return true if the field was changed, false if the field could not be set or found
    */
-  bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
+  virtual bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
   /**
    * Retrieves a field from the . The first sub-element matching the tag is found. The value returned is an ElementObject, unless the attrib value is specified. It also supports the following built-in field:
    * <P> "nodename" - returns the tag name of this element
    * <p>If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present.
    * @param name - the tag name containing the data
    * @param attrib - the attribute name to retrieve
-   * @param return_value -  the RValue to containing the value to be set
+   * @param value -  the RValue to containing the value to be set
    * @return true if the method was found, false otherwise
    */
-  bool getValue(const skString& s,const skString& attribute,skRValue& return_value);
+  virtual bool getValue(const skString& s,const skString& attribute,skRValue& value);
   /**
    * Retrieves the nth value from within the element. If the array index falls within the range of the number of children of this element, 
    * a new ElementObject encapsulating the child is returned. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present
    */
-  bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
+  virtual bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
    * this method attempts to execute a method stored in the . It searches for an element whose tag matches the method name and if found passes the text for the tag through to the interpeter. 
    * <p>The method also supports the following methods to Simkin scripts: <ul>
@@ -131,14 +135,15 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param name the name of the method
    * @param args an array of arguments to the method
    * @param ret the object to receive the result of the method call
+   * @param context context object to receive errors
    * @return true if the method was found, false otherwise
    */
-  bool method(const skString& name,skRValueArray& args,skRValue& ret);
+  virtual bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**
    * tests for equality with another object, using the string value
    * @return true if the data in both elements is the same
    */
-  //  bool equals(skExecutable * o) const;
+  bool equals(skExecutable * o) const;
   /**
    * Clears the other element and does a deep copy of the children of this node into that one
    * @param child - the element into which our children will be copied
@@ -200,19 +205,24 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * This method returns the value of an attribute attached to this element.
    * @return the value of the given attribute
    */
-  skString getAttribute(const skString& name);
+  skString getAttribute(const skString& name) const;
   /**
    * This function returns the location associated with this object (typically a file name)
    */
   skString getLocation() const;
+  /**
+   * This function sets the location associated with this object (typically a file name)
+   */
+  void setLocation(const skString& location) ;
   /** this method returns the number of element children of the given element */
   static int countChildren(skElement * parent);
  protected:
   /**
    * This method updates the associated element and clears the parse tree cache
    * @param elem - the new Element
+   * @param created - set to true if this object will delete the element at the end
    */
-  virtual void setElement(skElement * element);
+  virtual void setElement(skElement * element,bool created=false);
   /**
    * This method creates a new  Element object to wrap an element. Override this for special behaviour in derived classes. In this method, the newly created object inherits this object's m_AddIfNotPresent flag
    * @param location the location of this element
@@ -232,7 +242,7 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over *all* children of this element
    */
   skExecutableIterator * createIterator();
- private:
+ protected:
   /**
    * the underlying document
    */
@@ -254,12 +264,8 @@ class CLASSEXPORT skElementObject : public skExecutable {
    but can be modified using the setAddIfNotPresent() method
   */
   bool m_AddIfNotPresent;
-  /**
-   * if this flag is true, the ElementObject will delete the underlying element in its destructor
-   */
+  /** This value indicates whether or not the Element is "owned" by this object. If it is, then the element will be deleted when the object is deleted */
   bool m_Created;
-
-
 };
 
 #endif

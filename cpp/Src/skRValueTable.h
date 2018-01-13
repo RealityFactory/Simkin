@@ -1,6 +1,6 @@
 /**
-   $Id: skRValueTable.h,v 1.4 2001/11/22 11:13:21 sdw Exp $
-   Copyright 1996-2001
+   $Id: skRValueTable.h,v 1.5 2002/12/13 17:21:54 sdw Exp $
+   Copyright 1996-2002
    Simon Whiteside
 
     This library is free software; you can redistribute it and/or

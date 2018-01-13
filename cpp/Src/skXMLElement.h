@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,14 +16,14 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElement.h,v 1.5 2001/11/22 11:13:21 sdw Exp $
+  $Id: skXMLElement.h,v 1.6 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef skXMLELEMENT_H
 #define skXMLELEMENT_H
 
 #include "skString.h"
-#include "dom/DOM_Element.hpp"
-#include "dom/DOM_Document.hpp"
+#include <xercesc/dom/deprecated/DOM_Element.hpp>
+#include <xercesc/dom/deprecated/DOM_Document.hpp>
 
 /**
  * This class is used to create additional XML elements that are added to an XML document, it overrides DOM_Element from the Xerces library

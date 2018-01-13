@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElementObject.cpp,v 1.34 2001/11/22 11:13:21 sdw Exp $
+  $Id: skXMLElementObject.cpp,v 1.37 2002/12/13 17:21:54 sdw Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -27,16 +27,16 @@
 #include "skMethodTable.h"
 #include "skInterpreter.h"
 
-#include <dom/DOMString.hpp>
-#include <dom/DOM_NodeList.hpp>
-#include <dom/DOM_CharacterData.hpp>
-#include <util/XMLUniDefs.hpp>
-#include <dom/DOM_NamedNodeMap.hpp>
-#include <parsers/DOMParser.hpp>
+#include <xercesc/dom/deprecated/DOMString.hpp>
+#include <xercesc/dom/deprecated/DOM_NodeList.hpp>
+#include <xercesc/dom/deprecated/DOM_CharacterData.hpp>
+#include <xercesc/util/XMLUniDefs.hpp>
+#include <xercesc/dom/deprecated/DOM_NamedNodeMap.hpp>
+#include <xercesc/dom/deprecated/DOMParser.hpp>
 
 xskLITERAL(true);
 
-#include "dom/DOM_NamedNodeMap.hpp"
+#include <xercesc/dom/deprecated/DOM_NamedNodeMap.hpp>
 ostream& operator<<(ostream& target, const DOMString& toWrite);
 skLITERAL(function);
 skLITERAL(name);
@@ -267,11 +267,11 @@ bool skXMLElementObject::getValue(const skString& name,const skString& attrib,sk
     }
     if (child.isNull()==false){
       if (attrib.length()==0)
-	v=skRValue(createXMLElementObject(m_ScriptLocation+":"+name,child),true);
+        v=skRValue(createXMLElementObject(m_ScriptLocation+":"+name,child),true);
       else{
-	DOMString attrName=fromString(attrib);
-	DOMString attrValue=child.getAttribute(attrName);
-	v=skRValue(toString(attrValue));
+        DOMString attrName=fromString(attrib);
+        DOMString attrValue=child.getAttribute(attrName);
+        v=skRValue(toString(attrValue));
       }
     }else
       bRet=skExecutable::getValue(name,attrib,v);
@@ -321,14 +321,14 @@ DOM_Element skXMLElementObject::findChild(DOM_Element parent,int index)
     if (index<nodes.getLength()){
       int element_count=0;
       for (unsigned int i=0;i<nodes.getLength();i++){
-	DOM_Node node=nodes.item(i);
-	if (node.getNodeType()==DOM_Node::ELEMENT_NODE){
-	  if (element_count==index){
-	    ret=*(DOM_Element *)&node;
-	    break;
-	  }else
-	    element_count++;
-	}
+        DOM_Node node=nodes.item(i);
+        if (node.getNodeType()==DOM_Node::ELEMENT_NODE){
+	        if (element_count==index){
+	          ret=*(DOM_Element *)&node;
+	          break;
+	        }else
+	          element_count++;
+        }
       }
     }
   }
@@ -344,7 +344,7 @@ int skXMLElementObject::countChildren(DOM_Element parent)
     for (unsigned int i=0;i<nodes.getLength();i++){
       DOM_Node node=nodes.item(i);
       if (node.getNodeType()==DOM_Node::ELEMENT_NODE){
-	count++;
+        count++;
       }
     }
   }
@@ -361,8 +361,8 @@ DOM_Element skXMLElementObject::findChild(DOM_Element parent,const skString& tag
     for (unsigned int i=0;i<nodes.getLength();i++){
       DOM_Node node=nodes.item(i);
       if (node.getNodeType()==DOM_Node::ELEMENT_NODE && node.getNodeName().equals(sTagName)){
-	ret=*(DOM_Element *)&node;
-	break;
+        ret=*(DOM_Element *)&node;
+        break;
       }
     }
   }
@@ -384,13 +384,13 @@ DOM_Element skXMLElementObject::findChild(DOM_Element parent,const skString& tag
       DOMString nodeName=node.getNodeName();
       DOMString nodeValue=node.getNodeValue();
       if (type==DOM_Node::ELEMENT_NODE)
-	if (nodeName.equals(sTagName)){
-	  DOM_Element thisElement=*(DOM_Element *)&node;
-	  if (thisElement.getAttribute(sAttribute).equals(sValue)){
-	    ret=thisElement;
-	    break;
-	  }
-	}
+        if (nodeName.equals(sTagName)){
+	        DOM_Element thisElement=*(DOM_Element *)&node;
+	        if (thisElement.getAttribute(sAttribute).equals(sValue)){
+	          ret=thisElement;
+	          break;
+	        }
+        }
     }
   }
   return ret;
@@ -408,7 +408,7 @@ skString skXMLElementObject::getAttribute(const skString& name)
   return toString(m_Element.getAttribute(fromString(name)));
 }
 //------------------------------------------
-bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& ret)  
+bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt)  
   //------------------------------------------
 {
   bool bRet=false;
@@ -440,33 +440,33 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
     if (m_Element.isNull()==false){
       skMethodDefNode * methNode=0;
       if (m_MethodCache!=0)
-	methNode=m_MethodCache->value(&s);
+        methNode=m_MethodCache->value(&s);
       if (methNode==0){
-	// no parse tree found in the cache - try and construct a new one
-	DOM_Element node=skXMLElementObject::findChild(m_Element,s_function,s_name,s);
-	if (node.isNull()==false){
-	  // we found some XML with the script in - now parse it
-	  skString code=skXMLElementObject::getData(node);
-	  bRet=true;
-	  skString params=toString(node.getAttribute("params"));
-	  skStringList paramList;
-	  skStringTokenizer tokenizer(params,", ");
-	  while (tokenizer.hasMoreTokens())
-	    paramList.append(tokenizer.nextToken());
-	  skInterpreter::getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode);
-	  if (methNode){
-	    if (m_MethodCache==0)
-	      m_MethodCache=new skMethodTable();
-	    m_MethodCache->insertKeyAndValue(new skString(s),methNode);
-	  }
-	}else
-	  bRet=skExecutable::method(s,args,ret);
+        // no parse tree found in the cache - try and construct a new one
+        DOM_Element node=skXMLElementObject::findChild(m_Element,s_function,s_name,s);
+        if (node.isNull()==false){
+	        // we found some XML with the script in - now parse it
+	        skString code=skXMLElementObject::getData(node);
+	        bRet=true;
+	        skString params=toString(node.getAttribute("params"));
+	        skStringList paramList;
+	        skStringTokenizer tokenizer(params,", ");
+	        while (tokenizer.hasMoreTokens())
+	          paramList.append(tokenizer.nextToken());
+	        ctxt.m_Interpreter->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
+	        if (methNode){
+	          if (m_MethodCache==0)
+	            m_MethodCache=new skMethodTable();
+	          m_MethodCache->insertKeyAndValue(new skString(s),methNode);
+	        }
+        }else
+	        bRet=skExecutable::method(s,args,ret,ctxt);
       }else{	
-	skInterpreter::getInterpreter()->executeParseTree(location,this,methNode,args,ret);
-	bRet=true;
+        ctxt.m_Interpreter->executeParseTree(location,this,methNode,args,ret,ctxt);
+        bRet=true;
       }
     }else
-      bRet=skExecutable::method(s,args,ret);
+      bRet=skExecutable::method(s,args,ret,ctxt);
   }
   return bRet;
 }

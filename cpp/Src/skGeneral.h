@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skGeneral.h,v 1.17 2002/02/06 23:21:54 sdw Exp $
+  $Id: skGeneral.h,v 1.20 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef skGENERAL_H
 #define skGENERAL_H
@@ -33,16 +33,6 @@
 #endif
 
 
-// Look out for Windows CE - which doesn't support streams or exceptions or assert!
-
-#ifndef _WIN32_WCE
- #define STREAMS_ENABLED
- #define EXCEPTIONS_DEFINED
- #include <assert.h>
-#else
- #define assert(exp) ((void)0)
- #define UNICODE_STRINGS
-#endif
 
 #include <stdlib.h>
 
@@ -95,16 +85,6 @@ typedef unsigned int USize;
 #endif
 
 
-#ifdef EXCEPTIONS_DEFINED
-#  ifdef __AFX_H__  // this is intended to resolve clashes with MFC's THROW()
-#  undef THROW
-#  endif
-#define THROW(x,c) throw x;
-#else
-#include <windows.h>
-#define THROW(x,c) RaiseException(c,0,0,0)
-#endif
-
 #if defined(_MSC_VER)
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
@@ -118,6 +98,19 @@ typedef unsigned int USize;
    #ifdef _DEBUG
    #define new MYDEBUG_NEW
    #endif
+#endif
+
+// Look out for Windows CE - which doesn't support streams or exceptions or assert!
+
+#ifndef _WIN32_WCE
+ #define STREAMS_ENABLED
+ #define EXCEPTIONS_DEFINED
+ #include <assert.h>
+#else
+ #include <windows.h>
+ #include <dbgapi.h>
+ #define assert ASSERT
+ #define UNICODE_STRINGS
 #endif
 
 #endif

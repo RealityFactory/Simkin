@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.h,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skElement.h,v 1.7 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef skELEMENT_H
 #define skELEMENT_H
@@ -35,7 +35,7 @@ class CLASSEXPORT skElement : public skNode
    */
   skElement(const skString& tagname);
   /**
-   * This adds a child to the list of children owned by this element
+   * This adds a child to the list of children owned by this element. The node's "parent" field is set to this element
    * @param child - the child to be added. Note: the child is not copied, and will be deleted by the destructor for this class.
    */
   void appendChild(skNode * child);
@@ -44,6 +44,11 @@ class CLASSEXPORT skElement : public skNode
    * @param child - the child to be removed and destroyed.
    */
   void removeAndDestroyChild(skNode * child);
+  /**
+   * This removes a child from the list of children owned by this element. The child is *not* deleted by this function. The child's "parent" field is set to zero.
+   * @param child - the child to be removed .
+   */
+  void removeChild(skNode * child);
   /**
    * This sets an attribute of this element. The attribute is added, if not already present.
    * @param name - the name of the attribute. If one already exists with this name, its value is overwritten.
@@ -77,10 +82,17 @@ class CLASSEXPORT skElement : public skNode
    */
   virtual skNode * clone();
   /**
+   * Copies this element, its attributes and children to a string.
+   * @return a string containing this element
+   */
+  virtual skString toString() const;
+#ifdef STREAMS_ENABLED
+  /**
    * Writes this element, its attributes and children to the given stream.
    * @param out - the stream to write to
    */
   virtual void write(ostream& out) const;
+#endif
  protected:
   /** this method finds a named attribute */
   skAttribute * findAttribute(const skString& name) const;

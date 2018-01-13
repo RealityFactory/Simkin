@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
- * $Id: skTreeNode.h,v 1.14 2001/11/22 11:13:21 sdw Exp $
+ * $Id: skTreeNode.h,v 1.18 2002/12/16 16:11:46 sdw Exp $
 */
 
 
@@ -24,9 +24,11 @@
 #define TREENODE_H
 
 #include "skString.h"
+#include "skException.h"
 
 class  CLASSEXPORT skTreeNode;
 class  CLASSEXPORT skTreeNodeList;
+class  CLASSEXPORT skExecutableContext;
 
 /**
  * This class provides an iterator over the children of a {@link skTreeNode skTreeNode}
@@ -175,7 +177,7 @@ class  CLASSEXPORT skTreeNode
    * @param defaultVal - the value to return if a match is not found
    * @return the value of a matched child's data, or the default value
    */
-  skString findChildData(const skString& label,const skString& defaultVal) const;
+  skString findChildData(const skString& label,const skString& defaultVal=skString()) const;
   /**
    * Finds the data associated with the first child whose label matches that given as a boolean
    * @param label - the label to look for
@@ -241,10 +243,11 @@ class  CLASSEXPORT skTreeNode
   void	clear();
   /**
    * Reads a treenode from the given file
+   * @param file filename of file containing TreeNode information
+   * @param context context object to receive errors
    * @exception skTreeNodeReaderException if there was an error in the file
    */
-  static skTreeNode * read(const skString& file);
- 
+  static skTreeNode * read(const skString& file,skExecutableContext& ctxt);
   friend class skTreeNodeList;
   friend class skTreeNodeListIterator;
 
@@ -276,7 +279,16 @@ class  CLASSEXPORT skTreeNodeReader
   /**
    * Constructor - takes the input stream to read the TreeNode from, and specifies a filename
    */
-  skTreeNodeReader(istream& in,const char *  fileName);
+  skTreeNodeReader(istream& in,skString  fileName);
+#else
+  /**
+   * Constructor - takes the input file to read the {@link skTreeNode skTreeNode} from
+   */
+  skTreeNodeReader(FILE * in);
+  /**
+   * Constructor - takes the input file to read the TreeNode from, and specifies a filename
+   */
+  skTreeNodeReader(FILE * in,skString  fileName);
 #endif
   /**
    * Destructor
@@ -284,19 +296,20 @@ class  CLASSEXPORT skTreeNodeReader
   ~skTreeNodeReader();
   /**
    * Starts the parse of the input stream
+   * @param context context object to receive errors
    * @exception skTreeNodeReaderException if there was an error in the file
-   * @return a TreeNode, if the read was successful
+   * @return a TreeNode, if the read was successful, or null, otherwise
    */
-  skTreeNode* read();
+  skTreeNode* read(skExecutableContext& ctxt);
  private:
   class P_TreeNodeReader* pimp;
 };
-const int skTreeNodeReaderException_Code=4;
 
 /**
  * this class encapsulates an error encountered while parsing a {@link skTreeNode skTreeNode} text stream
  */
-class CLASSEXPORT  skTreeNodeReaderException {
+class CLASSEXPORT  skTreeNodeReaderException : public skException
+{
  public:
   /**
    * Constructor - takes information about the exception
@@ -307,9 +320,9 @@ class CLASSEXPORT  skTreeNodeReaderException {
   /**
    * Returns a string describing the exception
    */
-  skString toString(){
-    return m_FileName+skSTR(":")+m_Msg;
-  }
+  skString toString() const{
+            return m_FileName+skSTR(":")+m_Msg;
+            }
  private:
   skString m_FileName;
   skString m_Msg;

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTreeNodeObject.h,v 1.20 2001/11/22 11:13:21 sdw Exp $
+* $Id: skTreeNodeObject.h,v 1.24 2002/12/16 16:11:46 sdw Exp $
 */
 
 
@@ -112,9 +112,10 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
    * @param name - the name of the method
    * @param args - the arguments to pass to the method
    * @param ret - the RValue to receive the results of the method call
+   * @param context context object to receive errors
    * @return true if the method was found, otherwise false
    */
-  bool method(const skString& name,skRValueArray& args,skRValue& ret);
+  bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**
    * This function returns the treenode wrapped by this object
    */

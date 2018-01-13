@@ -1,5 +1,5 @@
 /*
-Copyright 1996-2001
+Copyright 1996-2002
 Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@ Simon Whiteside
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-$Id: skString.inl,v 1.10 2002/01/18 16:56:50 sdw Exp $
+$Id: skString.inl,v 1.14 2002/12/13 17:21:54 sdw Exp $
 */
 
 #ifndef _STR_INL
@@ -45,6 +45,7 @@ extern const Char * blank;
 extern P_String * blank_string;
 
 #ifdef UNICODE_STRINGS
+#define STRCMPI wcsicmp
 #define STRCMP wcscmp
 #define STRCAT wcscat
 #define STRLEN wcslen
@@ -52,7 +53,11 @@ extern P_String * blank_string;
 #define STRNCPY wcsncpy
 #define STRCHR wcschr
 #define ISSPACE iswspace
+#define ISALNUM iswalnum
+#define ISALPHA iswalpha
+#define ISDIGIT iswdigit
 #else
+#define STRCMPI strcmpi
 #define STRCPY strcpy
 #define STRCAT strcat
 #define STRCMP strcmp
@@ -60,6 +65,9 @@ extern P_String * blank_string;
 #define STRCHR strchr
 #define STRNCPY strncpy
 #define ISSPACE isspace
+#define ISALNUM isalnum
+#define ISALPHA isalpha
+#define ISDIGIT isdigit
 #endif
 
 //---------------------------------------------------
@@ -103,7 +111,7 @@ inline  bool skString::operator==(const skString& s) const
       return true;
     else
       if (pimp->m_Hash==s.pimp->m_Hash && pimp->m_Length==s.pimp->m_Length)
-	return (strcmp((const char *)pimp->m_PString,(const char *)s.pimp->m_PString)==0);
+	return (STRCMP(pimp->m_PString,s.pimp->m_PString)==0);
     else
       return false;
 }

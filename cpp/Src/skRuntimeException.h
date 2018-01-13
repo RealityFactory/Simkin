@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,19 +16,19 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skRuntimeException.h,v 1.8 2001/11/22 11:13:21 sdw Exp $
+  $Id: skRuntimeException.h,v 1.10 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef SKRUNTIMEEXCEPTION_H
 #define SKRUNTIMEEXCEPTION_H
 
+#include "skException.h"
 #include "skString.h"
-
-const int skRuntimeException_Code=3;
 
 /**
  * This exception is thrown when there are execution errors in a Simkin script
  */
-class CLASSEXPORT skRuntimeException {
+class CLASSEXPORT skRuntimeException : public skException
+{
  public:
   /**
    * Constructor - receives information about the exception

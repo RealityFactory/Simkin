@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.h,v 1.5 2001/11/22 11:13:21 sdw Exp $
+  $Id: skParser.h,v 1.7 2002/12/13 17:21:54 sdw Exp $
 */
 
 #ifndef skPARSER_H
@@ -25,7 +25,7 @@
 #include "skParseException.h"
 #include "skParseNode.h"
 
-const int MAXYYTEXT=256;
+const int MAXYYTEXT=4096;
 
 /**
  * This class is used to parse a string of Simkin code

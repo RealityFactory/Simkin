@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
   
     This library is free software; you can redistribute it and/or
@@ -16,14 +16,14 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skXMLExecutable.h,v 1.11 2001/11/22 11:13:21 sdw Exp $
+* $Id: skXMLExecutable.h,v 1.12 2002/12/13 17:21:54 sdw Exp $
 */
 
 #ifndef skXMLEXECUTABLE_H
 #define skXMLEXECUTABLE_H
 
 #include "skXMLElementObject.h"
-#include "sax/InputSource.hpp"
+#include <xercesc/sax/InputSource.hpp>
 #include <iostream.h>
 
 /**

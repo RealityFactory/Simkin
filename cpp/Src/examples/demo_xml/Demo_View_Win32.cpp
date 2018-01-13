@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
     This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
 
   This file implements the class View for the Windows platform
 
-  $Id: Demo_View_Win32.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_View_Win32.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
 #ifdef WIN32
 #include <windows.h>
@@ -48,9 +48,9 @@ View::View(ViewCallback& callback,skString title,int x,int y,int width,int heigh
   wc.hCursor = LoadCursor (0, IDC_ARROW) ;
   wc.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1); 
   wc.lpszMenuName = 0;
-  wc.lpszClassName = "View";
+  wc.lpszClassName = skSTR("View");
   ::RegisterClass (&wc);
-  m_Handle=::CreateWindow("View",title,WS_OVERLAPPED|WS_CAPTION|WS_VISIBLE,x,y,width,height,0,0,g_ModuleHandle,0);
+  m_Handle=::CreateWindow(skSTR("View"),title,WS_OVERLAPPED|WS_CAPTION|WS_VISIBLE,x,y,width,height,0,0,g_ModuleHandle,0);
   if (m_Handle)
     ::SetWindowLong((HWND)m_Handle,GWL_USERDATA,(long)this);
 }
@@ -76,7 +76,7 @@ void View::run(skString file)
 skString View::getText(int id) const
   //-----------------------------------------------------------------
 {
-  char buffer[256];
+  Char buffer[256];
   ::GetDlgItemText((HWND)m_Handle,id,buffer,256);
   return skString(buffer);
 }
@@ -100,17 +100,17 @@ void View::addControl(skString type,int id,skString text,int x,int y,int width,i
 {
   skString className;
   DWORD dwStyle=WS_CHILD|WS_VISIBLE;
-  if (type=="Static"){
-    className="STATIC";
+  if (type==skSTR("Static")){
+    className=skSTR("STATIC");
     dwStyle|=SS_LEFT|WS_GROUP;
   }else
-    if (type=="Edit"){
-      className="EDIT";
+    if (type==skSTR("Edit")){
+      className=skSTR("EDIT");
       dwStyle|=ES_LEFT|WS_BORDER|WS_TABSTOP;
     }else
-      if (type=="Button"){
-	className="BUTTON";
-	dwStyle|=BS_PUSHBUTTON|WS_TABSTOP;
+      if (type==skSTR("Button")){
+        className=skSTR("BUTTON");
+        dwStyle|=BS_PUSHBUTTON|WS_TABSTOP;
       }
   HWND hwndChild=::CreateWindow(className,text,dwStyle,x,y,width,height,(HWND)m_Handle,(HMENU)id,g_ModuleHandle,0);
 }
@@ -127,12 +127,12 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
   case WM_COMMAND:{
     WORD wID = LOWORD(wParam);
     HWND hwndCtl = (HWND) lParam;
-    char className[256];
+    Char className[256];
     ::GetClassName(hwndCtl,className,256);
-    if (!strcmp(className,"Button")){
+    if (skString(className).equalsIgnoreCase(skSTR("Button"))){
       View * view=(View *)::GetWindowLong(hwnd,GWL_USERDATA);
       if (view)
-	view->m_Callback.buttonPressed(wID);
+        view->m_Callback.buttonPressed(wID);
     }
     break;
   }

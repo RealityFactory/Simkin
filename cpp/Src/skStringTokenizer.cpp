@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringTokenizer.cpp,v 1.3 2001/11/22 11:13:21 sdw Exp $
+  $Id: skStringTokenizer.cpp,v 1.5 2002/12/13 17:21:54 sdw Exp $
 */
 #include "skStringTokenizer.h"
 
@@ -29,9 +29,9 @@ void skStringTokenizer::setMaxDelimChar()
     return;
   }
   
-  char m = 0;
+  Char m = 0;
   for (unsigned int i = 0; i < delimiters.length(); i++) {
-    char c = delimiters.at(i);
+    Char c = delimiters.at(i);
     if (m < c)
       m = c;
   }
@@ -66,7 +66,7 @@ skStringTokenizer::skStringTokenizer(skString str, skString delim)
 skStringTokenizer::skStringTokenizer(skString str) 
 //------------------------------------------
 {
-  init(str, " \t\n\r\f", false);
+  init(str, skSTR(" \t\n\r\f"), false);
 }
 //------------------------------------------
 int skStringTokenizer::skipDelimiters(int startPos) 
@@ -74,7 +74,7 @@ int skStringTokenizer::skipDelimiters(int startPos)
 {
   int position = startPos;
   while (!retDelims && position < maxPosition) {
-    char c = str.at(position);
+    Char c = str.at(position);
     if ((c > maxDelimChar) || (delimiters.indexOf(c) < 0))
       break;
     position++;
@@ -87,13 +87,13 @@ int skStringTokenizer::scanToken(int startPos)
 {
   int position = startPos;
   while (position < maxPosition) {
-    char c = str.at(position);
+    Char c = str.at(position);
     if ((c <= maxDelimChar) && (delimiters.indexOf(c) >= 0))
       break;
     position++;
   }
   if (retDelims && (startPos == position)) {
-    char c = str.at(position);
+    Char c = str.at(position);
     if ((c <= maxDelimChar) && (delimiters.indexOf(c) >= 0))
       position++;
   }

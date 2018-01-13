@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,14 +16,14 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElementObjectEnumerator.h,v 1.11 2001/11/22 11:13:21 sdw Exp $
+  $Id: skXMLElementObjectEnumerator.h,v 1.14 2002/12/16 16:11:46 sdw Exp $
 */
 #ifndef XMLELEMENTOBJECTENUMERATOR_H
 #define XMLELEMENTOBJECTENUMERATOR_H
 
 #include "skExecutable.h"
 #include "skExecutableIterator.h"
-#include "dom/DOM_Element.hpp"
+#include <xercesc/dom/deprecated/DOM_Element.hpp>
 
 class CLASSEXPORT skXMLElementObject;
 
@@ -47,9 +47,14 @@ class CLASSEXPORT skXMLElementObjectEnumerator : public skExecutable, public skE
   skXMLElementObjectEnumerator(DOM_Element element,bool add_if_not_present,const skString& location,const skString& tag);
   /**
    * This method exposes the following methods to Simkin scripts:
-   * returns the next element in the enumeration - or null if there are no more
+   * "next" - returns the next element in the enumeration - or null if there are no more
+   * "reset" - resets the enumeration to the start
+   * @param s method name
+   * @param args arguments to the function
+   * @param r return value
+   * @param context context object to receive errors
    */
-  bool method(const skString& s,skRValueArray& args,skRValue& r);
+  bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
   /**
    * This method implements the method in skExecutableIterator
    */

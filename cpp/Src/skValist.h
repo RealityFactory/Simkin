@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skValist.h,v 1.8 2001/11/22 11:13:21 sdw Exp $
+* $Id: skValist.h,v 1.10 2002/12/13 17:21:54 sdw Exp $
 */
 
 #ifndef skVALIST_H
@@ -199,7 +199,11 @@ skTVALIST_PRE void skTVAList<T>::deleteElt(USize  n)
 {
   assert(n<m_Entries);
   if (n>=m_Entries)
-    THROW(skBoundsException("Invalid index to DeleteElt",__FILE__,__LINE__),skBoundsException_Code);
+#ifdef EXCEPTIONS_DEFINED
+    throw skBoundsException("Invalid index to DeleteElt",__FILE__,__LINE__);
+#else
+    exit(EXIT_FAILURE);
+#endif
   for (USize x=n;x<m_Entries-1;x++)
     m_Array[x]=m_Array[x+1];
   m_Entries--;
@@ -210,7 +214,11 @@ skTVALIST_PRE void skTVAList<T>::insert(const T &t,USize index)
 {
   assert(index<=m_Entries);
   if (index>m_Entries)
-    THROW(skBoundsException("Invalid index to Insert",__FILE__,__LINE__),skBoundsException_Code);
+#ifdef EXCEPTIONS_DEFINED
+    throw skBoundsException("Invalid index to Insert",__FILE__,__LINE__);
+#else
+    exit(EXIT_FAILURE);
+#endif
   if (m_ArraySize==m_Entries)
     grow();
   if (index<m_Entries){
@@ -259,7 +267,11 @@ skTVALIST_PRE inline T& skTVAList<T>::operator[](USize  n) const
 {
   assert(n<m_Entries);
   if (n>=m_Entries)
-    THROW(skBoundsException(skSTR("Invalid index to []"),__FILE__,__LINE__),skBoundsException_Code);
+#ifdef EXCEPTIONS_DEFINED
+    throw skBoundsException(skSTR("Invalid index to []"),__FILE__,__LINE__);
+#else
+    exit(EXIT_FAILURE);
+#endif
   return m_Array[n];
 }
 //-----------------------------------------------------------------

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skXMLElementObject.h,v 1.32 2001/11/22 11:13:21 sdw Exp $
+* $Id: skXMLElementObject.h,v 1.35 2002/12/16 16:11:46 sdw Exp $
 */
 
 
@@ -24,9 +24,9 @@
 #define skXMLELEMENTOBJECT_H
 
 #include "skExecutable.h"
-#include "dom/DOM_Element.hpp"
+#include <xercesc/dom/deprecated/DOM_Element.hpp>
 #include <iostream.h>
-#include <framework/XMLFormatter.hpp>
+#include <xercesc/framework/XMLFormatter.hpp>
 
 class skMethodTable;
 
@@ -141,9 +141,10 @@ class CLASSEXPORT skXMLElementObject : public skExecutable {
    * @param name the name of the method
    * @param args an array of arguments to the method
    * @param ret the object to receive the result of the method call
+   * @param context context object to receive errors
    * @return true if the method was found, false otherwise
    */
-  bool method(const skString& name,skRValueArray& args,skRValue& ret);
+  bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**
    * tests for equality with another object, using the string value
    * @return true if the data in both elements is the same

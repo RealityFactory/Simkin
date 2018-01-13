@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,11 +16,11 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: InheritsElement.cpp,v 1.3 2001/11/22 11:13:21 sdw Exp $
+  $Id: InheritsElement.cpp,v 1.4 2002/12/13 17:21:54 sdw Exp $
 */
 #include "InheritsElement.h"
-#include "parsers/DOMParser.hpp"
-#include "framework/LocalFileInputSource.hpp"
+#include <xercesc/dom/deprecated/DOMParser.hpp>
+#include <xercesc/framework/LocalFileInputSource.hpp>
 #include "skXMLErrorHandler.h"
 
 //------------------------------------------
@@ -61,25 +61,25 @@ void InheritsElement::replaceInherits(DOM_Element elem)
     DOM_Node node=nodes.item(i);
     if (node.getNodeType()==DOM_Node::ELEMENT_NODE){
       if (node.getNodeName().equals(sInheritsTag)){
-	// the data within the inherits tag is the the file name to import
-	skString file_name=getData(*(DOM_Element *)&node);
-	DOMString sFileName((const char *)file_name);
-	const XMLCh * buffer=sFileName.rawBuffer();
-	LocalFileInputSource in(buffer);
-	DOMParser * parser = new DOMParser;
-	skXMLErrorHandler handler;
-	parser->setErrorHandler(&handler);
-	parser->parse(in);
-	DOM_Element parent=parser->getDocument().getDocumentElement();
-	delete parser;
-	// check if this element has any inherits tags
-	replaceInherits(parent);
-	DOM_NodeList parent_nodes=parent.getChildNodes();
-	for (int j=0;j<parent_nodes.getLength();j++){
-	  elem.insertBefore(owner.importNode(parent_nodes.item(j),true),node);
-	}
-	elem.removeChild(node);
-	i--;
+	      // the data within the inherits tag is the the file name to import
+	      skString file_name=getData(*(DOM_Element *)&node);
+	      DOMString sFileName((const char *)file_name);
+	      const XMLCh * buffer=sFileName.rawBuffer();
+	      LocalFileInputSource in(buffer);
+	      DOMParser * parser = new DOMParser;
+	      skXMLErrorHandler handler;
+	      parser->setErrorHandler(&handler);
+	      parser->parse(in);
+	      DOM_Element parent=parser->getDocument().getDocumentElement();
+	      delete parser;
+	      // check if this element has any inherits tags
+	      replaceInherits(parent);
+	      DOM_NodeList parent_nodes=parent.getChildNodes();
+	      for (int j=0;j<parent_nodes.getLength();j++){
+	        elem.insertBefore(owner.importNode(parent_nodes.item(j),true),node);
+	      }
+	      elem.removeChild(node);
+	      i--;
       }
     }
   }

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,13 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: InheritsElement.h,v 1.5 2001/11/22 11:13:21 sdw Exp $
+  $Id: InheritsElement.h,v 1.6 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef INHERITSELEMENT_H
 #define INHERITSELEMENT_H
 
 #include "skXMLElementObject.h"
-#include "dom/DOM_Element.hpp"
+#include <xercesc/dom/deprecated/DOM_Element.hpp>
 
 /** 
  * this class extends the skXMLElementObject class with understanding of the <inherits> tag. It overrides the createXMLElementObject method to make sure that any sub-elements are also checked.

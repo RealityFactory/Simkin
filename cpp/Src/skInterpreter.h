@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skInterpreter.h,v 1.24 2001/11/22 11:13:21 sdw Exp $
+* $Id: skInterpreter.h,v 1.28 2002/12/16 16:11:46 sdw Exp $
 */
 #ifndef skINTERPRETER_H
 #define skINTERPRETER_H
@@ -32,6 +32,10 @@ class CLASSEXPORT skMethodDefNode;
 class CLASSEXPORT skTraceCallback;
 class CLASSEXPORT skStatementStepper;
 
+#ifndef EXCEPTIONS_DEFINED
+#include "skScriptError.h"
+#endif
+
 /**
  * This class stores info about the current execution context - such the name of the current script and the line number being executed.
  */
@@ -41,14 +45,17 @@ class CLASSEXPORT skContext
  public:
   /** Constructor
    * @param location - the name of the source file
+   * @param context context object to receive errors
    */
-  skContext(const skString& location):
-    m_Location(location)
+  skContext(const skString& location,skExecutableContext& context)
+       : m_Location(location),m_Context(context)
     {};
   /** location during script execution */
-  skString m_Location; 
+  skString              m_Location; 
   /** line number during script execution */
-  int m_LineNum; 
+  int                   m_LineNum; 
+  /** the current executable context */
+  skExecutableContext&  m_Context;
 };
 
 /**
@@ -71,10 +78,11 @@ class CLASSEXPORT skInterpreter : public skExecutable
    * If there are syntax errors the function throws an skParseException object
    * @param location - a string describing where this code is located, this will appear in any error messages
    * @param code - a string of Simkin code, which includes the parameter declarations
+   * @param context context object to receive errors
    * @return returns a parse tree, if the syntax was valid. The caller must free this tree.
    * @exception skParseException - if a syntax error is encountered
    */
-  skMethodDefNode * parseString(const skString& location,const skString& code);	
+  skMethodDefNode * parseString(const skString& location,const skString& code,skExecutableContext& ctxt);	
   /**
    * this function parses the script in the code variable and returns
    * a parse tree if there are no syntax errors. It assumes that the script does *not* contain parameters and enclosing braces.
@@ -82,10 +90,11 @@ class CLASSEXPORT skInterpreter : public skExecutable
    * @param location - a string describing where this code is located, this will appear in any error messages
    * @param paramNames - a list of parameter names (hence the name "ExternalParams"
    * @param code - a string of Simkin code, which does *not* include the parameter declarations
+   * @param context context object to receive errors
    * @return returns a parse tree, if the syntax was valid. The caller must free this tree.
    * @exception skParseException - if a syntax error is encountered
    */
-  skMethodDefNode * parseExternalParams(const skString& location,skStringList& paramNames,const skString& code);
+  skMethodDefNode * parseExternalParams(const skString& location,skStringList& paramNames,const skString& code,skExecutableContext& ctxt);
   /**
    * this function parses and executes script which is assumed to belong
    * to the object passed in.
@@ -95,10 +104,11 @@ class CLASSEXPORT skInterpreter : public skExecutable
    * @param code - a string of Simkin script, including parameter declarations
    * @param return_value - an RValue which receives the result of the method call
    * @param parseTree - if you supply this pointer, the parse tree is assigned to it, and you must delete it yourself. Without the parameter the parse tree will be deleted by the interpreter. The parse tree can be used in a cache and passed to executeParseTree later.
+   * @param context context object to receive errors
    * @exception skParseException - if a syntax error is encountered
    * @exception skRuntimeException - if an error occurs while the script is running
    */
-  void executeString(const skString& location,skiExecutable * obj,const skString& code,skRValueArray&  args,skRValue& return_value,skMethodDefNode ** parseTree);
+  void executeString(const skString& location,skiExecutable * obj,const skString& code,skRValueArray&  args,skRValue& return_value,skMethodDefNode ** parseTree,skExecutableContext& ctxt);
 
   /**
    * this function parses and executes script with externally declared parameters which is assumed to belong to the object passed in.
@@ -109,10 +119,11 @@ class CLASSEXPORT skInterpreter : public skExecutable
    * @param code - a string of Simkin script, which does *not* include parameter declarations
    * @param return_value - an RValue which receives the result of the method call
    * @param parseTree - if you supply this pointer, the parse tree is assigned to it, and you must delete it yourself. Without the parameter the parse tree will be deleted by the interpreter. The parse tree can be used in a cache and passed to executeParseTree later.
+   * @param context context object to receive errors
    * @exception skParseException - if a syntax error is encountered
    * @exception skRuntimeException - if an error occurs while the script is running
    */
-  void executeStringExternalParams(const skString& location,skiExecutable * obj,skStringList& paramNames,const skString& code,skRValueArray&  args,skRValue& r,skMethodDefNode ** keepParseTree);
+  void executeStringExternalParams(const skString& location,skiExecutable * obj,skStringList& paramNames,const skString& code,skRValueArray&  args,skRValue& r,skMethodDefNode ** keepParseTree,skExecutableContext& ctxt);
 
   /**
    * this function executes some script that has already been parsed into a parse tree. 
@@ -120,10 +131,11 @@ class CLASSEXPORT skInterpreter : public skExecutable
    * @param obj - the executable object which "owns" the script
    * @param parseTree - a parse tree that has been generated by one of the parse or execute functions of the Interpreter
    * @param args - an array of arguments to the function, which are passed as parameters to the script
+   * @param context context object to receive errors
    * @param return_value - an RValue which receives the result of the method call
    * @exception skRuntimeException - if an error occurs while the script is running
    */
-  void executeParseTree(const skString& location,skiExecutable * obj,skMethodDefNode * parseTree,skRValueArray&  args,skRValue& return_value);
+  void executeParseTree(const skString& location,skiExecutable * obj,skMethodDefNode * parseTree,skRValueArray&  args,skRValue& return_value,skExecutableContext& ctxt);
   //------------------------
   // Global Variable methods
   //------------------------
@@ -142,6 +154,7 @@ class CLASSEXPORT skInterpreter : public skExecutable
   /**
    * this method finds the value of a global variable by name
    * @param name - the name of the global variable
+
    * @param return_value - an RValue which receives the value of the variable
    * @return true if the variable was found, otherwise false
    */
@@ -156,19 +169,6 @@ class CLASSEXPORT skInterpreter : public skExecutable
    * In Simkin call Interpreter.Tracing=true
    */
   bool setValue(const skString& s,const skString& attribute,const skRValue& v);
-    
-  //---------------------------------
-  // accessing the global interpreter
-  //---------------------------------
-
-  /**
-   * this method returns the global interpreter which was previously set with setInterpreter
-   */
-  static skInterpreter * getInterpreter();
-  /**
-   * this method constructs the global interpreter used by the process
-   */
-  static void setInterpreter(skInterpreter *);
     
   //------------------------
   // Tracing methods

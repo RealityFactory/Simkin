@@ -19,23 +19,28 @@ Simkin Expressions</H1>
 <tr><td>attribute</td><td>this accesses an attribute in another object.<br><small>note: this is not supported for TreeNode objects</small></td><td><code>Account:Balance</code></td>
 <tr><td>field</td><td>this accesses a field or method in another object, or a sub-item within a field</td><td><code>Account.getPerson().Surname</code></td></tr>
 <tr><td>self method call</td><td>calling a method on the current object and using the return value</td><td><code>sendMessage(message)</code></td></tr>
+<tr><td>subexpression</td><td>for grouping expressions and enforcing precedence</td><td><code><b>(</b>4+1<b>)</b>+5<code></td></tr>
+<tr><td colspan="3"><b>Logical Operators</b></td></tr>
 <tr><td>not</td><td>negates an expression</td><td><code><b>not</b> Overdrawn</code></td></tr>
 <tr><td>and</td><td>logical and</td><td><code>Overdrawn <b>and</b> WithinRedZone</code></td></tr>
 <tr><td>or</td><td>logical or</td><td><code>DepositAccount <b>or</b> CurrentAccount<code></td></tr>
+<tr><td colspan="3"><b>Relational Operators</b></td></tr>
 <tr><td>equality</td><td>equality test</td><td><code>Name<b>=</b>"Simon"</code></td></tr>
 <tr><td>inequality</td><td>inequality test</td><td><code>Name<b>!=</b>"Simon"</code></td></tr>
 <tr><td>less than</td><td>integer less than</td><td><code>a <b>lt</b> b</code> or <code>a <b>&lt;</b> b</td></tr>
 <tr><td>less than or equal to</td><td>integer less than or equal to</td><td><code>a <b>le</b> b</code> or <code>a <b>&lt;=</b> b</td></tr>
 <tr><td>greater than</td><td>integer greater than</td><td><code>a <b>gt</b> b</code> or <code>a <b>&gt;</b> b</code></td></tr>
 <tr><td>greater than or equal to</td><td>integer greater than or equal to</td><td><code>a <b>ge</b> b</code> or <code>a <b>&gt;=</b> b</code></td></tr>
+<tr><td colspan="3"><b>Arithmetic Operators</b></td></tr>
 <tr><td>subtract</td><td>integer subtract</td><td><code>12 <b>-</b> 1</code></td></tr>
 <tr><td>add</td><td>integer addition</td><td><code>12 <b>+</b> 1</code></td></tr>
 <tr><td>minus</td><td>integer inversion</td><td><code><b>-</b> 1<code></td></tr>
 <tr><td>times</td><td>integer multiplication</td><td><code>12 <b>*</b> 1</code></td></tr>
 <tr><td>divide</td><td>integer division</td><td><code>12 <b>/</b> 1</code></td></tr>
 <tr><td>modulus</td><td>integer modulus</td><td><code>12 <b>%</b> 1</code></td></tr>
+<tr><td colspan="3"><b>String Operators</b></td></tr>
 <tr><td>concatenation</td><td>adding two strings together</td><td><code>"First Name " <b>#</b> " Surname"</code> or <code>"First Name " <b>&amp;</b> " Surname"</code></td></tr>
-<tr><td>subexpression</td><td>for grouping expressions and enforcing precedence</td><td><code><b>(</b>4+1<b>)</b>+5<code></td></tr>
+<tr><td colspan="3"><b>Array Operators</b></td></tr>
 <tr><td>array index</td><td>for accessing child objects (indices start from 0)</td><td><code>a=f<b>[</b>6<b>]</b></code></td></tr>
 </table>
 </BODY>

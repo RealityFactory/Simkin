@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skNode.cpp,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skNode.cpp,v 1.7 2002/12/13 17:21:54 sdw Exp $
 */
 #include "skNode.h"
 #include "skStringBuffer.h"
@@ -49,7 +49,7 @@ void skNode::setNodeValue(const skString& )
 {
 }
 static Char g_SpecialChars[]={'&','<','>','"'};
-static Char * g_SpecialCharEscapes[]={"&amp;","&lt;","&gt;","&quot;"};
+static Char * g_SpecialCharEscapes[]={skSTR("&amp;"),skSTR("&lt;"),skSTR("&gt;"),skSTR("&quot;")};
 static USize g_NumSpecialChars=sizeof(g_SpecialChars)/sizeof(Char);
 //------------------------------------------
 skString skNode::escapeXMLDelimiters(const skString& text)
@@ -70,19 +70,32 @@ skString skNode::escapeXMLDelimiters(const skString& text)
       Char c=out[i];
       bool char_replaced=false;
       for (USize i=0;i<g_NumSpecialChars;i++)
-	if (c==g_SpecialChars[i]){
-	  char_replaced=true;
-	  buffer.append(g_SpecialCharEscapes[i]);
-	  break;
-	}
+        if (c==g_SpecialChars[i]){
+          char_replaced=true;
+          buffer.append(g_SpecialCharEscapes[i]);
+          break;
+        }
       if (char_replaced==false)
-	buffer.append(c);
+        buffer.append(c);
     }
     out=buffer.toString();
   }
   return out;
 }
+//------------------------------------------
+void skNode::setParent(skElement * parent)
+//------------------------------------------
+{
+  m_Parent=parent;
+}
+//------------------------------------------
+skElement * skNode::getParent()
+//------------------------------------------
+{
+  return m_Parent;
+}
 
+#ifdef STREAMS_ENABLED
 //------------------------------------------
 ostream& operator<<(ostream& out,const skNode& n)
 //------------------------------------------
@@ -90,3 +103,4 @@ ostream& operator<<(ostream& out,const skNode& n)
   n.write(out);
   return out;
 }
+#endif

@@ -1,0 +1,122 @@
+Microsoft eMbedded Visual Tools Workspace File, Format Version 3.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "DemoCE"=.\EXAMPLES\DEMO\DemoCE.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name SimkinCE_TreeNode
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "DemoCE_Expat"=.\EXAMPLES\DEMO_EXPAT\DemoCE_Expat.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name expat_1_95_5_ce
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name SimkinCE_Expat
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoaderCE_Expat"=.\EXAMPLES\SCRIPTLOADER\ScriptLoaderCE_Expat.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name expat_1_95_5_ce
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name SimkinCE_Expat
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoaderCE_TreeNode"=.\EXAMPLES\SCRIPTLOADER\ScriptLoaderCE_TreeNode.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name SimkinCE_TreeNode
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "SimkinCE_Expat"=.\SimkinCE_Expat.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name expat_1_95_5_ce
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "SimkinCE_TreeNode"=.\SimkinCE_TreeNode.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "expat_1_95_5_ce"="..\..\..\expat-1.95.5\win32\expat_1_95_5_ce.vcp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

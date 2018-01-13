@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,18 +16,23 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skiExecutable.h,v 1.3 2001/11/22 11:13:21 sdw Exp $
+* $Id: skiExecutable.h,v 1.8 2002/12/16 16:11:46 sdw Exp $
 */
 
 #ifndef skiEXECUTABLE_H
 #define skiEXECUTABLE_H
 
 #include "skString.h"
+#include "skExecutableContext.h"
 
 class CLASSEXPORT skRValueArray;
 class CLASSEXPORT skRValue;
 class CLASSEXPORT skExecutableIterator;
+class CLASSEXPORT skInterpreter;
 
+#ifndef EXCEPTIONS_DEFINED
+#include "skScriptError.h"
+#endif
 
 /*
  * this constant is for undefined type primitive objects
@@ -112,9 +117,10 @@ class CLASSEXPORT skiExecutable
    * @param method_name - the name of the method to execute
    * @param arguments - an array of RValue objects, which are the arguments to the method
    * @param return_value - an object to receive the return value of the method
-   * @param return true if the method could be executed, or false if the method is not supported
+   * @param context context object to receive errors
+   * @return true if the method could be executed, or false if the method is not supported
    */
-  virtual bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value)=0;
+  virtual bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value,skExecutableContext& context)=0;
   /**
    * This method compares this object with another object. 
    */

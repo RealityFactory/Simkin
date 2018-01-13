@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
     This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
   This file provides Windows-specific event handling
 
 
-  $Id: Demo_Win32.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_Win32.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
 #ifdef WIN32
 #include <windows.h>

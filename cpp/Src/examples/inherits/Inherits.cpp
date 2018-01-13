@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -22,8 +22,8 @@
 #include "skParseException.h"
 #include "skRuntimeException.h"
 #include "skExecutable.h"
-#include <util/PlatformUtils.hpp>
-#include <sax/SAXException.hpp>
+#include <xercesc/util/PlatformUtils.hpp>
+#include <xercesc/sax/SAXException.hpp>
 #include "skTracer.h"
 
 /**
@@ -43,24 +43,23 @@ void main(int argc,char * argv[]){
     
     // Set up global interpreter
     skInterpreter interpreter;
-    skInterpreter::setInterpreter(&interpreter);
     for (int i=1;i<argc;i++){
       try{
-	// if the file is prefixed ".xml"  create an XML Executable
-	skString file_name=argv[i];
-	skTracer::trace(skString("Loading ")+file_name+"\n");
-	InheritsExecutable executable(file_name);
-	// and call the "main" method
-	skRValueArray args;
-	skRValue return_value;
-
-	executable.method("main",args,return_value);
+        // if the file is prefixed ".xml"  create an XML Executable
+        skString file_name=argv[i];
+        skTracer::trace(skString("Loading ")+file_name+"\n");
+        InheritsExecutable executable(file_name);
+        // and call the "main" method
+        skRValueArray args;
+        skRValue return_value;
+        skExecutableContext ctxt(&interpreter);
+        executable.method("main",args,return_value,ctxt);
       }catch(SAXException e){
-	cout << e.getMessage();
+        cout << e.getMessage();
       }catch(skParseException e){
-	cout << e.toString();
+        cout << e.toString();
       }catch(skRuntimeException e){
-	cout << e.toString();
+        cout << e.toString();
       }catch(...){
       }
     }

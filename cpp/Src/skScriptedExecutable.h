@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skScriptedExecutable.h,v 1.14 2001/11/22 11:13:21 sdw Exp $
+* $Id: skScriptedExecutable.h,v 1.17 2002/12/16 16:11:46 sdw Exp $
 */
 
 #ifndef skSCRIPTEDEXECUTABLE_H
@@ -33,8 +33,10 @@ class CLASSEXPORT skScriptedExecutable : public skTreeNodeObject
  public:
   /**
    * Constructor - takes the name of the file from which the treenode will be loaded
+   * @param fileName filename of file containing TreeNode script
+   * @param context context object to receive errors
    */
-  skScriptedExecutable(const skString& filename);
+  skScriptedExecutable(const skString& filename,skExecutableContext& ctxt);
   /**
    * Virtual destructor - so that derived class destructors will be called
    */

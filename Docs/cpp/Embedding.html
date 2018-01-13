@@ -24,8 +24,8 @@ is usually done at the beginning of your application:
 }</PRE>
 
 <P><BR>To expose fields and methods in your C++ classes you derive from
-the Simkin base classes <a href="api/class_skiExecutable.html">skiExecutable</a> or <a href="api/class_skExecutable.html">skExecutable</a>.
-<p><a href="api/class_skiExecutable.html">skiExecutable</a> is an abstract base class for maximum flexibility. <a href="api/class_skExecutable.html">skExecutable</a> provides a better starting point, as it implements all the abstract methods. 
+the Simkin base classes <a href="api/classskiExecutable.html">skiExecutable</a> or <a href="api/classskExecutable.html">skExecutable</a>.
+<p><a href="api/classskiExecutable.html">skiExecutable</a> is an abstract base class for maximum flexibility. <a href="api/classskExecutable.html">skExecutable</a> provides a better starting point, as it implements all the abstract methods. 
 <P>For example (click on the highlighted method to see its implementation):
 <PRE>class Person : public skExecutable
 {
@@ -42,7 +42,7 @@ private:
     skString m_Name;
     skString m_EmailAddress;
 };</PRE>
-You can also derive from <a href="api/class_skElementExecutable.html">skElementExecutable</a>, <a href="api/class_skXMLExecutable.html">skXMLExecutable</a> or <a href="api/class_skScriptedExecutable.html">skScriptedExecutable</a>. These classes load a Simkin
+You can also derive from <a href="api/classskElementExecutable.html">skElementExecutable</a>, <a href="api/classskXMLExecutable.html">skXMLExecutable</a> or <a href="api/classskScriptedExecutable.html">skScriptedExecutable</a>. These classes load a Simkin
 script from files.
 <P>Their versions of "getValue", "setValue" and "method" find their values
 and behaviour from the Simkin script file. You can override these to add

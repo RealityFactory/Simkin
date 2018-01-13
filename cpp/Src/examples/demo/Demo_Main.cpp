@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
 
@@ -21,7 +21,7 @@
 
   This function provides an entry point for the demo.
 
-  $Id: Demo_Main.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_Main.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
 
 //	these functions are implemented in Demo_xxx.cpp where xxx is the platform
@@ -35,16 +35,20 @@ extern int ProcessEventLoop();
 #include "skInterpreter.h"
 
 //-----------------------------------------------------------------
-int main(int argc,char * argv[])
+int 
+#ifdef _WIN32_WCE
+__cdecl
+#endif
+main(int argc,char * argv[])
   //-----------------------------------------------------------------
 {
   //	create an interpreter
   skInterpreter interp;
-  //	make it the "global" interpreter
-  skInterpreter::setInterpreter(&interp);
   InitializeEventLoop();
+  // creata an executable context
+  skExecutableContext context(&interp);
   //	create a controller
-  Controller controller("Demo.s");
+  Controller controller(skSTR("Demo.s"),context);
   if (controller.getNode()){
     //	go into event processing
     int r=ProcessEventLoop();

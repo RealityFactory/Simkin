@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2000
+  Copyright 1996-2002
   Simon Whiteside, All Rights Reserved
 
     This library is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@
 
   This file defines the interface for the class which controls the demo's view.
 
-  $Id: Demo_Controller.h,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: Demo_Controller.h,v 1.3 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
@@ -35,14 +35,15 @@ class Controller : public skScriptedExecutable, public ViewCallback
 //	buttons are pressed on the view
 {
  public:
-  Controller(skString fileName);
+  Controller(skString fileName,skExecutableContext& context);
   ~Controller();
   void	buttonPressed(int id);
-  bool	method(const skString& s,skRValueArray& args,skRValue& ret);
+  bool	method(const skString& s,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
  private:
   void	init();
   View *	m_View;
   skString m_FileName;
+  skExecutableContext& m_Context;
 };
 
 #endif

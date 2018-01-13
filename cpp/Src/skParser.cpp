@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.cpp,v 1.10 2002/02/06 23:21:54 sdw Exp $
+  $Id: skParser.cpp,v 1.12 2002/12/09 23:22:32 sdw Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
@@ -135,42 +135,42 @@ int skParser::lex(void * lvalp,void * llocp)
     if (c=='\n')
       m_LineNum++;
     // Whitespace----------------------------------------
-    if (isspace(c)){
+    if (ISSPACE(c)){
       continue;
     }
     // NEQ -------------------------------------------
     if (c=='!'){
       int c1=nextChar();
       if (c1=='='){
-	c=L_NEQ;
-	break;
+        c=L_NEQ;
+        break;
       }else
-	putbackchar(c1);
+        putbackchar(c1);
     }
     // Identifier/Keyword--------------------------------
-    if (isalpha(c) || c=='_' || c=='@'){
+    if (ISALPHA(c) || c=='_' || c=='@'){
       do{
-	if (yypos<MAXYYTEXT-2)
-	  m_LexBuffer[yypos++]=c;
-	else
-	  break;
-	c=nextChar();
-      }while (!eof() && ( isalnum(c) || c=='_' ));
+        if (yypos<MAXYYTEXT-2)
+          m_LexBuffer[yypos++]=c;
+        else
+          break;
+        c=nextChar();
+      }while (!eof() && ( ISALNUM(c) || c=='_' ));
       if (!eof())
-	putbackchar(c);
+        putbackchar(c);
       m_LexBuffer[yypos]=0;
       int x=0;
       for (x=0;x<NUMKEYS;x++)
-	if ((*keywords[x].m_Text)==m_LexBuffer){
-	  c=keywords[x].m_Token;
-	  yylval->string=keywords[x].m_Text;
-	  DBN("keyword",*yylval->string);
-	  break;
-	}
+        if ((*keywords[x].m_Text)==m_LexBuffer){
+          c=keywords[x].m_Token;
+          yylval->string=keywords[x].m_Text;
+          DBN("keyword",*yylval->string);
+          break;
+      }
       if (x==NUMKEYS){
-	c=L_ID;
-	yylval->string=new skString(m_LexBuffer);
-	DBN("id",*yylval->string);
+        c=L_ID;
+        yylval->string=new skString(m_LexBuffer);
+        DBN("id",*yylval->string);
       }
       break;
     }
@@ -178,73 +178,73 @@ int skParser::lex(void * lvalp,void * llocp)
     if (c=='\''){
       c=nextChar();
       if (c=='\''){
-	// this copes with '' - a blank string
-	m_LexBuffer[yypos]=0;
-	c=L_STRING;
-	yylval->string=new skString(m_LexBuffer);
-	DBN("string",*yylval->string);
-	break;
+        // this copes with '' - a blank string
+        m_LexBuffer[yypos]=0;
+        c=L_STRING;
+        yylval->string=new skString(m_LexBuffer);
+        DBN("string",*yylval->string);
+        break;
       }
       if (c=='\\'){
-	c=nextChar();
-	if (c=='n')
-	  c='\n';
-	else
-	  if (c=='t')
-	    c='\t';
+        c=nextChar();
+        if (c=='n')
+          c='\n';
+        else
+      if (c=='t')
+        c='\t';
       }
       int next_c=nextChar();
       if (next_c=='\''){
-	// this copes with 'c' where c is a single character
-	yylval->character=c;
-	c=L_CHARACTER;
-	DBC("character",yylval->character);
+        // this copes with 'c' where c is a single character
+        yylval->character=c;
+        c=L_CHARACTER;
+        DBC("character",yylval->character);
       }else{
-	// for backwards compatibility cope with 'xxx' as a string
-	m_LexBuffer[yypos++]=c;
-	putbackchar(next_c);
-	while (!eof()){
-	  c=nextChar();
-	  if (c=='\\'){
-	    c=nextChar();
-	    if (c=='n')
-	      c='\n';
-	    else
-	      if (c=='t')
-		c='\t';
-	  }else
-	    if (c=='\'')
-	      break;
-	  if (yypos<MAXYYTEXT-2)
-	    m_LexBuffer[yypos++]=c;
-	  else
-	    break;
-	}
-	m_LexBuffer[yypos]=0;
-	c=L_STRING;
-	yylval->string=new skString(m_LexBuffer);
-	DBN("string",*yylval->string);
+        // for backwards compatibility cope with 'xxx' as a string
+        m_LexBuffer[yypos++]=c;
+        putbackchar(next_c);
+        while (!eof()){
+	        c=nextChar();
+	        if (c=='\\'){
+	          c=nextChar();
+	          if (c=='n')
+	            c='\n';
+	          else
+	            if (c=='t')
+	        c='\t';
+	        }else
+	          if (c=='\'')
+	            break;
+	        if (yypos<MAXYYTEXT-2)
+	          m_LexBuffer[yypos++]=c;
+	        else
+	          break;
+        }
+        m_LexBuffer[yypos]=0;
+        c=L_STRING;
+        yylval->string=new skString(m_LexBuffer);
+        DBN("string",*yylval->string);
       }
       break;
     }
     // string--------------------------------------------
     if (c=='"'){
       while(!eof()){
-	c=nextChar();
-	if (c=='\\'){
-	  c=nextChar();
-	  if (c=='n')
-	    c='\n';
-	  else
-	    if (c=='t')
-	      c='\t';
-	}else
-	  if (c=='"')
-	    break;
-	if (yypos<MAXYYTEXT-2)
-	  m_LexBuffer[yypos++]=c;
-	else
-	  break;
+        c=nextChar();
+        if (c=='\\'){
+	        c=nextChar();
+	        if (c=='n')
+	          c='\n';
+	        else
+	          if (c=='t')
+	            c='\t';
+        }else
+	        if (c=='"')
+	          break;
+        if (yypos<MAXYYTEXT-2)
+	        m_LexBuffer[yypos++]=c;
+        else
+	        break;
       }
       m_LexBuffer[yypos]=0;
       c=L_STRING;
@@ -253,69 +253,69 @@ int skParser::lex(void * lvalp,void * llocp)
       break;    
     }
     // Integer or float----------------------------------
-    if (isdigit(c)){
+    if (ISDIGIT(c)){
       enum {
-	NUM_INTEGER,
-	NUM_ZERO,
-	NUM_HEX,
-	NUM_FRACTION,
-	NUM_EXPONENT_SIGN,
-	NUM_EXPONENT,
-	NUM_END
+        NUM_INTEGER,
+        NUM_ZERO,
+        NUM_HEX,
+        NUM_FRACTION,
+        NUM_EXPONENT_SIGN,
+        NUM_EXPONENT,
+        NUM_END
       } state;
       bool floating=false;
 	  
       state = NUM_INTEGER;
       while (state != NUM_END) {
-	switch (state) {
-	case NUM_INTEGER:
-	  if (isdigit(c)) 
-	    m_LexBuffer[yypos++]=c;
-	  else if (c == '.') {
-	    m_LexBuffer[yypos++]=c;
-	    state = NUM_FRACTION;
-	    floating=true;
-	  } else if (c == 'e' || c == 'E') {
-	    floating=true;
-	    m_LexBuffer[yypos++]=c;
-	    state = NUM_EXPONENT_SIGN;
-	  } else
-	    state = NUM_END;
-	  break;
-	case NUM_FRACTION:
-	  if (isdigit(c)) 
-	    m_LexBuffer[yypos++]=c;
-	  else if (c == 'e' || c == 'E') {
-	    m_LexBuffer[yypos++]=c;
-	    state = NUM_EXPONENT_SIGN;
-	  } else
-	    state = NUM_END;
-	  break;
-	case NUM_EXPONENT_SIGN:
-	  if (c == '+' || c == '-' || isdigit(c)) {
-	    m_LexBuffer[yypos++]=c;
-	    state = NUM_EXPONENT;
-	  }else
-	    state = NUM_END;
-	  break;
-	case NUM_EXPONENT:
-	  if (isdigit(c)) 
-	    m_LexBuffer[yypos++]=c;
-	  else
-	    state = NUM_END;
-	  break;
-	}
-	if (state != NUM_END)
-	  c = nextChar();
+        switch (state) {
+        case NUM_INTEGER:
+	        if (ISDIGIT(c)) 
+	          m_LexBuffer[yypos++]=c;
+	        else if (c == '.') {
+	          m_LexBuffer[yypos++]=c;
+	          state = NUM_FRACTION;
+	          floating=true;
+	        } else if (c == 'e' || c == 'E') {
+	          floating=true;
+	          m_LexBuffer[yypos++]=c;
+	          state = NUM_EXPONENT_SIGN;
+	        } else
+	          state = NUM_END;
+	        break;
+        case NUM_FRACTION:
+	        if (ISDIGIT(c)) 
+	          m_LexBuffer[yypos++]=c;
+	        else if (c == 'e' || c == 'E') {
+	          m_LexBuffer[yypos++]=c;
+	          state = NUM_EXPONENT_SIGN;
+	        } else
+	          state = NUM_END;
+	        break;
+        case NUM_EXPONENT_SIGN:
+	        if (c == '+' || c == '-' || ISDIGIT(c)) {
+	          m_LexBuffer[yypos++]=c;
+	          state = NUM_EXPONENT;
+	        }else
+	          state = NUM_END;
+	        break;
+        case NUM_EXPONENT:
+	        if (ISDIGIT(c)) 
+	          m_LexBuffer[yypos++]=c;
+	        else
+	          state = NUM_END;
+	        break;
+        }
+        if (state != NUM_END)
+          c = nextChar();
       }
       putbackchar(c);
       m_LexBuffer[yypos++]=0;
       if (floating){
-	yylval->floating=(float)(ATOF(m_LexBuffer));
-	c=L_FLOAT;
+        yylval->floating=(float)(ATOF(m_LexBuffer));
+        c=L_FLOAT;
       }else{
-	yylval->integer=ATOI(m_LexBuffer);
-	c=L_INTEGER;
+        yylval->integer=ATOI(m_LexBuffer);
+        c=L_INTEGER;
       }
       DBI("integer",(yylval->integer));
       break;    
@@ -324,27 +324,27 @@ int skParser::lex(void * lvalp,void * llocp)
     if (c=='/'){
       int c1=nextChar();
       if (c1=='*'){
-	do{
-	  c1=nextChar();
-	  if (c1=='*'){
-	    c1=nextChar();
-	    if (c1=='/')
-	      break;
-	  }
-	}while (!eof());
-	continue;
+      do{
+	      c1=nextChar();
+	      if (c1=='*'){
+	        c1=nextChar();
+	        if (c1=='/')
+	          break;
+	      }
+      }while (!eof());
+      continue;
+    }else
+      if (c1=='/'){
+	      do{
+	        c1=nextChar();
+	        if (c1=='\n'){
+	          m_LineNum++;
+	          break;
+	        }
+	      }while (!eof());
+	      continue;
       }else
-	if (c1=='/'){
-	  do{
-	    c1=nextChar();
-	    if (c1=='\n'){
-	      m_LineNum++;
-	      break;
-	    }
-	  }while (!eof());
-	  continue;
-	}else
-	  putbackchar(c1);
+        putbackchar(c1);
       break;
     }
     // Default case
@@ -416,7 +416,7 @@ int yylex(YYSTYPE * lvalp, void * yylloc,void* context)
   return ((skParser *)context)->lex((void *)lvalp,(void *)yylloc);
 }
 //------------------------------------------
-void real_yyerror(char *  msg, void* context)
+void real_yyerror(Char *  msg, void* context)
   //------------------------------------------
 { 
   // this global function is called by the generated yyparse() function if there is an error

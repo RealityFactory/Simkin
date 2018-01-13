@@ -1,7 +1,7 @@
 /*
-Copyright 1996-2001 Simon Whiteside
+Copyright 1996-2002 Simon Whiteside
 
-* $Id: skRValueArray.h,v 1.8 2001/11/22 11:13:21 sdw Exp $
+* $Id: skRValueArray.h,v 1.9 2002/12/13 17:21:54 sdw Exp $
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public

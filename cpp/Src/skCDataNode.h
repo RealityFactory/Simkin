@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skCDataNode.h,v 1.2 2001/11/22 11:13:21 sdw Exp $
+* $Id: skCDataNode.h,v 1.4 2002/12/13 17:21:54 sdw Exp $
 */
 #ifndef skCDATANODE_H
 #define skCDATANODE_H
@@ -44,10 +44,12 @@ class CLASSEXPORT skCDataNode : public skTextNode
    * @return a new CData node that's a copy of this one
    */
   virtual skNode * clone();
+#ifdef STREAMS_ENABLED
   /**
    * writes the CData text in this node to the given stream
    * @param out - the stream to write to
    */
   virtual void write(ostream& out) const;
+#endif
 };
 #endif

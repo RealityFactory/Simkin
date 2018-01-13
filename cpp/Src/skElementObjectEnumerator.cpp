@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObjectEnumerator.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: skElementObjectEnumerator.cpp,v 1.5 2002/12/13 17:21:54 sdw Exp $
 */
 
 #include "skElementObjectEnumerator.h"
@@ -41,20 +41,20 @@ skElementObjectEnumerator::skElementObjectEnumerator(skElement * element,bool ad
   findNextNode();
 }
 //------------------------------------------
-bool skElementObjectEnumerator::method(const skString& s,skRValueArray& args,skRValue& r)
+bool skElementObjectEnumerator::method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& context)
   //------------------------------------------
 {
   bool bRet=false;
-  if (s=="next"){
+  if (s==skSTR("next")){
     if (next(r)==false)
       r=skRValue(&skInterpreter::g_Null);
     bRet=true;
-  }else if (s=="reset"){
+  }else if (s==skSTR("reset")){
     m_NodeNum=0;
     findNextNode();
     bRet=true;
   }else
-    bRet=skExecutable::method(s,args,r);
+    bRet=skExecutable::method(s,args,r,context);
   return bRet;
 }
 /**

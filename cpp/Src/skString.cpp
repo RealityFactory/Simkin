@@ -16,13 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.16 2002/01/18 16:56:50 sdw Exp $
+  $Id: skString.cpp,v 1.19 2002/12/13 17:21:54 sdw Exp $
 */
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "skString.h"
+#include "skStringBuffer.h"
 
 #ifdef UNICODE_STRINGS
 const Char * blank=L"";                    
@@ -127,6 +127,16 @@ skString& skString::operator+=(const skString& s)
   return *this;
 }
 //---------------------------------------------------
+skString operator+(const Char * s1,const skString& s2)
+//---------------------------------------------------
+{
+  USize len=STRLEN(s1)+s2.length()+1;
+  Char * buffer=new Char[len];
+  STRCPY(buffer,s1);
+  STRCAT(buffer,(const Char *)s2);
+  return skString::fromBuffer(buffer);
+}
+//---------------------------------------------------
 skString skString::operator+(const skString& s)  const
   //---------------------------------------------------
 {
@@ -227,13 +237,22 @@ skString skString::from(USize i)
 int skString::to(void) const
   //---------------------------------------------------
 {
-  return atoi((const char *)pimp->m_PString);
+#ifdef UNICODE_STRINGS
+  return _wtoi(pimp->m_PString);
+#else
+  return atoi(pimp->m_PString);
+#endif
 }
 //---------------------------------------------------
 float skString::toFloat(void) const
   //---------------------------------------------------
 {
-  return (float)atof((const char *)pimp->m_PString);
+#ifdef UNICODE_STRINGS
+  Char * end_point=pimp->m_PString+pimp->m_Length;
+  return (float)wcstod(pimp->m_PString,&end_point);
+#else
+  return (float)atof(pimp->m_PString);
+#endif
 }
 //---------------------------------------------------
 skString::skString(const Char * s, USize len)
@@ -268,40 +287,46 @@ skString skString::literal(const Char * s)
 skString skString::ltrim() const
   //---------------------------------------------------
 {
-  char * p=pimp->m_PString;
+  Char * p=pimp->m_PString;
   while (*p && ISSPACE(*p))
     p++;
   return skString(p);
 }
 //---------------------------------------------------
 void skString::assign(const Char * s,int len)
-  //---------------------------------------------------
+//---------------------------------------------------
 {
   if (s){
     if (len){
       pimp=new P_String;
       pimp->m_PString=new Char[len+1];
       pimp->m_Const=false;
-      memcpy(pimp->m_PString,s,len);
+      memcpy(pimp->m_PString,s,sizeof(Char)*len);
       pimp->m_PString[len]=0;
       pimp->init();
     }else{
       int s_len=STRLEN(s);
       if (s_len){
-	pimp=new P_String;
-	pimp->m_PString=new Char[s_len+1];
-	pimp->m_Const=false;
-	STRCPY((Char *)pimp->m_PString,s);
-	pimp->init();
+        pimp=new P_String;
+        pimp->m_PString=new Char[s_len+1];
+        pimp->m_Const=false;
+        STRCPY((Char *)pimp->m_PString,s);
+        pimp->init();
       }else{
-	pimp=blank_string;	
-	pimp->m_RefCount++;
+        pimp=blank_string;	
+        pimp->m_RefCount++;
       }
     }
   }else{
     pimp=blank_string;	
     pimp->m_RefCount++;
   }
+}
+//-----------------------------------------------------------------
+bool skString::equalsIgnoreCase(const skString& s) const
+//-----------------------------------------------------------------
+{
+  return (STRCMPI(pimp->m_PString,s.pimp->m_PString)==0);
 }
 #ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------
@@ -312,4 +337,44 @@ ostream& operator<<(ostream& out,const skString& s)
   return out;
 }
 #endif
-
+//-----------------------------------------------------------------
+skString skString::readFromFile(const skString& fileName)
+//-----------------------------------------------------------------
+{
+  skString s;
+#ifdef UNICODE_STRINGS
+  FILE * in=_wfopen(fileName,skSTR("rb"));
+#else
+  FILE * in=fopen(fileName,skSTR("r"));
+#endif
+  if (in){
+	  skStringBuffer buffer(2048);
+	  Char achbuffer[1024];
+	  while(!feof(in)){
+		  memset(achbuffer,0,sizeof(achbuffer));
+#ifdef UNICODE_STRINGS
+		  fgetws(achbuffer,sizeof(achbuffer),in);
+#else
+		  fgets(achbuffer,sizeof(achbuffer),in);
+#endif
+		  buffer.append(achbuffer);
+	  }
+	  fclose(in);
+	  s=buffer.toString();
+  }
+  return s;
+}
+//-----------------------------------------------------------------
+void skString::writeToFile(const skString& fileName)
+//-----------------------------------------------------------------
+{
+#ifdef UNICODE_STRINGS
+  FILE * out=_wfopen(fileName,skSTR("wb+"));
+#else
+  FILE * out=fopen(fileName,skSTR("w+"));
+#endif
+  if (out){
+    fwrite(pimp->m_PString,sizeof(Char)*pimp->m_Length,0,out);
+	  fclose(out);
+  }
+}

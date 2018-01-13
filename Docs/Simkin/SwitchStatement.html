@@ -14,6 +14,18 @@ This statement allows you to branch to different blocks of code depending on the
 The statement has 3 main sections: an expression is given within a "switch" keyword. Then a series of "case" statements follow, each of which specifies a test expression followed by some statements to execute if the switch and case expression match.
 <p>
 Finally you can specify a "default" set of statements to execute.
+<p>
+The format is:
+<pre>
+switch (&lt;test-expression&gt;) {
+  case &lt;compare-expression&gt; {
+    &lt;statements...&gt;
+  }
+  default {
+    &lt;statements...&gt;
+  }
+}
+</pre>
 <p>For example:
 <pre>
 i=0;
@@ -32,5 +44,7 @@ will match the first case, and
 i=i+1;
 </pre>
 will be executed.
+<p>
+Note: you have to use the braces "{" and "}" to surround the statements after each <b>case</b> clause, and after the <b>default</b> clause.
 </BODY>
 </HTML>

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObjectEnumerator.h,v 1.7 2001/11/22 11:13:21 sdw Exp $
+  $Id: skTreeNodeObjectEnumerator.h,v 1.11 2002/12/16 16:11:46 sdw Exp $
 */
 #ifndef TREENODEOBJECTENUMERATOR_H
 #define TREENODEOBJECTENUMERATOR_H
@@ -43,9 +43,14 @@ class CLASSEXPORT skTreeNodeObjectEnumerator : public skExecutable, public skExe
   skTreeNodeObjectEnumerator(skTreeNode * element,const skString& location,const skString& tag);
   /**
    * This method exposes the following methods to Simkin scripts:
-   * returns the next object in the enumeration - or null if there are no more
-     */
-  bool method(const skString& s,skRValueArray& args,skRValue& r);
+   * "next" - returns the next object in the enumeration - or null if there are no more
+   * "reset" - resets the enumeration to the start
+   * @param s method name
+   * @param args arguments to the function
+   * @param r return value
+   * @param context context object to receive errors
+   */
+  bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
   /**
    * This method implements the method in skExecutableIterator
    */

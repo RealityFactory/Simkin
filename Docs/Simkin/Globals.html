@@ -28,5 +28,25 @@ switches tracing on, while this:
 Interpreter.tracing=false;
 </pre>
 switches tracing off.
+<h2>Defining Globals</h2>
+Each instance of the Simkin interpreter has its own set of global variables.
+<p>
+To add an object to the list of global variables, you should use the <b>addGlobalVariable</b> function provided in the Interpreter.
+<p>
+You can also remove an object from the list using the <b>removeGlobalVariable</b> function.
+<p>In both cases you need to make a call to the Interpreter in the underlying C++ or Java code.
+<p>For example in C++:
+<pre>
+MyGlobal * object=new MyGlobalObject();
+skInterpeter interp;
+interp.addGlobalVariable("MyGlobal",object);
+</pre>
+or in Java:
+<pre>
+MyGlobal object=new MyGlobalObject();
+Interpeter interp=new Interpreter;
+interp.addGlobalVariable("MyGlobal",object);
+</pre>
+
 </BODY>
 </HTML>
