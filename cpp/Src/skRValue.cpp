@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skRValue.cpp,v 1.22 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skRValue.cpp,v 1.23 2004/05/13 14:41:26 sdw Exp $
 */
 #ifdef STREAMS_ENABLED
 #include <ostream.h>
@@ -190,7 +190,7 @@ EXPORT_C int skRValue::intValue() const
     r=(int)(m_Value.m_Bool);
     break;
   case T_Char:
-    r=(int)(m_Value.m_Int);
+    r=(int)(m_Value.m_Char);
     break;
 #ifdef USE_FLOATING_POINT
   case T_Float:
@@ -214,7 +214,7 @@ EXPORT_C float skRValue::floatValue() const
     r=(float)(m_Value.m_Bool);
     break;
   case T_Char:
-    r=(float)(m_Value.m_Int);
+    r=(float)(m_Value.m_Char);
     break;
   case T_String:
     r=m_String.toFloat();

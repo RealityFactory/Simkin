@@ -1,20 +1,21 @@
 The following have contributed to Simkin with bug fixes and suggestions:
 
-Gabriel Bouvigne <gbouvigne@netquartz.com>
-Pratip Mukherjee pratip.mukherjee@fmr.com
-Rich Goldstein, MD <rich@wima-nj.com>
-Philip Stephens <philip@flatland.com>
-Kelly Brock <KBrock@maxis.com>
-D. Stimits <stimits@idcomm.com>
-Pavel Savara <pavel.savara@naxos.cz>
-James Larcombe <jlarcombe@sibelius.com>
-Dave Zarlengo <dave@u4ik.org>
-Enzo Petrelli <petrelli@tiscalinet.it>
-Nikolai Smolyansky <nsmoly@netquartz.com>
-Marlin Burt <BurtM@bvsg.com>
-Eric Leaf <ericleaf@pacbell.net>
-Iain Alexander <ia@stryx.demon.co.uk>
+Gabriel Bouvigne from netquartz.com
+Pratip Mukherjee from fmr.com
+Rich Goldstein, MD from wima-nj.com
+Philip Stephens from flatland.com
+Kelly Brock from maxis.com
+D. Stimits from idcomm.com
+Pavel Savara from naxos.cz
+James Larcombe from sibelius.com
+Dave Zarlengo from u4ik.org
+Enzo Petrelli from tiscalinet.it
+Nikolai Smolyansky from netquartz.com
+Marlin Burt from bvsg.com
+Eric Leaf from pacbell.net
+Iain Alexander from stryx.demon.co.uk
+Henry Kropf from simisen.com
 
 Many thanks for the following funding support:
 
-HP Labs - for the Windows CE port (Richard Hull <rh@hplb.hpl.hp.com>)
+HP Labs - for the Windows CE port and VS.NET version (Richard Hull from HP)

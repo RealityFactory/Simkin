@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNode.cpp,v 1.43 2003/11/20 16:24:22 sdw Exp $
+  $Id: skTreeNode.cpp,v 1.44 2004/01/28 13:00:17 sdw Exp $
 */
 
 #include <string.h>
@@ -829,6 +829,7 @@ skTreeNodeReader::Lexeme skTreeNodeReader::lex()
         loop=false;
         break;
       case '[':{
+        bool quoted=false;
         int textloop=true;
         int num_braces=1;
         m_LastLexeme=L_TEXT;
@@ -841,8 +842,13 @@ skTreeNodeReader::Lexeme skTreeNodeReader::lex()
             textloop=false;
             break;
           case '\\':
-            // let any character through
-            c=m_In->get();
+            if (!quoted)
+            // let any character through - except if within a quote
+              c=m_In->get();
+            addToLexText(c);
+            break;
+          case '"':
+            quoted^=true;
             addToLexText(c);
             break;
           case '[':

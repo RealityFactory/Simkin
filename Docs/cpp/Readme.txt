@@ -1,5 +1,11 @@
 Simkin for C++
-(c)1996-2003 Simon Whiteside
+(c)1996-2004 Simon Whiteside
+
+Simkin version 2.22
+Date: 18/11/2004
+-------------------
+* fix to bug in TreeNode lexer "\\" would be interpreted as "\" by the parser. (thanks to Henry Kropf!)
+* fix to char-to-float and char-to-int conversions in skRValue.cpp (thanks to James Larcombe!)
 
 Simkin version 2.21
 Date: 20/11/2003

@@ -16,11 +16,18 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.40 2003/05/15 19:20:06 simkin_cvs Exp $
+  $Id: skString.cpp,v 1.41 2004/07/11 20:05:21 sdw Exp $
 */
 
 #include <stdio.h>
 #include "skStringBuffer.h"
+#include "skException.h"
+
+//---------------------------------------------------
+skException::~skException()
+//---------------------------------------------------
+{
+}
 
 //---------------------------------------------------
 void P_String::init()

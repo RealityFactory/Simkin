@@ -1,0 +1,83 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Simkin_TreeNode", "Simkin_TreeNode\Simkin_TreeNode.vcproj", "{90A8C0AA-735A-48F9-8E59-BFDFACB443BD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Simkin_Expat", "Simkin_Expat\Simkin_Expat.vcproj", "{639A4F41-8233-4ABF-B9CB-B95D4B502DD4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptLoader_TreeNode", "ScriptLoader_TreeNode\ScriptLoader_TreeNode.vcproj", "{F0EA68D2-33CB-430D-BEA5-438BAC7B3F6A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{90A8C0AA-735A-48F9-8E59-BFDFACB443BD} = {90A8C0AA-735A-48F9-8E59-BFDFACB443BD}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptLoader_Expat", "ScriptLoader_Expat\ScriptLoader_Expat.vcproj", "{2D94AEB1-1BA2-4870-BC33-E80C34D5D092}"
+	ProjectSection(ProjectDependencies) = postProject
+		{36388423-B1D2-4817-BF87-B3DA55F06BE4} = {36388423-B1D2-4817-BF87-B3DA55F06BE4}
+		{639A4F41-8233-4ABF-B9CB-B95D4B502DD4} = {639A4F41-8233-4ABF-B9CB-B95D4B502DD4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "expat_1_95_5", "expat_1_95_5\expat_1_95_5.vcproj", "{36388423-B1D2-4817-BF87-B3DA55F06BE4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo_TreeNode", "Demo_TreeNode\Demo_TreeNode.vcproj", "{2C906937-F0A1-41CA-BE80-002540A84FE0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{90A8C0AA-735A-48F9-8E59-BFDFACB443BD} = {90A8C0AA-735A-48F9-8E59-BFDFACB443BD}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo_Expat", "Demo_Expat\Demo_Expat.vcproj", "{1665092C-888D-4FB2-896F-49990590ABEF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{36388423-B1D2-4817-BF87-B3DA55F06BE4} = {36388423-B1D2-4817-BF87-B3DA55F06BE4}
+		{639A4F41-8233-4ABF-B9CB-B95D4B502DD4} = {639A4F41-8233-4ABF-B9CB-B95D4B502DD4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Simkin_TreeNode_DLL", "Simkin_TreeNode_DLL\Simkin_TreeNode_DLL.vcproj", "{991D664A-221B-4CEF-9DDB-2390B93D8297}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{90A8C0AA-735A-48F9-8E59-BFDFACB443BD}.Debug.ActiveCfg = Debug|Win32
+		{90A8C0AA-735A-48F9-8E59-BFDFACB443BD}.Debug.Build.0 = Debug|Win32
+		{90A8C0AA-735A-48F9-8E59-BFDFACB443BD}.Release.ActiveCfg = Release|Win32
+		{90A8C0AA-735A-48F9-8E59-BFDFACB443BD}.Release.Build.0 = Release|Win32
+		{639A4F41-8233-4ABF-B9CB-B95D4B502DD4}.Debug.ActiveCfg = Debug|Win32
+		{639A4F41-8233-4ABF-B9CB-B95D4B502DD4}.Debug.Build.0 = Debug|Win32
+		{639A4F41-8233-4ABF-B9CB-B95D4B502DD4}.Release.ActiveCfg = Release|Win32
+		{639A4F41-8233-4ABF-B9CB-B95D4B502DD4}.Release.Build.0 = Release|Win32
+		{F0EA68D2-33CB-430D-BEA5-438BAC7B3F6A}.Debug.ActiveCfg = Debug|Win32
+		{F0EA68D2-33CB-430D-BEA5-438BAC7B3F6A}.Debug.Build.0 = Debug|Win32
+		{F0EA68D2-33CB-430D-BEA5-438BAC7B3F6A}.Release.ActiveCfg = Release|Win32
+		{F0EA68D2-33CB-430D-BEA5-438BAC7B3F6A}.Release.Build.0 = Release|Win32
+		{2D94AEB1-1BA2-4870-BC33-E80C34D5D092}.Debug.ActiveCfg = Debug|Win32
+		{2D94AEB1-1BA2-4870-BC33-E80C34D5D092}.Debug.Build.0 = Debug|Win32
+		{2D94AEB1-1BA2-4870-BC33-E80C34D5D092}.Release.ActiveCfg = Release|Win32
+		{2D94AEB1-1BA2-4870-BC33-E80C34D5D092}.Release.Build.0 = Release|Win32
+		{36388423-B1D2-4817-BF87-B3DA55F06BE4}.Debug.ActiveCfg = Debug|Win32
+		{36388423-B1D2-4817-BF87-B3DA55F06BE4}.Debug.Build.0 = Debug|Win32
+		{36388423-B1D2-4817-BF87-B3DA55F06BE4}.Release.ActiveCfg = Release|Win32
+		{36388423-B1D2-4817-BF87-B3DA55F06BE4}.Release.Build.0 = Release|Win32
+		{2C906937-F0A1-41CA-BE80-002540A84FE0}.Debug.ActiveCfg = Debug|Win32
+		{2C906937-F0A1-41CA-BE80-002540A84FE0}.Debug.Build.0 = Debug|Win32
+		{2C906937-F0A1-41CA-BE80-002540A84FE0}.Release.ActiveCfg = Release|Win32
+		{2C906937-F0A1-41CA-BE80-002540A84FE0}.Release.Build.0 = Release|Win32
+		{1665092C-888D-4FB2-896F-49990590ABEF}.Debug.ActiveCfg = Debug|Win32
+		{1665092C-888D-4FB2-896F-49990590ABEF}.Debug.Build.0 = Debug|Win32
+		{1665092C-888D-4FB2-896F-49990590ABEF}.Release.ActiveCfg = Release|Win32
+		{1665092C-888D-4FB2-896F-49990590ABEF}.Release.Build.0 = Release|Win32
+		{991D664A-221B-4CEF-9DDB-2390B93D8297}.Debug.ActiveCfg = Debug|Win32
+		{991D664A-221B-4CEF-9DDB-2390B93D8297}.Debug.Build.0 = Debug|Win32
+		{991D664A-221B-4CEF-9DDB-2390B93D8297}.Release.ActiveCfg = Release|Win32
+		{991D664A-221B-4CEF-9DDB-2390B93D8297}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

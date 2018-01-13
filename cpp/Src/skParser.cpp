@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.cpp,v 1.29 2003/05/27 17:34:22 simkin_cvs Exp $
+  $Id: skParser.cpp,v 1.30 2004/05/12 16:46:09 sdw Exp $
 */
 #include "skParser.h"
 #include "skParseNode.h"
@@ -518,7 +518,7 @@ skCompiledExprNode * skParser::parseExpression()
   else
     cleanupTempNodes();
   return node;
-}
+} 
 
 //---------------------------------------------------
 void skParser::removeTempString(skString* str)
