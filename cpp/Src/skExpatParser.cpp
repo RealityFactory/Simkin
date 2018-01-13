@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.cpp,v 1.15 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skExpatParser.cpp,v 1.18 2003/05/15 19:20:06 simkin_cvs Exp $
 */
 #include "skExpatParser.h"
 #include "skXMLParseException.h"
@@ -36,7 +36,7 @@ EXPORT_C skExpatParser::~skExpatParser()
   delete m_RootElement;
 }
 //-----------------------------------------------------------------
-EXPORT_C skExpatParser::skExpatParser(const skExpatParser&)
+skExpatParser::skExpatParser(const skExpatParser&)
 //-----------------------------------------------------------------
 {
 }
@@ -142,10 +142,20 @@ void skExpatParser::endCData ()
 EXPORT_C skElement * skExpatParser::parse(skInputSource& in,skExecutableContext& context)
 //-----------------------------------------------------------------
 {
+  return parse(in,context,skString());
+}
+//-----------------------------------------------------------------
+EXPORT_C skElement * skExpatParser::parse(skInputSource& in,skExecutableContext& context,skString encoding)
+//-----------------------------------------------------------------
+{
   m_InCData=false;
   m_RootElement=0;
   skElement * elem=0;
-  XML_Parser parser = XML_ParserCreate(NULL);
+  XML_Parser parser = 0;
+  if (encoding.length()==0)
+    parser=XML_ParserCreate(NULL);
+  else
+    parser=XML_ParserCreate(encoding);
   XML_SetUserData(parser,this);
   XML_SetElementHandler(parser, startElementHandler, endElementHandler);
   XML_SetCharacterDataHandler(parser, characterDataHandler);
@@ -154,13 +164,15 @@ EXPORT_C skElement * skExpatParser::parse(skInputSource& in,skExecutableContext&
   unsigned int buf_len=in_string.length()*sizeof(Char);
   if (!XML_Parse(parser, (const char *)in_string.c_str(), buf_len, true)) {
 #ifdef EXCEPTIONS_DEFINED
-    m_ElementStack.clearAndDestroy();
+    delete m_RootElement;
+    m_ElementStack.clear();
     m_RootElement=0;
     skXMLParseException e(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser));
     XML_ParserFree(parser);
-    throw (e,skXMLParseException_Code);
+    throw e;
 #else
-    m_ElementStack.clearAndDestroy();
+    delete m_RootElement;
+    m_ElementStack.clear();
     m_RootElement=0;
     skString error;
     SAVE_VARIABLE(error);

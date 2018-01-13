@@ -51,7 +51,7 @@ items =
    {
    type = EEikCtEdwin;
    id = ECodeId;
-   control = EDWIN { width=25; lines=20; };
+   control = EDWIN { width=25; lines=20; flags=EEikEdwinInclusiveSizeFixed|EEikEdwinNoAutoSelection|EEikEdwinJustAutoCurEnd;};
    }
  };
 }

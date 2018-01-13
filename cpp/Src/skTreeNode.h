@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
- * $Id: skTreeNode.h,v 1.40 2003/04/14 15:24:57 simkin_cvs Exp $
+ * $Id: skTreeNode.h,v 1.41 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 
 
@@ -342,7 +342,7 @@ class  CLASSEXPORT skTreeNodeListIterator
   /**
    * Default constructor
    */
-  virtual ~skTreeNodeListIterator();
+  IMPORT_C virtual ~skTreeNodeListIterator();
   /**
    * returns the next child of the treenode
    */
@@ -516,7 +516,7 @@ class  CLASSEXPORT skTreeNodeList :  public skTAList<skTreeNode>
   skTreeNodeList(const skTreeNodeList& list);
 #endif
   /** Destroys list and its children */
-  virtual ~skTreeNodeList();
+  IMPORT_C virtual ~skTreeNodeList();
   /** Searches for a child item with the given label
    * @param label - the label of the child to look for
    * @return the first matching child - or 0 if not found

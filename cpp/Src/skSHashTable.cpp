@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skSHashTable.cpp,v 1.3 2003/04/11 18:05:39 simkin_cvs Exp $
+  $Id: skSHashTable.cpp,v 1.5 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 #include "skSHashTable.h"
 

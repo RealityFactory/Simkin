@@ -16,14 +16,14 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skAlist.cpp,v 1.22 2003/04/11 18:05:39 simkin_cvs Exp $
+  $Id: skAlist.cpp,v 1.24 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 #include "skAlist.h"
 
 
 
 //-----------------------------------------------------------------
-void skAList::clearAndDestroy()
+EXPORT_C void skAList::clearAndDestroy()
 //-----------------------------------------------------------------
 {
   for (USize x=0;x<m_Entries;x++){
@@ -33,7 +33,7 @@ void skAList::clearAndDestroy()
   m_Entries=0;
 }
 //-----------------------------------------------------------------
-void skAList::clear()
+EXPORT_C void skAList::clear()
 //-----------------------------------------------------------------
 {
   for (USize x=0;x<m_Entries;x++)
@@ -106,7 +106,7 @@ void skAList::removeAndDestroy(void * i)
   }
 }
 //-----------------------------------------------------------------
-void skAList::deleteElt(USize index)
+EXPORT_C void skAList::deleteElt(USize index)
 //-----------------------------------------------------------------
 {
   assert(index<m_Entries);
@@ -126,7 +126,7 @@ void skAList::deleteElt(USize index)
   }
 }
 //-----------------------------------------------------------------
-void skAList::createArray()
+EXPORT_C void skAList::createArray()
 //-----------------------------------------------------------------
 {
   if (m_ArraySize==0)
@@ -135,7 +135,7 @@ void skAList::createArray()
     m_Array=skARRAY_NEW(void *,m_ArraySize);
 }
 //-----------------------------------------------------------------
-void skAList::growTo(USize new_size)
+EXPORT_C void skAList::growTo(USize new_size)
 //-----------------------------------------------------------------
 {
   if (new_size>m_ArraySize){
@@ -154,7 +154,7 @@ void skAList::growTo(USize new_size)
   }
 }
 //-----------------------------------------------------------------
-void skAList::grow()
+EXPORT_C void skAList::grow()
 //-----------------------------------------------------------------
 {
   m_ArraySize *= 2;     // constant increase in size
@@ -171,7 +171,7 @@ void skAList::grow()
   }
 }
 //-----------------------------------------------------------------
-void skAList::test() const
+EXPORT_C void skAList::test() const
 //-----------------------------------------------------------------
 {   
 #ifdef MICROSOFT_C

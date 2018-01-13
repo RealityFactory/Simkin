@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAttribute.cpp,v 1.2 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skAttribute.cpp,v 1.3 2003/05/19 17:58:33 simkin_cvs Exp $
 */
 #include "skAttribute.h"
 #include "skStringBuffer.h"
@@ -86,6 +86,16 @@ EXPORT_C skString skAttributeList::getAttribute(const skString& name) const
 //------------------------------------------
 {
   skString value;
+  skAttribute * attr=findAttribute(name);
+  if (attr)
+    value=attr->getValue();
+  return value;
+}
+//------------------------------------------
+EXPORT_C skString skAttributeList::getAttribute(const skString& name,const skString& default_value) const
+//------------------------------------------
+{
+  skString value=default_value;
   skAttribute * attr=findAttribute(name);
   if (attr)
     value=attr->getValue();

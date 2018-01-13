@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.h,v 1.15 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skElement.h,v 1.16 2003/05/19 17:58:33 simkin_cvs Exp $
 */
 #ifndef skELEMENT_H
 #define skELEMENT_H
@@ -72,6 +72,13 @@ class CLASSEXPORT skElement : public skNode
    * @return the value associated with the name, or a blank string.
    */
   IMPORT_C skString getAttribute(const skString& name) const;
+  /**
+   * This returns the value of an attribute. If the attribute does not exist, the default value is returned.
+   * @param name - the name of the attribute being accessed
+   * @param default_value - the value returned if the attribute was not found
+   * @return the value associated with the name, or a blank string.
+   */
+  IMPORT_C skString getAttribute(const skString& name,const skString& default_value) const;
 #ifdef __SYMBIAN32__
   /**
    * This returns the value of an attribute. If the attribute does not exist, a blank string is returned.

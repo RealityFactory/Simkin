@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skStringTokenizer_8h-source.html,v 1.13 2003/04/19 17:56:00 simkin_cvs Exp $</span>
+00019 <span class="comment">  $Id: skStringTokenizer_8h-source.html,v 1.14 2003/05/27 17:41:56 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skSTRINGTOKENIZER_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skSTRINGTOKENIZER_H</span>
@@ -49,37 +49,57 @@
 00072 <span class="preprocessor">#endif</span>
 00073 <span class="preprocessor"></span>
 00076   <span class="keyword">inline</span> skStringTokenizer();
-00080   <span class="keyword">virtual</span> ~skStringTokenizer();
+00080   <span class="keyword">virtual</span> <span class="keyword">inline</span> ~skStringTokenizer();
 00081 
 00090   IMPORT_C <span class="keywordtype">void</span> init(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; str, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; delim, <span class="keywordtype">bool</span> returnDelims);
-00100   IMPORT_C <span class="keywordtype">bool</span> hasMoreTokens();
-00101 
-00108   IMPORT_C <a class="code" href="classskString.html">skString</a> nextToken();
-00122   IMPORT_C <a class="code" href="classskString.html">skString</a> nextToken(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; delim);
-00130   IMPORT_C <span class="keywordtype">int</span> countTokens();
-00131  <span class="keyword">private</span>:
-00132   <span class="keywordtype">int</span> m_CurrentPosition;
-00133   <span class="keywordtype">int</span> m_NewPosition;
-00134   <span class="keywordtype">int</span> m_MaxPosition;
-00135   <a class="code" href="classskString.html">skString</a> m_Str;
-00136   <a class="code" href="classskString.html">skString</a> m_Delimiters;
-00137   <span class="keywordtype">bool</span> m_RetDelims;
-00138   <span class="keywordtype">bool</span> m_DelimsChanged;
-00139 
-00145   Char m_MaxDelimChar;
-00146   
-00150   <span class="keywordtype">void</span> setMaxDelimChar();
-00156   <span class="keywordtype">int</span> skipDelimiters(<span class="keywordtype">int</span> startPos);
-00161   <span class="keywordtype">int</span> scanToken(<span class="keywordtype">int</span> startPos);
-00162 };
-00163 <span class="comment">//------------------------------------------</span>
-<a name="l00164"></a><a class="code" href="classskStringTokenizer.html#a3">00164</a> <span class="keyword">inline</span> <a class="code" href="classskStringTokenizer.html#a3">skStringTokenizer::skStringTokenizer</a>()
-00165 <span class="comment">//------------------------------------------</span>
-00166   :  m_CurrentPosition(0),m_NewPosition(-1),m_MaxPosition(0),m_DelimsChanged(false)
-00167 {
-00168 }
-00169 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
+00091 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00092 <span class="preprocessor"></span>
+00101   <span class="keyword">inline</span> <span class="keywordtype">void</span> init(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; str, <span class="keyword">const</span> TDesC&amp; delim, <span class="keywordtype">bool</span> returnDelims);
+00102 <span class="preprocessor">#endif</span>
+00103 <span class="preprocessor"></span>
+00112   IMPORT_C <span class="keywordtype">bool</span> hasMoreTokens();
+00113 
+00120   IMPORT_C <a class="code" href="classskString.html">skString</a> nextToken();
+00134   IMPORT_C <a class="code" href="classskString.html">skString</a> nextToken(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; delim);
+00142   IMPORT_C <span class="keywordtype">int</span> countTokens();
+00143  <span class="keyword">private</span>:
+00144   <span class="keywordtype">int</span> m_CurrentPosition;
+00145   <span class="keywordtype">int</span> m_NewPosition;
+00146   <span class="keywordtype">int</span> m_MaxPosition;
+00147   <a class="code" href="classskString.html">skString</a> m_Str;
+00148   <a class="code" href="classskString.html">skString</a> m_Delimiters;
+00149   <span class="keywordtype">bool</span> m_RetDelims;
+00150   <span class="keywordtype">bool</span> m_DelimsChanged;
+00151 
+00157   Char m_MaxDelimChar;
+00158   
+00162   <span class="keywordtype">void</span> setMaxDelimChar();
+00168   <span class="keywordtype">int</span> skipDelimiters(<span class="keywordtype">int</span> startPos);
+00173   <span class="keywordtype">int</span> scanToken(<span class="keywordtype">int</span> startPos);
+00174 };
+00175 <span class="comment">//------------------------------------------</span>
+<a name="l00176"></a><a class="code" href="classskStringTokenizer.html#a3">00176</a> <span class="keyword">inline</span> <a class="code" href="classskStringTokenizer.html#a3">skStringTokenizer::skStringTokenizer</a>()
+00177 <span class="comment">//------------------------------------------</span>
+00178   :  m_CurrentPosition(0),m_NewPosition(-1),m_MaxPosition(0),m_DelimsChanged(false)
+00179 {
+00180 }
+00181 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00182 <span class="preprocessor"></span><span class="comment">//------------------------------------------</span>
+00183 <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classskStringTokenizer.html#a5">skStringTokenizer::init</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; str, <span class="keyword">const</span> TDesC&amp; delim, <span class="keywordtype">bool</span> returnDelims)
+00184 <span class="comment">//------------------------------------------</span>
+00185 {
+00186   <a class="code" href="classskString.html">skString</a> s_delim;
+00187   s_delim=delim;
+00188   <a class="code" href="classskStringTokenizer.html#a5">init</a>(str,s_delim,returnDelims);
+00189 }
+00190 <span class="preprocessor">#endif</span>
+00191 <span class="preprocessor"></span><span class="comment">//------------------------------------------</span>
+<a name="l00192"></a><a class="code" href="classskStringTokenizer.html#a4">00192</a> <span class="keyword">inline</span> <a class="code" href="classskStringTokenizer.html#a4">skStringTokenizer::~skStringTokenizer</a>() 
+00193 <span class="comment">//------------------------------------------</span>
+00194 {
+00195 }
+00196 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Tue May 27 18:40:11 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

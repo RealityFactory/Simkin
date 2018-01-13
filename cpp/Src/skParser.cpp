@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.cpp,v 1.28 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skParser.cpp,v 1.29 2003/05/27 17:34:22 simkin_cvs Exp $
 */
 #include "skParser.h"
 #include "skParseNode.h"
@@ -373,7 +373,6 @@ int skParser::lex(void * lvalp,void * llocp)
           c1=nextChar();
           if (c1=='\n'){
             m_LineNum++;
-            break;
           }else if (c1=='*'){
             c1=nextChar();
             if (c1=='/')

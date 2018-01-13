@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skSHashTable.h,v 1.5 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skSHashTable.h,v 1.6 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 #ifndef skSHASHTBL_H
 #define skSHASHTBL_H
@@ -112,7 +112,7 @@ class CLASSEXPORT skSHashTable
    * puts a new key and value into the table. If the key already exists, it is first deleted
    * @exception Symbian - a leaving function
    */
-  void insertKeyAndValue(const skString& key, void * value);
+  IMPORT_C void insertKeyAndValue(const skString& key, void * value);
   /**
    * returns the value associated with the given key
    */
@@ -218,7 +218,7 @@ class  CLASSEXPORT skSHashTableIterator
    */
   skSHashEntryListIterator * m_ListIterator;
 };
-#define TT_PREFIX template <class TValue> 
+#define TTS_PREFIX template <class TValue> 
 
 const int DEFAULT_skSHashTable_SIZE=3;
 /**

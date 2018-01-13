@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skHashTable_8h-source.html,v 1.13 2003/04/19 17:55:59 simkin_cvs Exp $</span>
+00019 <span class="comment">  $Id: skHashTable_8h-source.html,v 1.14 2003/05/27 17:41:56 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skHASHTBL_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skHASHTBL_H</span>
@@ -55,12 +55,12 @@
 00061 #endif
 00062 {
 00063  <span class="keyword">public</span>:
-00067   <span class="keywordtype">void</span> clear();
-00071   <span class="keywordtype">void</span> clearAndDestroyKeys();
-00075   <span class="keywordtype">void</span> clearAndDestroyValues();
-00079   <span class="keywordtype">void</span> clearAndDestroy();
-00083   USize entries() <span class="keyword">const</span>;
-00087   <span class="keyword">virtual</span> ~skHashTable();
+00067   IMPORT_C <span class="keywordtype">void</span> clear();
+00071   IMPORT_C <span class="keywordtype">void</span> clearAndDestroyKeys();
+00075   IMPORT_C <span class="keywordtype">void</span> clearAndDestroyValues();
+00079   IMPORT_C <span class="keywordtype">void</span> clearAndDestroy();
+00083   <span class="keyword">inline</span> USize entries() <span class="keyword">const</span>;
+00087   <span class="keyword">inline</span> <span class="keyword">virtual</span> ~skHashTable();
 00088 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
 00089 <span class="preprocessor"></span>
 00094   operator TCleanupItem();
@@ -68,7 +68,7 @@
 00100 <span class="preprocessor">#endif</span>
 00101 <span class="preprocessor"></span> <span class="keyword">protected</span>:
 00105   skHashTable(USize  size);
-00110   <span class="keywordtype">void</span> insertKeyAndValue(<span class="keywordtype">void</span> * key, <span class="keywordtype">void</span> * value);
+00110   IMPORT_C <span class="keywordtype">void</span> insertKeyAndValue(<span class="keywordtype">void</span> * key, <span class="keywordtype">void</span> * value);
 00114   <span class="keywordtype">void</span> *  value(<span class="keywordtype">void</span> * key) <span class="keyword">const</span>;
 00118   <span class="keywordtype">void</span> del(<span class="keywordtype">void</span> * key);
 00122   <span class="keywordtype">void</span> delKeyNotValue(<span class="keyword">const</span> <span class="keywordtype">void</span> * key);
@@ -141,7 +141,7 @@
 00321 <span class="preprocessor">#include "skHashTable.inl"</span>
 00322 
 00323 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
+</pre></div><hr><address style="align: right;"><small>Generated on Tue May 27 18:40:10 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

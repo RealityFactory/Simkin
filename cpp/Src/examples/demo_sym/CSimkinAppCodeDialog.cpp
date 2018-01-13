@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppCodeDialog.cpp,v 1.2 2003/04/14 15:06:19 simkin_cvs Exp $
+  $Id: CSimkinAppCodeDialog.cpp,v 1.3 2003/04/25 18:04:04 simkin_cvs Exp $
 */
 #include "CSimkinAppCodeDialog.h"
 #include <eikdialg.h>
@@ -46,9 +46,12 @@ TBool CSimkinAppCodeDialog::OkToExitL(TInt aKeycode)
   CEikEdwin* edwin;
   edwin=STATIC_CAST(CEikEdwin*, Control(ECodeId));
   HBufC* text=edwin->GetTextInHBufL();
-  CleanupStack::PushL(text);
-  *iSCode=*text;
-  CleanupStack::PopAndDestroy(text);
+  if (text){
+    CleanupStack::PushL(text);
+    *iSCode=*text;
+    CleanupStack::Pop(text);
+    delete text;
+  }
   iSCode->replaceInPlace(CEditableText::EParagraphDelimiter,'\n');
   return ETrue;
 }

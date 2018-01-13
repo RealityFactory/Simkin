@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skStringBuffer.h,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
+* $Id: skStringBuffer.h,v 1.11 2003/04/27 16:32:02 simkin_cvs Exp $
 */
 
 
@@ -100,7 +100,15 @@ class skStringBuffer
    * @exception Symbian - a leaving function
    */
   IMPORT_C skString toStringCopy() const;
-#ifndef __SYMBIAN32
+#ifdef __SYMBIAN32__
+  /**
+   * Accesses underlying buffer
+   * \remarks only available in Symbian version
+   * @return a pointer to the buffer contained within the StringBuffer object
+   */
+  inline TPtrC ptr() const;
+#else
+
   /**
    * Returns the underlying buffer
    * \remarks not available in Symbian version
@@ -108,6 +116,10 @@ class skStringBuffer
    */
   IMPORT_C operator const Char * () const;
 #endif
+  /**
+   * Resets the length of the buffer to zero
+   */
+  inline void reset();
   /**
    * Returns the current length of the text in the buffer
    * @return the length of the text in the buffer
@@ -153,4 +165,23 @@ inline USize skStringBuffer::capacity() const
 {
   return m_Capacity;
 }
+//---------------------------------------------------
+inline void skStringBuffer::reset()
+//---------------------------------------------------
+{
+  m_Length=0;
+  if (m_Buffer)
+    m_Buffer[0]=0;
+}
+#ifdef __SYMBIAN32__
+//---------------------------------------------------
+inline TPtrC skStringBuffer::ptr() const 
+//---------------------------------------------------
+{
+  if (m_Buffer)
+    return TPtrC((const TUint16 *)(m_Buffer),m_Length);
+  else
+    return TPtrC();
+}
+#endif
 #endif

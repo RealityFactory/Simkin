@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreterNode.cpp,v 1.6 2003/04/19 13:22:23 simkin_cvs Exp $
+  $Id: skInterpreterNode.cpp,v 1.7 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 #include "skInterpreter.h"
 #ifdef EXECUTE_PARSENODES
@@ -104,6 +104,7 @@ void skInterpreter::followIdList(skStackFrame& frame,skIdListNode * idList,skRVa
 #endif
     idNode=idList->getId(i);
     name=idNode->getId();
+    name=checkIndirectId(frame,name);
     //    trace("followIdList: %d: %s\n",i,(const char *)name);
     skRValue result;
     SAVE_VARIABLE(result);

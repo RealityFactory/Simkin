@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObject.cpp,v 1.55 2003/04/16 13:23:06 simkin_cvs Exp $
+  $Id: skTreeNodeObject.cpp,v 1.56 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -302,12 +302,12 @@ EXPORT_C bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skR
   return bRet;
 }
 //------------------------------------------
-EXPORT_C skTreeNodeObject::skTreeNodeObject(const skTreeNodeObject& other)
+skTreeNodeObject::skTreeNodeObject(const skTreeNodeObject& other)
 //------------------------------------------
 {
 }
 //------------------------------------------
-EXPORT_C skTreeNodeObject& skTreeNodeObject::operator=(const skTreeNodeObject& other)
+skTreeNodeObject& skTreeNodeObject::operator=(const skTreeNodeObject& other)
 //------------------------------------------
 {
   return *this;

@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skHashTable.cpp,v 1.12 2003/03/25 23:11:13 simkin_cvs Exp $
+  $Id: skHashTable.cpp,v 1.13 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 #include "skHashTable.h"
 
@@ -28,7 +28,7 @@ void skHashTable::createSlots()
   m_Slots=skARRAY_NEW(skHashEntryList,m_Size);
 }
 //---------------------------------------------------
-void skHashTable::clear() 
+EXPORT_C void skHashTable::clear() 
 //---------------------------------------------------
 {
   if (m_Slots){
@@ -38,7 +38,7 @@ void skHashTable::clear()
   m_NumEntries=0;
 }
 //---------------------------------------------------
-void skHashTable::clearAndDestroyKeys() 
+EXPORT_C void skHashTable::clearAndDestroyKeys() 
 //---------------------------------------------------
 {
   if (m_Slots){
@@ -54,7 +54,7 @@ void skHashTable::clearAndDestroyKeys()
   m_NumEntries=0;
 }
 //---------------------------------------------------
-void skHashTable::clearAndDestroyValues() 
+EXPORT_C void skHashTable::clearAndDestroyValues() 
 //---------------------------------------------------
 {
   if (m_Slots){
@@ -70,7 +70,7 @@ void skHashTable::clearAndDestroyValues()
   m_NumEntries=0;
 }
 //---------------------------------------------------
-void skHashTable::clearAndDestroy() 
+EXPORT_C void skHashTable::clearAndDestroy() 
 //---------------------------------------------------
 {
   if (m_Slots){
@@ -87,7 +87,7 @@ void skHashTable::clearAndDestroy()
   m_NumEntries=0;
 }
 //---------------------------------------------------
-void skHashTable::insertKeyAndValue(void * key, void * value) 
+EXPORT_C void skHashTable::insertKeyAndValue(void * key, void * value) 
 //---------------------------------------------------
 {
   if (m_Slots==0)

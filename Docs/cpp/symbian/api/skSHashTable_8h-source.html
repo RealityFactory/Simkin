@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skSHashTable_8h-source.html,v 1.3 2003/04/19 17:56:02 simkin_cvs Exp $</span>
+00019 <span class="comment">  $Id: skSHashTable_8h-source.html,v 1.4 2003/05/27 17:41:57 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skSHASHTBL_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skSHASHTBL_H</span>
@@ -70,7 +70,7 @@
 00105 <span class="preprocessor">#endif</span>
 00106 <span class="preprocessor"></span> <span class="keyword">protected</span>:
 00110   skSHashTable(USize  size);
-00115   <span class="keywordtype">void</span> insertKeyAndValue(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; key, <span class="keywordtype">void</span> * value);
+00115   IMPORT_C <span class="keywordtype">void</span> insertKeyAndValue(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; key, <span class="keywordtype">void</span> * value);
 00119   <span class="keywordtype">void</span> *  value(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; key) <span class="keyword">const</span>;
 00123   <span class="keyword">virtual</span> <span class="keywordtype">void</span> deleteValue(<span class="keywordtype">void</span> * value)=0;
 00124  <span class="keyword">private</span>:
@@ -105,7 +105,7 @@
 00215   <a class="code" href="classskString.html">skString</a> m_Key;
 00219   skSHashEntryListIterator * m_ListIterator;
 00220 };
-00221 <span class="preprocessor">#define TT_PREFIX template &lt;class TValue&gt; </span>
+00221 <span class="preprocessor">#define TTS_PREFIX template &lt;class TValue&gt; </span>
 00222 <span class="preprocessor"></span>
 00223 <span class="keyword">const</span> <span class="keywordtype">int</span> DEFAULT_skSHashTable_SIZE=3;
 <a name="l00227"></a><a class="code" href="classskTSHashTable.html">00227</a> <span class="keyword">template</span> &lt;<span class="keyword">class</span> TValue&gt;  <span class="keyword">class </span>CLASSEXPORT skTSHashTable: <span class="keyword">public</span> skSHashTable
@@ -130,7 +130,7 @@
 00274 <span class="preprocessor">#include "skSHashTable.inl"</span>
 00275 
 00276 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:55:12 2003 for Simkin C++ for Symbian by
+</pre></div><hr><address style="align: right;"><small>Generated on Tue May 27 18:40:51 2003 for Simkin C++ for Symbian by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

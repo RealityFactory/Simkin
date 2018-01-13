@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.h,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skInputSource.h,v 1.11 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 #ifndef skInputSource_h
 #define skInputSource_h
@@ -39,7 +39,7 @@ class CLASSEXPORT skInputSource
 #endif
 {
 public:
-  virtual ~skInputSource();
+  IMPORT_C virtual ~skInputSource();
   /**
    * Returns whether the source has reached the end
    */
@@ -83,24 +83,24 @@ public:
    */
   IMPORT_C void open(const TDesC& file);
 #endif
-  virtual ~skInputFile();
+  IMPORT_C virtual ~skInputFile();
   /**
    * Returns whether the file has reached the end
    */
-  virtual bool eof() const;
+  IMPORT_C virtual bool eof() const;
   /**
    * Returns and consumes the next character in the file
    */
-  virtual int get();
+  IMPORT_C virtual int get();
   /**
    * Returns, but does not consume the next character in the file
    */
-  virtual int peek();
+  IMPORT_C virtual int peek();
   /**
    * Reads the whole source into a string
    * @exception Symbian - a leaving function
    */
-  virtual skString readAllToString();
+  IMPORT_C virtual skString readAllToString();
 private:
 #ifdef STREAMS_ENABLED
   ifstream      m_In;
@@ -124,23 +124,23 @@ public:
   /**
    * Destructor
    */
-  virtual ~skInputString();
+  IMPORT_C virtual ~skInputString();
   /**
    * Returns whether the input has reached the end of the string
    */
-  virtual bool eof() const;
+  IMPORT_C virtual bool eof() const;
   /**
    * Returns and consumes the next character in the string
    */
-  virtual int get();
+  IMPORT_C virtual int get();
   /**
    * Returns, but does not consume the next character in the string
    */
-  virtual int peek();
+  IMPORT_C virtual int peek();
   /**
    * Returns the input string in its entirety
    */
-  virtual skString readAllToString();
+  IMPORT_C virtual skString readAllToString();
 private:
   skString      m_In;
   unsigned int  m_Pos;

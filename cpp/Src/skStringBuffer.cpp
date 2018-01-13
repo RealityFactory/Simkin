@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringBuffer.cpp,v 1.14 2003/04/11 18:05:39 simkin_cvs Exp $
+  $Id: skStringBuffer.cpp,v 1.16 2003/04/27 16:32:02 simkin_cvs Exp $
 */
 #include "skStringBuffer.h"
 #include <string.h>
@@ -107,6 +107,7 @@ EXPORT_C void skStringBuffer::append(const TDesC& s)
     ensureCapacity(m_Length+length+1);
     STRNCPY(m_Buffer+m_Length,(const Char *)s.Ptr(),s.Length());
     m_Length+=length;
+    m_Buffer[m_Length]=0;
   }
 }
 #endif
@@ -133,7 +134,7 @@ EXPORT_C skString skStringBuffer::toStringCopy() const
    return str;
 }
 //---------------------------------------------------
-EXPORT_C void skStringBuffer::ensureCapacity(USize capacity)
+void skStringBuffer::ensureCapacity(USize capacity)
 //---------------------------------------------------
 {
   if (m_Buffer==0){
@@ -156,7 +157,7 @@ EXPORT_C void skStringBuffer::ensureCapacity(USize capacity)
       m_Capacity=new_capacity;
     }
 }
-#ifndef __SYMBIAN32
+#ifndef __SYMBIAN32__
 //---------------------------------------------------
 EXPORT_C skStringBuffer::operator const Char * () const
 //---------------------------------------------------

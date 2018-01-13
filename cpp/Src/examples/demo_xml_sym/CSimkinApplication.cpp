@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinApplication.cpp,v 1.2 2003/04/19 13:22:24 simkin_cvs Exp $
+  $Id: CSimkinApplication.cpp,v 1.3 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 
 #include "CSimkinApplication.h"
@@ -37,3 +37,4 @@ CApaDocument* CSimkinApplication::CreateDocumentL()
 {
   return new (ELeave) CSimkinDocument(*this,KScriptFileName);
 }
+

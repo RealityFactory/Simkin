@@ -16,19 +16,19 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skNode.cpp,v 1.13 2003/04/19 13:22:24 simkin_cvs Exp $
+* $Id: skNode.cpp,v 1.14 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 #include "skNode.h"
 #include "skStringBuffer.h"
 
 //------------------------------------------
-EXPORT_C skNode::skNode()
+skNode::skNode()
 //------------------------------------------
 :m_Parent(0)
 {
 }
 //------------------------------------------
-EXPORT_C skNode::skNode(const skNode& other)
+skNode::skNode(const skNode& other)
 //------------------------------------------
 :m_Parent(0)
 {

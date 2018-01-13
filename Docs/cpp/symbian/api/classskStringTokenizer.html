@@ -26,20 +26,22 @@ virtual&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.h
 <tr><td>&nbsp;</td><td><em class="mdesc">Desstructor.</em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>IMPORT_C void&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a2">init</a> (const <a class="el" href="classskString.html">skString</a> &amp;str, const <a class="el" href="classskString.html">skString</a> &amp;delim, bool returnDelims)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Initialize the tokenizer.</em> <a href="#a2"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>IMPORT_C bool&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a3">hasMoreTokens</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Tests if there are more tokens available from this tokenizer's string.</em> <a href="#a3"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>IMPORT_C <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a4">nextToken</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Returns the next token from this string tokenizer.</em> <a href="#a4"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>IMPORT_C <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a5">nextToken</a> (const <a class="el" href="classskString.html">skString</a> &amp;delim)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Returns the next token in this string tokenizer's string.</em> <a href="#a5"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>IMPORT_C int&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a6">countTokens</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Calculates the number of times that this tokenizer's nextToken method can be called.</em> <a href="#a6"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a3">init</a> (const <a class="el" href="classskString.html">skString</a> &amp;str, const TDesC &amp;delim, bool returnDelims)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Initialize the tokenizer.</em> <a href="#a3"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>IMPORT_C bool&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a4">hasMoreTokens</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Tests if there are more tokens available from this tokenizer's string.</em> <a href="#a4"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>IMPORT_C <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a5">nextToken</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Returns the next token from this string tokenizer.</em> <a href="#a5"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>IMPORT_C <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a6">nextToken</a> (const <a class="el" href="classskString.html">skString</a> &amp;delim)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Returns the next token in this string tokenizer's string.</em> <a href="#a6"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>IMPORT_C int&nbsp;</td><td valign=bottom><a class="el" href="classskStringTokenizer.html#a7">countTokens</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Calculates the number of times that this tokenizer's nextToken method can be called.</em> <a href="#a7"></a><em></em><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The string tokenizer class allows an application to break a string into tokens.
 <p>
 <hr><h2>Member Function Documentation</h2>
-<a name="a6" doxytag="skStringTokenizer::countTokens"></a><p>
+<a name="a7" doxytag="skStringTokenizer::countTokens"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -71,7 +73,7 @@ The current position is not advanced.<p>
     </td>
   </tr>
 </table>
-<a name="a3" doxytag="skStringTokenizer::hasMoreTokens"></a><p>
+<a name="a4" doxytag="skStringTokenizer::hasMoreTokens"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -100,6 +102,65 @@ Tests if there are more tokens available from this tokenizer's string.
 <p>
 If this method returns true, then a subsequent call to nextToken with no argument will successfully return a token.<p>
 <dl compact><dt><b>Returns:</b></dt><dd>true if and only if there is at least one token in the string after the current position; false otherwise. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a name="a3" doxytag="skStringTokenizer::init"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> void skStringTokenizer::init </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>str</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>const TDesC &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>delim</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap> <em>returnDelims</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [inline]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Initialize the tokenizer.
+<p>
+<dl compact><dt><b>Remarks:</b></dt><dd>only available in Symbian version </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>str</em>&nbsp;</td><td>a string to be parsed. </td></tr>
+    <tr><td valign=top><em>delim</em>&nbsp;</td><td>the delimiters. </td></tr>
+    <tr><td valign=top><em>returnDelims</em>&nbsp;</td><td>flag indicating whether to return the delimiters as tokens. </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -161,7 +222,7 @@ Initialize the tokenizer.
     </td>
   </tr>
 </table>
-<a name="a5" doxytag="skStringTokenizer::nextToken"></a><p>
+<a name="a6" doxytag="skStringTokenizer::nextToken"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -204,7 +265,7 @@ First, the set of characters considered to be delimiters by this skStringTokeniz
     </td>
   </tr>
 </table>
-<a name="a4" doxytag="skStringTokenizer::nextToken"></a><p>
+<a name="a5" doxytag="skStringTokenizer::nextToken"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -242,7 +303,7 @@ Returns the next token from this string tokenizer.
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="skStringTokenizer_8h-source.html">skStringTokenizer.h</a></ul>
-<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:55:14 2003 for Simkin C++ for Symbian by
+<hr><address style="align: right;"><small>Generated on Tue May 27 18:40:52 2003 for Simkin C++ for Symbian by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

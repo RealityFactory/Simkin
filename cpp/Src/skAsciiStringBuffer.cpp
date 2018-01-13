@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skAsciiStringBuffer.cpp,v 1.4 2003/04/19 17:56:15 simkin_cvs Exp $
+  $Id: skAsciiStringBuffer.cpp,v 1.5 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 #include "skAsciiStringBuffer.h"
 
@@ -122,7 +122,7 @@ EXPORT_C skAsciiString skAsciiStringBuffer::toStringCopy() const
   return a;
 }
 //---------------------------------------------------
-EXPORT_C void skAsciiStringBuffer::ensureCapacity(USize capacity)
+ void skAsciiStringBuffer::ensureCapacity(USize capacity)
 //---------------------------------------------------
 {
   if (m_Buffer==0){

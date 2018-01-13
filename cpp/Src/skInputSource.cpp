@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.cpp,v 1.17 2003/04/16 21:48:06 simkin_cvs Exp $
+  $Id: skInputSource.cpp,v 1.19 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 #include "skInputSource.h"
 #include "skStringBuffer.h"
@@ -25,7 +25,7 @@
 #include "skEncodingUtils.h"
 #endif
 //-----------------------------------------------------------------
-skInputSource::~skInputSource()
+EXPORT_C skInputSource::~skInputSource()
 //-----------------------------------------------------------------
 {
 }
@@ -46,7 +46,7 @@ EXPORT_C skInputFile::skInputFile(const skString& filename)
 //-----------------------------------------------------------------
 :
 #ifdef STREAMS_ENABLED
-m_In(filename)
+m_In(filename,ios::in|ios::nocreate)
 #else
 m_In(0),m_Peeked(false),m_PeekedChar(0)
 #endif
@@ -56,7 +56,7 @@ m_In(0),m_Peeked(false),m_PeekedChar(0)
 {
 }
 //-----------------------------------------------------------------
-skInputFile::~skInputFile()
+EXPORT_C skInputFile::~skInputFile()
 //-----------------------------------------------------------------
 {
 #ifndef STREAMS_ENABLED
@@ -126,21 +126,22 @@ EXPORT_C void skInputFile::open(const TDesC& filename)
 }
 #endif
 //-----------------------------------------------------------------
-bool skInputFile::eof() const
+EXPORT_C bool skInputFile::eof() const
 //-----------------------------------------------------------------
 {
+  bool eof=true;
 #ifdef STREAMS_ENABLED
-  return m_In.eof()==1;
+  if (m_In.good())
+    eof=(m_In.eof()==1);
 #else
   // SYMBIAN_QUESTION: does this function leave???
-  bool eof=true;
   if (m_In)
     eof=feof(m_In)!=0;
-  return eof;
 #endif
+  return eof;
 }
 //-----------------------------------------------------------------
-int skInputFile::get()
+EXPORT_C int skInputFile::get()
 //-----------------------------------------------------------------
 {
 #ifdef STREAMS_ENABLED
@@ -172,7 +173,7 @@ int skInputFile::get()
 #endif
 }
 //-----------------------------------------------------------------
-skString skInputFile::readAllToString()
+EXPORT_C skString skInputFile::readAllToString()
 //-----------------------------------------------------------------
 {
   skString str;
@@ -232,7 +233,7 @@ skString skInputFile::readAllToString()
   return str;
 }
 //-----------------------------------------------------------------
-int skInputFile::peek()
+EXPORT_C int skInputFile::peek()
 //-----------------------------------------------------------------
 {
 #ifdef STREAMS_ENABLED
@@ -272,13 +273,13 @@ EXPORT_C skInputString::~skInputString()
 {
 }
 //-----------------------------------------------------------------
-bool skInputString::eof() const
+EXPORT_C bool skInputString::eof() const
 //-----------------------------------------------------------------
 {
   return m_Pos>=m_In.length();
 }
 //-----------------------------------------------------------------
-int skInputString::get()
+EXPORT_C int skInputString::get()
 //-----------------------------------------------------------------
 {
   int c=0;
@@ -294,7 +295,7 @@ int skInputString::get()
   return c;
 }
 //-----------------------------------------------------------------
-int skInputString::peek()
+EXPORT_C int skInputString::peek()
 //-----------------------------------------------------------------
 {
   if (m_Peeked==false){
@@ -307,7 +308,7 @@ int skInputString::peek()
   return m_PeekedChar;
 }
 //-----------------------------------------------------------------
-skString skInputString::readAllToString()
+EXPORT_C skString skInputString::readAllToString()
 //-----------------------------------------------------------------
 {
   return m_In;

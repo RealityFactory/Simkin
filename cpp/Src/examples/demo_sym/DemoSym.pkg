@@ -5,7 +5,7 @@
 ; Languages
 ; none -  English only by default
 
-#{"Simkin Demo"},(0x10008ad0),1,0,0
+#{"Simkin Demo"},(0x101FAE0B),1,0,0
 (0x101F80BE), 1, 0, 0, {"SonyEricssonP80xPlatformProductID"}
 "\Symbian\UIQ_70\epoc32\release\thumb\urel\SimkinDemo.app"-"!:\system\apps\SimkinDemo\SimkinDemo.app"
 "\Symbian\UIQ_70\epoc32\release\thumb\urel\Simkin.dll"-"!:\system\apps\SimkinDemo\Simkin.dll"

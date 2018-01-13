@@ -27,63 +27,63 @@
 <a href="classskAList-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td></td></tr>
 <tr><td colspan=2><br><h2>Public Member Functions</h2></td></tr>
-<tr><td nowrap align=right valign=top><a name="a0" doxytag="skAList::skAList"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a0">skAList</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">default constructor - makes initial size zero</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a1" doxytag="skAList::~skAList"></a>
-virtual&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a1">~skAList</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a name="a0" doxytag="skAList::~skAList"></a>
+virtual&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a0">~skAList</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">does NOT destroy items, this is done in the derived class</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a2" doxytag="skAList::clearAndDestroy"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a2">clearAndDestroy</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a name="a1" doxytag="skAList::clearAndDestroy"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a1">clearAndDestroy</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">deletes all items in the list, calling deleteItem on each one</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a3" doxytag="skAList::clear"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a3">clear</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a name="a2" doxytag="skAList::clear"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a2">clear</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">removes all items from the list, without deleting</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a4" doxytag="skAList::entries"></a>
-USize&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a4">entries</a> () const</td></tr>
+<tr><td nowrap align=right valign=top><a name="a3" doxytag="skAList::entries"></a>
+USize&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a3">entries</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">returns the number of items in the list</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a5" doxytag="skAList::deleteElt"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a5">deleteElt</a> (USize n)</td></tr>
+<tr><td nowrap align=right valign=top><a name="a4" doxytag="skAList::deleteElt"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a4">deleteElt</a> (USize n)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">removes and deletes the nth item in the list, deleteItem is called to delete the item</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a6" doxytag="skAList::test"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a6">test</a> () const</td></tr>
+<tr><td nowrap align=right valign=top><a name="a5" doxytag="skAList::test"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a5">test</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">performs some checks on the list</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a7">growTo</a> (USize size)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">instructs the list to grow to the given size (which must be greater than the current size), the current contents are copied across</em> <a href="#a7"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>USize&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a8">getArraySize</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">returns the capacity of the current list - i.e.</em> <a href="#a8"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a6">growTo</a> (USize size)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">instructs the list to grow to the given size (which must be greater than the current size), the current contents are copied across</em> <a href="#a6"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>USize&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#a7">getArraySize</a> () const</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">returns the capacity of the current list - i.e.</em> <a href="#a7"></a><em></em><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Member Functions</h2></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b0">insert</a> (void *, USize index)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">insert *before* the given position</em> <a href="#b0"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b1">prepend</a> (void *)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">put at the start of the list</em> <a href="#b1"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b2">append</a> (void *)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">put at the end of the list</em> <a href="#b2"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b3" doxytag="skAList::remove"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b3">remove</a> (void *)</td></tr>
+<tr><td nowrap align=right valign=top><a name="b0" doxytag="skAList::skAList"></a>
+&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b0">skAList</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">default constructor - makes initial size zero</em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b1">insert</a> (void *, USize index)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">insert *before* the given position</em> <a href="#b1"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b2">prepend</a> (void *)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">put at the start of the list</em> <a href="#b2"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b3">append</a> (void *)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">put at the end of the list</em> <a href="#b3"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="b4" doxytag="skAList::remove"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b4">remove</a> (void *)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">remove an item, but *not* delete it</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b4" doxytag="skAList::removeAndDestroy"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b4">removeAndDestroy</a> (void *)</td></tr>
+<tr><td nowrap align=right valign=top><a name="b5" doxytag="skAList::removeAndDestroy"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b5">removeAndDestroy</a> (void *)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">remove an item and delete it</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b5" doxytag="skAList::operator[]"></a>
-void *&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b5">operator[]</a> (USize n) const</td></tr>
+<tr><td nowrap align=right valign=top><a name="b6" doxytag="skAList::operator[]"></a>
+void *&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b6">operator[]</a> (USize n) const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">retrieves the nth item within the list, a BoundsException is thrown if the index is out of range</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b6" doxytag="skAList::index"></a>
-int&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b6">index</a> (const void *) const</td></tr>
+<tr><td nowrap align=right valign=top><a name="b7" doxytag="skAList::index"></a>
+int&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b7">index</a> (const void *) const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">returns the index of the given object, or -1 if not found</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b7" doxytag="skAList::contains"></a>
-bool&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b7">contains</a> (const void *) const</td></tr>
+<tr><td nowrap align=right valign=top><a name="b8" doxytag="skAList::contains"></a>
+bool&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b8">contains</a> (const void *) const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">returns true if the given object is in the list</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b8" doxytag="skAList::deleteItem"></a>
-virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b8">deleteItem</a> (void *)=0</td></tr>
+<tr><td nowrap align=right valign=top><a name="b9" doxytag="skAList::deleteItem"></a>
+virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b9">deleteItem</a> (void *)=0</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">this method is overriden in the derived classes so that the correct destructor is called</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b9" doxytag="skAList::findElt"></a>
-int&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b9">findElt</a> (const void *i) const</td></tr>
+<tr><td nowrap align=right valign=top><a name="b10" doxytag="skAList::findElt"></a>
+int&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b10">findElt</a> (const void *i) const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">searches for an element, returns -1 if not found</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b10">grow</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">grows the array to the next size</em> <a href="#b10"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b11">createArray</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Create the underlying array.</em> <a href="#b11"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b11">grow</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">grows the array to the next size</em> <a href="#b11"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#b12">createArray</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Create the underlying array.</em> <a href="#b12"></a><em></em><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Attributes</h2></td></tr>
 <tr><td nowrap align=right valign=top>void **&nbsp;</td><td valign=bottom><a class="el" href="classskAList.html#n0">m_Array</a></td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">An array of pointers to the objects.</em> <a href="#n0"></a><em></em><br><br></td></tr>
@@ -101,7 +101,7 @@ class&nbsp;</td><td valign=bottom><a class="el" href="classskAListIterator.html#
 Array-Based List of pointers with template sub-classes.
 <p>
 <hr><h2>Member Function Documentation</h2>
-<a name="b2" doxytag="skAList::append"></a><p>
+<a name="b3" doxytag="skAList::append"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -137,7 +137,7 @@ put at the end of the list
     </td>
   </tr>
 </table>
-<a name="b11" doxytag="skAList::createArray"></a><p>
+<a name="b12" doxytag="skAList::createArray"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -172,7 +172,7 @@ Create the underlying array.
     </td>
   </tr>
 </table>
-<a name="a8" doxytag="skAList::getArraySize"></a><p>
+<a name="a7" doxytag="skAList::getArraySize"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -202,7 +202,7 @@ returns the capacity of the current list - i.e.
 the number of items that can be stored in the underlying array     </td>
   </tr>
 </table>
-<a name="b10" doxytag="skAList::grow"></a><p>
+<a name="b11" doxytag="skAList::grow"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -237,7 +237,7 @@ grows the array to the next size
     </td>
   </tr>
 </table>
-<a name="a7" doxytag="skAList::growTo"></a><p>
+<a name="a6" doxytag="skAList::growTo"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -273,7 +273,7 @@ instructs the list to grow to the given size (which must be greater than the cur
     </td>
   </tr>
 </table>
-<a name="b0" doxytag="skAList::insert"></a><p>
+<a name="b1" doxytag="skAList::insert"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -318,7 +318,7 @@ insert *before* the given position
     </td>
   </tr>
 </table>
-<a name="b1" doxytag="skAList::prepend"></a><p>
+<a name="b2" doxytag="skAList::prepend"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -381,7 +381,7 @@ This can be null     </td>
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skAlist_8h-source.html">skAlist.h</a><li>skAlist.cpp<li>skAlist.inl</ul>
-<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:39 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Tue May 27 18:40:11 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

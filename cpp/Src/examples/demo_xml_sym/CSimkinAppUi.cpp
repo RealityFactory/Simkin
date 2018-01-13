@@ -16,14 +16,14 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppUi.cpp,v 1.1 2003/04/16 21:48:06 simkin_cvs Exp $
+  $Id: CSimkinAppUi.cpp,v 1.2 2003/04/25 20:09:35 simkin_cvs Exp $
 */
 #include "CSimkinAppUi.h"
 #include "CSimkinAppView.h"
 #include "CSimkinAppCodeDialog.h"
 #include "skStringBuffer.h"
 #include "skOutputDestination.h"
-#include <SimkinDemo.rsg>
+#include <SimkinXMLDemo.rsg>
 #include "SimkinDemo.hrh"
 #include "CSimkinDocument.h"
 
@@ -60,6 +60,9 @@ void CSimkinAppUi::HandleCommandL(TInt aCommand)
     SAVE_VARIABLE(code);
     code=iDocument->GetScriptAsStringL();
     CSimkinAppCodeDialog * dialog=new (ELeave) CSimkinAppCodeDialog(&code);
+#ifdef SERIES_60
+    dialog->SetMopParent(this);
+#endif
     if (dialog->ExecuteLD(R_EDIT_CODE_DIALOG)){
       if (iDocument->LoadScriptFromStringL(code)){
 	iAppView->ReloadL();
@@ -71,6 +74,9 @@ void CSimkinAppUi::HandleCommandL(TInt aCommand)
     RELEASE_VARIABLE(code);
     break;
   }
+#ifdef SERIES_60
+  case EAknSoftkeyBack:
+#endif
   case EEikCmdExit: 
     Exit();
     break;

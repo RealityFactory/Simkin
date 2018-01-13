@@ -595,7 +595,11 @@ int yydebug;			/*  nonzero means print parse trace	*/
 /*  YYINITDEPTH indicates the initial size of the parser's stacks	*/
 
 #ifndef	YYINITDEPTH
+#ifdef __SYMBIAN32__
+#define YYINITDEPTH 100
+#else
 #define YYINITDEPTH 200
+#endif
 #endif
 
 /*  YYMAXDEPTH is the maximum size the stacks can grow to

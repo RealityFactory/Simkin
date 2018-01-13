@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppView.cpp,v 1.5 2003/04/19 13:22:24 simkin_cvs Exp $
+  $Id: CSimkinAppView.cpp,v 1.8 2003/04/25 20:09:35 simkin_cvs Exp $
 */
 
 #include "CSimkinAppView.h"
@@ -60,9 +60,10 @@ bool CSimkinAppViewScript::method(const skString& method_name,skRValueArray& arg
   bool bRet=false;
   // handles the setFocus(id) method - sets focus to the given editor control
   if (method_name==KsetFocus && args.entries()==1){
+    bRet=true;
     CEikEdwin * editor=iView->FindEditor(args[0].str());
     if (editor!=0){
-      iView->SetFocus(editor);
+      iView->SetFocusToControl(editor);
     }
   // handles the getText(id) method - returns the text in the named edit control
   }else if (method_name==KgetText && args.entries()==1){
@@ -71,10 +72,10 @@ bool CSimkinAppViewScript::method(const skString& method_name,skRValueArray& arg
       skString s_text;
       HBufC* text=editor->GetTextInHBufL();
       if (text){
-	CleanupStack::PushL(text);
-	// this might leave
-	s_text=*text;
-	CleanupStack::PopAndDestroy(text);
+        CleanupStack::PushL(text);
+        // this might leave
+        s_text=*text;
+        CleanupStack::PopAndDestroy(text);
       }
       ret=s_text;
     }
@@ -83,12 +84,8 @@ bool CSimkinAppViewScript::method(const skString& method_name,skRValueArray& arg
   }else if (method_name==KsetText && args.entries()==2){
     CEikLabel * label=iView->FindLabel(args[0].str());
     if (label!=0){
-      //      label->Invalidate();
       label->SetTextL(args[1].str().ptr());
-      //      label->DrawReferred();
       iView->DrawNow();
-      // should be able to do this
-      //label->DrawNow();
     }
     bRet=true;
   // handles the user(text) method - shows the given text in an alert window
@@ -104,7 +101,7 @@ bool CSimkinAppViewScript::method(const skString& method_name,skRValueArray& arg
 //-----------------------------------------------------------------
 CSimkinAppView::CSimkinAppView()
 //-----------------------------------------------------------------
-  : iDocument(0)
+  : iDocument(0),iFocusControlIndex(-1)
 {
 }
 //-----------------------------------------------------------------
@@ -113,6 +110,9 @@ CSimkinAppView* CSimkinAppView::NewL(const TRect& aRect,CSimkinAppUi * aUi,const
 {
   CSimkinAppView* self = new(ELeave) CSimkinAppView();
   CleanupStack::PushL(self);
+#ifdef SERIES_60
+  self->SetMopParent(aUi);
+#endif
   self->ConstructL(aRect,aUi,aLocation,aDocument);
   CleanupStack::Pop();
   return self;
@@ -130,6 +130,11 @@ void CSimkinAppView::ClearControls()
 //-----------------------------------------------------------------
 {
   if (iControls){
+    if (iFocusControlIndex!=-1){
+      iControls[iFocusControlIndex]->SetFocus(EFalse);
+      iFocusControlIndex=-1;
+    }
+    SetFocus(ETrue);
     for (TInt i=0;i<iNumControls;i++){
       delete iControls[i];
       iControls[i]=0;
@@ -164,11 +169,11 @@ void CSimkinAppView::CreateControlsL(skTreeNode * script)
       if (num_controls){
         iControls=new (ELeave) CCoeControl*[num_controls];
         iControlNodes=new (ELeave) skTreeNode*[num_controls];
-	USize i=0;
+        USize i=0;
         for (i=0;i<num_controls;i++){
-	  iControls[i]=0;
-	  iControlNodes[i]=0;
-	}
+          iControls[i]=0;
+          iControlNodes[i]=0;
+        }
         for (i=0;i<num_controls;i++){
           skTreeNode * control=controls->nthChild(i);
           skString type=control->findChildData(KType);
@@ -180,6 +185,9 @@ void CSimkinAppView::CreateControlsL(skTreeNode * script)
           TInt height=control->findChildIntData(KHeight);
           CCoeControl * coe=AddControlL(type,id,text,x_pos,y_pos,width,height);
           if (coe){
+#ifdef SERIES_60
+            coe->SetMopParent(this);
+#endif            
             iControlNodes[iNumControls]=control;
             iControls[iNumControls]=coe;
             iNumControls++;
@@ -205,10 +213,10 @@ void CSimkinAppView::ConstructL(const TRect& aRect,CSimkinAppUi * aUi,const TDes
     iScript->setNode(aLocation,aDocument->script(),false);
     CreateControlsL(aDocument->script());
   }
-  ActivateL();
-  if (iFocusControl)
-    iFocusControl->SetFocus(ETrue);
+  if (iFocusControlIndex!=-1)
+    iControls[iFocusControlIndex]->SetFocus(ETrue);
   SetRect(aRect);
+  ActivateL();
   // call the init function
   CallMethodL(Kinit);
 }
@@ -224,6 +232,7 @@ CCoeControl * CSimkinAppView::AddControlL(const skString& type,int id,const skSt
     CleanupStack::PushL(label);
     label->SetContainerWindowL(*this);
     label->SetTextL(text.ptr());
+    label->SetFocusing(EFalse);
     if (width){
       TSize size=label->MinimumSize();
       size.iWidth=width;
@@ -233,15 +242,18 @@ CCoeControl * CSimkinAppView::AddControlL(const skString& type,int id,const skSt
     control=label;
     CleanupStack::Pop(label);
   // type Edit 
-  }else if (type==KEdit){
+  }else if (type==KEdit || type==KNumericEdit){
     CEikEdwin * edit=new (ELeave)CEikEdwin;
     CleanupStack::PushL(edit);
-    edit->ConstructL(CEikEdwin::EWidthInPixels+CEikEdwin::EAllowPictures+EEikEdwinNoWrap,width,0,1);
+    edit->ConstructL(CEikEdwin::EWidthInPixels,width,0,1);
+    if (type==KNumericEdit){
+      TCoeInputCapabilities inputCapabilities(TCoeInputCapabilities::ENavigation | TCoeInputCapabilities::EWesternNumericIntegerPositive | TCoeInputCapabilities::EWesternNumericIntegerNegative);
+      edit->SetInputCapabilitiesL(inputCapabilities);
+    }
     edit->SetContainerWindowL(*this);
     edit->SetExtent(pos,edit->MinimumSize());
     edit->SetObserver(this);
     edit->SetFocusing(ETrue);
-    iFocusControl=edit;
     control=edit;
     CleanupStack::Pop(edit);
   // type Button
@@ -251,6 +263,9 @@ CCoeControl * CSimkinAppView::AddControlL(const skString& type,int id,const skSt
     button->SetContainerWindowL(*this);
     button->SetTextL(text.ptr());
     button->SetExtent(pos,button->MinimumSize());
+#ifdef SERIES_60
+    button->SetFocusing(ETrue);
+#endif
     control=button;
     button->SetObserver(this);
     CleanupStack::Pop(button);
@@ -261,9 +276,16 @@ CCoeControl * CSimkinAppView::AddControlL(const skString& type,int id,const skSt
 void CSimkinAppView::Draw(const TRect& /*aRect*/) const
 //-----------------------------------------------------------------
 {
-  // might be able to do without this
   CWindowGc& gc = SystemGc();
   gc.Clear();
+#ifdef SERIES_60
+  if (iFocusControlIndex!=-1){
+    // draw a border around the control with focus for the Series 60
+    TRect size=iControls[iFocusControlIndex]->Rect();
+    size.Grow(2,2);
+    gc.DrawRect(size);
+  }
+#endif
 }
 //-----------------------------------------------------------------
 TInt CSimkinAppView::CountComponentControls() const
@@ -277,9 +299,12 @@ CEikEdwin * CSimkinAppView::FindEditor(const skString& id)
 {
   CEikEdwin * editor=0;
   for (TInt i=0;i<iNumControls;i++){
-    if (iControlNodes[i]->findChildData(KId)==id && iControlNodes[i]->findChildData(KType)==KEdit){
-      editor=reinterpret_cast<CEikEdwin *>(iControls[i]);
-      break;
+    if (iControlNodes[i]->findChildData(KId)==id){
+      skString type=iControlNodes[i]->findChildData(KType);
+      if (type==KEdit || type==KNumericEdit){
+        editor=reinterpret_cast<CEikEdwin *>(iControls[i]);
+        break;
+      }
     }
   }
   return editor;
@@ -331,10 +356,16 @@ void CSimkinAppView::HandleControlEventL(CCoeControl* aControl,TCoeEvent aEventT
 {
   switch(aEventType){
   case EEventRequestFocus:{
-    if (iFocusControl)
-      iFocusControl->SetFocus(EFalse);
-    iFocusControl=aControl;
-    iFocusControl->SetFocus(ETrue);
+    if (iFocusControlIndex!=-1)
+      iControls[iFocusControlIndex]->SetFocus(EFalse);
+    iFocusControlIndex=-1;
+    for (TInt i=0;i<iNumControls;i++){
+      if (iControls[i]==aControl){
+        iFocusControlIndex=i;
+        aControl->SetFocus(ETrue);
+        break;
+      }
+    }
     break;
   }
   case EEventStateChanged:{
@@ -355,8 +386,57 @@ TKeyResponse CSimkinAppView::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCod
 {
   TKeyResponse response = EKeyWasNotConsumed;
   if (aType==EEventKey){
-    if (iFocusControl)
-      response = iFocusControl->OfferKeyEventL(aKeyEvent, aType);
+#ifdef SERIES_60
+    // There's no pointer on a Series 60, so we support a moving focus 
+    if (aKeyEvent.iCode==EKeyDownArrow){
+      // focus on the next control
+      if (iFocusControlIndex!=-1){
+        iControls[iFocusControlIndex]->SetFocus(EFalse);
+        do{
+          iFocusControlIndex++;
+          iFocusControlIndex%=iNumControls;
+        }while(iControls[iFocusControlIndex]->IsNonFocusing());
+        iControls[iFocusControlIndex]->SetFocus(ETrue);
+        DrawNow();
+      }else{
+        iFocusControlIndex=0;
+        iControls[iFocusControlIndex]->SetFocus(ETrue);
+        DrawNow();
+      }
+    }else if (aKeyEvent.iCode==EKeyUpArrow){
+      // focus on the previous control
+      if (iFocusControlIndex!=-1){
+        iControls[iFocusControlIndex]->SetFocus(EFalse);
+        do{
+          if (iFocusControlIndex==0){
+            iFocusControlIndex=iNumControls-1;
+          }else{
+            iFocusControlIndex--;
+            iFocusControlIndex%=iNumControls;
+          }
+        }while(iControls[iFocusControlIndex]->IsNonFocusing());
+        iControls[iFocusControlIndex]->SetFocus(ETrue);
+        DrawNow();
+      }else{
+        iFocusControlIndex=0;
+        iControls[iFocusControlIndex]->SetFocus(ETrue);
+        DrawNow();
+      }
+    }else if (aKeyEvent.iCode==EKeyDevice3){
+      // It seems that EKeyDevice3 represents the OK button on a Series 60 - is this a valid assumption?
+      if (iFocusControlIndex!=-1){
+        skTreeNode * node=FindControlNode(iControls[iFocusControlIndex]);
+        if (node){
+          // look for a method associated with this control
+          skString method_name=node->findChildData(KMethod);
+          if (method_name.length())
+            CallMethodL(method_name.ptr());
+        }
+      }
+    }else 
+#endif
+      if (iFocusControlIndex!=-1)
+        response = iControls[iFocusControlIndex]->OfferKeyEventL(aKeyEvent, aType);
   }
   return(response);
 }
@@ -370,14 +450,19 @@ CCoeControl* CSimkinAppView::ComponentControl(TInt aIndex) const
   return aControl;
 }
 //-----------------------------------------------------------------
-void CSimkinAppView::SetFocus(CCoeControl * ctl)
+void CSimkinAppView::SetFocusToControl(CCoeControl * ctl)
 //-----------------------------------------------------------------
 {
-  if (iFocusControl!=ctl){
-    if (iFocusControl)
-      iFocusControl->SetFocus(EFalse);
-    iFocusControl=ctl;
-    if (iFocusControl)
-      iFocusControl->SetFocus(ETrue);
+  TInt new_focus=-1;
+  for (TInt i=0;i<iNumControls;i++){
+    if (ctl==iControls[i])
+      new_focus=i;
+  }
+  if (iFocusControlIndex!=new_focus){
+    if (iFocusControlIndex!=-1)
+      iControls[iFocusControlIndex]->SetFocus(EFalse);
+    iFocusControlIndex=new_focus;
+    if (iFocusControlIndex!=-1)
+      iControls[iFocusControlIndex]->SetFocus(ETrue);
   }
 }

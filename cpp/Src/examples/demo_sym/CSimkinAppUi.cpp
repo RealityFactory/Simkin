@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppUi.cpp,v 1.1 2003/04/11 10:17:39 simkin_cvs Exp $
+  $Id: CSimkinAppUi.cpp,v 1.5 2003/04/25 20:09:35 simkin_cvs Exp $
 */
 #include "CSimkinAppUi.h"
 #include "CSimkinAppView.h"
@@ -60,17 +60,23 @@ void CSimkinAppUi::HandleCommandL(TInt aCommand)
     SAVE_VARIABLE(code);
     code=iDocument->GetScriptAsStringL();
     CSimkinAppCodeDialog * dialog=new (ELeave) CSimkinAppCodeDialog(&code);
+#ifdef SERIES_60
+    dialog->SetMopParent(this);
+#endif
     if (dialog->ExecuteLD(R_EDIT_CODE_DIALOG)){
       if (iDocument->LoadScriptFromStringL(code)){
-	iAppView->ReloadL();
+        iAppView->ReloadL();
       }else{
-	_LIT(KNoScript,"You had a syntax error in your script");
-	CEikonEnv::Static()->AlertWin(KNoScript);
+        _LIT(KNoScript,"You had a syntax error in your script");
+        CEikonEnv::Static()->AlertWin(KNoScript);
       }
     }
     RELEASE_VARIABLE(code);
     break;
   }
+#ifdef SERIES_60
+  case EAknSoftkeyBack:
+#endif
   case EEikCmdExit: 
     Exit();
     break;

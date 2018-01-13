@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skAttribute_8h-source.html,v 1.13 2003/04/19 17:55:59 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skAttribute_8h-source.html,v 1.14 2003/05/27 17:41:56 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skATTRIBUTE_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skATTRIBUTE_H</span>
@@ -66,11 +66,12 @@
 00083  <span class="keyword">public</span>:
 00090   IMPORT_C <span class="keywordtype">void</span> setAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
 00096   IMPORT_C <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
-00102   IMPORT_C <span class="keywordtype">bool</span> removeAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name);
-00106   IMPORT_C skAttribute * findAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
-00107 };
-00108 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
+00103   IMPORT_C <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; default_value) <span class="keyword">const</span>;
+00109   IMPORT_C <span class="keywordtype">bool</span> removeAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name);
+00113   IMPORT_C skAttribute * findAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
+00114 };
+00115 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Tue May 27 18:40:10 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

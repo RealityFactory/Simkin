@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringTokenizer.cpp,v 1.9 2003/04/11 18:05:39 simkin_cvs Exp $
+  $Id: skStringTokenizer.cpp,v 1.10 2003/04/27 16:32:02 simkin_cvs Exp $
 */
 #include "skStringTokenizer.h"
 
@@ -42,11 +42,6 @@ skStringTokenizer::skStringTokenizer(const skString& str)
   init(str, delim, false);
 }
 #endif
-//------------------------------------------
-skStringTokenizer::~skStringTokenizer() 
-//------------------------------------------
-{
-}
 //------------------------------------------
 EXPORT_C void skStringTokenizer::init(const skString& s, const skString& delim, bool returnDelims)
 //------------------------------------------

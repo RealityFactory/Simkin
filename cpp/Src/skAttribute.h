@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAttribute.h,v 1.11 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skAttribute.h,v 1.12 2003/05/19 17:58:33 simkin_cvs Exp $
 */
 #ifndef skATTRIBUTE_H
 #define skATTRIBUTE_H
@@ -94,6 +94,13 @@ class CLASSEXPORT skAttributeList : public skTAList<skAttribute>
    * @return the value associated with the name, or a blank string.
    */
   IMPORT_C skString getAttribute(const skString& name) const;
+  /**
+   * This returns the value of an attribute. If the attribute does not exist, the default value is returned.
+   * @param name - the name of the attribute being accessed
+   * @param default_value - the default value for the attribute
+   * @return the value associated with the name, or a blank string.
+   */
+  IMPORT_C skString getAttribute(const skString& name,const skString& default_value) const;
   /**
    * This removes an attribute from the list. 
    * @param name - the name of the attribute being accessed

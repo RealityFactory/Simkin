@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skString.h,v 1.38 2003/04/19 13:22:24 simkin_cvs Exp $
+  * $Id: skString.h,v 1.39 2003/04/23 14:34:51 simkin_cvs Exp $
   */
 
 
@@ -437,9 +437,9 @@ class CLASSEXPORT skString
    */
   P_String * pimp;
 #ifdef __SYMBIAN32__
-  friend CLASSEXPORT skString operator+(const TDesC& s1,const skString& s2);
+  friend IMPORT_C skString operator+(const TDesC& s1,const skString& s2);
 #endif
-  friend CLASSEXPORT skString operator+(const Char * s1,const skString& s2);
+  friend CLASSEXPORT IMPORT_C skString operator+(const Char * s1,const skString& s2);
 
 };
 /*
@@ -455,9 +455,9 @@ inline USize hashKey(const skString * s)
  * An operator to add strings
  */
 #ifdef __SYMBIAN32__
-CLASSEXPORT skString operator+(const TDesC& s1,const skString& s2);
+EXPORT_C skString operator+(const TDesC& s1,const skString& s2);
 #endif
-CLASSEXPORT skString operator+(const Char *& s1,const skString& s2);
+CLASSEXPORT IMPORT_C skString operator+(const Char *& s1,const skString& s2);
 
 #ifdef STREAMS_ENABLED
 /*

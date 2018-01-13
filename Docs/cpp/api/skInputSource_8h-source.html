@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skInputSource_8h-source.html,v 1.10 2003/04/19 17:55:59 simkin_cvs Exp $</span>
+00019 <span class="comment">  $Id: skInputSource_8h-source.html,v 1.11 2003/05/27 17:41:56 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skInputSource_h</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skInputSource_h</span>
@@ -43,7 +43,7 @@
 00039 #endif
 00040 {
 00041 <span class="keyword">public</span>:
-00042   <span class="keyword">virtual</span> ~skInputSource();
+00042   IMPORT_C <span class="keyword">virtual</span> ~skInputSource();
 00046   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> eof() <span class="keyword">const</span>=0;
 00050   <span class="keyword">virtual</span> <span class="keywordtype">int</span> get()=0;
 00054   <span class="keyword">virtual</span> <span class="keywordtype">int</span> peek()=0;
@@ -60,11 +60,11 @@
 00079 <span class="preprocessor"></span>
 00084   IMPORT_C <span class="keywordtype">void</span> open(<span class="keyword">const</span> TDesC&amp; file);
 00085 <span class="preprocessor">#endif</span>
-00086 <span class="preprocessor"></span>  <span class="keyword">virtual</span> ~skInputFile();
-00090   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskInputSource.html#a1">eof</a>() <span class="keyword">const</span>;
-00094   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a2">get</a>();
-00098   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a3">peek</a>();
-00103   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskInputSource.html#a4">readAllToString</a>();
+00086 <span class="preprocessor"></span>  IMPORT_C <span class="keyword">virtual</span> ~skInputFile();
+00090   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskInputSource.html#a1">eof</a>() <span class="keyword">const</span>;
+00094   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a2">get</a>();
+00098   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a3">peek</a>();
+00103   IMPORT_C <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskInputSource.html#a4">readAllToString</a>();
 00104 <span class="keyword">private</span>:
 00105 <span class="preprocessor">#ifdef STREAMS_ENABLED</span>
 00106 <span class="preprocessor"></span>  ifstream      m_In;
@@ -81,11 +81,11 @@
 00117 {
 00118 <span class="keyword">public</span>:
 00123   IMPORT_C skInputString(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; in);
-00127   <span class="keyword">virtual</span> ~skInputString();
-00131   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskInputSource.html#a1">eof</a>() <span class="keyword">const</span>;
-00135   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a2">get</a>();
-00139   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a3">peek</a>();
-00143   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskInputSource.html#a4">readAllToString</a>();
+00127   IMPORT_C <span class="keyword">virtual</span> ~skInputString();
+00131   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskInputSource.html#a1">eof</a>() <span class="keyword">const</span>;
+00135   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a2">get</a>();
+00139   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classskInputSource.html#a3">peek</a>();
+00143   IMPORT_C <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskInputSource.html#a4">readAllToString</a>();
 00144 <span class="keyword">private</span>:
 00145   <a class="code" href="classskString.html">skString</a>      m_In;
 00146   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>  m_Pos;
@@ -94,7 +94,7 @@
 00149 };
 00150 
 00151 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
+</pre></div><hr><address style="align: right;"><small>Generated on Tue May 27 18:40:10 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

@@ -16,18 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementExecutable.cpp,v 1.15 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skElementExecutable.cpp,v 1.16 2003/05/14 22:00:10 simkin_cvs Exp $
 */
 
 #include "skElementExecutable.h"
 #include "skExpatParser.h"
 #include "skInputSource.h"
 #include "skOutputDestination.h"
-#ifdef STREAMS_ENABLED
-#include <fstream.h>
-#else
-#include "skStringBuffer.h"
-#endif
 //------------------------------------------
 skElementExecutable::skElementExecutable() 
 //------------------------------------------

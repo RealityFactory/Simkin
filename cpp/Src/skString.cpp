@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.39 2003/04/19 13:22:24 simkin_cvs Exp $
+  $Id: skString.cpp,v 1.40 2003/05/15 19:20:06 simkin_cvs Exp $
 */
 
 #include <stdio.h>
@@ -180,12 +180,15 @@ EXPORT_C skString operator+(const Char * s1,const skString& s2)
 EXPORT_C skString skString::operator+(const skString& s)  const
   //---------------------------------------------------
 {
-  if (pimp){
-    USize len=pimp->m_Length+s.pimp->m_Length+1;
+  if (pimp || s.pimp){
+    USize len=length()+s.length()+1;
     Char * buffer=skARRAY_NEW(Char,len);
+    buffer[0]=0;
     SAVE_POINTER(buffer);
-    STRCPY(buffer,pimp->m_PString);
-    STRCAT(buffer,s.pimp->m_PString);
+    if (pimp)
+      STRCPY(buffer,pimp->m_PString);
+    if (s.pimp)
+      STRCAT(buffer,s.pimp->m_PString);
     P_String * pnew=skNEW(P_String);
     pnew->s.m_Const=false;
     pnew->m_PString=buffer;

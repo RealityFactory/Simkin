@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skSHashTable.inl,v 1.4 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skSHashTable.inl,v 1.5 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 
 //---------------------------------------------------
@@ -140,53 +140,53 @@ inline void skSHashTable::Cleanup(TAny * s)
 }
 #endif
 
-#define TTH_PREFIX template<class TValue> 
+#define TTHS_PREFIX template<class TValue> 
 
 //---------------------------------------------------
-TTH_PREFIX inline skTSHashTable<TValue>::skTSHashTable(USize  size)
+TTHS_PREFIX inline skTSHashTable<TValue>::skTSHashTable(USize  size)
 //---------------------------------------------------
   : skSHashTable(size)
 {
 }
 //---------------------------------------------------
-TTH_PREFIX inline skTSHashTable<TValue>::skTSHashTable()
+TTHS_PREFIX inline skTSHashTable<TValue>::skTSHashTable()
 //---------------------------------------------------
   : skSHashTable(DEFAULT_skSHashTable_SIZE)
 {
 }
 //---------------------------------------------------
-TTH_PREFIX inline skTSHashTable<TValue>::~skTSHashTable()
+TTHS_PREFIX inline skTSHashTable<TValue>::~skTSHashTable()
 //---------------------------------------------------
 {
   clearAndDestroy();
 }
 
 //---------------------------------------------------
-TTH_PREFIX inline void skTSHashTable<TValue>::insertKeyAndValue(const skString& key, TValue * value)
+TTHS_PREFIX inline void skTSHashTable<TValue>::insertKeyAndValue(const skString& key, TValue * value)
 //---------------------------------------------------
 {
   skSHashTable::insertKeyAndValue(key,value);
 }
 //---------------------------------------------------
-TTH_PREFIX inline TValue * skTSHashTable<TValue>::value(const skString& key)
+TTHS_PREFIX inline TValue * skTSHashTable<TValue>::value(const skString& key)
 //---------------------------------------------------
 {
   return (TValue*)skSHashTable::value(key);
 }
 //---------------------------------------------------
-TTH_PREFIX inline void skTSHashTable<TValue>::deleteValue(void * value)
+TTHS_PREFIX inline void skTSHashTable<TValue>::deleteValue(void * value)
 //---------------------------------------------------
 {
   delete (TValue *)value;
 }
 //---------------------------------------------------
-TTH_PREFIX inline skTSHashTableIterator<TValue>::skTSHashTableIterator(const skTSHashTable<TValue>& l)
+TTHS_PREFIX inline skTSHashTableIterator<TValue>::skTSHashTableIterator(const skTSHashTable<TValue>& l)
 //---------------------------------------------------
   : skSHashTableIterator(l)
 {
 }
 //---------------------------------------------------
-TTH_PREFIX inline TValue * skTSHashTableIterator<TValue>::value() const
+TTHS_PREFIX inline TValue * skTSHashTableIterator<TValue>::value() const
 //---------------------------------------------------
 {
   return (TValue*)skSHashTableIterator::value();

@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppCodeDialog.h,v 1.1 2003/04/11 10:17:39 simkin_cvs Exp $
+  $Id: CSimkinAppCodeDialog.h,v 1.2 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 #ifndef CSIMKINAPPCODEDIALOG_H
 #define CSIMKINAPPCODEDIALOG_H
@@ -24,7 +24,8 @@
 #include "skString.h"
 #include <eikdialg.h>
 
-class CSimkinAppCodeDialog : public CEikDialog
+class CSimkinAppCodeDialog 
+: public CEikDialog
 {
 public:
   CSimkinAppCodeDialog(skString * code)

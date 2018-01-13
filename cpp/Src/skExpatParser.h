@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.h,v 1.16 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skExpatParser.h,v 1.17 2003/05/15 19:20:06 simkin_cvs Exp $
 */
 
 #ifndef skEXPATPARSER_H
@@ -51,6 +51,7 @@ class CLASSEXPORT skExpatParser
    * @exception Symbian - a leaving function
    */
   IMPORT_C skElement * parse(skInputSource& in,skExecutableContext& context);
+  IMPORT_C skElement * parse(skInputSource& in,skExecutableContext& context,skString encoding);
  private:
   /** prevent C++ from making copies of the parser */
   skExpatParser(const skExpatParser&);

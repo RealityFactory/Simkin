@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.cpp,v 1.17 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skElement.cpp,v 1.18 2003/05/19 17:58:33 simkin_cvs Exp $
 */
 #include "skElement.h"
 #include "skStringBuffer.h"
@@ -85,6 +85,12 @@ EXPORT_C skString skElement::getAttribute(const skString& name) const
   //------------------------------------------
 {
   return m_Attributes.getAttribute(name);
+}
+//------------------------------------------
+EXPORT_C skString skElement::getAttribute(const skString& name,const skString& default_value) const
+  //------------------------------------------
+{
+  return m_Attributes.getAttribute(name,default_value);
 }
 //------------------------------------------
 EXPORT_C skAttributeList& skElement::getAttributes()

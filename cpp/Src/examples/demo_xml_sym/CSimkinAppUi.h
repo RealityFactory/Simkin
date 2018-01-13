@@ -16,19 +16,30 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppUi.h,v 1.1 2003/04/16 21:48:06 simkin_cvs Exp $
+  $Id: CSimkinAppUi.h,v 1.2 2003/04/25 20:09:35 simkin_cvs Exp $
 */
 #ifndef CSIMKINAPPUI_H
 #define CSIMKINAPPUI_H
 
+#include "Platform.h"
+
+#ifdef QUARTZ_SDK
 #include <qikappui.h>
-class CSimkinDocument;
-class CSimkinAppView;
+#else
+#include <aknappui.h>
+#endif
+#include "CSimkinDocument.h"
+#include "CSimkinAppView.h"
 
 /**
  * This class provides a controller for the Simkin Demo
  */
-class CSimkinAppUi : public CQikAppUi
+class CSimkinAppUi 
+#ifdef QUARTZ_SDK
+: public CQikAppUi
+#else
+: public CAknAppUi
+#endif
 {
  public:
   CSimkinAppUi(const TDesC& aLocation,CSimkinDocument * aDocument);

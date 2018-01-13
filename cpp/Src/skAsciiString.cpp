@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skAsciiString.cpp,v 1.5 2003/04/19 17:56:15 simkin_cvs Exp $
+  $Id: skAsciiString.cpp,v 1.7 2003/05/15 19:20:06 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -36,8 +36,9 @@ void P_AsciiString::init()
   }
   m_Length=(USize)strlen(m_PString);
 }
+#ifndef __SYMBIAN32__
 //---------------------------------------------------
-EXPORT_C skAsciiString::skAsciiString(const char * s,int /* i */)
+skAsciiString::skAsciiString(const char * s,int /* i */)
   //---------------------------------------------------
 {                          
   //	create literal string
@@ -45,7 +46,6 @@ EXPORT_C skAsciiString::skAsciiString(const char * s,int /* i */)
   pimp->m_PString=(char *)s;
   pimp->init();
 }
-#ifndef __SYMBIAN32__
 // This can leave, so not available in Symbian
 //---------------------------------------------------
 skAsciiString::skAsciiString(const char repeatchar, USize len)
@@ -159,8 +159,11 @@ EXPORT_C skAsciiString skAsciiString::operator+(const skAsciiString& s)  const
 {
   USize len=length()+s.length()+1;
   char * buffer=new char[len];
-  strcpy(buffer,pimp->m_PString);
-  strcat(buffer,s.pimp->m_PString);
+  buffer[0]=0;
+ if (pimp)
+    strcpy(buffer,pimp->m_PString);
+  if (s.pimp)
+    strcat(buffer,s.pimp->m_PString);
   P_AsciiString * pnew=new P_AsciiString;
   pnew->s.m_Const=false;
   pnew->m_PString=buffer;
@@ -292,7 +295,11 @@ EXPORT_C skAsciiString skAsciiString::from(char ch)
 EXPORT_C skAsciiString skAsciiString::literal(const char * s)
   //---------------------------------------------------
 {
-  return skAsciiString(s,1);
+  //    create literal string
+  P_AsciiString * pimp=skNEW(P_AsciiString);
+  pimp->m_PString=(char *)s;
+  pimp->init();
+  return skAsciiString(pimp);
 }
 //---------------------------------------------------
 EXPORT_C skAsciiString skAsciiString::ltrim() const

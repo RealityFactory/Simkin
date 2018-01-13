@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skHashTable.h,v 1.21 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skHashTable.h,v 1.23 2003/04/25 18:04:14 simkin_cvs Exp $
 */
 #ifndef skHASHTBL_H
 #define skHASHTBL_H
@@ -64,27 +64,27 @@ class   CLASSEXPORT skHashTable
   /**
    * this clears the entries from the table, but does *not* delete them
    */
-  void clear();
+  IMPORT_C void clear();
   /**
    * this clears the list and deletes the keys
    */
-  void clearAndDestroyKeys();
+  IMPORT_C void clearAndDestroyKeys();
   /**
    * this clears the list and deletes the values
    */
-  void clearAndDestroyValues();
+  IMPORT_C void clearAndDestroyValues();
   /**
    * this clears the list and deletes both the values and the keys
    */
-  void clearAndDestroy();
+  IMPORT_C void clearAndDestroy();
   /**
    * this returns the number of entries in the table
    */
-  USize entries() const;
+  inline USize entries() const;
   /**
    * destructor
    */
-  virtual ~skHashTable();
+  inline virtual ~skHashTable();
 #ifdef __SYMBIAN32__
   /**
    * Conversion operator to Symbian TCleanupItem. This is provided to allow this object to be pushed by value onto the 
@@ -107,7 +107,7 @@ class   CLASSEXPORT skHashTable
    * puts a new key and value into the table. If the key already exists, it is first deleted
    * @exception Symbian - a leaving function
    */
-  void insertKeyAndValue(void * key, void * value);
+  IMPORT_C void insertKeyAndValue(void * key, void * value);
   /**
    * returns the value associated with the given key
    */

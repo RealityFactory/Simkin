@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNode.cpp,v 1.41 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skTreeNode.cpp,v 1.42 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -361,7 +361,7 @@ EXPORT_C skTreeNode* skTreeNode::findChild(const skString& label,const skString&
   return node;
 }
 //-----------------------------------------------------------------
-EXPORT_C void skTreeNode::writeTabs(skOutputDestination& out,int tabstops)
+void skTreeNode::writeTabs(skOutputDestination& out,int tabstops)
   //-----------------------------------------------------------------
 {
   for (int i=0;i<tabstops;i++)
@@ -469,7 +469,7 @@ EXPORT_C skTreeNodeListIterator::skTreeNodeListIterator(const skTreeNode& l)
 {
 }
 //-----------------------------------------------------------------
-skTreeNodeListIterator::~skTreeNodeListIterator()
+EXPORT_C skTreeNodeListIterator::~skTreeNodeListIterator()
   //-----------------------------------------------------------------
 {
 }
@@ -503,7 +503,7 @@ skTreeNodeList::skTreeNodeList(const skTreeNodeList& l)
 }
 #endif
 //-----------------------------------------------------------------
-skTreeNodeList::~skTreeNodeList()
+EXPORT_C skTreeNodeList::~skTreeNodeList()
   //-----------------------------------------------------------------
 {
   clearAndDestroy();

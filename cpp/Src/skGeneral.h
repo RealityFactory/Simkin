@@ -16,12 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skGeneral.h,v 1.33 2003/04/19 13:22:23 simkin_cvs Exp $
+  $Id: skGeneral.h,v 1.34 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 #ifndef skGENERAL_H
 #define skGENERAL_H
 
 
+#ifndef __SYMBIAN32__
 #if defined(_MSC_VER)
    #ifdef _DEBUG
       #define MYDEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
@@ -30,6 +31,7 @@
    #else
       #define MYDEBUG_NEW
    #endif // _DEBUG
+#endif
 #endif
 
 
@@ -121,11 +123,13 @@ typedef unsigned int USize;
 #endif
 
 
+#ifndef __SYMBIAN32__
 #if defined(_MSC_VER)
    #ifdef _DEBUG
    #undef new
    #define new MYDEBUG_NEW
    #endif
+#endif
 #endif
 
 #ifdef __SYMBIAN32__

@@ -27,17 +27,27 @@ Simkin Expressions</H1>
 <tr><td colspan="3"><b>Relational Operators</b></td></tr>
 <tr><td>equality</td><td>equality test</td><td><code>Name<b>=</b>"Simon"</code></td></tr>
 <tr><td>inequality</td><td>inequality test</td><td><code>Name<b>!=</b>"Simon"</code></td></tr>
-<tr><td>less than</td><td>integer less than</td><td><code>a <b>lt</b> b</code> or <code>a <b>&lt;</b> b</td></tr>
-<tr><td>less than or equal to</td><td>integer less than or equal to</td><td><code>a <b>le</b> b</code> or <code>a <b>&lt;=</b> b</td></tr>
-<tr><td>greater than</td><td>integer greater than</td><td><code>a <b>gt</b> b</code> or <code>a <b>&gt;</b> b</code></td></tr>
-<tr><td>greater than or equal to</td><td>integer greater than or equal to</td><td><code>a <b>ge</b> b</code> or <code>a <b>&gt;=</b> b</code></td></tr>
-<tr><td colspan="3"><b>Arithmetic Operators</b></td></tr>
-<tr><td>subtract</td><td>integer subtract</td><td><code>12 <b>-</b> 1</code></td></tr>
-<tr><td>add</td><td>integer addition</td><td><code>12 <b>+</b> 1</code></td></tr>
-<tr><td>minus</td><td>integer inversion</td><td><code><b>-</b> 1<code></td></tr>
-<tr><td>times</td><td>integer multiplication</td><td><code>12 <b>*</b> 1</code></td></tr>
-<tr><td>divide</td><td>integer division</td><td><code>12 <b>/</b> 1</code></td></tr>
-<tr><td>modulus</td><td>integer modulus</td><td><code>12 <b>%</b> 1</code></td></tr>
+<tr><td>less than</td><td>integer/float less than</td><td><code>a <b>lt</b> b</code> or <code>a <b>&lt;</b> b</td></tr>
+<tr><td>less than or equal to</td><td>integer/float less than or equal to</td><td><code>a <b>le</b> b</code> or <code>a <b>&lt;=</b> b</td></tr>
+<tr><td>greater than</td><td>integer/float greater than</td><td><code>a <b>gt</b> b</code> or <code>a <b>&gt;</b> b</code></td></tr>
+<tr><td>greater than or equal to</td><td>integer/float greater than or equal to</td><td><code>a <b>ge</b> b</code> or <code>a <b>&gt;=</b> b</code></td></tr>
+<tr><td colspan="3"><b>Arithmetic Operators</b>
+<br><b>Note:</b> Arithmetic operations are performed using floating point numbers, unless <b>both</b> values are integer.
+<br>For example:
+<code>
+<pre>1 + 2 = 3
+1 / 2 = 0
+"1" + "2" = 3.0
+1.0 / 2 = 0.5
+</pre>
+</code>
+</td></tr>
+<tr><td>subtract</td><td>integer/float subtract</td><td><code>12 <b>-</b> 1</code></td></tr>
+<tr><td>add</td><td>integer/float addition</td><td><code>12 <b>+</b> 1</code></td></tr>
+<tr><td>minus</td><td>integer/float inversion</td><td><code><b>-</b> 1<code></td></tr>
+<tr><td>times</td><td>integer/float multiplication</td><td><code>12 <b>*</b> 1</code></td></tr>
+<tr><td>divide</td><td>integer/float division</td><td><code>12 <b>/</b> 1</code></td></tr>
+<tr><td>modulus</td><td>integer/float modulus</td><td><code>12 <b>%</b> 1</code></td></tr>
 <tr><td colspan="3"><b>String Operators</b></td></tr>
 <tr><td>concatenation</td><td>adding two strings together</td><td><code>"First Name " <b>#</b> " Surname"</code> or <code>"First Name " <b>&amp;</b> " Surname"</code></td></tr>
 <tr><td colspan="3"><b>Array Operators</b></td></tr>

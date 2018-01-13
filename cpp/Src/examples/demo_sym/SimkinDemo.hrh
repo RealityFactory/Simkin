@@ -16,13 +16,13 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: SimkinDemo.hrh,v 1.1 2003/04/11 10:17:39 simkin_cvs Exp $
+  $Id: SimkinDemo.hrh,v 1.2 2003/04/25 18:04:04 simkin_cvs Exp $
 */
 enum SimkinDemoCommands {
 /** Shows dialog for editing the script */
-ECodeId, 
+ECodeId=1, 
 /** Quits the demo */
-EEikCmdEditCode
+EEikCmdEditCode=1
 };
 
 

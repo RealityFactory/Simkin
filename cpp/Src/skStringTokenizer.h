@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringTokenizer.h,v 1.12 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skStringTokenizer.h,v 1.14 2003/05/14 22:00:10 simkin_cvs Exp $
 */
 #ifndef skSTRINGTOKENIZER_H
 #define skSTRINGTOKENIZER_H
@@ -77,7 +77,7 @@ class CLASSEXPORT skStringTokenizer
   /**
    * Desstructor
    */
-  virtual ~skStringTokenizer();
+  virtual inline ~skStringTokenizer();
 
   /**
    * Initialize the tokenizer
@@ -88,6 +88,18 @@ class CLASSEXPORT skStringTokenizer
    * @exception Symbian - a leaving function
    */
   IMPORT_C void init(const skString& str, const skString& delim, bool returnDelims);
+#ifdef __SYMBIAN32__
+  /**
+   * Initialize the tokenizer
+   * \remarks only available in Symbian version
+   * @param   str            a string to be parsed.
+   * @param   delim          the delimiters.
+   * @param   returnDelims   flag indicating whether to return the delimiters
+   *                         as tokens.
+   * @exception Symbian - a leaving function
+   */
+  inline void init(const skString& str, const TDesC& delim, bool returnDelims);
+#endif
   /**
    * Tests if there are more tokens available from this tokenizer's string. 
    * If this method returns true, then a subsequent call to 
@@ -164,6 +176,21 @@ class CLASSEXPORT skStringTokenizer
 inline skStringTokenizer::skStringTokenizer()
 //------------------------------------------
   :  m_CurrentPosition(0),m_NewPosition(-1),m_MaxPosition(0),m_DelimsChanged(false)
+{
+}
+#ifdef __SYMBIAN32__
+//------------------------------------------
+inline void skStringTokenizer::init(const skString& str, const TDesC& delim, bool returnDelims)
+//------------------------------------------
+{
+  skString s_delim;
+  s_delim=delim;
+  init(str,s_delim,returnDelims);
+}
+#endif
+//------------------------------------------
+inline skStringTokenizer::~skStringTokenizer() 
+//------------------------------------------
 {
 }
 #endif

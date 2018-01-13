@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreterByte.cpp,v 1.10 2003/04/19 13:22:23 simkin_cvs Exp $
+  $Id: skInterpreterByte.cpp,v 1.11 2003/04/24 10:19:43 simkin_cvs Exp $
 */
 #include "skInterpreter.h"
 #include "skRValueArray.h"
@@ -418,6 +418,7 @@ void skInterpreter::followIdList(skStackFrame& frame,skCompiledCode& code,USize&
 #endif
     getIdNode(code,pc,name,has_array_index,is_method);
     //    trace("followIdList: %d: %s\n",i,(const char *)name);
+    name=checkIndirectId(frame,name);
     skRValue result;
     SAVE_VARIABLE(result);
     if (is_method==false){

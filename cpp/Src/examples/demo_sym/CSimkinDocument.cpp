@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinDocument.cpp,v 1.3 2003/04/14 15:23:55 simkin_cvs Exp $
+  $Id: CSimkinDocument.cpp,v 1.4 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 
 #include "CSimkinDocument.h"
@@ -28,7 +28,12 @@
 //-----------------------------------------------------------------
 CSimkinDocument::CSimkinDocument(CEikApplication& aApp,const TDesC& aFileName)
 //-----------------------------------------------------------------
-  : CQikDocument(aApp),iInterpreter(0),iFileName(aFileName),iScript(0)
+  : iInterpreter(0),iFileName(aFileName),iScript(0)
+#ifdef QUARTZ_SDK
+,CQikDocument(aApp)
+#else
+,CAknDocument(aApp)
+#endif
 {
 }
 //-----------------------------------------------------------------

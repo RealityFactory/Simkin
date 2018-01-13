@@ -16,10 +16,12 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppView.h,v 1.3 2003/04/19 13:22:24 simkin_cvs Exp $
+  $Id: CSimkinAppView.h,v 1.6 2003/04/25 20:09:35 simkin_cvs Exp $
 */
 #ifndef CSIMKINAPPVIEW_H
 #define CSIMKINAPPVIEW_H
+
+#include "Platform.h"
 
 #include "skRValueArray.h"
 #include "skTreeNodeObject.h"
@@ -89,7 +91,7 @@ class CSimkinAppView : public CCoeControl ,public MCoeControlObserver
   CEikLabel * FindLabel(const skString& id);
  private:
   /** Sets focus on a control */
-  void SetFocus(CCoeControl * ctl);
+  void SetFocusToControl(CCoeControl * ctl);
   /** Calls a method within the script*/
   void CallMethodL(const TDesC& method_name);
   /** An array of controls on the view */
@@ -98,8 +100,8 @@ class CSimkinAppView : public CCoeControl ,public MCoeControlObserver
   skTreeNode ** iControlNodes;
   /** the number of controls on the view */
   TInt iNumControls;
-  /** the control with the current keyboard focus */
-  CCoeControl* iFocusControl;
+  /** the index of the control with the current keyboard focus */
+  TInt iFocusControlIndex;
   /** the underlying Simkin document, which contains the script */
   CSimkinDocument * iDocument;
   /** This object wraps the script to provide an executable interface for Simkin scripts */

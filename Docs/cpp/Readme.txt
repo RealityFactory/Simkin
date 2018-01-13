@@ -1,6 +1,17 @@
 Simkin for C++
 (c)1996-2003 Simon Whiteside
 
+Simkin Version 2.20
+Date: 27/5/2003
+-------------------
+
+* fixed a bug where the skExpatParser would double-delete the elements in the case of an XML syntax error. Bug was introduced in Simkin version 2.18
+* added removeElement script method to skElementObject
+* added reset() method to skStringBuffer
+* fixed nasty bug in skString::operator+ if the current string is blank, the add returns a blank whatever is being added to it
+* added another "getAttribute" function to skElement - which returns a default value if an attribute is not present
+* fixed bug stopping multiple line comments from working (thanks to "Cool" on the discussion board!!)
+
 Simkin Version 2.19
 Date: 19/4/2003
 -------------------

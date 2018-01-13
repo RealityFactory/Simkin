@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAsciiString.h,v 1.5 2003/04/19 17:56:15 simkin_cvs Exp $
+* $Id: skAsciiString.h,v 1.6 2003/04/23 14:34:51 simkin_cvs Exp $
 */
 
 
@@ -228,10 +228,13 @@ class CLASSEXPORT skAsciiString
    * Constructor - internal taking a P_String and not copying it
    */
   skAsciiString(P_AsciiString *);
+#ifndef __SYMBIAN32__
   /**
    * Constructor - internal, taking a buffer and not copying it
+   * \remarks not available in Symbian version
    */
   skAsciiString(const char * s,int);
+#endif
   /**
    * Assigns another buffer to this one, and copies it
    */
