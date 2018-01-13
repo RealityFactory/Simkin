@@ -89,6 +89,10 @@ LINK32=link.exe
 
 SOURCE=.\ScriptLoader_Xerces.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\skInterpreterNode.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 

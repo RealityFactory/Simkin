@@ -16,43 +16,43 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringBuffer.cpp,v 1.8 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skStringBuffer.cpp,v 1.14 2003/04/11 18:05:39 simkin_cvs Exp $
 */
 #include "skStringBuffer.h"
+#include <string.h>
 
+#ifndef __SYMBIAN32__
 //---------------------------------------------------
-skStringBuffer::skStringBuffer(USize length,USize growth_increment)
-//---------------------------------------------------
-  : m_GrowthIncrement(growth_increment),m_Length(0),m_Buffer(0),m_Capacity(length+1)
-{
-  if (m_Capacity){
-    m_Buffer=new Char[m_Capacity];
-    memset(m_Buffer,0,m_Capacity);
-  }
-}
-//---------------------------------------------------
-skStringBuffer::skStringBuffer(const skString& str,USize growth_increment)
+EXPORT_C skStringBuffer::skStringBuffer(const skString& str,USize growth_increment)
 //---------------------------------------------------
   : m_GrowthIncrement(growth_increment),m_Length(str.length()),m_Buffer(0),m_Capacity(str.length()+1)
 {
   if (m_Capacity){
-    m_Buffer=new Char[m_Capacity];
+    m_Buffer=skARRAY_NEW(Char,m_Capacity);
     STRCPY(m_Buffer,str);
   }
 }
 //---------------------------------------------------
-skStringBuffer::skStringBuffer(const skStringBuffer& s)
+EXPORT_C skStringBuffer::skStringBuffer(const skStringBuffer& s)
 //---------------------------------------------------
   : m_GrowthIncrement(s.m_GrowthIncrement),m_Length(s.m_Length),m_Buffer(0),m_Capacity(s.m_Capacity)
 {
   if (m_Capacity){
-    m_Buffer=new Char[m_Capacity];
+    m_Buffer=skARRAY_NEW(Char,m_Capacity);
     memset(m_Buffer,0,m_Capacity);
     STRCPY(m_Buffer,s.m_Buffer);
   }
 }
+#endif
 //---------------------------------------------------
-skStringBuffer& skStringBuffer::operator=(const skStringBuffer& s)
+EXPORT_C skStringBuffer::~skStringBuffer()
+//---------------------------------------------------
+{
+  if (m_Buffer)
+    delete [] m_Buffer;
+}
+//---------------------------------------------------
+EXPORT_C skStringBuffer& skStringBuffer::operator=(const skStringBuffer& s)
 //---------------------------------------------------
 {
   if (m_Buffer)
@@ -62,21 +62,14 @@ skStringBuffer& skStringBuffer::operator=(const skStringBuffer& s)
   m_Buffer=0;
   m_Capacity=s.m_Capacity;
   if (m_Capacity){
-    m_Buffer=new Char[m_Capacity];
+    m_Buffer=skARRAY_NEW(Char,m_Capacity);
     memset(m_Buffer,0,m_Capacity);
     STRCPY(m_Buffer,s.m_Buffer);
   }
   return *this;
 }
 //---------------------------------------------------
-skStringBuffer::~skStringBuffer()
-//---------------------------------------------------
-{
-  if (m_Buffer)
-    delete [] m_Buffer;
-}
-//---------------------------------------------------
-void skStringBuffer::append(Char ch)
+EXPORT_C void skStringBuffer::append(Char ch)
 //---------------------------------------------------
 {
   ensureCapacity(m_Length+1+1);
@@ -84,15 +77,15 @@ void skStringBuffer::append(Char ch)
   m_Buffer[m_Length]=0;
 }
 //---------------------------------------------------
-void skStringBuffer::append(const skString& s)
+EXPORT_C void skStringBuffer::append(const skString& s)
 //---------------------------------------------------
 {
   ensureCapacity(m_Length+s.length()+1);
-  STRCAT(m_Buffer,s);
+  STRCAT(m_Buffer,s.c_str());
   m_Length+=s.length();
 }
 //---------------------------------------------------
-void skStringBuffer::append(const Char * s)
+EXPORT_C void skStringBuffer::append(const Char * s)
 //---------------------------------------------------
 {
   if (s){
@@ -104,11 +97,26 @@ void skStringBuffer::append(const Char * s)
     }
   }
 }
+#ifdef __SYMBIAN32__
 //---------------------------------------------------
-skString skStringBuffer::toString() 
+EXPORT_C void skStringBuffer::append(const TDesC& s)
 //---------------------------------------------------
 {
-  skString ret=skString::fromBuffer(m_Buffer);
+  USize length=s.Length();
+  if (length){
+    ensureCapacity(m_Length+length+1);
+    STRNCPY(m_Buffer+m_Length,(const Char *)s.Ptr(),s.Length());
+    m_Length+=length;
+  }
+}
+#endif
+//---------------------------------------------------
+EXPORT_C skString skStringBuffer::toString() 
+//---------------------------------------------------
+{
+  skString ret;
+  if (m_Buffer)
+    ret=skString::fromBuffer(m_Buffer);
   // new string now owns the buffer, so zero ourselves out
   m_Capacity=0;
   m_Length=0;
@@ -116,44 +124,43 @@ skString skStringBuffer::toString()
   return ret;
 }
 //---------------------------------------------------
-skString skStringBuffer::toStringCopy() const
+EXPORT_C skString skStringBuffer::toStringCopy() const
 //---------------------------------------------------
 {
-  return skString(m_Buffer);
+   skString str;
+   if (m_Buffer)
+     str=m_Buffer;
+   return str;
 }
 //---------------------------------------------------
-void skStringBuffer::ensureCapacity(USize capacity)
+EXPORT_C void skStringBuffer::ensureCapacity(USize capacity)
 //---------------------------------------------------
 {
-  if (capacity+1>m_Capacity){
-    USize increment=max(capacity-m_Capacity,m_GrowthIncrement);
-    USize new_capacity=m_Capacity+increment;
-    assert(new_capacity>=capacity);
-    Char * new_buffer=new Char[new_capacity];
-    memset(new_buffer,0,new_capacity);
-    if (m_Buffer){
-      STRCPY(new_buffer,m_Buffer);
-      delete [] m_Buffer;
+  if (m_Buffer==0){
+    if (capacity>m_Capacity)
+      m_Capacity=capacity;
+    if (m_Capacity){
+      m_Buffer=skARRAY_NEW(Char,m_Capacity);
+      memset(m_Buffer,0,m_Capacity);
     }
-    m_Buffer=new_buffer;
-    m_Capacity=new_capacity;
-  }
+  }else
+    if (capacity+1>m_Capacity){
+      USize increment=max(capacity-m_Capacity,m_GrowthIncrement);
+      USize new_capacity=m_Capacity+increment;
+      assert(new_capacity>=capacity);
+      Char * new_buffer=skARRAY_NEW(Char,new_capacity);
+      memset(new_buffer,0,new_capacity*sizeof(Char));
+      memcpy(new_buffer,m_Buffer,m_Length*sizeof(Char));
+      delete [] m_Buffer;
+      m_Buffer=new_buffer;
+      m_Capacity=new_capacity;
+    }
 }
+#ifndef __SYMBIAN32
 //---------------------------------------------------
-skStringBuffer::operator const Char * () const
+EXPORT_C skStringBuffer::operator const Char * () const
 //---------------------------------------------------
 {
   return m_Buffer;
 }
-//---------------------------------------------------
-USize skStringBuffer::length() const
-//---------------------------------------------------
-{
-  return m_Length;
-}
-//---------------------------------------------------
-USize skStringBuffer::capacity() const
-//---------------------------------------------------
-{
-  return m_Capacity;
-}
+#endif

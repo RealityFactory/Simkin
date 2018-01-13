@@ -24,9 +24,9 @@ There are various issues with the support for C++ on Windows CE 3.0:
 Simkin contains preprocessor directives to provide a special version of the library to address these issues:
 <ol>
 <li><b>EXCEPTIONS_DEFINED</b><br>if undefined, code using C++ exceptions is disabled. 
-<br>An <a href="api/classskExecutableContext.html">skExecutableContext</a> object is passed to method calls which uses an <a href="api/classskScriptError.html">skScriptError</a> object to catch any errors that would normally be thrown as a C++ exception.<p>
+<br>An <a href="ce/api/classskExecutableContext.html">skExecutableContext</a> object is passed to method calls which uses an <a href="ce/api/classskScriptError.html">skScriptError</a> object to catch any errors that would normally be thrown as a C++ exception.<p>
 </li>
-<li><b>STREAMS_ENABLED</b><br>if defined this disables all the code within Simkin which relies on C++ streams<p>
+<li><b>STREAMS_ENABLED</b><br>if undefined this disables all the code within Simkin which relies on C++ streams<p>
 </li>
 <li><b>UNICODE_STRINGS</b><br>if defined, this enables code which uses unicode wide character strings rather than standard 8-bit characters
 </ol>

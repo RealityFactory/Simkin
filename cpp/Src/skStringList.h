@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringList.h,v 1.9 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skStringList.h,v 1.10 2003/03/24 19:02:16 simkin_cvs Exp $
 */
 #ifndef STRINGLIST_H
 #define STRINGLIST_H
@@ -24,7 +24,9 @@
 #include "skString.h"
 #include "skValist.h"
 
+#ifdef INSTANTIATE_TEMPLATES
 EXTERN_TEMPLATE template class CLASSEXPORT skTVAList<skString>;
+#endif
 
 /**
  * This class is a list of Strings, held by value

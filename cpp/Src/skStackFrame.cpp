@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skStackFrame.cpp,v 1.2 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skStackFrame.cpp,v 1.3 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 
 #include "skStackFrame.h"
@@ -28,8 +28,8 @@ skStackFrame::skStackFrame(const skString& location,
             skRValueTable& vars,
             skExecutableContext& context)
 //---------------------------------------------------
-       : m_Location(location),m_Object(obj),
-        m_Context(context),m_Vars(vars),m_ParentFrame(0)
+       : m_Location(location),m_LineNum(0),m_Context(context),m_Object(obj),
+        m_Vars(vars),m_ParentFrame(0)
 {
   m_Context.pushStackFrame(this);
 }

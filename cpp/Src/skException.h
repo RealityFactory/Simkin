@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skException.h,v 1.4 2003/03/06 13:05:14 simkin_cvs Exp $
+  $Id: skException.h,v 1.5 2003/04/07 21:59:14 simkin_cvs Exp $
 */
 #ifndef SKEXCEPTION_H
 #define SKEXCEPTION_H
@@ -29,6 +29,9 @@
 */
 
 class CLASSEXPORT skException
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
 public:
   /**

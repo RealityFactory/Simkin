@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skStackFrame.h,v 1.4 2003/01/23 15:30:55 simkin_cvs Exp $
+* $Id: skStackFrame.h,v 1.7 2003/04/07 21:59:14 simkin_cvs Exp $
 */
 #ifndef skSTACKFRAME_H
 #define skSTACKFRAME_H
@@ -33,6 +33,9 @@ class CLASSEXPORT skExecutableContext;
  */
 
 class CLASSEXPORT skStackFrame 
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
 public:
   /** Constructor
@@ -79,6 +82,19 @@ public:
    */
   void                  setParentFrame(skStackFrame * frame);
 private:
+  /**
+   * Copy constructor private - to prevent copying
+   */
+  skStackFrame(const skStackFrame& s)
+    : m_Context(s.m_Context),m_Vars(s.m_Vars)
+    {
+  }
+  /**
+   * Assignment operator private - to prevent copying
+   */
+  skStackFrame& operator=(const skStackFrame&){
+    return *this;
+  }
   /** location during script execution */
   skString              m_Location; 
   /** line number during script execution */

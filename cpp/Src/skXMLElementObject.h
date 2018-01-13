@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skXMLElementObject.h,v 1.39 2003/03/18 19:36:13 simkin_cvs Exp $
+* $Id: skXMLElementObject.h,v 1.40 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 
 
@@ -85,10 +85,12 @@ class CLASSEXPORT skXMLElementObject : public skExecutable {
    * @return the value of the element text data as an integer
    */
   int intValue() const;
+#ifdef USE_FLOATING_POINT
   /**
    * @return the value of the element text data as a float
    */
   float floatValue() const;
+#endif
   /**
    * @return the value of the element text data as a boolean
    */

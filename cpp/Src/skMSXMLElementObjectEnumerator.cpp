@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skMSXMLElementObjectEnumerator.cpp,v 1.2 2003/02/24 19:59:48 simkin_cvs Exp $
+  $Id: skMSXMLElementObjectEnumerator.cpp,v 1.4 2003/04/11 18:05:39 simkin_cvs Exp $
 */
 
 #include "skMSXMLElementObjectEnumerator.h"
@@ -47,7 +47,7 @@ bool skMSXMLElementObjectEnumerator::method(const skString& s,skRValueArray& arg
   bool bRet=false;
   if (s=="next"){
     if (next(r)==false)
-      r=skRValue(&skInterpreter::g_Null);
+      r=skRValue(&ctxt.getInterpreter()->getNull());
     bRet=true;
   }else if (s=="reset"){
     m_NodeNum=0;

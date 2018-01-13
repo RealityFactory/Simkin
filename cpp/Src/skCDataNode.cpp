@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skCDataNode.cpp,v 1.6 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skCDataNode.cpp,v 1.7 2003/03/24 15:51:32 simkin_cvs Exp $
 */
 #include "skCDataNode.h"
 #include "skOutputDestination.h"
@@ -24,6 +24,11 @@
 skCDataNode::skCDataNode(const skString& text)
 //------------------------------------------
   : skTextNode(text)
+{
+}
+//------------------------------------------
+skCDataNode::~skCDataNode()
+//------------------------------------------
 {
 }
 //------------------------------------------

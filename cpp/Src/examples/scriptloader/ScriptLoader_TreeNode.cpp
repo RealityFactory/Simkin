@@ -67,7 +67,6 @@ main(int argc,Char * argv[]){
 #ifdef EXCEPTIONS_DEFINED
       try{
 #endif
-        // if the file is prefixed ".xml"  create an XML Executable
         skString file_name=argv[i];
         int name_len=file_name.length();
         if (name_len>4){

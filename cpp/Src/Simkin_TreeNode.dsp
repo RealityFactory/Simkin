@@ -101,6 +101,14 @@ SOURCE=.\skBoundsException.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\skConstants.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skConstants.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skException.h
 # End Source File
 # Begin Source File
@@ -165,11 +173,15 @@ SOURCE=.\skInterpreter.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\skInterpreterp.h
+SOURCE=.\skInterpreterByte.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=skLang_tab.cpp
+SOURCE=.\skInterpreterNode.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreterp.h
 # End Source File
 # Begin Source File
 
@@ -194,6 +206,10 @@ SOURCE=.\skOutputDestination.h
 # Begin Source File
 
 SOURCE=.\skParseException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseNode.cpp
 # End Source File
 # Begin Source File
 
@@ -251,6 +267,18 @@ SOURCE=.\skScriptedExecutable.h
 # Begin Source File
 
 SOURCE=.\skScriptError.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skSHashTable.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skSHashTable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skSHashTable.inl
 # End Source File
 # Begin Source File
 

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skiExecutable.h,v 1.12 2003/02/27 18:00:23 simkin_cvs Exp $
+* $Id: skiExecutable.h,v 1.13 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 
 #ifndef skiEXECUTABLE_H
@@ -77,10 +77,12 @@ class CLASSEXPORT skiExecutable
    * returns a String equivalent of this object
    */
   virtual skString strValue() const=0; 
+#ifdef USE_FLOATING_POINT
   /**
    * returns a float equivalent of this object
    */
   virtual float floatValue() const=0;
+#endif
   /**
    * requests the object to set a field to the given value
    * @param field_name - the name of the field name to set

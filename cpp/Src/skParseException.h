@@ -16,15 +16,17 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParseException.h,v 1.13 2003/03/06 13:05:14 simkin_cvs Exp $
+  $Id: skParseException.h,v 1.19 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef SKPARSEEXCEPTION_H
 #define SKPARSEEXCEPTION_H
 
 #include "skException.h"
 #include "skString.h"
-#include "skValist.h"
-
+#include "skVAlist.h"
+#include "skStringBuffer.h"
+xskNAMED_LITERAL(QuoteStart,skSTR(" near \""));
+xskNAMED_LITERAL(QuoteEnd,skSTR("\""));
 /**
   This class encapsulates an error message from the parser, representing a syntax error in the script
 */
@@ -37,11 +39,26 @@ class CLASSEXPORT skCompileError
   skCompileError() 
     : m_LineNum(0){
   }
+  /** 
+   * Copy constructor
+   */
+  skCompileError(const skCompileError& e) 
+    : m_LineNum(e.m_LineNum),m_LexBuffer(e.m_LexBuffer),m_Msg(e.m_Msg){
+  }
   /**
    * Constructor which is passed information about the error
    */
   skCompileError(skString location,int line_num,const skString& msg,const skString& lex_buffer)
-    : m_Location(location),m_LineNum(line_num),m_Msg(msg),m_LexBuffer(lex_buffer){
+    : m_LineNum(line_num),m_Location(location),m_LexBuffer(lex_buffer),m_Msg(msg){
+  }
+  /** 
+   * Assignment operator
+   */
+  skCompileError& operator=(const skCompileError& e){
+    m_LineNum=e.m_LineNum;
+    m_Msg=e.m_Msg;
+    m_LexBuffer=e.m_LexBuffer;
+    return *this;
   }
   /**
    * returns the location of the script, as passed into the parse() function
@@ -71,7 +88,7 @@ class CLASSEXPORT skCompileError
    * this method returns a string representation of the whole error
    */
   skString toString() const {
-    return m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR(":")+m_Msg+skSTR(" near \"")+m_LexBuffer+skSTR("\"");
+    return skString::addStrings(m_Location.ptr(),s_colon,skString::from(m_LineNum).ptr(),s_colon,m_Msg.ptr(),s_QuoteStart,m_LexBuffer.ptr(),s_QuoteEnd);
   }
   /** this message compares two compile errors
    * @return true if this message text is the same as the other message text
@@ -85,8 +102,9 @@ class CLASSEXPORT skCompileError
   skString m_LexBuffer;
   skString m_Msg;
 };
+#ifdef INSTANTIATE_TEMPLATES
 EXTERN_TEMPLATE template class CLASSEXPORT skTVAList<skCompileError>;
-
+#endif
 /**
  * This is a list of compile errors
  */
@@ -100,9 +118,15 @@ class CLASSEXPORT skParseException : public skException
 {
  public:
   /**
-   * Constructor - the exception is passed a list of errors
+   * Constructor 
    */
-  skParseException(const skCompileErrorList& errors) : m_Errors(errors) {
+  skParseException(){
+  }
+  /**
+   * Sets the errors in this exception
+   */
+  void setErrors(const skCompileErrorList& errors){
+    m_Errors=errors;
   }
   /**
    * this method returns a list of errors encountered in parsing the script
@@ -124,10 +148,12 @@ class CLASSEXPORT skParseException : public skException
    * it includes location and line number information
    */
   skString toString() const {
-    skString ret;
-    for (unsigned int i=0;i<m_Errors.entries();i++)
-      ret+=m_Errors[i].toString()+skSTR("\n");
-    return ret;
+    skStringBuffer ret(50);
+    for (unsigned int i=0;i<m_Errors.entries();i++){
+      ret.append(m_Errors[i].toString());
+      ret.append(skSTR("\n"));
+    }
+    return ret.toString();
   }
  private:
   skCompileErrorList m_Errors;

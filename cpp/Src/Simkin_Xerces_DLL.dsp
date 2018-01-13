@@ -97,6 +97,10 @@ SOURCE=.\skAlist.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skConstants.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skExecutable.cpp
 # End Source File
 # Begin Source File
@@ -117,7 +121,11 @@ SOURCE=.\skInterpreter.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\skLang_tab.cpp
+SOURCE=.\skInterpreterByte.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreterNode.cpp
 # End Source File
 # Begin Source File
 
@@ -135,6 +143,10 @@ SOURCE=.\skParser.cpp
 # Begin Source File
 
 SOURCE=.\skRValue.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skSHashTable.cpp
 # End Source File
 # Begin Source File
 

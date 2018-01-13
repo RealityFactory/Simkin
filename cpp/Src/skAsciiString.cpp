@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skAsciiString.cpp,v 1.2 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skAsciiString.cpp,v 1.3 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -221,6 +221,7 @@ skAsciiString skAsciiString::from(int i)
   sprintf(buffer,"%d",i);
   return skAsciiString(buffer);
 }
+#ifdef USE_FLOATING_POINT
 //---------------------------------------------------
 skAsciiString skAsciiString::from(float i)
   //---------------------------------------------------
@@ -229,6 +230,7 @@ skAsciiString skAsciiString::from(float i)
   sprintf(buffer,"%f",i);
   return skAsciiString(buffer);
 }
+#endif
 //---------------------------------------------------
 skAsciiString skAsciiString::from(USize i)
   //---------------------------------------------------
@@ -243,12 +245,14 @@ int skAsciiString::to(void) const
 {
   return atoi(pimp->m_PString);
 }
+#ifdef USE_FLOATING_POINT
 //---------------------------------------------------
 float skAsciiString::toFloat(void) const
   //---------------------------------------------------
 {
   return (float)atof(pimp->m_PString);
 }
+#endif
 //---------------------------------------------------
 skAsciiString::skAsciiString(const char * s, USize len)
   //---------------------------------------------------

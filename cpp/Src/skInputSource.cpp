@@ -16,30 +16,84 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.cpp,v 1.7 2003/03/13 16:15:53 simkin_cvs Exp $
+  $Id: skInputSource.cpp,v 1.15 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #include "skInputSource.h"
 #include "skStringBuffer.h"
 #ifdef UNICODE_STRINGS
+#ifndef __SYMBIAN32__
 #include "skAsciiStringBuffer.h"
 #include "skEncodingUtils.h"
 #endif
+#endif
 //-----------------------------------------------------------------
-skInputFile::skInputFile(const skString& filename)
+skInputSource::~skInputSource()
+//-----------------------------------------------------------------
+{
+}
+//-----------------------------------------------------------------
+EXPORT_C skInputFile::skInputFile()
+//-----------------------------------------------------------------
+: skInputSource()
+#ifndef STREAMS_ENABLED
+,m_In(0),m_Peeked(false),m_PeekedChar(0)
+#endif
+#ifdef UNICODE_STRINGS
+,m_FileIsUnicode(true)
+#endif
+{
+}
+//-----------------------------------------------------------------
+EXPORT_C skInputFile::skInputFile(const skString& filename)
 //-----------------------------------------------------------------
 :
-#ifdef UNICODE_STRINGS
-m_FileIsUnicode(true),
-#endif
 #ifdef STREAMS_ENABLED
 m_In(filename)
 #else
 m_In(0),m_Peeked(false),m_PeekedChar(0)
 #endif
+#ifdef UNICODE_STRINGS
+,m_FileIsUnicode(true)
+#endif
+{
+}
+//-----------------------------------------------------------------
+skInputFile::~skInputFile()
+//-----------------------------------------------------------------
 {
 #ifndef STREAMS_ENABLED
+  if (m_In)
+    fclose(m_In);
+  m_In=0;
+#endif
+}
+//-----------------------------------------------------------------
+EXPORT_C void skInputFile::open(const skString& filename)
+//-----------------------------------------------------------------
+{
+#ifndef STREAMS_ENABLED
+  if (m_In)
+    fclose(m_In);
+  m_In=0;
+#endif
 #ifdef UNICODE_STRINGS
+  m_FileIsUnicode=true;
+#endif
+#ifdef STREAMS_ENABLED
+  m_In.open(filename);
+#else
+  m_In=0;
+  m_Peeked=false;
+  m_PeekedChar=0;
+#endif
+#ifndef STREAMS_ENABLED
+#ifdef UNICODE_STRINGS
+#ifdef __SYMBIAN32__
+  // SYMBIAN_QUESTION: does this function leave???
+  m_In=wfopen(filename.c_str(),skSTR("rb"));
+#else
   m_In=_wfopen(filename,skSTR("rb"));
+#endif
 #else
   m_In=fopen(filename,skSTR("r"));
 #endif
@@ -50,9 +104,11 @@ m_In(0),m_Peeked(false),m_PeekedChar(0)
     int first_word=peek();
     int first_byte=first_word & 0xff;
     int second_byte=(first_word & 0xff00) >> 8;
-    if (first_byte==0xFF && second_byte==0xFE)
+    if (first_byte==0xFF && second_byte==0xFE){
       m_FileIsUnicode=true;
-    else{
+      // absorb the leading marker character
+      m_Peeked=false;    
+    }else{
       m_FileIsUnicode=false;
       // Make last peek invalid and re-seek. 
       fseek(m_In, 0, SEEK_SET);
@@ -61,15 +117,16 @@ m_In(0),m_Peeked(false),m_PeekedChar(0)
   }
 #endif
 }
+#ifdef __SYMBIAN32__
 //-----------------------------------------------------------------
-skInputFile::~skInputFile()
+EXPORT_C void skInputFile::open(const TDesC& filename)
 //-----------------------------------------------------------------
 {
-#ifndef STREAMS_ENABLED
-  if (m_In)
-    fclose(m_In);
-#endif
+  skString s_filename;
+  s_filename=filename;
+  open(s_filename);
 }
+#endif
 //-----------------------------------------------------------------
 bool skInputFile::eof() const
 //-----------------------------------------------------------------
@@ -77,6 +134,7 @@ bool skInputFile::eof() const
 #ifdef STREAMS_ENABLED
   return m_In.eof()==1;
 #else
+  // SYMBIAN_QUESTION: does this function leave???
   bool eof=true;
   if (m_In)
     eof=feof(m_In)!=0;
@@ -94,15 +152,24 @@ int skInputFile::get()
   if (m_Peeked){
     c=m_PeekedChar;
     m_Peeked=false;
-  }else
+  }else{
 #ifdef UNICODE_STRINGS
-    if (m_FileIsUnicode)
+    if (m_FileIsUnicode){
+#ifdef __SYMBIAN32__
+      wchar_t c1;
+      // SYMBIAN_QUESTION: does this function leave???
+      fread(&c1,sizeof(c1),1,m_In);
+      c=c1;
+#else
       c=fgetwc(m_In);
-    else
+#endif
+    }else{
       c=fgetc(m_In);
+    }
 #else
     c=fgetc(m_In);
 #endif
+  }
   return c;
 #endif
 }
@@ -110,6 +177,7 @@ int skInputFile::get()
 skString skInputFile::readAllToString()
 //-----------------------------------------------------------------
 {
+  skString str;
   const int BUF_SIZE=1024;
 #ifdef STREAMS_ENABLED
   skStringBuffer s_buffer(BUF_SIZE);
@@ -119,46 +187,57 @@ skString skInputFile::readAllToString()
     m_In.read(buffer,(BUF_SIZE-1)*sizeof(Char));
     s_buffer.append(buffer);
   }
-  return s_buffer.toString();
+  str=s_buffer.toString();
 #else
 #ifndef UNICODE_STRINGS
-  // reset file pointer
-  fseek(m_In,0,SEEK_SET);
-  skStringBuffer s_buffer(BUF_SIZE);
-  Char buffer[BUF_SIZE];
-  while (eof()==false){
-    memset(buffer,0,BUF_SIZE*sizeof(Char));
-    fread(buffer,sizeof(Char),BUF_SIZE-1,m_In);
-    s_buffer.append(buffer);
+  if (m_In){
+     // reset file pointer
+     fseek(m_In,0,SEEK_SET);
+     skStringBuffer s_buffer(BUF_SIZE);
+     Char buffer[BUF_SIZE];
+     while (eof()==false){
+       memset(buffer,0,BUF_SIZE*sizeof(Char));
+       fread(buffer,sizeof(Char),BUF_SIZE-1,m_In);
+       s_buffer.append(buffer);
+     }
+     str=s_buffer.toString();
   }
-  return s_buffer.toString();
 #else
-  if (m_FileIsUnicode){
-    // reset file pointer
-    fseek(m_In,sizeof(wchar_t),SEEK_SET);
-    skStringBuffer s_buffer(BUF_SIZE);
-    Char buffer[BUF_SIZE];
-    while (eof()==false){
-      memset(buffer,0,BUF_SIZE*sizeof(Char));
-      int num_read=fread(buffer,sizeof(Char),BUF_SIZE-1,m_In);
-      s_buffer.append(buffer);
-    }
-    return s_buffer.toString();
+  if (m_In){
+     if (m_FileIsUnicode){
+       // reset file pointer
+       fseek(m_In,sizeof(wchar_t),SEEK_SET);
+       skStringBuffer s_buffer(BUF_SIZE);
+       Char buffer[BUF_SIZE];
+       while (eof()==false){
+         memset(buffer,0,BUF_SIZE*sizeof(Char));
+         fread(buffer,sizeof(Char),BUF_SIZE-1,m_In);
+         s_buffer.append(buffer);
+       }
+       str=s_buffer.toString();
+     }
   }else{
-    // reading an ASCII file
-    // reset file pointer
-    fseek(m_In,0,SEEK_SET);
-    skAsciiStringBuffer s_buffer(BUF_SIZE);
-    char buffer[BUF_SIZE];
-    while (eof()==false){
-      memset(buffer,0,BUF_SIZE);
-      fread(buffer,1,BUF_SIZE-1,m_In);
-      s_buffer.append(buffer);
-    }
-    return skEncodingUtils::fromAscii(s_buffer.toString());
+#ifdef __SYMBIAN32__
+// not yet supported - reading a whole string from an Ascii file
+#else
+  if (m_In){
+       // reading an ASCII file
+       // reset file pointer
+       fseek(m_In,0,SEEK_SET);
+       skAsciiStringBuffer s_buffer(BUF_SIZE);
+       char buffer[BUF_SIZE];
+       while (eof()==false){
+         memset(buffer,0,BUF_SIZE);
+         fread(buffer,1,BUF_SIZE-1,m_In);
+         s_buffer.append(buffer);
+       }
+       str=skEncodingUtils::fromAscii(s_buffer.toString());
+   }
+#endif
   }
 #endif
 #endif
+  return str;
 }
 //-----------------------------------------------------------------
 int skInputFile::peek()
@@ -170,10 +249,18 @@ int skInputFile::peek()
   if (m_Peeked==false){
     m_Peeked=true;
 #ifdef UNICODE_STRINGS
-    if (m_FileIsUnicode)
+    if (m_FileIsUnicode){
+#ifdef __SYMBIAN32__
+      wchar_t c1;
+      // SYMBIAN_QUESTION: does this function leave???
+      fread(&c1,sizeof(c1),1,m_In);
+      m_PeekedChar=c1;
+#else
       m_PeekedChar=fgetwc(m_In);
-    else
+#endif
+    }else{
       m_PeekedChar=fgetc(m_In);
+    }
 #else
     m_PeekedChar=fgetc(m_In);
 #endif
@@ -182,9 +269,14 @@ int skInputFile::peek()
 #endif
 }
 //-----------------------------------------------------------------
-skInputString::skInputString(const skString& in)
+EXPORT_C skInputString::skInputString(const skString& in)
 //-----------------------------------------------------------------
 : m_In(in),m_Pos(0),m_Peeked(false),m_PeekedChar(0)
+{
+}
+//-----------------------------------------------------------------
+EXPORT_C skInputString::~skInputString()
+//-----------------------------------------------------------------
 {
 }
 //-----------------------------------------------------------------

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAsciiString.h,v 1.2 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skAsciiString.h,v 1.3 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 
 
@@ -168,10 +168,12 @@ class CLASSEXPORT skAsciiString
    * Converts the string to an integer
    */
   int to() const;
+#ifdef USE_FLOATING_POINT
   /**
    * Converts the string to a float
    */
   float toFloat() const;
+#endif
   /**
    * Constructs a string from static string - the static string is *not* copied
    */
@@ -184,10 +186,12 @@ class CLASSEXPORT skAsciiString
    * Constructs a string from an unsigned integer
    */
   static skAsciiString from(USize);
+#ifdef USE_FLOATING_POINT
   /**
    * Constructs a string from a float
    */
   static skAsciiString from(float);
+#endif
   /**
    * Constructs a string from a character
    */

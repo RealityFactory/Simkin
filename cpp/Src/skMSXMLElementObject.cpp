@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skMSXMLElementObject.cpp,v 1.6 2003/03/18 13:31:59 simkin_cvs Exp $
+  $Id: skMSXMLElementObject.cpp,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -27,13 +27,7 @@
 #include "skMethodTable.h"
 #include "skInterpreter.h"
 
-xskLITERAL(true);
-
 ostream& operator<<(ostream& target, const _bstr_t& toWrite);
-skLITERAL(function);
-skLITERAL(name);
-static Char c_colon=':';
-static skString s_colon=skSTR(":");
 
 //------------------------------------------
 skMSXMLElementObject::skMSXMLElementObject(const skString& scriptLocation,XMLElement& elem)
@@ -77,12 +71,14 @@ int skMSXMLElementObject::intValue() const
 {
   return getData(m_Element).to();
 }
+#ifdef USE_FLOATING_POINT
 //------------------------------------------
 float skMSXMLElementObject::floatValue() const
   //------------------------------------------
 {
   return getData(m_Element).toFloat();
 }
+#endif
 //------------------------------------------
 bool skMSXMLElementObject::boolValue() const
   //------------------------------------------
@@ -237,7 +233,8 @@ bool skMSXMLElementObject::getValueAt(const skRValue& array_index,const skString
   }
   if (child!=0){
     if (attribute.length()==0)
-      value=skRValue(createXMLElementObject(m_ScriptLocation+"["+skString::from(index)+"]",child),true);
+      value=skRValue(createXMLElementObject(skString::addStrings(m_ScriptLocation,skSTR("["),
+                                                                  skString::from(index),skSTR("]")),child),true);
     else{
       skString attrValue=getAttribute(child,attribute);
       value=skRValue(attrValue);
@@ -277,7 +274,7 @@ bool skMSXMLElementObject::getValue(const skString& name,const skString& attrib,
     }
     if (child!=0){
       if (attrib.length()==0)
-        v=skRValue(createXMLElementObject(m_ScriptLocation+s_colon+name,child),true);
+        v=skRValue(createXMLElementObject(skString::addStrings(m_ScriptLocation,s_colon,name),child),true);
       else{
         skString attrValue=getAttribute(child,attrib);
         v=skRValue(attrValue);
@@ -437,11 +434,11 @@ bool skMSXMLElementObject::method(const skString& s,skRValueArray& args,skRValue
     else
       ret=skRValue(new skMSXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),args[0].str()),true);
   }else{
-    skString location=m_ScriptLocation+":"+s;
+    skString location=skString::addStrings(m_ScriptLocation,skSTR(":"),s);
     if (m_Element!=0){
       skMethodDefNode * methNode=0;
       if (m_MethodCache!=0)
-        methNode=m_MethodCache->value(&s);
+        methNode=m_MethodCache->value(s);
       if (methNode==0){
         // no parse tree found in the cache - try and construct a new one
         XMLElement node=skMSXMLElementObject::findChild(m_Element,s_function,s_name,s);
@@ -462,7 +459,7 @@ bool skMSXMLElementObject::method(const skString& s,skRValueArray& args,skRValue
 	        if (methNode){
 	          if (m_MethodCache==0)
 	            m_MethodCache=new skMethodTable();
-	          m_MethodCache->insertKeyAndValue(new skString(s),methNode);
+	          m_MethodCache->insertKeyAndValue(s,methNode);
 	        }
         }else
 	        bRet=skExecutable::method(s,args,ret,ctxt);
@@ -584,7 +581,7 @@ void skMSXMLElementObject::getInstanceVariables(skRValueTable& table)
       if (type==MSXML2::NODE_ELEMENT){
         XMLElement element=node;
         skString name=toString(element->tagName);
-        table.insertKeyAndValue(new skString(name),
+        table.insertKeyAndValue(name,
                     new skRValue(new skMSXMLElementObject(name,element)));
       }
     }
@@ -606,8 +603,7 @@ void skMSXMLElementObject::getAttributes(skRValueTable& table)
       	_bstr_t b_value=v.bstrVal;
 		    value = toString(b_value);
       }
-      table.insertKeyAndValue(new skString(name),
-                    new skRValue(value));
+      table.insertKeyAndValue(name,new skRValue(value));
     }
   }
 }

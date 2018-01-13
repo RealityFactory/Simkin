@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.cpp,v 1.11 2003/02/27 18:00:23 simkin_cvs Exp $
+* $Id: skElement.cpp,v 1.15 2003/04/04 17:13:13 simkin_cvs Exp $
 */
 #include "skElement.h"
 #include "skStringBuffer.h"
@@ -25,6 +25,11 @@
 skElement::skElement(const skString& tagname)
 //------------------------------------------
 :m_TagName(tagname)
+{
+}
+//------------------------------------------
+skElement::~skElement()
+//------------------------------------------
 {
 }
 //------------------------------------------
@@ -156,6 +161,61 @@ skString skElement::toString() const
   buffer.append(m_TagName);
   buffer.append(skSTR(">"));
   return buffer.toString();
+}
+//------------------------------------------
+bool skElement::equals(const skNode& other) const
+//------------------------------------------
+{
+  bool equals=false;
+  if (getNodeType()==other.getNodeType())
+    equals=deepCompare(*(skElement*)&other,true);
+  return equals;
+}
+//------------------------------------------
+bool skElement::operator==(const skElement& other) const
+//------------------------------------------
+{
+  // at this level, *do not* check tag name
+  return deepCompare(other,false);
+}
+//------------------------------------------
+bool skElement::deepCompare(const skElement& other,bool check_tagname) const
+//------------------------------------------
+{
+  bool equals=false;
+  // check tag name
+  if (check_tagname==false || m_TagName==other.m_TagName){
+    // check attributes
+    if (m_Attributes.entries()==other.m_Attributes.entries()){
+      equals=true;
+      for (USize i=0;i<m_Attributes.entries();i++){
+              skAttribute * attr=m_Attributes[i];
+              if (other.getAttribute(attr->getName())!=attr->getValue()){
+                equals=false;
+                break;
+              }
+            }
+            if (equals){
+              // check children match
+              if (m_ChildNodes.entries()==other.m_ChildNodes.entries()){
+                for (USize i=0;i<m_ChildNodes.entries();i++){
+                  skNode * this_node=m_ChildNodes[i];
+                  skNode * other_node=other.m_ChildNodes[i];
+                  if (this_node->getNodeType()==other_node->getNodeType()){
+                    if (this_node->equals(*other_node)==false){
+                      equals=false;
+                      break;
+                    }
+                  }else{
+                    equals=false;
+                    break;
+                  }
+                }
+              }
+      }
+    }
+  }
+  return equals;
 }
 //------------------------------------------
 skString skAttribute::toString() const

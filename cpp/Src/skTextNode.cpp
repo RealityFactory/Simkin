@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTextNode.cpp,v 1.7 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skTextNode.cpp,v 1.9 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 #include "skTextNode.h"
 #include "skOutputDestination.h"
@@ -24,6 +24,11 @@
 skTextNode::skTextNode(const skString& text)
 //------------------------------------------
   :m_Text(text)
+{
+}
+//------------------------------------------
+skTextNode::~skTextNode()
+//------------------------------------------
 {
 }
 //------------------------------------------
@@ -61,4 +66,14 @@ skString skTextNode::toString() const
 //------------------------------------------
 {
   return escapeXMLDelimiters(m_Text);
+}
+//------------------------------------------
+bool skTextNode::equals(const skNode& other) const
+//------------------------------------------
+{
+  bool equals=false;
+  if (other.getNodeType()==getNodeType()){
+    equals=(m_Text==((skTextNode *)&other)->m_Text);
+  }
+  return equals;
 }

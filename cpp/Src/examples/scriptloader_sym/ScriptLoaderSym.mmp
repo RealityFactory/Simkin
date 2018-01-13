@@ -1,0 +1,8 @@
+TARGET ScriptLoader.exe
+TARGETTYPE exe
+UID 0
+SOURCEPATH .
+USERINCLUDE ..\..
+SYSTEMINCLUDE \Symbian\UIQ_70\epoc32\include \Symbian\UIQ_70\epoc32\include\libc
+SOURCE ScriptLoaderSym.cpp
+LIBRARY estlib.lib simkin.lib euser.lib

@@ -1,6 +1,25 @@
 Simkin for C++
 (c)1996-2003 Simon Whiteside
 
+Simkin Version 2.18
+Date: 14/4/2003
+-------------------
+
+* brought identifiers in line with Java version - $ and @ can now be embedded within an identifier name
+* added some static methods to efficiently add strings to skString
+* added some virtual destructors to the DOM classes. Many thanks IvanK
+* added function c_str() to skString() to be similar to stdlib
+* improved keyword search - now use a perfect hash version
+* made various changes to support a Symbian version, including some new Symbian examples
+* optimization of core classes to make them smaller
+* added compressed representation of parse tree. This is smaller, but slightly slower than the current version. The two implementations can be
+  selected via a #ifdef EXECUTE_PARSENODES in skGeneral.h. The compressed representation is stored in a skCompiledCode object.
+* added a #ifdef to include/exclude floating point support. This is called USE_FLOATING_POINT and is defined in skGeneral.h
+* introduced new hashtable class, skSHashTable, which maps skString values to templated pointers
+* made equality operator do value-based comparisons for TreeNode and XMLElements.
+* modified setNode function in skTreeNodeObject to specify location and created parameters
+* added some documentation on preprocessor directives which control the build
+
 Simkin Version 2.17
 Date: 19/3/2003
 -------------------

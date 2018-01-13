@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skScriptedExecutable.h,v 1.18 2003/03/18 19:36:13 simkin_cvs Exp $
+* $Id: skScriptedExecutable.h,v 1.21 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 
 #ifndef skSCRIPTEDEXECUTABLE_H
@@ -37,6 +37,10 @@ class CLASSEXPORT skScriptedExecutable : public skTreeNodeObject
    * @param ctxt context object to receive errors
    */
   skScriptedExecutable(const skString& filename,skExecutableContext& ctxt);
+  /**
+   * Constructor 
+   */
+  skScriptedExecutable();
   /**
    * Virtual destructor - so that derived class destructors will be called
    */

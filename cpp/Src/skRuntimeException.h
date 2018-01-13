@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skRuntimeException.h,v 1.12 2003/03/06 13:05:14 simkin_cvs Exp $
+  $Id: skRuntimeException.h,v 1.16 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef SKRUNTIMEEXCEPTION_H
 #define SKRUNTIMEEXCEPTION_H
@@ -34,7 +34,7 @@ class CLASSEXPORT skRuntimeException : public skException
    * Constructor - receives information about the exception
    */
   skRuntimeException(const skString& location,int line_num,const skString& msg) 
-      : m_Location(location),m_Msg(msg),m_LineNum(line_num){
+      : m_LineNum(line_num),m_Msg(msg),m_Location(location){
   }
   /**
    * this method returns the description of the exception
@@ -47,7 +47,7 @@ class CLASSEXPORT skRuntimeException : public skException
    * this method returns a verbose description of the exception
    */
   skString toString() const {
-    return m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR("-")+m_Msg;
+    return skString::addStrings(m_Location.ptr(),s_colon,skString::from(m_LineNum).ptr(),s_Dash,m_Msg.ptr());
   }
    /**
    * returns the location of the script

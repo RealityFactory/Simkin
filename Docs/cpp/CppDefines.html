@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin for C++ Build Options</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin for C++ Build Options</H1>
+<hr>
+The Simkin library can be built in a number of different ways. This page lists the compiler preprocessor directives which affect the way the library is built.
+<br>Most directives are defined within the file <code>skGeneral.h</code>
+<ul>
+<li>Unicode Support - <b><code>UNICODE_STRINGS</code></b>
+<p>The class <code>skString</code> uses a typedef <code>Char</code> to represent characters. If this directive is defined, the string will use <code>wchar_t</code> for the character type.
+<p>Default values:
+<p> 
+<table border="1">
+<tr><td>Symbian, Windows CE</td><td>defined</td></tr>
+<tr><td>Win32, others</td><td>undefined</td></tr>
+</table>
+<p>
+</li>
+<li>Windows DLL Support - <b><code>ENABLE_WINDOWS_DLL_SUPPORT</code></b>, <b><code>BUILDING_DLL</code></b>
+<p>To build Simkin into a DLL for Windows, define <b><code>ENABLE_WINDOWS_DLL_SUPPORT</code></b> in the calling code, and <b><code>BUILDING_DLL</code></b> within the Simkin DLL
+<p>Default values:
+<p> 
+<table border="1">
+<tr><td>All</td><td>undefined</td></tr>
+</table>
+<p>
+</li>
+<li>Floating Point support <b><code>USE_FLOATING_POINT</code></b>
+<p>Simkin supports floating point within scripts. If you wish to enforce integer arithmetic only, you should undefine this directive when building Simkin.
+<p>Default values:
+<p> 
+<table border="1">
+<tr><td>All</td><td>defined</td></tr>
+</table>
+<p>
+</li>
+<li>Executing Parse Tree <b><code>EXECUTE_PARSENODES</code></b>
+<p>Since version 2.18 Simkin supports two internal representations for parsed scripts:
+<p> 
+<table border="1">
+<tr><td>ParseNode</td><td>uses more memory, but is faster - enabled by defining <b><code>EXECUTE_PARSENODES</code></b></td></tr>
+<tr><td>Compiled</td><td>uses less memory, but is slower - enabled by undefining <b><code>EXECUTE_PARSENODES</code></b></td></tr>
+</table>
+<p>
+<p>Default values:
+<p> 
+<table border="1">
+<tr><td>All</td><td>defined</td></tr>
+</table>
+<p>
+</li>
+<li>C++ Streaming support <b><code>STREAMS_ENABLED</code></b>
+<p>
+This is defined where C++ streaming support will be included in Simkin.
+<p>Default values:
+<p> 
+<table border="1">
+<tr><td>Symbian, Windows CE</td><td>undefined</td></tr>
+<tr><td>Win32, others</td><td>defined</td></tr>
+</table>
+<p>
+</li>
+<li>C++ Exception support <b><code>EXCEPTIONS_DEFINED</code></b>
+If this is defined, the interpreter will throw exceptions if errors are encountered.
+<p>If it is not defined, errors will be propogated to the caller via the <b><code>skScriptError</code></b> member of the <a href="ce/api/classskExecutableContext.html">skExecutableContext</a> object you pass to the interpreter.
+<p>Default values:
+<p> 
+<table border="1">
+<tr><td>Symbian, Windows CE</td><td>undefined</td></tr>
+<tr><td>Win32, others</td><td>defined</td></tr>
+</table>
+<p>
+</li>
+</ul>
+</body>
+</html>

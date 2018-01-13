@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skExecutableContext.h,v 1.4 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skExecutableContext.h,v 1.7 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef SKEXECUTABLECONTEXT_H
 #define SKEXECUTABLECONTEXT_H
@@ -33,21 +33,42 @@ class CLASSEXPORT skStackFrame;
 * This class holds information passed to all methods via the siExecutable interface
 */
 class CLASSEXPORT skExecutableContext
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
 public:
-                    skExecutableContext(skInterpreter * interp)
-                      : m_Interpreter(interp),m_TopFrame(0)
-                    {
-                    }
+  /** 
+   * Constructs a new context
+   * @param interp the interpreter within the context
+   */
+  skExecutableContext(skInterpreter * interp)
+    : m_TopFrame(0),m_Interpreter(interp)
+    {
+    }
   skInterpreter *  getInterpreter();
 #ifndef EXCEPTIONS_DEFINED
-  /** holds a reference to an error encountered - where exception support is not available */
+  /** holds a reference to an error encountered while a script was executing.
+   * \remarks This is only available if EXCEPTIONS_DEFINED is undefined. It replaces the default mechanism of throwing exceptions
+   */
   skScriptError&  getError();
 #endif
-
-  void            pushStackFrame(skStackFrame * frame);
-  void            popStackFrame();
+  
+  /**
+   * called when a new stack frame is created
+   */
+  void pushStackFrame(skStackFrame * frame);
+  /**
+   * called when a method has finished
+   */
+  void popStackFrame();
+  /**
+   * returns the current top frame
+   */
   skStackFrame *  getTopFrame();
+  /**
+   * set the top frame
+   */
   void            setTopFrame(skStackFrame * frame);
 private:
   skStackFrame *  m_TopFrame;

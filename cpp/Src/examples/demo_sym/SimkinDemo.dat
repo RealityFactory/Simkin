@@ -1,0 +1,50 @@
+{
+		Controls
+		{
+			{
+				Type [Edit]
+				X [10]
+				Y [10]
+				Width [20]
+				Id [a]
+			}
+			{
+				Type [Static]
+				Text [+]
+				X [10]
+				Y [30]
+			}
+			{
+				Type [Edit]
+				X [10]
+				Y [50]
+				Width [20]
+				Id [b]
+			}
+			{
+				Type [Static]
+				Text [=]
+				X [10]
+				Y [80]
+			}
+			{
+				Type [Static]
+				X [10]
+				Y [100]
+				Width [80]
+				Id [c]
+			}
+			{
+				Type [Button]
+				Text [Calculate]
+				Id [2]
+				X [10]
+				Y [120]
+				Method [calculate]
+			}
+		}
+calculate [ () 
+{ 
+setText("c",getText("a")+getText("b"));
+}]
+}

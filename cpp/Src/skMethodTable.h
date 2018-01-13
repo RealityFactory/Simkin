@@ -16,20 +16,22 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skMethodTable.h,v 1.7 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skMethodTable.h,v 1.9 2003/04/03 16:21:17 simkin_cvs Exp $
 */
 #ifndef skMETHODTABLE_H
 #define skMETHODTABLE_H
 
-#include "skHashTable.h"
+#include "skSHashTable.h"
 #include "skParseNode.h"
 
-EXTERN_TEMPLATE template class CLASSEXPORT skTHashTable<skString,skMethodDefNode>;
+#ifdef INSTANTIATE_TEMPLATES
+EXTERN_TEMPLATE template class CLASSEXPORT skTSHashTable<skMethodDefNode>;
+#endif
 
 /**
  * This class can be used to cache parse trees. It is a hashtable mapping method name to parse tree
  */
-class CLASSEXPORT skMethodTable : public skTHashTable<skString,skMethodDefNode>
+class CLASSEXPORT skMethodTable : public skTSHashTable<skMethodDefNode>
 {
 };
 

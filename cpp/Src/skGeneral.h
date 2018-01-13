@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skGeneral.h,v 1.22 2003/02/26 12:10:54 simkin_cvs Exp $
+  $Id: skGeneral.h,v 1.32 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef skGENERAL_H
 #define skGENERAL_H
@@ -33,8 +33,16 @@
 #endif
 
 
-
+#ifdef __SYMBIAN32__
+#include <E32BASE.H>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include "skSymbian.h"
+#include <eikenv.h>
+#else
+#include <stdlib.h>
+#endif
 
 typedef unsigned int USize;
 
@@ -77,12 +85,29 @@ typedef unsigned int USize;
   #define EXTERN_TEMPLATE extern
  #endif 
 #else
+#ifdef __SYMBIAN32__
+#define CLASSEXPORT     
+#else
 // TODO: Dynamic linking declarations for other platforms?
  #define LIBIMPORT       
  #define LIBEXPORT       
  #define CLASSEXPORT
- #define EXTERN_TEMPLATE
+ #define EXTERN_TEMPLATE 
 #endif
+#endif
+
+#ifndef __SYMBIAN32__
+// adds code to instantiate various templates- not necessary on MetroWerks CodeWarrior?
+#define INSTANTIATE_TEMPLATES
+#define IMPORT_C
+#define EXPORT_C
+#endif
+
+// define this to enable floating point support
+#define USE_FLOATING_POINT 1
+
+// define this to enable execution scripts via the parse tree, rather than the new smaller representation
+#define EXECUTE_PARSENODES 1
 
 
 #if defined(_MSC_VER)
@@ -101,17 +126,50 @@ typedef unsigned int USize;
    #endif
 #endif
 
-// Look out for Windows CE - which doesn't support streams or exceptions or assert!
-
-#ifndef _WIN32_WCE
- #define STREAMS_ENABLED
- #define EXCEPTIONS_DEFINED
- #include <assert.h>
-#else
- #include <windows.h>
- #include <dbgapi.h>
- #define assert ASSERT
- #define UNICODE_STRINGS
+#ifdef __SYMBIAN32__
+// Symbian does not support exceptions or streams, but does use unicode
+#include <assert.h>
+#if defined(_UNICODE)
+#define UNICODE_STRINGS
 #endif
-
+/** this method exits the system on a fatal error */
+inline void ExitSystem()
+{
+  User::Leave(KErrGeneral);
+}
+/** a macro wrapping new so that code for Symbian is the same - here call the leaving operator new */
+#define skNEW(a) new (ELeave) a
+#define skARRAY_NEW(type,size) new (ELeave) type[size]
+// puts a pointer into the cleanup stack
+#define SAVE_POINTER(p) CleanupDeletePushL((p))
+#define SAVE_VARIABLE(p) CleanupStack::PushL((p))
+// removes the pointer, but doesn't delete it - it is assumed the method does this if it exits normally
+#define RELEASE_POINTER(p) CleanupStack::Pop(p)
+// removes the variable - don't call destroy as the destructor is called if the method exits normally
+#define RELEASE_VARIABLE(p) CleanupStack::Pop(&p)
+#else
+/** a macro wrapping new so that code for Symbian is the same */
+#define skNEW(a) new a
+#define skARRAY_NEW(type,size) new type[size]
+#define SAVE_POINTER(p) 
+#define RELEASE_POINTER(p) 
+#define SAVE_VARIABLE(p)
+#define RELEASE_VARIABLE(p) 
+// Look out for Windows CE - which doesn't support streams or exceptions or assert!
+#ifdef _WIN32_WCE
+#include <windows.h>
+#include <dbgapi.h>
+#define assert ASSERT
+#define UNICODE_STRINGS
+/** this method exits the system on a fatal error */
+inline void ExitSystem()
+{
+  exit(EXIT_FAILURE);
+}
+#else
+#define STREAMS_ENABLED
+#define EXCEPTIONS_DEFINED
+#include <assert.h>
+#endif
+#endif
 #endif

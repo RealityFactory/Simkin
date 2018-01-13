@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.h,v 1.10 2003/02/27 18:00:23 simkin_cvs Exp $
+* $Id: skElement.h,v 1.13 2003/04/04 17:07:47 simkin_cvs Exp $
 */
 #ifndef skELEMENT_H
 #define skELEMENT_H
@@ -34,6 +34,9 @@ class CLASSEXPORT skElement : public skNode
    * @param tagname - the tag name to use for the element
    */
   skElement(const skString& tagname);
+  /** Virtual destructor
+   */
+  ~skElement();
   /**
    * This adds a child to the list of children owned by this element. The node's "parent" field is set to this element
    * @param child - the child to be added. Note: the child is not copied, and will be deleted by the destructor for this class.
@@ -96,6 +99,18 @@ class CLASSEXPORT skElement : public skNode
    * @param out - the destination to write to
    */
   virtual void write(skOutputDestination& out) const;
+  /**
+   * Does a deep comparison against another element, without checking the tag name of this element
+   */
+  bool operator==(const skElement& other) const;
+  /**
+   * Does a deep comparison against another element
+   */
+  bool equals(const skNode& other) const;
+  /**
+   * Does a deep compare another element, with an optional check on the tag name
+   */
+  bool deepCompare(const skElement& other,bool check_tagname) const;
  protected:
   /** this method finds a named attribute */
   skAttribute * findAttribute(const skString& name) const;

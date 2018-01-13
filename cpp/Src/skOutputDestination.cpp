@@ -16,12 +16,17 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skOutputDestination.cpp,v 1.5 2003/02/14 10:43:21 simkin_cvs Exp $
+  $Id: skOutputDestination.cpp,v 1.11 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #include "skOutputDestination.h"
 
 //-----------------------------------------------------------------
-skOutputFile::skOutputFile(const skString& filename)
+skOutputDestination::~skOutputDestination()
+//-----------------------------------------------------------------
+{
+}
+//-----------------------------------------------------------------
+EXPORT_C skOutputFile::skOutputFile(const skString& filename)
 //-----------------------------------------------------------------
 : 
 #ifdef STREAMS_ENABLED
@@ -32,7 +37,12 @@ m_Out(0)
 {
 #ifndef STREAMS_ENABLED
 #ifdef UNICODE_STRINGS
+#ifdef __SYMBIAN32__
+  // SYMBIAN_QUESTION: does this function leave???
+  m_Out=wfopen(filename.c_str(),skSTR("wb"));
+#else
   m_Out=_wfopen(filename,skSTR("wb"));
+#endif
   // write out a unicode tag
   if (m_Out){
     fputc(0xFF,m_Out);
@@ -44,7 +54,7 @@ m_Out(0)
 #endif
 }
 //-----------------------------------------------------------------
-skOutputFile::~skOutputFile()
+EXPORT_C skOutputFile::~skOutputFile()
 //-----------------------------------------------------------------
 {
 #ifndef STREAMS_ENABLED
@@ -53,24 +63,53 @@ skOutputFile::~skOutputFile()
 #endif
 }
 //-----------------------------------------------------------------
-void skOutputFile::write(const skString& s)
+EXPORT_C void skOutputFile::write(const skString& s)
 //-----------------------------------------------------------------
 {
 #ifdef STREAMS_ENABLED
   m_Out << s;
 #else
-  fwrite(s,s.length(),sizeof(Char),m_Out);
+  // SYMBIAN_QUESTION: does this function leave???
+  fwrite(s.c_str(),s.length()*sizeof(Char),1,m_Out);
 #endif
 }
+#ifdef __SYMBIAN32__
+// Symbian-friendly version
 //-----------------------------------------------------------------
-skOutputString::skOutputString(skStringBuffer& out)
+EXPORT_C void skOutputFile::write(const TDesC& s)
+//-----------------------------------------------------------------
+{
+#ifdef STREAMS_ENABLED
+  m_Out << s;
+#else
+  // SYMBIAN_QUESTION: does this function leave???
+  fwrite((const Char *)s.Ptr(),s.Length()*sizeof(Char),1,m_Out);
+#endif
+}
+#endif
+//-----------------------------------------------------------------
+EXPORT_C skOutputString::skOutputString(skStringBuffer& out)
 //-----------------------------------------------------------------
 : m_Out(out)
 {
 }
 //-----------------------------------------------------------------
-void skOutputString::write(const skString& s)
+EXPORT_C skOutputString::~skOutputString()
+//-----------------------------------------------------------------
+{
+}
+//-----------------------------------------------------------------
+EXPORT_C void skOutputString::write(const skString& s)
 //-----------------------------------------------------------------
 {
   m_Out.append(s);
 }
+#ifdef __SYMBIAN32__
+// Symbian-friendly version
+//-----------------------------------------------------------------
+EXPORT_C void skOutputString::write(const TDesC& s)
+//-----------------------------------------------------------------
+{
+  m_Out.append(s);
+}
+#endif

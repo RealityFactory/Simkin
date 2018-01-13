@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObjectEnumerator.h,v 1.14 2003/03/18 19:36:13 simkin_cvs Exp $
+  $Id: skTreeNodeObjectEnumerator.h,v 1.17 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef TREENODEOBJECTENUMERATOR_H
 #define TREENODEOBJECTENUMERATOR_H
@@ -36,11 +36,15 @@ class CLASSEXPORT skTreeNodeObjectEnumerator : public skExecutable, public skExe
   /**
    * This constructor is for an enumerator that gives *all* the child elements of this element
    */
-  skTreeNodeObjectEnumerator(skTreeNodeObject * obj,const skString& location);
+  IMPORT_C skTreeNodeObjectEnumerator(skTreeNodeObject * obj,const skString& location);
   /**
    * This constructor is for an enumerator that gives the child elements of this element whose tag name matches that given
    */
-  skTreeNodeObjectEnumerator(skTreeNodeObject * obj,const skString& location,const skString& tag);
+  IMPORT_C skTreeNodeObjectEnumerator(skTreeNodeObject * obj,const skString& location,const skString& tag);
+  /**
+   * Destructor
+   */
+  virtual ~skTreeNodeObjectEnumerator();
   /**
    * This method exposes the following methods to Simkin scripts:
    * "next" - returns the next object in the enumeration - or null if there are no more
@@ -49,12 +53,14 @@ class CLASSEXPORT skTreeNodeObjectEnumerator : public skExecutable, public skExe
    * @param args arguments to the function
    * @param r return value
    * @param ctxt context object to receive errors
+   * @exception a Symbian - a leaving function
    */
-  bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
+  virtual bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
   /**
    * This method implements the method in skExecutableIterator
+   * @exception a Symbian - a leaving function
    */
-  bool next(skRValue&);
+  virtual bool next(skRValue&);
  private:
   void findNextNode();
 

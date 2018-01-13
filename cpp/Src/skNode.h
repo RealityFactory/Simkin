@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skNode.h,v 1.13 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skNode.h,v 1.15 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 #ifndef skNODE_H
 #define skNODE_H
@@ -32,6 +32,10 @@ class CLASSEXPORT skOutputDestination;
 class CLASSEXPORT skNode 
 {
  public:
+   /**
+   * Virtual destructor
+   */
+   virtual ~skNode();
   /** 
    * This enumeration is used to distinguish between different types of node in a document
    */
@@ -70,14 +74,14 @@ class CLASSEXPORT skNode
    * This static method searches the given text for characters which must be "escaped" in an XML document
    */
   static skString escapeXMLDelimiters(const skString& text);
-  /** Increments the reference count for this node */
-  void addRef();
-  /** Decrements the reference count for this node. When this reaches zero, the node deletes itself */
-  void deRef();
   /** Sets the owning element */
   void setParent(skElement * parent);
   /** Returns the owning element  */
   skElement * getParent();
+  /**
+   * Does a deep comparison against another node
+   */
+  virtual bool equals(const skNode& other) const=0;
  protected:
   /** Blank constructor */
   skNode();

@@ -1,0 +1,15 @@
+TARGET SimkinDemo.app
+TARGETTYPE app
+UID 0x100039CE 0x101FAE0B
+TARGETPATH \system\apps\SimkinDemo
+SOURCEPATH .
+SOURCE CSimkinApp.cpp
+SOURCE CSimkinAppCodeDialog.cpp
+SOURCE CSimkinApplication.cpp
+SOURCE CSimkinAppUi.cpp
+SOURCE CSimkinAppView.cpp
+SOURCE CSimkinDocument.cpp
+RESOURCE SimkinDemo.rss
+USERINCLUDE ..\..
+SYSTEMINCLUDE \Symbian\UIQ_70\epoc32\include \Symbian\UIQ_70\epoc32\include\libc
+LIBRARY simkin.lib euser.lib qikctl.lib eikcore.lib eikcoctl.lib apparc.lib cone.lib estlib.lib eikdlg.lib

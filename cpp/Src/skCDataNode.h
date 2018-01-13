@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skCDataNode.h,v 1.6 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skCDataNode.h,v 1.7 2003/03/24 15:51:32 simkin_cvs Exp $
 */
 #ifndef skCDATANODE_H
 #define skCDATANODE_H
@@ -34,6 +34,10 @@ class CLASSEXPORT skCDataNode : public skTextNode
    * @param text - the text for the CData node 
    */
   skCDataNode(const skString& text);
+  /**
+  * Virtual destructor
+  */
+  virtual ~skCDataNode();
   /**
    * Returns the type of this node
    * @return returns CDATA_NODE

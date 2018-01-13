@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElementObject.cpp,v 1.44 2003/03/18 13:31:59 simkin_cvs Exp $
+  $Id: skXMLElementObject.cpp,v 1.48 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -34,14 +34,9 @@
 #include <xercesc/dom/deprecated/DOM_NamedNodeMap.hpp>
 #include <xercesc/dom/deprecated/DOMParser.hpp>
 
-xskLITERAL(true);
 
 #include <xercesc/dom/deprecated/DOM_NamedNodeMap.hpp>
 ostream& operator<<(ostream& target, const DOMString& toWrite);
-skLITERAL(function);
-skLITERAL(name);
-static Char c_colon=':';
-static skString s_colon=skSTR(":");
 
 //------------------------------------------
 skXMLElementObject::skXMLElementObject(const skString& scriptLocation,DOM_Element elem)
@@ -85,12 +80,14 @@ int skXMLElementObject::intValue() const
 {
   return getData(m_Element).to();
 }
+#ifdef USE_FLOATING_POINT
 //------------------------------------------
 float skXMLElementObject::floatValue() const
   //------------------------------------------
 {
   return getData(m_Element).toFloat();
 }
+#endif
 //------------------------------------------
 bool skXMLElementObject::boolValue() const
   //------------------------------------------
@@ -240,7 +237,7 @@ bool skXMLElementObject::getValueAt(const skRValue& array_index,const skString& 
   }
   if (child.isNull()==false){
     if (attribute.length()==0)
-      value=skRValue(createXMLElementObject(m_ScriptLocation+"["+skString::from(index)+"]",child),true);
+      value=skRValue(createXMLElementObject(skString::addStrings(m_ScriptLocation,"[",skString::from(index),"]"),child),true);
     else{
       DOMString attrName=fromString(attribute);
       DOMString attrValue=child.getAttribute(attrName);
@@ -281,7 +278,7 @@ bool skXMLElementObject::getValue(const skString& name,const skString& attrib,sk
     }
     if (child.isNull()==false){
       if (attrib.length()==0)
-        v=skRValue(createXMLElementObject(m_ScriptLocation+s_colon+name,child),true);
+        v=skRValue(createXMLElementObject(skString::addStrings(m_ScriptLocation,s_colon,name),child),true);
       else{
         DOMString attrName=fromString(attrib);
         DOMString attrValue=child.getAttribute(attrName);
@@ -412,7 +409,7 @@ void skXMLElementObject::getInstanceVariables(skRValueTable& table)
       if (type==DOM_Node::ELEMENT_NODE){
 	      DOM_Element element=*(DOM_Element *)&node;
         skString name=toString(element.getNodeName());
-        table.insertKeyAndValue(new skString(name),
+        table.insertKeyAndValue(name,
                     new skRValue(new skXMLElementObject(name,element)));
       }
     }
@@ -428,7 +425,7 @@ void skXMLElementObject::getAttributes(skRValueTable& table)
       DOM_Node attr=attrs.item(i);
       skString name=toString(attr.getNodeName());
       skString value=toString(attr.getNodeValue());
-      table.insertKeyAndValue(new skString(name),new skRValue(value));
+      table.insertKeyAndValue(name,new skRValue(value));
     }
   }
 }
@@ -500,11 +497,11 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
     else
       ret=skRValue(new skXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),args[0].str()),true);
   }else{
-    skString location=m_ScriptLocation+":"+s;
+    skString location=skString::addStrings(m_ScriptLocation,":",s);
     if (m_Element.isNull()==false){
       skMethodDefNode * methNode=0;
       if (m_MethodCache!=0)
-        methNode=m_MethodCache->value(&s);
+        methNode=m_MethodCache->value(s);
       if (methNode==0){
         // no parse tree found in the cache - try and construct a new one
         DOM_Element node=skXMLElementObject::findChild(m_Element,s_function,s_name,s);
@@ -525,7 +522,7 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
 	        if (methNode){
 	          if (m_MethodCache==0)
 	            m_MethodCache=new skMethodTable();
-	          m_MethodCache->insertKeyAndValue(new skString(s),methNode);
+	          m_MethodCache->insertKeyAndValue(s,methNode);
 	        }
         }else
 	        bRet=skExecutable::method(s,args,ret,ctxt);

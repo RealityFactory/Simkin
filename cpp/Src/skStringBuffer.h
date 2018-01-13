@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skStringBuffer.h,v 1.5 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skStringBuffer.h,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 
 
@@ -29,74 +29,100 @@
  * This class provides an expandable buffer for textual characters. 
  */
 class skStringBuffer 
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
  public:
   /** Constructs a blank buffer of the given capacity. The buffer's length will be zero.
    * @param capacity - the capacity of the buffer to create. This can be zero
    * @param growth_increment - the minimum amount to grow the buffer by if it is enlarged
    */
-  skStringBuffer(USize capacity,USize growth_increment=16);
+  inline skStringBuffer(USize capacity,USize growth_increment=16);
+#ifndef __SYMBIAN32__
   /** Constructs a buffer from the given string. The string's data will be copied. The buffer's initial capacity and length will be the length of the string.
+   * \remarks not available in Symbian version
    * @param s - the string to copy
    * @param growth_increment - the minimum amount to grow the buffer by if it is enlarged
    */
-  skStringBuffer(const skString& s,USize growth_increment=16);
+  IMPORT_C skStringBuffer(const skString& s,USize growth_increment=16);
   /** Copy constructor - it takes a copy of the underlying buffer
+   * \remarks not available in Symbian version
    * @param s - the other string buffer. A copy is taken of its underlying buffer
    */
-  skStringBuffer(const skStringBuffer& s);
+  IMPORT_C skStringBuffer(const skStringBuffer& s);
+#endif
   /**
    * Destroys the underlying character buffer
    */
-  ~skStringBuffer();
+  IMPORT_C virtual ~skStringBuffer();
   /** Assignment operator - it takes a copy of the underlying buffer
    * @param s - the other string buffer. A copy is taken of its underlying buffer
+   * @exception Symbian - a leaving function
    */
-  skStringBuffer& operator=(const skStringBuffer& s);
+  IMPORT_C skStringBuffer& operator=(const skStringBuffer& s);
   /**
    * Adds a character to the buffer, growing it if necessary.
    * @param ch - the character to add
+   * @exception Symbian - a leaving function
    */
-  void append(Char ch);
+  IMPORT_C void append(Char ch);
   /**
    * Adds a string to the buffer, growing it if necessary
    * @param s - the string to append to the end of the current buffer
+   * @exception Symbian - a leaving function
    */
-  void append(const skString& s);
+  IMPORT_C void append(const skString& s);
   /**
    * Adds a string to the buffer, growing it if necessary
    * @param s - the string to append to the end of the current buffer
+   * @exception Symbian - a leaving function
    */
-  void append(const Char * s);
+  IMPORT_C void append(const Char * s);
+#ifdef __SYMBIAN32__
+  /**
+   * Adds a string to the buffer, growing it if necessary
+   * \remarks only available in Symbian version
+   * @param s - the string to append to the end of the current buffer
+   * @exception Symbian - a leaving function
+   */
+  IMPORT_C void append(const TDesC& s);
+#endif
   /**
    * Creates a new string that owns the underlying buffer. The current buffer is set to null.
    * @return a string which owns the current buffer
+   * @exception Symbian - a leaving function
    */
-  skString toString() ;
+  IMPORT_C skString toString() ;
   /**
    * Creates a new string that copies the underlying buffer. The current buffer remains the same
    * @return a string which copies the current buffer
+   * @exception Symbian - a leaving function
    */
-  skString toStringCopy() const;
+  IMPORT_C skString toStringCopy() const;
+#ifndef __SYMBIAN32
   /**
    * Returns the underlying buffer
+   * \remarks not available in Symbian version
    * @return a pointer to the underlying buffer
    */
-  operator const Char * () const;
+  IMPORT_C operator const Char * () const;
+#endif
   /**
    * Returns the current length of the text in the buffer
    * @return the length of the text in the buffer
    */
-  USize length() const;
+  inline USize length() const;
   /**
    * Returns the current capacity the buffer
    * @return the capacity of the buffer
    */
-  USize capacity() const;
+  inline USize capacity() const;
  private:
   /**
    * This function ensures that there is enough room in the buffer for a string of the given length. It will grow the buffer, if necessary.
    * @param capacity - the new capacity required. If the buffer is already big enough, it will not be altered
+   * @exception Symbian - a leaving function
    */
   void ensureCapacity(USize capacity);
   /** the underlying buffer of characters */
@@ -109,4 +135,22 @@ class skStringBuffer
   USize m_GrowthIncrement;
 };
 
+//---------------------------------------------------
+inline skStringBuffer::skStringBuffer(USize length,USize growth_increment)
+//---------------------------------------------------
+  : m_Buffer(0),m_Length(0),m_Capacity(length+1),m_GrowthIncrement(growth_increment)
+{
+}
+//---------------------------------------------------
+inline USize skStringBuffer::length() const
+//---------------------------------------------------
+{
+  return m_Length;
+}
+//---------------------------------------------------
+inline USize skStringBuffer::capacity() const
+//---------------------------------------------------
+{
+  return m_Capacity;
+}
 #endif

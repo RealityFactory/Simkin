@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.h,v 1.4 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skInputSource.h,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef skInputSource_h
 #define skInputSource_h
@@ -34,25 +34,73 @@
 * It is implemented by concrete classes
 */
 class CLASSEXPORT skInputSource
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
 public:
-  virtual bool          eof() const=0;
-  virtual int           get()=0;
-  virtual int           peek()=0;
-  virtual skString      readAllToString()=0;
-//  virtual unsigned int  read(void * buffer,unsigned int buf_len)=0;
+  virtual ~skInputSource();
+  /**
+   * Returns whether the source has reached the end
+   */
+  virtual bool eof() const=0;
+  /**
+   * Returns and consumes the next character in the input
+   */
+  virtual int get()=0;
+  /**
+   * Returns, but does not consume the next character in the input
+   */
+  virtual int peek()=0;
+  /**
+   * Reads the whole source into a string
+   */
+  virtual skString readAllToString()=0;
 };
 
 class CLASSEXPORT skInputFile : public skInputSource
 {
 public:
-                skInputFile(const skString& filename);
-                ~skInputFile();
-  bool          eof() const;
-  int           get();
-  int           peek();
-  skString      readAllToString();
-//  unsigned int  read(void * buffer,unsigned int buf_len);
+  /**
+   * Constructor. Opens the given file
+   * @param filename the name of the file to open
+   */
+  IMPORT_C skInputFile(const skString& filename);
+  /**
+   * Blank Constructor. 
+   */
+  IMPORT_C skInputFile();
+  /**
+   * Opens the file
+   * @param filename the name of the file to open
+   */
+  IMPORT_C void open(const skString& filename);
+#ifdef __SYMBIAN32__
+  /**
+   * Opens the file
+   * \remarks only available in Symbian version
+   * @param filename the name of the file to open
+   */
+  IMPORT_C void open(const TDesC& file);
+#endif
+  virtual ~skInputFile();
+  /**
+   * Returns whether the file has reached the end
+   */
+  virtual bool eof() const;
+  /**
+   * Returns and consumes the next character in the file
+   */
+  virtual int get();
+  /**
+   * Returns, but does not consume the next character in the file
+   */
+  virtual int peek();
+  /**
+   * Reads the whole source into a string
+   * @exception Symbian - a leaving function
+   */
+  virtual skString readAllToString();
 private:
 #ifdef STREAMS_ENABLED
   ifstream      m_In;
@@ -68,12 +116,31 @@ private:
 class CLASSEXPORT skInputString : public skInputSource
 {
 public:
-                skInputString(const skString& in);
-  bool          eof() const;
-  int           get();
-  int           peek();
-  skString      readAllToString();
-//  unsigned int  read(void * buffer,unsigned int buf_len);
+  /**
+   * Constructor. Wraps an input source around a string
+   * @param in the string to read in
+   */
+  IMPORT_C skInputString(const skString& in);
+  /**
+   * Destructor
+   */
+  virtual ~skInputString();
+  /**
+   * Returns whether the input has reached the end of the string
+   */
+  virtual bool eof() const;
+  /**
+   * Returns and consumes the next character in the string
+   */
+  virtual int get();
+  /**
+   * Returns, but does not consume the next character in the string
+   */
+  virtual int peek();
+  /**
+   * Returns the input string in its entirety
+   */
+  virtual skString readAllToString();
 private:
   skString      m_In;
   unsigned int  m_Pos;

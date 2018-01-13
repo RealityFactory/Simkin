@@ -117,6 +117,10 @@ SOURCE=.\skCDataNode.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\skConstants.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skElement.cpp
 # End Source File
 # Begin Source File
@@ -221,7 +225,11 @@ SOURCE=.\skInterpreter.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\skLang_tab.cpp
+SOURCE=.\skInterpreterByte.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreterNode.cpp
 # End Source File
 # Begin Source File
 
@@ -254,6 +262,10 @@ SOURCE=.\skOutputDestination.h
 # Begin Source File
 
 SOURCE=.\skParseException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseNode.cpp
 # End Source File
 # Begin Source File
 
@@ -299,6 +311,10 @@ SOURCE=.\skRValueArray.h
 # Begin Source File
 
 SOURCE=.\skRValueTable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skSHashTable.cpp
 # End Source File
 # Begin Source File
 

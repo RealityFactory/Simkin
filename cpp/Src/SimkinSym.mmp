@@ -1,0 +1,17 @@
+TARGET Simkin.dll
+TARGETTYPE dll
+UID 0x1000008D 0x101FAE0A
+SOURCEPATH .
+SOURCE skInterpreterNode.cpp skInterpreterByte.cpp skInterpreter.cpp skTreeNodeObjectEnumerator.cpp skConstants.cpp skExecutable.cpp skExecutableContext.cpp skInputSource.cpp skOutputDestination.cpp skParseNode.cpp skParser.cpp skRValue.cpp skSHashTable.cpp skStackFrame.cpp skString.cpp skStringBuffer.cpp skStringTokenizer.cpp skSymbian.cpp skTracer.cpp skTreeNode.cpp skTreeNodeObject.cpp skAlist.cpp skExecutableIterator.cpp 
+USERINCLUDE .
+SYSTEMINCLUDE \Symbian\UIQ_70\epoc32\include \Symbian\UIQ_70\epoc32\include\libc
+//EXPORTUNFROZEN
+LIBRARY estlib.lib euser.lib edll.lib
+#if defined(WINS)
+deffile .\SimkinSym_wins.def
+#else 
+#if defined(ARM)
+deffile .\SimkinSym_armi.def
+#endif
+#endif
+nostrictdef

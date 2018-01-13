@@ -1,0 +1,171 @@
+{
+	[This file tests the statements and expressions in Simkin]
+
+	a_member_variable [a member variable's value]
+	{
+		a_field [\[a field's value]
+	}
+	a_member_variable_reference [a_member_variable]
+	test_while [()
+	{
+		i=4;
+		j=0;
+		while (i gt 0){
+			i=i-1;
+			j=j+1;
+		}
+		trace("->  Looped through while loop " # j # " times");
+	}
+	]
+	test_if [(f)
+	{
+		if (f=1){
+			trace("-> Went into if section");
+		}else{
+			trace("-> Went into else section");
+		}
+	}
+	]
+	test_assignment [()
+	{
+		a=0;
+		trace("-> before assignment a=" # a);
+		a=4;
+		trace("-> after assignment a=" # a);
+	}
+	]
+	test_literals [()
+	{
+		trace("-> Here are some literals: " # 4 # "," # "Simon" );
+	}]
+	test_identifier [()
+	{
+		trace("-> Here is a_member_variable: " # a_member_variable );
+	}
+	]
+	test_indirect_identifier [()
+	{
+		trace("-> Here is @a_member_variable_reference: " # @a_member_variable_reference );
+	}
+	]
+	test_field [()
+	{
+		trace("-> Here is a field: " # a_member_variable.a_field );
+	}
+	]
+	test_not [()
+	{
+		trace("-> Here is not 1: " # not 1 );
+	}
+	]
+	test_and [(a,b)
+	{
+		trace("-> Here is " # a # " and " # b # ": " # (a and b));
+	}
+	]
+	test_or [(a,b)
+	{
+		trace("-> Here is " # a # " or " # b # ": " # (a or b));
+	}
+	]
+	test_equality [(a,b)
+	{
+		trace("-> Here is " # a # " equals " # b # ": " # (a=b));
+	}
+	]
+	test_add [(a,b)
+	{
+		trace("-> Here is " # a # " plus " # b # ": " # (a+b));
+	}
+	]
+	test_subtract [(a,b)
+	{
+		trace("-> Here is " # a # " minus " # b # ": " # (a-b));
+	}
+	]
+	test_mult [(a,b)
+	{
+		trace("-> Here is " # a # " times " # b # ": " # (a*b));
+	}
+	]
+	test_divide [(a,b)
+	{
+		trace("-> Here is " # a # " divided by " # b # ": " # (a/b));
+	}
+	]
+	test_mod [(a,b)
+	  {
+	    trace("-> Here is " # a # " modulus " # b # ": " # (a%b));
+	}
+	]
+	sub {
+	  method [ (){
+	    trace("-> Here's a sub-method!");
+ 	  }]
+	}
+	test_sub_method [(){
+	  trace("-> Calling a sub.method:") ; 
+	  sub.method(); 
+	}
+	]
+	test_for [(n){
+		trace("For loop " # n # " times");
+		for i=0 to n {
+			trace("Loop " # i);
+		}
+	}]
+	test_foreach [(){
+		trace("Iterating over self");
+		for each i in self {
+			trace(i);
+		}
+	}]
+	test_switch [(c){
+		trace("Testing switch on value " # c);
+		switch(c){
+		case 'a'{
+			trace("Matched a");
+		}
+		case 'b'{
+			trace("Matched b");
+		}
+		case 'c'{
+			trace("Matched c");
+		}
+		default {
+			trace("Matched none");
+		}
+		}
+		trace("test finished");
+	}]
+	main [() 
+	{
+		for i=1 to 10 {
+		test_while();
+		test_if(0);
+		test_if(1);
+		test_assignment();
+		test_literals();
+		test_identifier();
+		test_indirect_identifier();
+		test_field();
+		test_not();
+		test_and (1,1);
+		test_or(0,0);
+		test_equality(100,100);
+		test_add(10,10);
+		test_subtract(100,10);
+		test_mult(10,10);
+		test_divide(100,10);
+		test_mod(12,5);
+		test_sub_method();
+		test_for(5);
+//		test_foreach();
+		test_switch("a");
+		test_switch("c");
+		test_switch("d");
+		test_switch("z");
+		}
+	}
+	]
+}

@@ -441,7 +441,9 @@ DEP_CPP_SKALI=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKALI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -464,9 +466,11 @@ DEP_CPP_SKALI=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -491,7 +495,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
@@ -500,7 +506,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -509,7 +517,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
@@ -518,7 +528,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
@@ -527,7 +539,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
@@ -536,7 +550,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
@@ -545,7 +561,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
@@ -554,7 +572,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -563,7 +583,9 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
@@ -572,6 +594,7 @@ DEP_CPP_SKASC=\
 	".\skAsciiString.h"\
 	".\skAsciiString.inl"\
 	".\skGeneral.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -589,7 +612,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
@@ -599,7 +624,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -609,7 +636,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
@@ -619,7 +648,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
@@ -629,7 +660,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
@@ -639,7 +672,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
@@ -649,7 +684,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
@@ -659,7 +696,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -669,7 +708,9 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKASCI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
@@ -679,6 +720,7 @@ DEP_CPP_SKASCI=\
 	".\skAsciiString.inl"\
 	".\skAsciiStringBuffer.h"\
 	".\skGeneral.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -834,7 +876,9 @@ DEP_CPP_SKCDA=\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
 	".\skTextNode.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKCDA=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -861,12 +905,14 @@ DEP_CPP_SKCDA=\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
 	".\skCDataNode.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
 	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	".\skTextNode.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
@@ -877,6 +923,141 @@ DEP_CPP_SKCDA=\
 # Begin Source File
 
 SOURCE=.\skCDataNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skConstants.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	
+NODEP_CPP_SKCON=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKCON=\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -1022,7 +1203,9 @@ DEP_CPP_SKELE=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELE=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -1050,6 +1233,7 @@ DEP_CPP_SKELE=\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skElement.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
@@ -1057,6 +1241,7 @@ DEP_CPP_SKELE=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -1284,7 +1469,9 @@ DEP_CPP_SKELEM=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELEM=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -1322,6 +1509,7 @@ DEP_CPP_SKELEM=\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skElement.h"\
 	".\skElementExecutable.h"\
 	".\skElementObject.h"\
@@ -1338,6 +1526,7 @@ DEP_CPP_SKELEM=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -1652,7 +1841,9 @@ DEP_CPP_SKELEME=\
 	".\skStringTokenizer.h"\
 	".\skTextNode.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELEME=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -1700,6 +1891,7 @@ DEP_CPP_SKELEME=\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skElement.h"\
 	".\skElementObject.h"\
 	".\skElementObjectEnumerator.h"\
@@ -1708,24 +1900,28 @@ DEP_CPP_SKELEME=\
 	".\skExecutableContext.h"\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skHashTable.h"\
-	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
 	".\skMethodTable.h"\
 	".\skNode.h"\
 	".\skNull.h"\
 	".\skParseNode.h"\
+	".\skParseNode.inl"\
 	".\skRValue.h"\
 	".\skRValue.inl"\
 	".\skRValueArray.h"\
 	".\skRValueTable.h"\
 	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringBuffer.h"\
 	".\skStringList.h"\
 	".\skStringTokenizer.h"\
+	".\skSymbian.h"\
 	".\skTextNode.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
@@ -1971,7 +2167,9 @@ DEP_CPP_SKELEMEN=\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELEMEN=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2010,6 +2208,7 @@ DEP_CPP_SKELEMEN=\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skElement.h"\
 	".\skElementObject.h"\
 	".\skElementObjectEnumerator.h"\
@@ -2018,18 +2217,24 @@ DEP_CPP_SKELEMEN=\
 	".\skExecutableContext.h"\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skHashTable.h"\
-	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
 	".\skNode.h"\
 	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
 	".\skRValue.h"\
 	".\skRValue.inl"\
 	".\skRValueTable.h"\
 	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -2053,7 +2258,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
@@ -2065,7 +2272,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -2077,7 +2286,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
@@ -2089,7 +2300,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
@@ -2101,7 +2314,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
@@ -2113,7 +2328,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
@@ -2125,7 +2342,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
@@ -2137,7 +2356,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2149,7 +2370,9 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKENC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
@@ -2161,6 +2384,7 @@ DEP_CPP_SKENC=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -2371,7 +2595,9 @@ DEP_CPP_SKEXE=\
 	".\skString.inl"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKEXE=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2404,22 +2630,28 @@ DEP_CPP_SKEXE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
 	".\skExecutable.h"\
 	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skHashTable.h"\
-	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
 	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
 	".\skRValue.h"\
 	".\skRValue.inl"\
 	".\skRValueArray.h"\
 	".\skRValueTable.h"\
 	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
 	{$(INCLUDE)}"dbgapi.h"\
@@ -2551,7 +2783,9 @@ DEP_CPP_SKEXEC=\
 	".\skStackFrame.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKEXEC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2579,6 +2813,7 @@ DEP_CPP_SKEXEC=\
 	".\skStackFrame.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -2668,7 +2903,9 @@ NODEP_CPP_SKEXECU=\
 DEP_CPP_SKEXECU=\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2686,6 +2923,7 @@ NODEP_CPP_SKEXECU=\
 DEP_CPP_SKEXECU=\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -2889,7 +3127,9 @@ DEP_CPP_SKEXP=\
 	".\skString.inl"\
 	".\skTextNode.h"\
 	".\skXMLParseException.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKEXP=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2925,6 +3165,7 @@ DEP_CPP_SKEXP=\
 	".\skAttribute.h"\
 	".\skBoundsException.h"\
 	".\skCDataNode.h"\
+	".\skConstants.h"\
 	".\skElement.h"\
 	".\skException.h"\
 	".\skExecutableContext.h"\
@@ -2935,6 +3176,7 @@ DEP_CPP_SKEXP=\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	".\skTextNode.h"\
 	".\skXMLParseException.h"\
 	{$(INCLUDE)}"dbgapi.h"\
@@ -3078,7 +3320,9 @@ DEP_CPP_SKHAS=\
 	".\skHashTable.inl"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKHAS=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3103,11 +3347,13 @@ DEP_CPP_SKHAS=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
 	".\skHashTable.h"\
 	".\skHashTable.inl"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -3221,7 +3467,9 @@ DEP_CPP_SKINP=\
 	".\skInputSource.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3248,6 +3496,7 @@ DEP_CPP_SKINP=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -3277,7 +3526,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3298,6 +3546,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
@@ -3315,7 +3564,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3336,6 +3584,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -3353,7 +3602,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3374,6 +3622,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
@@ -3391,7 +3640,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3412,6 +3660,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
@@ -3429,7 +3678,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3450,6 +3698,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
@@ -3467,7 +3716,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3488,6 +3736,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
@@ -3505,7 +3754,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3526,6 +3774,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
@@ -3543,7 +3792,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3562,7 +3810,10 @@ DEP_CPP_SKINT=\
 	".\skTraceCallback.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKINT=\
+	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3580,7 +3831,6 @@ DEP_CPP_SKINT=\
 	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
@@ -3601,6 +3851,7 @@ DEP_CPP_SKINT=\
 	
 NODEP_CPP_SKINT=\
 	".\bgapi.h"\
+	".\skInterpreterp.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
@@ -3609,19 +3860,18 @@ DEP_CPP_SKINT=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
 	".\skExecutable.h"\
 	".\skExecutableContext.h"\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skHashTable.h"\
-	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
-	".\skInterpreterp.h"\
 	".\skNull.h"\
 	".\skParseException.h"\
 	".\skParseNode.h"\
+	".\skParseNode.inl"\
 	".\skParser.h"\
 	".\skRuntimeException.h"\
 	".\skRValue.h"\
@@ -3629,11 +3879,15 @@ DEP_CPP_SKINT=\
 	".\skRValueArray.h"\
 	".\skRValueTable.h"\
 	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
 	".\skStackFrame.h"\
 	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringBuffer.h"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTraceCallback.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
@@ -3649,210 +3903,721 @@ SOURCE=.\skInterpreter.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\skInterpreterp.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\skLang_tab.cpp
+SOURCE=.\skInterpreterByte.cpp
 
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
 
-DEP_CPP_SKLAN=\
+DEP_CPP_SKINTE=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
-	".\skParseException.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
 	".\skValist.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreterNode.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKINTER=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skExecutable.h"\
+	".\skExecutableContext.h"\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	".\skiExecutable.h"\
+	".\skInterpreter.h"\
+	".\skNull.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skRValue.h"\
+	".\skRValue.inl"\
+	".\skRValueArray.h"\
+	".\skRValueTable.h"\
+	".\skScriptError.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skStackFrame.h"\
+	".\skStatementStepper.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreterp.h
 # End Source File
 # Begin Source File
 
@@ -3989,7 +4754,9 @@ DEP_CPP_SKNOD=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKNOD=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4014,11 +4781,13 @@ DEP_CPP_SKNOD=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -4136,7 +4905,9 @@ DEP_CPP_SKOUT=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4160,6 +4931,7 @@ DEP_CPP_SKOUT=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -4176,11 +4948,7 @@ SOURCE=.\skParseException.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\skParseNode.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\skParser.cpp
+SOURCE=.\skParseNode.cpp
 
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
 
@@ -4188,20 +4956,17 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
@@ -4210,20 +4975,17 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -4232,20 +4994,17 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
@@ -4254,20 +5013,17 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
@@ -4276,20 +5032,17 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
@@ -4298,20 +5051,17 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
@@ -4320,20 +5070,17 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
@@ -4342,15 +5089,14 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
 	{$(INCLUDE)}"dbgapi.h"\
@@ -4362,25 +5108,56 @@ DEP_CPP_SKPAR=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
-	".\skException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
-	".\skLang_tab.h"\
-	".\skParseException.h"\
 	".\skParseNode.h"\
-	".\skParser.h"\
+	".\skParseNode.inl"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
 
 DEP_CPP_SKPAR=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseNode.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParser.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKPARS=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
@@ -4393,6 +5170,209 @@ DEP_CPP_SKPAR=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skLang_tab.h"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringList.h"\
+	".\skTracer.h"\
+	".\skValist.h"\
+	
+NODEP_CPP_SKPARS=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKPARS=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skException.h"\
+	".\skGeneral.h"\
+	".\skKeywords.inl"\
+	".\skLang_tab.cpp"\
+	".\skParseException.h"\
+	".\skParseNode.h"\
+	".\skParseNode.inl"\
+	".\skParser.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	".\skStringList.h"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
 	{$(INCLUDE)}"dbgapi.h"\
@@ -4552,7 +5532,9 @@ DEP_CPP_SKRVA=\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKRVA=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4576,6 +5558,7 @@ NODEP_CPP_SKRVA=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
 
 DEP_CPP_SKRVA=\
+	".\skConstants.h"\
 	".\skException.h"\
 	".\skExecutable.h"\
 	".\skExecutableContext.h"\
@@ -4586,6 +5569,7 @@ DEP_CPP_SKRVA=\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -4611,6 +5595,173 @@ SOURCE=.\skRValueTable.h
 # Begin Source File
 
 SOURCE=.\skScriptError.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skSHashTable.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKSHA=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
+	".\skBoundsException.h"\
+	".\skConstants.h"\
+	".\skGeneral.h"\
+	".\skSHashTable.h"\
+	".\skSHashTable.inl"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skSymbian.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -4731,7 +5882,9 @@ DEP_CPP_SKSTA=\
 	".\skStackFrame.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4759,6 +5912,7 @@ DEP_CPP_SKSTA=\
 	".\skStackFrame.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -4868,7 +6022,9 @@ DEP_CPP_SKSTR=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKSTR=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4890,6 +6046,7 @@ DEP_CPP_SKSTR=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -4999,7 +6156,9 @@ DEP_CPP_SKSTRI=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKSTRI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -5021,6 +6180,7 @@ DEP_CPP_SKSTRI=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -5130,7 +6290,9 @@ DEP_CPP_SKSTRIN=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringTokenizer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKSTRIN=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -5152,6 +6314,7 @@ DEP_CPP_SKSTRIN=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringTokenizer.h"\
+	".\skSymbian.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
@@ -5291,7 +6454,9 @@ DEP_CPP_SKTEX=\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
 	".\skTextNode.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKTEX=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -5316,12 +6481,14 @@ DEP_CPP_SKTEX=\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skBoundsException.h"\
+	".\skConstants.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
 	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
+	".\skSymbian.h"\
 	".\skTextNode.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
@@ -5432,7 +6599,9 @@ DEP_CPP_SKTRA=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skTracer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKTRA=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -5453,6 +6622,7 @@ DEP_CPP_SKTRA=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skSymbian.h"\
 	".\skTracer.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	

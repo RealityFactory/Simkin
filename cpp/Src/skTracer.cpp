@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTracer.cpp,v 1.12 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skTracer.cpp,v 1.16 2003/04/01 22:19:14 simkin_cvs Exp $
 */
 #include "skTracer.h"
 
@@ -29,13 +29,40 @@ void skTracer::trace(const skString& s)
   cout.flush();
 #else
 #ifdef UNICODE_STRINGS
-#ifndef _WIN32_WCE
-	wprintf((const Char *)s);
+#ifdef _WIN32_WCE
+  NKDbgPrintfW((Char *)(const Char *)s);
 #else
-	NKDbgPrintfW((Char *)(const Char *)s);
+#ifdef __SYMBIAN32__
+  // TO BE IMPLEMENTED
+#else
+  wprintf((const Char *)s);
+#endif
 #endif
 #else
-	printf((const Char *)s);
+  printf((const Char *)s);
+#endif
+#endif
+}
+//------------------------------------------
+void skTracer::trace(const Char * s)
+//------------------------------------------
+{
+#ifdef STREAMS_ENABLED
+  cout << s;
+  cout.flush();
+#else
+#ifdef UNICODE_STRINGS
+#ifdef _WIN32_WCE
+  NKDbgPrintfW((Char *)(const Char *)s);
+#else
+#ifdef __SYMBIAN32__
+  // TO BE IMPLEMENTED
+#else
+  wprintf((const Char *)s);
+#endif
+#endif
+#else
+  printf((const Char *)s);
 #endif
 #endif
 }

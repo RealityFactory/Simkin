@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin on Symbian</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin on Symbian</H1>
+<hr>
+<p>
+<h3>Symbian preprocessor directives</h3>
+Since version 2.18 Simkin has been available for Symbian OS - which runs on many popular mobile phones, as well as Psion organizers.
+<p>
+The porting effort was generously supported by <a target="_blank" href="http://www.symbian.com">Symbian Ltd</a>.
+<p>
+There are various issues with the support for C++ on Symbian:
+<p>
+<ol>
+<li>Symbian has its own kind of exception called a <b>leave</b> - this may never occur within a C++ class constructor
+<li>Symbian uses a special construct called a <b>CleanupStack</b> to keep track of allocated memory in case a leave occurs</li>
+<li>C++ Exceptions are not supported</li>
+<li>C++ Streams are not supported</li>
+<li>Unicode characters are used</li>
+</ol>
+<p>
+Simkin contains preprocessor directives to provide a special version of the library to address these issues:
+<ol>
+<li><b>__SYMBIAN32__</b><br>if defined, any class constructors which could leave are not available. This directive also enables various functions which make integration with Symbian descriptors easier
+<p>
+</li>
+<li><b>SAVE_POINTER</b>/<b>RELEASE_POINTER</b> <b>SAVE_VARIABLE</b>/<b>RELEASE_VARIABLE</b>
+<br>These macros add and remove object pointers, and stack-based values (such as <a href="symbian/api/classskString.html">skString</a> and <a href="symbian/api/classskRValue.html">skRValue</a>) to the Cleanup Stack. For other platforms, these macros do nothing.
+<p>
+</li>
+<li><b>EXCEPTIONS_DEFINED</b><br>if undefined, code using C++ exceptions is disabled. 
+<br>An <a href="symbian/api/classskExecutableContext.html">skExecutableContext</a> object is passed to method calls which uses an <a href="symbian/api/classskScriptError.html">skScriptError</a> object to catch any errors that would normally be thrown as a C++ exception.<p>
+</li>
+<li><b>STREAMS_ENABLED</b><br>if undefined this disables all the code within Simkin which relies on C++ streams<p>
+</li>
+<li><b>UNICODE_STRINGS</b><br>if defined, this enables code which uses unicode wide character strings rather than standard 8-bit characters
+</ol>
+<p>
+<h3>Building Simkin/C++ for Symbian</h3>
+<p>
+Simkin should be built as a static DLL on the Symbian platform.
+<p>
+You can do this using the <code>bld.inf</code> <code>SimkinSym.mmp</code> files in the Simkin source directory, in conjunction with the Symbian command line tools.
+<p>
+This generates a DLL called Simkin.dll and a library called Simkin.lib
+<p>
+The current version only supports the <b>TreeNode</b> format. We are investigating XML support and hope to release this soon.
+<h3>Examples</h3>
+We have provided two specific examples for the Symbian platform:
+<ol>
+<li><b>ScriptLoader</b> - this is a command line application which loads a script called "test.dat" from the root of the C: drive.</li>
+<li><b>SimkinDemo</b> - this GUI app shows a simple calculator whose layout and behaviour is defined in a script called "SimkinDemo.dat". The application uses the Quartz SDK, but could be modified to use earlier versions. 
+</li>
+</ol>
+</body>
+</html>

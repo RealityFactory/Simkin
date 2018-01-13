@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skOutputDestination.h,v 1.3 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skOutputDestination.h,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef skOutputDestination_h
 #define skOutputDestination_h
@@ -33,16 +33,50 @@
 * It is implemented by concrete classes
 */
 class CLASSEXPORT skOutputDestination
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
 public:
+  /**
+   * Virtual destructor
+   */
+  virtual ~skOutputDestination();
+  /**
+   * Writes a string out
+   */
   virtual void  write(const skString& s)=0;
+#ifdef __SYMBIAN32__
+  /**
+   * Writes a string out
+   * \remarks only available in Symbian version
+   */
+  virtual void  write(const TDesC& s)=0;
+#endif
 };
 class CLASSEXPORT skOutputFile : public skOutputDestination
 {
 public:
-                skOutputFile(const skString& file);
-                ~skOutputFile();
-  void          write(const skString& s);
+  /**
+   * Opens a file for writing to
+   * @param file the name of the file to open
+   */
+  IMPORT_C skOutputFile(const skString& file);
+  /**
+   * Destructor - closes the file
+   */
+  virtual IMPORT_C ~skOutputFile();
+  /**
+   * Writes a string to a file
+   */
+  virtual IMPORT_C void write(const skString& s);
+#ifdef __SYMBIAN32__
+  /**
+   * Writes a string to a file
+   * \remarks only available in Symbian version
+   */
+  virtual IMPORT_C void write(const TDesC& s);
+#endif
 private:
 #ifdef STREAMS_ENABLED
   ofstream      m_Out;
@@ -53,8 +87,25 @@ private:
 class CLASSEXPORT skOutputString : public skOutputDestination
 {
 public:
-                skOutputString(skStringBuffer& out);
-  void          write(const skString& s);
+  /**
+   * Creates an output wrapped around a string buffer
+   * @param out the string buffer to be wrapped
+   */
+  IMPORT_C skOutputString(skStringBuffer& out);
+  virtual IMPORT_C ~skOutputString();
+  /**
+   * Adds a string to the buffer
+   * @exception Symbian - a leaving function
+   */
+  virtual IMPORT_C void write(const skString& s);
+#ifdef __SYMBIAN32__
+  /**
+   * Adds a string to the buffer
+   * \remarks only available in Symbian version
+   * @exception Symbian - a leaving function
+   */
+  virtual IMPORT_C void write(const TDesC& s);
+#endif
 private:
   skStringBuffer& m_Out;
 };

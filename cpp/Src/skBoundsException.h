@@ -16,18 +16,19 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skBoundsException.h,v 1.11 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skBoundsException.h,v 1.16 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 #ifndef SKBOUNDSEXCEPTION_H
 #define SKBOUNDSEXCEPTION_H
 
 #include "skString.h"
+#include "skConstants.h"
 
 const int skBoundsException_Code=1;
 
 /**
  * this class represents an exception thrown by the collection classes
-\ */
+ */
 class CLASSEXPORT skBoundsException {
  public:
   /**
@@ -38,9 +39,12 @@ class CLASSEXPORT skBoundsException {
   }
   /**
    * produces a string describing the exception
+   * @exception Symbian - a leaving function
    */
-  skString      toString() const{
-	  return skString::literal(m_File)+skSTR(":")+skString::from(m_LineNum)+m_Msg;
+  skString toString() const{
+     skString file;
+     file=m_File;
+	  return skString::addStrings(file.ptr(),s_colon,skString::from(m_LineNum).ptr(),m_Msg.ptr());
   }
  private:
   skString      m_Msg;

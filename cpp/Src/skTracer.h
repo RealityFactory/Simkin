@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTracer.h,v 1.8 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skTracer.h,v 1.11 2003/04/11 18:05:39 simkin_cvs Exp $
 */
 
 #ifndef skTRACER_H
@@ -27,11 +27,19 @@
 /**
  * This class is used to provide output to a trace
  */
-class CLASSEXPORT skTracer {
+class CLASSEXPORT skTracer 
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
+{
  public:
   /** 
    * this function outputs its arguments to stdout
    */
-  static void trace(const skString& s);
+  IMPORT_C static void trace(const skString& s);
+  /** 
+   * this function outputs its arguments to stdout
+   */
+  IMPORT_C static void trace(const Char *  s);
 };
 #endif

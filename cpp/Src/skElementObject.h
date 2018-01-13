@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementObject.h,v 1.15 2003/03/18 19:36:13 simkin_cvs Exp $
+* $Id: skElementObject.h,v 1.16 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 
 
@@ -79,10 +79,12 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @return the value of the element text data as an integer
    */
   int intValue() const;
+#ifdef USE_FLOATING_POINT
   /**
    * @return the value of the element text data as a float
    */
   float floatValue() const;
+#endif
   /**
    * @return the value of the element text data as a boolean
    */
@@ -144,10 +146,10 @@ class CLASSEXPORT skElementObject : public skExecutable {
    */
   virtual bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**
-   * tests for equality with another object, using the string value
+   * tests for equality with another object, using a deep comparison if the other object is an ElementObject, otherwise comparing string values
    * @return true if the data in both elements is the same
    */
-  bool equals(skExecutable * o) const;
+  bool equals(const skiExecutable * o) const;
   /**
    * Clears the other element and does a deep copy of the children of this node into that one
    * @param other - the element into which our children will be copied

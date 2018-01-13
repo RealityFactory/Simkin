@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTextNode.h,v 1.7 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skTextNode.h,v 1.9 2003/04/04 17:04:25 simkin_cvs Exp $
 */
 #ifndef skTEXTNODE_H
 #define skTEXTNODE_H
@@ -33,6 +33,10 @@ class CLASSEXPORT skTextNode : public skNode
    * @param text - the text to use as the node's value
    */
   skTextNode(const skString& text);
+  /**
+  * Virtual destructor 
+  */
+  virtual ~skTextNode();
   /**
    * returns the text within the text node
    *@return the text for this node 
@@ -63,6 +67,10 @@ class CLASSEXPORT skTextNode : public skNode
    * @return the string containing the text
    */
   virtual skString toString() const;
+  /**
+   * Does a deep comparison against another node
+   */
+  virtual bool equals(const skNode& other) const;
  protected:
   /** this member variable holds the text for this node */
   skString m_Text;

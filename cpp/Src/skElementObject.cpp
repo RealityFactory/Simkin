@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObject.cpp,v 1.19 2003/03/18 13:31:59 simkin_cvs Exp $
+  $Id: skElementObject.cpp,v 1.25 2003/04/14 15:24:57 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -27,13 +27,8 @@
 #include "skMethodTable.h"
 #include "skInterpreter.h"
 #include "skTextNode.h"
-
-xskLITERAL(true);
-
-skLITERAL(function);
-skLITERAL(name);
-static Char c_colon=':';
-static skString s_colon=skSTR(":");
+#include "skStringBuffer.h"
+#include "skConstants.h"
 
 //------------------------------------------
 skElementObject::skElementObject(const skString& scriptLocation,skElement * elem,bool created)
@@ -90,6 +85,7 @@ int skElementObject::intValue() const
     i=getData(m_Element).to();
   return i;
 }
+#ifdef USE_FLOATING_POINT
 //------------------------------------------
 float skElementObject::floatValue() const
   //------------------------------------------
@@ -99,6 +95,7 @@ float skElementObject::floatValue() const
     f=getData(m_Element).toFloat();
   return f;
 }
+#endif
 //------------------------------------------
 bool skElementObject::boolValue() const
   //------------------------------------------
@@ -260,7 +257,7 @@ bool skElementObject::getValueAt(const skRValue& array_index,const skString& att
     }
     if (child){
       if (attribute.length()==0)
-        value=skRValue(createElementObject(m_ScriptLocation+skSTR("[")+skString::from(index)+skSTR("]"),child,false),true);
+        value=skRValue(createElementObject(skString::addStrings(m_ScriptLocation,skSTR("["),skString::from(index),skSTR("]")),child,false),true);
       else{
         value=skRValue(child->getAttribute(attribute));
       }
@@ -303,7 +300,7 @@ bool skElementObject::getValue(const skString& name,const skString& attrib,skRVa
       }
       if (child){
         if (attrib.length()==0)
-          v=skRValue(createElementObject(m_ScriptLocation+s_colon+name,child,false),true);
+          v=skRValue(createElementObject(skString::addStrings(m_ScriptLocation,s_colon,name),child,false),true);
         else{
           v=skRValue(child->getAttribute(attrib));
         }
@@ -319,15 +316,15 @@ bool skElementObject::getValue(const skString& name,const skString& attrib,skRVa
 skString skElementObject::getData(skElement * element)
   //------------------------------------------
 {
-  skString str;
+  skStringBuffer str(50);
   skNodeList& nodes=element->getChildNodes();
   for (unsigned int i=0;i<nodes.entries();i++){
     skNode * node=nodes[i];
     skNode::NodeType type=node->getNodeType();
     if (type==skNode::CDATA_SECTION_NODE || type==skNode::TEXT_NODE)
-      str+=node->getNodeValue();
+      str.append(node->getNodeValue());
   }
-  return str;
+  return str.toString();
 }
 //------------------------------------------
 void skElementObject::setData(skElement * element,const skString& data)
@@ -486,11 +483,11 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
       else
         ret=skRValue(new skElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),args[0].str()),true);
     }else{
-      skString location=m_ScriptLocation+s_colon+s;
+      skString location=skString::addStrings(m_ScriptLocation,s_colon,s);
       if (m_Element){
         skMethodDefNode * methNode=0;
         if (m_MethodCache!=0)
-          methNode=m_MethodCache->value(&s);
+          methNode=m_MethodCache->value(s);
         if (methNode==0){
           // no parse tree found in the cache - try and construct a new one
           skElement * node=skElementObject::findChild(m_Element,s_function,s_name,s);
@@ -511,7 +508,7 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
             if (methNode){
               if (m_MethodCache==0)
                 m_MethodCache=new skMethodTable();
-              m_MethodCache->insertKeyAndValue(new skString(s),methNode);
+              m_MethodCache->insertKeyAndValue(s,methNode);
             }
           }else
             bRet=skExecutable::method(s,args,ret,ctxt);
@@ -610,7 +607,7 @@ void skElementObject::getInstanceVariables(skRValueTable& table)
       if (type==skNode::ELEMENT_NODE){
         skElement * element=(skElement *)node;
         skString name=element->getTagName();
-        table.insertKeyAndValue(new skString(name),
+        table.insertKeyAndValue(name,
                     new skRValue(new skElementObject(name,element,false)));
       }
     }
@@ -624,7 +621,23 @@ void skElementObject::getAttributes(skRValueTable& table)
     skAttributeList& attrs=m_Element->getAttributes();
     for (unsigned int i=0;i<attrs.entries();i++){
       skAttribute * attr=attrs[i];
-      table.insertKeyAndValue(new skString(attr->getName()),new skRValue(attr->getValue()));
+      table.insertKeyAndValue(attr->getName(),new skRValue(attr->getValue()));
     }
   }
+}
+//------------------------------------------
+bool skElementObject::equals(const skiExecutable * o) const
+//------------------------------------------
+{
+  bool equals=false;
+  // is the other an ElementObject?
+  if (o->executableType()==executableType() && m_Element){
+    skElement * other=((skElementObject *)o)->getElement();
+    if (other)
+      // do a deep comparison on the elements
+      equals=(*m_Element==*other);
+  }else
+    // otherwise just check the string value
+    equals=(strValue()==o->strValue());
+  return equals;
 }

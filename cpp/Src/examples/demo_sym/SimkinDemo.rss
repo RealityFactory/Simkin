@@ -1,0 +1,62 @@
+// Simple.RSS
+//
+// Copyright (c) 1997-2002 Symbian Ltd.  All rights reserved.
+//
+
+NAME SMPL
+
+#include <eikon.rh>
+#include <eikcore.rsg>
+#include <qikon.rh>
+#include <uikon.hrh>
+
+#include "SimkinDemo.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	menubar=r_simple_menubar;
+	toolbar=r_simple_toolbar;
+	}
+
+
+RESOURCE MENU_BAR r_simple_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_simple_first_menu; txt="Simkin Demo"; }
+		};
+    }
+
+RESOURCE MENU_PANE r_simple_first_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=EEikCmdEditCode; txt="Edit Script"; },
+		MENU_ITEM { command=EEikCmdExit; txt="Close"; }
+        };
+    }
+
+RESOURCE QIK_TOOLBAR r_simple_toolbar
+    {
+    // The default height and width for the Toolbar should be used, so we don't specify them.
+    }
+
+RESOURCE DIALOG r_edit_code_dialog
+{
+title = "Edit Code";
+buttons = R_EIK_BUTTONS_CANCEL_OK;
+flags = EEikDialogFlagWait;
+items =
+ {
+  DLG_LINE
+   {
+   type = EEikCtEdwin;
+   id = ECodeId;
+   control = EDWIN { width=25; maxlength=4000;lines=20; };
+   }
+ };
+}
