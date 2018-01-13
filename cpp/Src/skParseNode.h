@@ -157,6 +157,7 @@ class  skIdNode : public skExprNode {
   }
   inline ~skIdNode(){
     delete m_Exprs;
+    delete m_ArrayIndex;
   }
   inline void clear(){
     m_Exprs=0;
@@ -176,6 +177,7 @@ class  skIdListNode : public skExprNode {
   inline skIdListNode(int linenum) : skExprNode(linenum){
   }
   inline ~skIdListNode(){
+    m_Ids.clearAndDestroy();
   }
   inline void addId(skIdNode * node){
     m_Ids.append(node);

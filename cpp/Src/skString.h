@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skString.h,v 1.16 2001/11/22 11:13:21 sdw Exp $
+* $Id: skString.h,v 1.17 2002/01/08 23:04:40 sdw Exp $
 */
 
 
@@ -188,6 +188,10 @@ class CLASSEXPORT skString
    * Constructs a string from a buffer, which is *not* copied. The string will delete the buffer when the reference count reaches zero
    */
   static skString fromBuffer(Char * buffer);
+  /**
+   * returns a version of this string with leading blanks removed
+   */
+  skString ltrim() const;
  protected:
   /**
    * Constructor - internal taking a P_String and not copying it

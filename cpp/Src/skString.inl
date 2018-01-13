@@ -16,7 +16,7 @@ Simon Whiteside
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-$Id: skString.inl,v 1.8 2001/11/22 11:13:21 sdw Exp $
+$Id: skString.inl,v 1.9 2002/01/08 23:04:40 sdw Exp $
 */
 
 #ifndef _STR_INL
@@ -24,6 +24,7 @@ $Id: skString.inl,v 1.8 2001/11/22 11:13:21 sdw Exp $
 
 #include "skString.h"
 #include <string.h>
+#include <ctype.h>
 
 class   P_String 
 {
@@ -50,6 +51,7 @@ extern P_String * blank_string;
 #define STRCPY wcscpy
 #define STRNCPY wcsncpy
 #define STRCHR wcschr
+#define ISSPACE iswspace
 #else
 #define STRCPY strcpy
 #define STRCAT strcat
@@ -57,6 +59,7 @@ extern P_String * blank_string;
 #define STRLEN strlen
 #define STRCHR strchr
 #define STRNCPY strncpy
+#define ISSPACE isspace
 #endif
 
 //---------------------------------------------------
@@ -120,40 +123,6 @@ inline void skString::deRef()
     pimp->m_RefCount--;
     if (pimp->m_RefCount==0)
 	delete pimp;
-}
-//---------------------------------------------------
-inline void skString::assign(const Char * s,int len)
-//---------------------------------------------------
-{
-    if (s){
-	if (len){
-	    pimp=new P_String;
-	    pimp->m_PString=new Char[len+1];
-	    pimp->m_Const=false;
-	    memcpy(pimp->m_PString,s,len);
-	    pimp->m_PString[len]=0;
-	    pimp->init();
-	}else{
-		int s_len=STRLEN(s);
-	    if (s_len){
-		pimp=new P_String;
-		pimp->m_PString=new Char[s_len+1];
-		pimp->m_Const=false;
-		STRCPY((Char *)pimp->m_PString,s);
-		pimp->init();
-	    }else{
-		if (blank_string==0)
-		    blank_string=new P_String;
-		pimp=blank_string;	
-		pimp->m_RefCount++;
-	    }
-	}
-    }else{
-	if (blank_string==0)
-	    blank_string=new P_String;
-	pimp=blank_string;	
-	pimp->m_RefCount++;
-    }
 }
 
 //---------------------------------------------------

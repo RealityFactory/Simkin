@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -39,8 +39,12 @@ extern int yyparse (void *);
 #define DBC(t,c) 
 #endif
 struct KeyWord{
+  ~KeyWord()
+  {
+    delete m_Text;
+  }
   skString * m_Text;
-  int			m_Token;
+  int m_Token;
 };
 KeyWord keywords[]={
   {new skString(skSTR("each")),L_EACH},

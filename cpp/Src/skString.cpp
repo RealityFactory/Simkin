@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2001
+  Copyright 1996-2002
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.13 2001/11/22 11:13:21 sdw Exp $
+  $Id: skString.cpp,v 1.15 2002/01/09 23:04:14 sdw Exp $
 */
 
 #include <string.h>
@@ -30,7 +30,16 @@ const Char * blank=L"";
 const Char * blank="";                    
 #endif
 
-P_String * blank_string=0;
+class skBlankString : public P_String
+{
+public:
+  skBlankString()
+  {
+    m_RefCount++;
+  }
+};
+skBlankString g_blank_string;
+P_String * blank_string=&g_blank_string;
 
 //---------------------------------------------------
 void P_String::init()
@@ -77,7 +86,7 @@ skString::skString(P_String * p)
 }
 //---------------------------------------------------
 int skString::indexOf(Char c) const
-//---------------------------------------------------
+  //---------------------------------------------------
 {
   int pos=-1;
   Char * ppos=STRCHR(pimp->m_PString,c);
@@ -182,11 +191,11 @@ skString skString::fromBuffer(Char * buffer)
 skString skString::from(int i)
   //---------------------------------------------------
 {
-	Char buffer[100];
+  Char buffer[100];
 #ifdef UNICODE_STRINGS
-	swprintf(buffer,L"%d",i);
+  swprintf(buffer,L"%d",i);
 #else
-	sprintf(buffer,"%d",i);
+  sprintf(buffer,"%d",i);
 #endif
   return skString(buffer);
 }
@@ -254,6 +263,45 @@ skString skString::literal(const Char * s)
   //---------------------------------------------------
 {
   return skString(s,1);
+}
+//---------------------------------------------------
+skString skString::ltrim() const
+  //---------------------------------------------------
+{
+  char * p=pimp->m_PString;
+  while (*p && ISSPACE(*p))
+    p++;
+  return skString(p);
+}
+//---------------------------------------------------
+void skString::assign(const Char * s,int len)
+  //---------------------------------------------------
+{
+  if (s){
+    if (len){
+      pimp=new P_String;
+      pimp->m_PString=new Char[len+1];
+      pimp->m_Const=false;
+      memcpy(pimp->m_PString,s,len);
+      pimp->m_PString[len]=0;
+      pimp->init();
+    }else{
+      int s_len=STRLEN(s);
+      if (s_len){
+	pimp=new P_String;
+	pimp->m_PString=new Char[s_len+1];
+	pimp->m_Const=false;
+	STRCPY((Char *)pimp->m_PString,s);
+	pimp->init();
+      }else{
+	pimp=blank_string;	
+	pimp->m_RefCount++;
+      }
+    }
+  }else{
+    pimp=blank_string;	
+    pimp->m_RefCount++;
+  }
 }
 #ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------

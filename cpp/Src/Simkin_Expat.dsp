@@ -138,6 +138,15 @@ SOURCE=.\skNode.cpp
 # Begin Source File
 
 SOURCE=.\skParser.cpp
+
+!IF  "$(CFG)" == "Simkin_Expat - Win32 Release"
+
+# ADD CPP /O1
+
+!ELSEIF  "$(CFG)" == "Simkin_Expat - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

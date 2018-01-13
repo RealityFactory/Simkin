@@ -1,6 +1,16 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.12
+Date: 18/1/2002
+-------------------
+
+* added ltrim() method to skString
+* some improvements in method placement within skRValue and skString (thanks Rich Goldstein!)
+* improvements in skString and skParser memory allocation (thanks Pavel Savara!)
+* fixed some precendence and associativity bugs in the parser (thanks Pavel!)
+* fixed memory leak in parsing of array indices (thanks Pavel!)
+
 Simkin Version 2.11
 Date: 21/11/2001
 -------------------

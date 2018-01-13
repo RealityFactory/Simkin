@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skStringBuffer.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
+  $Id: skStringBuffer.cpp,v 1.3 2002/01/08 23:04:40 sdw Exp $
 */
 #include "skStringBuffer.h"
 
@@ -128,6 +128,7 @@ void skStringBuffer::ensureCapacity(USize capacity)
   if (capacity>m_Capacity){
     USize increment=max(capacity-m_Capacity,m_GrowthIncrement);
     USize new_capacity=m_Capacity+increment;
+	assert(new_capacity>=capacity);
     Char * new_buffer=new Char[new_capacity];
     memset(new_buffer,0,new_capacity);
     if (m_Buffer){
