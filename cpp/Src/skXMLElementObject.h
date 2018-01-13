@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skXMLElementObject.h,v 1.26 2001/06/22 10:07:57 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skXMLElementObject.h,v 1.32 2001/11/22 11:13:21 sdw Exp $
 */
 
 
@@ -12,6 +26,7 @@
 #include "skExecutable.h"
 #include "dom/DOM_Element.hpp"
 #include <iostream.h>
+#include <framework/XMLFormatter.hpp>
 
 class skMethodTable;
 
@@ -22,14 +37,15 @@ class skMethodTable;
 /*
  * A stream operator for DOM_Nodes
  */
-extern ostream& operator<<(ostream& target, DOM_Node& toWrite);
+//CLASSEXPORT extern ostream& operator<<(ostream& target, DOM_Node& toWrite);
 /*
  * A stream operator for DOM_Strings
  */
-extern ostream& operator<< (ostream& target, const DOMString& s);
+CLASSEXPORT extern ostream& operator<< (ostream& target, const DOMString& s);
 
 /**
- * This object is a container for an XML element, and exposes an interface to it to Simkin
+ * This object is a container for a Xerces XML element, and exposes an interface to it to Simkin
+ * <p>(Please note Xerces is an Open Source XML Parser available from <a href="http://xml.apache.org/xerces-c">http://xml.apache.org/xerces-c</a>)
  * The class implements methods from the Executable interface.
  * The methods getValue, setValue and method all search for matching element tags within the XML document. Only the first matching tag is used.  
  * The class uses the Xerces library to access XML documents
@@ -44,7 +60,7 @@ extern ostream& operator<< (ostream& target, const DOMString& s);
  * <li>tagName - returns the tag name of this element</li>
  * </ul>
  */
-class skXMLElementObject : public skExecutable {
+class CLASSEXPORT skXMLElementObject : public skExecutable {
  public:
   /**
    * Default Constructor
@@ -138,6 +154,14 @@ class skXMLElementObject : public skExecutable {
    * @param child - the element into which our children will be copied
    */
   void copyItemsInto(DOM_Element other);
+  /** sets the flag controlling whether new elements are created as they are accessed
+   * @param enable enables this feature (which by default is disabled)
+   */
+  virtual void setAddIfNotPresent(bool enable);
+  /** this returns the value of the flag controlling whether new elements are created as they are accessed 
+   * @return true if the feature is enabled, otherwise false (the default)
+   */
+  virtual bool getAddIfNotPresent();
   /**
    * This method returns the XML Element being held by the object.
    * @return the underlying Element
@@ -201,6 +225,11 @@ class skXMLElementObject : public skExecutable {
   skString getLocation() const;
   /** this method returns the number of element children of the given element */
   static int countChildren(DOM_Element parent);
+  /**
+   * Call this method to save the state of the object back to a stream
+   * @exception IOException if there was an error writing to the stream
+   */
+  void save(ostream& out);
  protected:
   /**
    * This method updates the associated element and clears the parse tree cache
@@ -213,14 +242,6 @@ class skXMLElementObject : public skExecutable {
    * @param element the DOM element to associate with the object
    */
   virtual skXMLElementObject * createXMLElementObject(const skString& location,DOM_Element element);
-  /** sets the flag controlling whether new elements are created as they are accessed
-   * @param enable enables this feature (which by default is disabled)
-   */
-  virtual void setAddIfNotPresent(bool enable);
-  /** this returns the value of the flag controlling whether new elements are created as they are accessed 
-   * @return true if the feature is enabled, otherwise false (the default)
-   */
-  virtual bool getAddIfNotPresent();
   /**
    * the location that the XML document came from
    */
@@ -251,6 +272,8 @@ class skXMLElementObject : public skExecutable {
    * Executables can't be copied
    */
   skXMLElementObject& operator=(const skXMLElementObject&);
+  /** Writes a node out with the given formatter */
+  void save(ostream& target, DOM_Node& toWrite,XMLFormatter& formatter,XMLCh* encoding_name);
   /**
    * this variable controls whether new items are added to this element if they are not found, by default it is false,
    but can be modified using the setAddIfNotPresent() method

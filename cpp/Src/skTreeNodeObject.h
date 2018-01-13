@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skTreeNodeObject.h,v 1.17 2001/06/22 10:07:57 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skTreeNodeObject.h,v 1.20 2001/11/22 11:13:21 sdw Exp $
 */
 
 
@@ -10,8 +24,8 @@
 #define skTREENODEOBJECT_H
 
 #include "skExecutable.h"
-class skTreeNode;
-class skMethodTable;
+class CLASSEXPORT skTreeNode;
+class CLASSEXPORT skMethodTable;
 
 #define TREENODE_TYPE	1
 
@@ -25,7 +39,7 @@ class skMethodTable;
  * <li>enumerate([label]) - returns an skTreeNodeObjectEnumerator which enumerates over the child nodes of this node. If no label is passed the enumerator lists all the children. A label can be passed to show only children with the matching label.</li>
  * </ul>
 */
-class skTreeNodeObject : public skExecutable
+class CLASSEXPORT skTreeNodeObject : public skExecutable
 {
  public:
   /**
@@ -62,7 +76,7 @@ class skTreeNodeObject : public skExecutable
   /**
    * Returns the first character of the data field of the node
    */
-  char charValue() const;
+  Char charValue() const;
   /**
    * Returns the data field of the node as a string
    */

@@ -2,24 +2,44 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skRValue.inl,v 1.2 2001/06/19 14:02:47 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skRValue.inl,v 1.5 2001/11/22 11:13:21 sdw Exp $
 */
-#include "skExecutable.h"
+#include "skiExecutable.h"
 #include <stdio.h>
 
 xskLITERAL(true);
 xskLITERAL(false);
 
+/**
+* This class is used to hold a pointer to an object, along with a reference cound
+*/
 class skObjectRef 
 {
 public:
-  skExecutable * m_Object;
-  unsigned char m_Created;
+  /** The object referred to */
+  skiExecutable * m_Object;
+  /** a flag indicating if the object should be deleted when the reference count reaches zero */
+  bool m_Created;
+  /** the number of pointers to this reference */
   unsigned short m_RefCount;
 }; 					
 #undef inline
 //------------------------------------------
-inline skRValue::skRValue(skExecutable * o,bool created)
+inline skRValue::skRValue(skiExecutable * o,bool created)
   //------------------------------------------
   : m_Type(T_Object)
 {
@@ -275,10 +295,10 @@ inline skRValue::RType skRValue::type() const
   return (skRValue::RType)m_Type;
 }
 //------------------------------------------
-inline skExecutable *  skRValue::obj() const
+inline skiExecutable *  skRValue::obj() const
   //------------------------------------------
 {
-  skExecutable * obj=0;
+  skiExecutable * obj=0;
   if (m_Type==T_Object)
     obj=m_Value.m_ObjectRef->m_Object;
   return obj;

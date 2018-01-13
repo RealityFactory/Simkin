@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skTreeNodeObject.cpp,v 1.18 2001/06/22 10:07:57 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skTreeNodeObject.cpp,v 1.22 2001/11/22 11:13:21 sdw Exp $
 */
 
 #include "skTreeNodeObject.h"
@@ -11,6 +25,13 @@
 #include "skRValueArray.h"
 #include "skInterpreter.h"
 #include "skMethodTable.h"
+
+skLITERAL(numChildren);
+skLITERAL(enumerate);
+skLITERAL(label);
+skString s_colon=skSTR(":");
+skString s_leftbracket=skSTR("[");
+skString s_rightbracket=skSTR("]");
 
 //------------------------------------------
 skTreeNodeObject::skTreeNodeObject()
@@ -77,7 +98,7 @@ bool skTreeNodeObject::setValueAt(const skRValue& array_index,const skString& at
   skTreeNode * child=m_Node->nthChild(index);
   if (child){
     bRet=true;
-    skExecutable * other=v.obj();
+    skiExecutable * other=v.obj();
     if (other && other->executableType()==TREENODE_TYPE)
       child->copyItems(*((skTreeNodeObject *)other)->m_Node);
     else
@@ -94,7 +115,7 @@ bool skTreeNodeObject::setValue(const skString& s,const skString& attrib,const s
   skTreeNode * child=m_Node->findChild(s);
   if (child){
     bRet=true;
-    skExecutable * other=v.obj();
+    skiExecutable * other=v.obj();
     if (other && other->executableType()==TREENODE_TYPE)
       child->copyItems(*((skTreeNodeObject *)other)->m_Node);
     else
@@ -125,7 +146,7 @@ bool skTreeNodeObject::getValueAt(const skRValue& array_index,const skString& at
   skTreeNode * child=m_Node->nthChild(index);
   if (child){
     bRet=true;
-    value=skRValue(new skTreeNodeObject(m_Location+"["+skString::from(index)+"]",child,false),true);
+    value=skRValue(new skTreeNodeObject(m_Location+s_leftbracket+skString::from(index)+s_rightbracket,child,false),true);
   }else
     bRet=skExecutable::getValueAt(array_index,attribute,value);
   return bRet;
@@ -135,18 +156,18 @@ bool skTreeNodeObject::getValue(const skString& name,const skString& attrib,skRV
 //------------------------------------------
 {
   bool bRet=false;
-  if (name == "numChildren"){
+  if (name == s_numChildren){
     bRet=true;
     v=m_Node->numChildren();
   }else
-  if (name == "label"){
+  if (name == s_label){
     bRet=true;
     v=m_Node->label();
   }else{
     skTreeNode * child=m_Node->findChild(name);
     if (child){
       bRet=true;
-      v=skRValue(new skTreeNodeObject(m_Location+":"+name,child,false),true);
+      v=skRValue(new skTreeNodeObject(m_Location+s_colon+name,child,false),true);
     }else
       bRet=skExecutable::getValue(name,attrib,v);
   }
@@ -157,15 +178,15 @@ bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& re
 //------------------------------------------
 {
   bool bRet=false;
-  if (s=="enumerate" && (args.entries()==0 || args.entries()==1)){
+  if (s==s_enumerate && (args.entries()==0 || args.entries()==1)){
     // return an enumeration object for this element
     bRet=true;
     if (args.entries()==0)
-      ret=skRValue(new skTreeNodeObjectEnumerator(this),true);
+      ret=skRValue(new skTreeNodeObjectEnumerator(m_Node,getLocation()),true);
     else
-      ret=skRValue(new skTreeNodeObjectEnumerator(this,args[0].str()),true);
+      ret=skRValue(new skTreeNodeObjectEnumerator(m_Node,getLocation(),args[0].str()),true);
   }else{
-    skString location=m_Location+":"+s;
+    skString location=m_Location+s_colon+s;
     if (m_Node){
       skMethodDefNode * methNode=0;
       if (m_MethodCache!=0)
@@ -216,12 +237,12 @@ skString skTreeNodeObject::getLocation() const
 skExecutableIterator * skTreeNodeObject::createIterator(const skString& qualifier)
 //------------------------------------------
 {
-  return new skTreeNodeObjectEnumerator(this,qualifier);
+  return new skTreeNodeObjectEnumerator(m_Node,getLocation(),qualifier);
 }
 //------------------------------------------
 skExecutableIterator * skTreeNodeObject::createIterator()
 //------------------------------------------
 {
-  return new skTreeNodeObjectEnumerator(this);
+  return new skTreeNodeObjectEnumerator(m_Node,getLocation());
 }
 

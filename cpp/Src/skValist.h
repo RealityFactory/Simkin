@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skValist.h,v 1.6 2001/06/13 16:48:21 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skValist.h,v 1.8 2001/11/22 11:13:21 sdw Exp $
 */
 
 #ifndef skVALIST_H
@@ -185,7 +199,7 @@ skTVALIST_PRE void skTVAList<T>::deleteElt(USize  n)
 {
   assert(n<m_Entries);
   if (n>=m_Entries)
-    throw skBoundsException("Invalid index to DeleteElt",__FILE__,__LINE__);
+    THROW(skBoundsException("Invalid index to DeleteElt",__FILE__,__LINE__),skBoundsException_Code);
   for (USize x=n;x<m_Entries-1;x++)
     m_Array[x]=m_Array[x+1];
   m_Entries--;
@@ -196,7 +210,7 @@ skTVALIST_PRE void skTVAList<T>::insert(const T &t,USize index)
 {
   assert(index<=m_Entries);
   if (index>m_Entries)
-    throw skBoundsException("Invalid index to Insert",__FILE__,__LINE__);
+    THROW(skBoundsException("Invalid index to Insert",__FILE__,__LINE__),skBoundsException_Code);
   if (m_ArraySize==m_Entries)
     grow();
   if (index<m_Entries){
@@ -245,7 +259,7 @@ skTVALIST_PRE inline T& skTVAList<T>::operator[](USize  n) const
 {
   assert(n<m_Entries);
   if (n>=m_Entries)
-    throw skBoundsException(skSTR("Invalid index to []"),__FILE__,__LINE__);
+    THROW(skBoundsException(skSTR("Invalid index to []"),__FILE__,__LINE__),skBoundsException_Code);
   return m_Array[n];
 }
 //-----------------------------------------------------------------

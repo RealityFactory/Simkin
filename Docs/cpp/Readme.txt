@@ -1,6 +1,23 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.11
+Date: 21/11/2001
+-------------------
+
+* added skStringBuffer class to give a more efficient "growable" string
+* added skContext class to improve re-entrancy of interpreter
+* integrated latest version of Xerces: 1.5.2
+* added better support for streaming out XML documents from skXMLExecutable
+* added new classes to support Expat XML parser: skElementObject, skElementExecutable etc..
+* strings now use const Char * rather than const unsigned char *. Char is typedefed to char or w_char depending on whether unicode is used
+* removed copy constructor and assignment operator from skTAList - causes problems for classes which don't want to be copied that way
+* part-way through a Windows CE port - so support for unicode under CE is there 
+* added Windows declarations so that Simkin can be put into a DLL
+* added a new abstract base class called skiExecutable so that people can use COMish objects with Simkin
+* fix to bug in skXMLElementObject::copyItems into (thanks to Rich Goldstein, MD <rich@wima-nj.com>!)
+* fix to bug in skXMLElementObjectEnumerator and skTreeNodeObjectEnumerator (thanks to Rich Goldstein, MD <rich@wima-nj.com>!)
+
 Simkin Version 2.10
 Date: 5/7/2001
 -------------------

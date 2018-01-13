@@ -11,27 +11,32 @@ Using Simkin with your C++ application</H1>
 Simkin for C++ is distributed in source code format. It has been written in C++
 using templates.
 <P>Typically you build Simkin into a library to link with your application.
-<p>We supply some example project files which build a static library.
+<p>We supply some example project files which build a static library or dynamic library (Windows only).
 <ul>
 <LI>
 Makefile - for use with Linux and gcc</LI>
 <LI>
-Simkin.mcp - for use with CodeWarrior on MacOS (this does not include the XML files)</LI>
-<LI>
 Simkin.dsw - workspace for use with Visual C++ on Windows </LI>
 </UL>
-in all cases, you will have to add the correct include and libraries for your Xerces-C distribution.
+in all cases, you will have to add the correct include and libraries for your Xerces-C or Expat distribution.
 <p>
 Simkin source files and classes are all prefixed with "sk" to prevent name
 clashes with classes in your own application.
 <p>
-The classes within Simkin that interact with XML use the Xerces-C library from the Apache Foundation. 
-<p>This library is *not* included in the Simkin distribution, it can be obtained from <a href="http://xml.apache.org/xerces-c">http://xml.apache.org/xerces-c</a>
-<p>The classes (<a href="api/class_skXMLElementObject.html">skXMLElementObject</a> and <a href="api/class_skXMLExecutable.html">skXMLExecutable</a>) can be reimplemented to use a different XML library, without affecting the rest of the interpreter, which does not itself require any XML libraries.
-<p><small>Notes:
+Simkin is composed of a core interpreter, plus support for XML and our own "TreeNode" files.
+<p>
+Simkin supports two XML libraries:
 <ul>
-<li>Visual C++ for Windows: you need to build your applications with Code Generation set to "Multithreaded DLL" when using the Xerces-c library</li>
+<li>Expat - this is used in conjunction with Simkin's own XML Document Object Model classes. You need to obtain Expat separately from <a href="http://expat.sourceforge.net" target="_blank">http://expat.sourceforge.net</a>
+<li>Xerces-C from the Apache Foundation. This library is also *not* included in the Simkin distribution, it can be obtained from <a href="http://xml.apache.org/xerces-c">http://xml.apache.org/xerces-c</a><br><small>Note for Visual C++ for Windows: you need to build your applications with Code Generation set to "Multithreaded DLL" when using the Xerces-c library</small></li>
 </ul>
-</small>
+Each file format has its own associated classes:<p>
+<table border=1>
+<tr><th>File Format</th><th>Classes</th></tr>
+<tr><td>TreeNode</td><td><a href="api/class_skTreeNodeObject.html">skTreeNodeObject</a></td></tr>
+<tr><td>Expat XML</td><td><a href="api/class_skElementObject.html">skElementObject</a> and <a href="api/class_skElementExecutable.html">skElementExecutable</a></td></tr>
+<tr><td>Xerces XML</td><td><a href="api/class_skXMLElementObject.html">skXMLElementObject</a> and <a href="api/class_skXMLExecutable.html">skXMLExecutable</a></td></tr>
+</table>
+<p>
 </BODY>
 </HTML>

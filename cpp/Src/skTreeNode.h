@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
- * $Id: skTreeNode.h,v 1.7 2001/03/05 16:46:28 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+ * $Id: skTreeNode.h,v 1.14 2001/11/22 11:13:21 sdw Exp $
 */
 
 
@@ -11,13 +25,13 @@
 
 #include "skString.h"
 
-class  skTreeNode;
-class  skTreeNodeList;
+class  CLASSEXPORT skTreeNode;
+class  CLASSEXPORT skTreeNodeList;
 
 /**
- * This class provides an iterator over the children of a treenode
+ * This class provides an iterator over the children of a {@link skTreeNode skTreeNode}
  */
-class  skTreeNodeListIterator 
+class  CLASSEXPORT skTreeNodeListIterator 
 {
  public:
   /**
@@ -44,8 +58,9 @@ class  skTreeNodeListIterator
 /**
  * This class encapsulates a node in a tree.
  * The node has a label, a piece of data and a list of subitems
+ * <p>The label and data are both stored as strings. TreeNodes can be used to conveniently store hierchically ordered trees of textual data.
 */
-class  skTreeNode 
+class  CLASSEXPORT skTreeNode 
 {
  public:
   /**
@@ -76,10 +91,6 @@ class  skTreeNode
    * Constructor - creates a treenode with the given label and data (converted to a string form)
    */
   skTreeNode(const skString& label,int  data);
-  /**
-   * Constructor - creates a treenode with the given label and data (converted to a string form)
-   */
-  skTreeNode(const skString& label,long data);
   /**
    * Constructor - creates a treenode with the given label and data (converted to a string form)
    */
@@ -120,14 +131,6 @@ class  skTreeNode
    * Changes this node's data - converting the value to a string
    */
   void	intData(int);
-  /**
-   * Returns this node's data as a long integer value
-   */
-  long  longData() const;
-  /**
-   * Changes this node's data - converting the value to a string
-   */
-  void	longData(long);
   /**
    * Returns this node's data as a float value
    */
@@ -188,13 +191,6 @@ class  skTreeNode
    */
   int	findChildIntData(const skString& label, int defaultVal=0) const;
   /**
-   * Finds the data associated with the first child whose label matches that given as a long integer
-   * @param label - the label to look for
-   * @param defaultVal - the value to return if a match is not found
-   * @return the value of a matched child's data, or the default value
-   */
-  long	findChildLongData(const skString& label, long defaultVal=0) const;
-  /**
    * Finds the data associated with the first child whose label matches that given as a float
    * @param label - the label to look for
    * @param defaultVal - the value to return if a match is not found
@@ -209,10 +205,12 @@ class  skTreeNode
    * Returns the data for nth child in the list of children at this node as an integer
    */
   int	nthChildIntData(USize index) const;
+#ifdef STREAMS_ENABLED
   /**
    * Writes this node to an output stream with the given indentation
    */
   void  write(ostream& out,USize tabstops) const;
+#endif
   /**
    * Writes this node out to a file
    * @return true if the file could be written, or false if there was a problem
@@ -265,19 +263,21 @@ class  skTreeNode
   skTreeNodeList * m_Items;
 };
 /**
- * this class is used to read a TreeNode from a text stream.
+ * this class is used to read a {@link skTreeNode skTreeNode} from a text stream.
  */
-class  skTreeNodeReader 
+class  CLASSEXPORT skTreeNodeReader 
 {
  public:
+#ifdef STREAMS_ENABLED
   /**
-   * Constructor - takes the input stream to read the TreeNode from
+   * Constructor - takes the input stream to read the {@link skTreeNode skTreeNode} from
    */
   skTreeNodeReader(istream& in);
   /**
    * Constructor - takes the input stream to read the TreeNode from, and specifies a filename
    */
   skTreeNodeReader(istream& in,const char *  fileName);
+#endif
   /**
    * Destructor
    */
@@ -291,10 +291,12 @@ class  skTreeNodeReader
  private:
   class P_TreeNodeReader* pimp;
 };
+const int skTreeNodeReaderException_Code=4;
+
 /**
- * this class encapsulates an error encountered while parsing a treenode text stream
+ * this class encapsulates an error encountered while parsing a {@link skTreeNode skTreeNode} text stream
  */
-class skTreeNodeReaderException {
+class CLASSEXPORT  skTreeNodeReaderException {
  public:
   /**
    * Constructor - takes information about the exception
@@ -306,7 +308,7 @@ class skTreeNodeReaderException {
    * Returns a string describing the exception
    */
   skString toString(){
-    return m_FileName+":"+m_Msg;
+    return m_FileName+skSTR(":")+m_Msg;
   }
  private:
   skString m_FileName;

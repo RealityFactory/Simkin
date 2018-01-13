@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skParseException.h,v 1.5 2001/06/13 16:48:21 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skParseException.h,v 1.9 2001/11/22 11:13:21 sdw Exp $
 */
 #ifndef SKPARSEEXCEPTION_H
 #define SKPARSEEXCEPTION_H
@@ -13,7 +27,7 @@
 /**
   This class encapsulates an error message from the parser, representing a syntax error in the script
 */
-class skCompileError
+class CLASSEXPORT skCompileError
 {
  public:
   /** 
@@ -58,22 +72,32 @@ class skCompileError
   skString toString() const {
     return m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR(":")+m_Msg+skSTR(" near \"")+m_LexBuffer+skSTR("\"");
   }
+  /** this message compares two compile errors
+   * @return true if this message text is the same as the other message text
+   */
+  bool operator==(const skCompileError& err) const {
+    return m_Msg==err.m_Msg;
+  }
  private:
   int m_LineNum;
   skString m_Location;
   skString m_LexBuffer;
   skString m_Msg;
 };
+EXTERN_TEMPLATE template class CLASSEXPORT skTVAList<skCompileError>;
+
 /**
  * This is a list of compile errors
  */
-class skCompileErrorList : public skTVAList<skCompileError> 
+class CLASSEXPORT skCompileErrorList : public skTVAList<skCompileError> 
 {
 };
+const int skParseException_Code=2;
+
 /**
  * This exception is thrown when there are parse errors in some Simkin script
  */
-class skParseException {
+class CLASSEXPORT skParseException {
  public:
   /**
    * Constructor - the exception is passed a list of errors

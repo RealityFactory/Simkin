@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2001/05/22 12:38:06 sdw Exp $
+# $Id: Makefile,v 1.2 2001/11/05 18:09:56 sdw Exp $
 
 CFLAGS = -c 
 CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src1_4_0/src -I../../ -D_REENTRANT 
@@ -14,7 +14,7 @@ LINKFLAGS = -lm -L/usr/lib -L/usr/local/lib -lc
 .c.o:	
 	${CPP} ${CPPFLAGS}  $<
 
-LIBS = ../../skInterpreter.a /usr/share/xerces-c-src1_4_0/lib/libxerces-c1_4.so /usr/lib/libpthread.so
+LIBS = ../../Simkin_Xerces.a /usr/share/xerces-c-src1_4_0/lib/libxerces-c1_4.so /usr/lib/libpthread.so
 OBJS = Inherits.o InheritsExecutable.o InheritsElement.o
 
 

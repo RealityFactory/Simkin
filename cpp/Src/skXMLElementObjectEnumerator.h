@@ -2,27 +2,53 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObjectEnumerator.h,v 1.7 2001/06/22 10:07:57 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skXMLElementObjectEnumerator.h,v 1.11 2001/11/22 11:13:21 sdw Exp $
 */
 #ifndef XMLELEMENTOBJECTENUMERATOR_H
 #define XMLELEMENTOBJECTENUMERATOR_H
 
 #include "skExecutable.h"
 #include "skExecutableIterator.h"
+#include "dom/DOM_Element.hpp"
 
-class skXMLElementObject;
+class CLASSEXPORT skXMLElementObject;
 
 /**
  * This class enumerates the element children of an skXMLElementObject
  */
-class skXMLElementObjectEnumerator : public skExecutable, public skExecutableIterator{
+class CLASSEXPORT skXMLElementObjectEnumerator : public skExecutable, public skExecutableIterator{
  public:
-  skXMLElementObjectEnumerator(skXMLElementObject * element);
-  skXMLElementObjectEnumerator(skXMLElementObject * element,const skString& tag);
+  /** Construct an enumerator for the given XML element
+   * @param element - the element to enumerate the children of
+   * @param add_if_not_present - value of the flag to be passed when skXMLElementObject's are created
+   * @param location - the owning XML element name
+   */
+  skXMLElementObjectEnumerator(DOM_Element element,bool add_if_not_present,const skString& location);
+  /** This contructs an skXMLElementObject enumerator over children with a particular tag name
+   * @param element - the element to enumerate the children of
+   * @param add_if_not_present - value of the flag to be passed when skXMLElementObject's are created
+   * @param location - the owning XML element name
+   * @param tag - the tag name to look for
+   */
+  skXMLElementObjectEnumerator(DOM_Element element,bool add_if_not_present,const skString& location,const skString& tag);
   /**
    * This method exposes the following methods to Simkin scripts:
    * returns the next element in the enumeration - or null if there are no more
-     */
+   */
   bool method(const skString& s,skRValueArray& args,skRValue& r);
   /**
    * This method implements the method in skExecutableIterator
@@ -31,7 +57,9 @@ class skXMLElementObjectEnumerator : public skExecutable, public skExecutableIte
  private:
   void findNextNode();
 
-  skXMLElementObject * m_Element;
+  DOM_Element m_Element;
+  skString m_Location;
+  bool m_AddIfNotPresent;
   int m_NodeNum;
   skString m_Tag;
 };

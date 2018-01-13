@@ -2,19 +2,37 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObject.cpp,v 1.29 2001/06/22 10:07:57 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skXMLElementObject.cpp,v 1.34 2001/11/22 11:13:21 sdw Exp $
 */
 
 #include "skStringTokenizer.h"
 #include "skXMLElementObject.h"
 #include "skXMLElementObjectEnumerator.h"
-#include "dom/DOMString.hpp"
-#include "dom/DOM_NodeList.hpp"
-#include "dom/DOM_CharacterData.hpp"
 #include "skRValueArray.h"
 #include "skXMLElement.h"
 #include "skMethodTable.h"
 #include "skInterpreter.h"
+
+#include <dom/DOMString.hpp>
+#include <dom/DOM_NodeList.hpp>
+#include <dom/DOM_CharacterData.hpp>
+#include <util/XMLUniDefs.hpp>
+#include <dom/DOM_NamedNodeMap.hpp>
+#include <parsers/DOMParser.hpp>
 
 xskLITERAL(true);
 
@@ -99,7 +117,7 @@ bool skXMLElementObject::setValueAt(const skRValue& array_index,const skString& 
   //------------------------------------------
 {
   bool bRet=true;
-  skExecutable * other=0;
+  skiExecutable * other=0;
   bool otherIsXML=false;
   if (v.type()==skRValue::T_Object){
     other=v.obj();
@@ -134,7 +152,7 @@ bool skXMLElementObject::setValue(const skString& name,const skString& attrib,co
   //------------------------------------------
 {
   bool bRet=true;
-  skExecutable * other=0;
+  skiExecutable * other=0;
   bool otherIsXML=false;
   if (v.type()==skRValue::T_Object){
     other=v.obj();
@@ -170,13 +188,8 @@ void skXMLElementObject::copyItemsInto(DOM_Element other)
 {
   // first clear the other node
   DOM_NodeList nodes=other.getChildNodes();
-  if (nodes.getLength()>0){
-    int numNodes=nodes.getLength();
-    // take a copy in case the list gets cleared as we go along
-    DOM_NodeList theNodes(nodes);
-    for (int i=0;i<numNodes;i++)
-      other.removeChild(theNodes.item(i));
-  }
+  while (nodes.getLength() > 0)
+    other.removeChild(nodes.item(0));  
   bool bSameOwner = m_Element.getOwnerDocument() == other.getOwnerDocument();
   if (m_Element.isNull()==false){
     // now copy our nodes in
@@ -414,14 +427,14 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
     ret=toString(m_Element.getNodeName());
   }else if (s==("dump")){
     bRet=true;
-    cout << m_Element;
+    save(cout);
   }else if (s=="enumerate" && (args.entries()==0 || args.entries()==1)){
     // return an enumeration object for this element
     bRet=true;
     if (args.entries()==0)
-      ret=skRValue(new skXMLElementObjectEnumerator(this),true);
+      ret=skRValue(new skXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation()),true);
     else
-      ret=skRValue(new skXMLElementObjectEnumerator(this,args[0].str()),true);
+      ret=skRValue(new skXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),args[0].str()),true);
   }else{
     skString location=m_ScriptLocation+":"+s;
     if (m_Element.isNull()==false){
@@ -458,67 +471,11 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
   return bRet;
 }
 // ---------------------------------------------------------------------------
-//  ostream << DOM_Node   
-//
-//  Stream out a DOM node, and, recursively, all of its children. This
-//  function is the heart of writing a DOM tree out as XML source. Give it
-//  a document node and it will do the whole thing.
-// ---------------------------------------------------------------------------
-ostream& operator<<(ostream& target, DOM_Node& toWrite)
-{
-  // Get the name and value out for convenience
-  DOMString   nodeName = toWrite.getNodeName();
-  DOMString   nodeValue = toWrite.getNodeValue();
-  unsigned long lent = nodeValue.length();
-  
-  switch (toWrite.getNodeType()){
-  case DOM_Node::TEXT_NODE:
-    target << nodeValue;break;
-  case DOM_Node::ELEMENT_NODE :{
-    target << "<" << nodeName;
-    DOM_NamedNodeMap attributes = toWrite.getAttributes();
-    int attrCount = attributes.getLength();
-    for (int i = 0; i < attrCount; i++){
-      DOM_Node  attribute = attributes.item(i);
-      target << " " << attribute.getNodeName() << "=\"" << attribute.getNodeValue() << "\"";
-    }
-    DOM_Node child = toWrite.getFirstChild();
-    if (child != 0){
-      target << ">";
-      while( child != 0){
-	target << child;
-	child = child.getNextSibling();
-      }
-      target << "</" << nodeName << ">";
-    }else
-      target << "/>";
-  }
-  break;        
-  default:
-    cerr << "Unrecognized node type = "
-	 << (long)toWrite.getNodeType() << endl;
-  }
-  return target;
-}
-// ---------------------------------------------------------------------------
-//  ostream << DOMString
-//
-//  Stream out a DOM string. Doing this requires that we first transcode
-//  to char * form in the default code page for the system
-// ---------------------------------------------------------------------------
-ostream& operator<< (ostream& target, const DOMString& s)
-{
-  char *p = s.transcode();
-  target << p;
-  delete [] p;
-  return target;
-}
-// ---------------------------------------------------------------------------
 skString skXMLElementObject::toString(DOMString str)
   // ---------------------------------------------------------------------------
 {
   // nb this now owns the buffer, but does not delete it
-  return skString::fromBuffer((unsigned char *)str.transcode());
+  return skString::fromBuffer(str.transcode());
 }
 // ---------------------------------------------------------------------------
 DOMString skXMLElementObject::fromString(const skString& str)
@@ -559,11 +516,409 @@ bool skXMLElementObject::getAddIfNotPresent()
 skExecutableIterator * skXMLElementObject::createIterator(const skString& qualifier)
 //------------------------------------------
 {
-  return new skXMLElementObjectEnumerator(this,qualifier);
+  return new skXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),qualifier);
 }
 //------------------------------------------
 skExecutableIterator * skXMLElementObject::createIterator()
 //------------------------------------------
 {
-  return new skXMLElementObjectEnumerator(this);
+  return new skXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation());
+}
+// ---------------------------------------------------------------------------
+//  Local classes
+// ---------------------------------------------------------------------------
+
+class DOMPrintFormatTarget : public XMLFormatTarget
+{
+public:
+    DOMPrintFormatTarget(ostream& out) : m_Out(out)  {}
+    ~DOMPrintFormatTarget() {} 
+
+    // -----------------------------------------------------------------------
+    //  Implementations of the format target interface
+    // -----------------------------------------------------------------------
+    virtual void writeChars
+    (
+        const   XMLByte* const      toWrite
+        , const unsigned int        count
+        ,       XMLFormatter* const formatter
+    ) 
+    {
+        // Surprisingly, Solaris was the only platform on which
+        // required the char* cast to print out the string correctly.
+        // Without the cast, it was printing the pointer value in hex.
+        // Quite annoying, considering every other platform printed
+        // the string with the explicit cast to char* below.
+        m_Out << (char *) toWrite;
+    }
+
+private:
+    // -----------------------------------------------------------------------
+    //  Unimplemented methods.
+    // -----------------------------------------------------------------------
+    DOMPrintFormatTarget(const DOMPrintFormatTarget& other);
+    void operator=(const DOMPrintFormatTarget& rhs);
+	ostream& m_Out;
+};
+
+//------------------------------------------
+void skXMLElementObject::save(ostream& out) 
+//------------------------------------------
+{
+  DOM_Element elem=getElement();
+  DOMPrintFormatTarget formatTarget(out);
+  DOMString encNameStr("UTF-8");
+  unsigned int lent = encNameStr.length();
+  XMLCh * encodingName = new XMLCh[lent + 1];
+  XMLString::copyNString(encodingName, encNameStr.rawBuffer(), lent);
+  encodingName[lent] = 0;
+  XMLFormatter formatter(encodingName,&formatTarget,XMLFormatter::NoEscapes,XMLFormatter::UnRep_CharRef);
+  save(out,elem,formatter,encodingName);
+  delete [] encodingName;
+}
+// ---------------------------------------------------------------------------
+// This streaming code is taken mainly from the DOMPrint sample in Xerces
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+//  ostream << DOMString
+//
+//  Stream out a DOM string. Doing this requires that we first transcode
+//  to char * form in the default code page for the system
+// ---------------------------------------------------------------------------
+ostream& operator<< (ostream& target, const DOMString& s)
+{
+  char *p = s.transcode();
+  target << p;
+  delete [] p;
+  return target;
+}
+// ---------------------------------------------------------------------------
+XMLFormatter& operator<< (XMLFormatter& strm, const DOMString& s)
+// ---------------------------------------------------------------------------
+{
+    unsigned int lent = s.length();
+
+	if (lent <= 0)
+		return strm;
+
+    XMLCh*  buf = new XMLCh[lent + 1];
+    XMLString::copyNString(buf, s.rawBuffer(), lent);
+    buf[lent] = 0;
+    strm << buf;
+    delete [] buf;
+    return strm;
+}
+// ---------------------------------------------------------------------------
+//  ostream << DOM_Node   
+//
+//  Stream out a DOM node, and, recursively, all of its children. This
+//  function is the heart of writing a DOM tree out as XML source. Give it
+//  a document node and it will do the whole thing.
+// ---------------------------------------------------------------------------
+static const XMLCh  gEndElement[] = { chOpenAngle, chForwardSlash, chNull };
+static const XMLCh  gStartPI[] = { chOpenAngle, chQuestion, chNull };
+static const XMLCh  gEndPI[] = { chQuestion, chCloseAngle, chNull};
+static const XMLCh  gStartCDATA[] =
+{ 
+        chOpenAngle, chBang, chOpenSquare, chLatin_C, chLatin_D,
+        chLatin_A, chLatin_T, chLatin_A, chOpenSquare, chNull
+};
+
+static const XMLCh  gEndCDATA[] =
+{
+    chCloseSquare, chCloseSquare, chCloseAngle, chNull
+};
+static const XMLCh  gStartComment[] =
+{ 
+    chOpenAngle, chBang, chDash, chDash, chNull
+};
+
+static const XMLCh  gEndComment[] =
+{
+    chDash, chDash, chCloseAngle, chNull
+};
+
+static const XMLCh  gStartDoctype[] =
+{ 
+    chOpenAngle, chBang, chLatin_D, chLatin_O, chLatin_C, chLatin_T,
+    chLatin_Y, chLatin_P, chLatin_E, chSpace, chNull
+};
+static const XMLCh  gPublic[] =
+{ 
+    chLatin_P, chLatin_U, chLatin_B, chLatin_L, chLatin_I,
+    chLatin_C, chSpace, chDoubleQuote, chNull
+};
+static const XMLCh  gSystem[] =
+{ 
+    chLatin_S, chLatin_Y, chLatin_S, chLatin_T, chLatin_E,
+    chLatin_M, chSpace, chDoubleQuote, chNull
+};
+static const XMLCh  gStartEntity[] =
+{ 
+    chOpenAngle, chBang, chLatin_E, chLatin_N, chLatin_T, chLatin_I,
+    chLatin_T, chLatin_Y, chSpace, chNull
+};
+static const XMLCh  gNotation[] =
+{ 
+    chLatin_N, chLatin_D, chLatin_A, chLatin_T, chLatin_A,
+    chSpace, chDoubleQuote, chNull
+};
+static const XMLCh  gXMLDecl1[] =
+{
+        chOpenAngle, chQuestion, chLatin_x, chLatin_m, chLatin_l
+    ,   chSpace, chLatin_v, chLatin_e, chLatin_r, chLatin_s, chLatin_i
+    ,   chLatin_o, chLatin_n, chEqual, chDoubleQuote, chNull
+};
+static const XMLCh  gXMLDecl2[] =
+{
+        chDoubleQuote, chSpace, chLatin_e, chLatin_n, chLatin_c
+    ,   chLatin_o, chLatin_d, chLatin_i, chLatin_n, chLatin_g, chEqual
+    ,   chDoubleQuote, chNull
+};
+static const XMLCh  gXMLDecl3[] =
+{
+        chDoubleQuote, chSpace, chLatin_s, chLatin_t, chLatin_a
+    ,   chLatin_n, chLatin_d, chLatin_a, chLatin_l, chLatin_o
+    ,   chLatin_n, chLatin_e, chEqual, chDoubleQuote, chNull
+};
+static const XMLCh  gXMLDecl4[] =
+{
+        chDoubleQuote, chQuestion, chCloseAngle
+    ,   chCR, chLF, chNull
+};
+// ---------------------------------------------------------------------------
+void skXMLElementObject::save(ostream& target, DOM_Node& toWrite,XMLFormatter& formatter,XMLCh * encoding_name)
+// ---------------------------------------------------------------------------
+{
+    // Get the name and value out for convenience
+    DOMString   nodeName = toWrite.getNodeName();
+    DOMString   nodeValue = toWrite.getNodeValue();
+    unsigned long lent = nodeValue.length();
+
+    switch (toWrite.getNodeType())
+    {
+        case DOM_Node::TEXT_NODE:
+        {
+            formatter.formatBuf(nodeValue.rawBuffer(), 
+                                  lent, XMLFormatter::CharEscapes);
+            break;
+        }
+
+
+        case DOM_Node::PROCESSING_INSTRUCTION_NODE :
+        {
+            formatter << XMLFormatter::NoEscapes << gStartPI  << nodeName;
+            if (lent > 0)
+            {
+                formatter << chSpace << nodeValue;
+            }
+            formatter << XMLFormatter::NoEscapes << gEndPI;
+            break;
+        }
+
+
+        case DOM_Node::DOCUMENT_NODE :
+        {
+
+            DOM_Node child = toWrite.getFirstChild();
+            while( child != 0)
+            {
+				save(target,child,formatter,encoding_name);
+                target << endl;
+                child = child.getNextSibling();
+            }
+            break;
+        }
+
+
+        case DOM_Node::ELEMENT_NODE :
+        {
+            // The name has to be representable without any escapes
+            formatter  << XMLFormatter::NoEscapes
+                         << chOpenAngle << nodeName;
+
+            // Output the element start tag.
+
+            // Output any attributes on this element
+            DOM_NamedNodeMap attributes = toWrite.getAttributes();
+            int attrCount = attributes.getLength();
+            for (int i = 0; i < attrCount; i++)
+            {
+                DOM_Node  attribute = attributes.item(i);
+
+                //
+                //  Again the name has to be completely representable. But the
+                //  attribute can have refs and requires the attribute style
+                //  escaping.
+                //
+                formatter  << XMLFormatter::NoEscapes
+                             << chSpace << attribute.getNodeName()
+                             << chEqual << chDoubleQuote
+                             << XMLFormatter::AttrEscapes
+                             << attribute.getNodeValue()
+                             << XMLFormatter::NoEscapes
+                             << chDoubleQuote;
+            }
+
+            //
+            //  Test for the presence of children, which includes both
+            //  text content and nested elements.
+            //
+            DOM_Node child = toWrite.getFirstChild();
+            if (child != 0)
+            {
+                // There are children. Close start-tag, and output children.
+                // No escapes are legal here
+                formatter << XMLFormatter::NoEscapes << chCloseAngle;
+
+                while( child != 0)
+                {
+                    save(target,child,formatter,encoding_name);
+                    child = child.getNextSibling();
+                }
+
+                //
+                // Done with children.  Output the end tag.
+                //
+                formatter << XMLFormatter::NoEscapes << gEndElement
+                            << nodeName << chCloseAngle;
+            }
+            else
+            {
+                //
+                //  There were no children. Output the short form close of
+                //  the element start tag, making it an empty-element tag.
+                //
+                formatter << XMLFormatter::NoEscapes << chForwardSlash << chCloseAngle;
+            }
+            break;
+        }
+        
+        
+        case DOM_Node::ENTITY_REFERENCE_NODE:
+            {
+                DOM_Node child;
+#if 0
+                for (child = toWrite.getFirstChild();
+                child != 0;
+                child = child.getNextSibling())
+                {
+                    target << child;
+                }
+#else
+                //
+                // Instead of printing the refernece tree 
+                // we'd output the actual text as it appeared in the xml file.
+                // This would be the case when -e option was chosen
+                //
+                    formatter << XMLFormatter::NoEscapes << chAmpersand
+                        << nodeName << chSemiColon;
+#endif
+                break;
+            }
+            
+            
+        case DOM_Node::CDATA_SECTION_NODE:
+            {
+            formatter << XMLFormatter::NoEscapes << gStartCDATA
+                        << nodeValue << gEndCDATA;
+            break;
+        }
+
+        
+        case DOM_Node::COMMENT_NODE:
+        {
+            formatter << XMLFormatter::NoEscapes << gStartComment
+                        << nodeValue << gEndComment;
+            break;
+        }
+
+        
+        case DOM_Node::DOCUMENT_TYPE_NODE:
+        {
+            DOM_DocumentType doctype = (DOM_DocumentType &)toWrite;;
+
+            formatter << XMLFormatter::NoEscapes  << gStartDoctype
+                        << nodeName;
+ 
+            DOMString id = doctype.getPublicId();
+            if (id != 0)
+            {
+                formatter << XMLFormatter::NoEscapes << chSpace << gPublic
+                    << id << chDoubleQuote;
+                id = doctype.getSystemId();
+                if (id != 0)
+                {
+                    formatter << XMLFormatter::NoEscapes << chSpace 
+                       << chDoubleQuote << id << chDoubleQuote;
+                }
+            }
+            else
+            {
+                id = doctype.getSystemId();
+                if (id != 0)
+                {
+                    formatter << XMLFormatter::NoEscapes << chSpace << gSystem
+                        << id << chDoubleQuote;
+                }
+            }
+            
+            id = doctype.getInternalSubset(); 
+            if (id !=0)
+                formatter << XMLFormatter::NoEscapes << chOpenSquare
+                            << id << chCloseSquare;
+
+            formatter << XMLFormatter::NoEscapes << chCloseAngle;
+            break;
+        }
+        
+        
+        case DOM_Node::ENTITY_NODE:
+        {
+            formatter << XMLFormatter::NoEscapes << gStartEntity
+                        << nodeName;
+
+            DOMString id = ((DOM_Entity &)toWrite).getPublicId();
+            if (id != 0)
+                formatter << XMLFormatter::NoEscapes << gPublic
+                            << id << chDoubleQuote;
+
+            id = ((DOM_Entity &)toWrite).getSystemId();
+            if (id != 0)
+                formatter << XMLFormatter::NoEscapes << gSystem
+                            << id << chDoubleQuote;
+            
+            id = ((DOM_Entity &)toWrite).getNotationName();
+            if (id != 0)
+                formatter << XMLFormatter::NoEscapes << gNotation
+                            << id << chDoubleQuote;
+
+            formatter << XMLFormatter::NoEscapes << chCloseAngle << chCR << chLF;
+
+            break;
+        }
+        
+        
+        case DOM_Node::XML_DECL_NODE:
+        {
+            DOMString  str;
+
+            formatter << gXMLDecl1 << ((DOM_XMLDecl &)toWrite).getVersion();
+
+            formatter << gXMLDecl2 << encoding_name;
+            
+            str = ((DOM_XMLDecl &)toWrite).getStandalone();
+            if (str != 0)
+                formatter << gXMLDecl3 << str;
+            
+            formatter << gXMLDecl4;
+
+            break;
+        }
+        
+        
+        default:
+            cerr << "Unrecognized node type = "
+                 << (long)toWrite.getNodeType() << endl;
+    }
 }

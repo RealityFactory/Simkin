@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skAlist.inl,v 1.8 2001/06/13 16:48:21 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skAlist.inl,v 1.11 2001/11/22 11:13:21 sdw Exp $
 */
 #include "skBoundsException.h"
 
@@ -40,7 +54,7 @@ inline void * skAList::operator[](USize  n) const
 {
     assert(n<m_Entries);
     if (n>=m_Entries)
-	throw skBoundsException(skSTR("Invalid index in []"),__FILE__,__LINE__);
+	THROW(skBoundsException(skSTR("Invalid index in []"),__FILE__,__LINE__),skBoundsException_Code);
     return m_Array[n];
 }
 //-----------------------------------------------------------------
@@ -206,18 +220,21 @@ ALIST_PREFIX skTAList<T>::skTAList(const skTAList<T>& l)
      //-----------------------------------------------------------------
     : skAList(l.m_ArraySize,l.m_GrowthIncrement)
 {
+/*
     if(l.m_Entries != 0){		// optimisation
 	skTAListIterator<T> iter(l);
 	T * t=0;
 	while ((t=iter())){
 	    append(new T(*t));
 	}
-    }
+  }
+*/
 }
 //-----------------------------------------------------------------
 ALIST_PREFIX skTAList<T>& skTAList<T>::operator=(const skTAList<T>& l)
      //-----------------------------------------------------------------
 {
+/*
     if (&l!=this){
 	clearAndDestroy();
 	growTo(l.m_ArraySize);
@@ -228,5 +245,6 @@ ALIST_PREFIX skTAList<T>& skTAList<T>::operator=(const skTAList<T>& l)
 	    append(new T(*t));
 	}
     }
+*/
     return *this;
 }

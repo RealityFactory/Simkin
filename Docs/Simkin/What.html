@@ -21,14 +21,14 @@ person.sendEmail("Hello There");
 Here the scripter has made use of the method <b>sendEmail</b>. This might be a another Simkin method, or it might be a method in C++ or Java.
 <p>Every Simkin object actually corresponds to an object in the underlying application.
 <p>
-Simkin scripts can "see" other C++ objects if they implement a particular interface, <a href="../cpp/api/class_skExecutable.html">skExecutable</a>. 
+Simkin scripts can "see" other C++ objects if they implement a particular interface, <a href="../cpp/api/class_skiExecutable.html">skiExecutable</a>. 
 <p>In Java, Simkin scripts can see all the public methods or fields of other objects, using Java introspection. (The interface <a href="../java/api/simkin/Executable.html">Executable</a> can be used for special behaviour).
 <p>As well as making C++ or Java methods available to Simkin scripts, you can "attach" a script to an object, extending the object's functionality and data.
 <p>If you do want to attach a script to an object, the script can come from a variety of sources:
 <ul>
-<li>you can store it within XML files (deriving from <a href="../cpp/api/class_skXMLExecutable.html">skXMLExecutable<a> or <a href="../java/api/simkin/XMLExecutable.html">XMLExecutable</a> gives you this for free)<br>&nbsp;</li> 
+<li>you can store it within XML files (deriving from <a href="../cpp/api/class_skElementExecutable.html">skElementExecutable<a>, <a href="../cpp/api/class_skXMLExecutable.html">skXMLExecutable<a> or <a href="../java/api/simkin/XMLExecutable.html">XMLExecutable</a> gives you this for free)<br>&nbsp;</li> 
 <li>you can store it within hierachical <a href="../java/api/simkin/TreeNode.html">TreeNode</a> or <a href="../cpp/api/class_skTreeNode.html">skTreeNode</a> files (deriving from <a href="../cpp/api/class_skScriptedExecutable.html">skScriptedExecutable<a> or <a href="../java/api/simkin/ScriptedExecutable.html">ScriptedExecutable</a> gives you this for free)<br>&nbsp;</li> 
-<li>you can store it within a database (you can extend <a href="../cpp/api/class_skExecutable.html">skExecutable<a> or <a href="../java/api/simkin/ExecutableRoot.html">ExecutableRoot</a> as a starting point and add database access).</li>
+<li>you can store it within a database (you can extend <a href="../cpp/api/class_skiExecutable.html">skiExecutable<a> or <a href="../java/api/simkin/ExecutableRoot.html">ExecutableRoot</a> as a starting point and add database access).</li>
 <ul>
  </body>
 </html>

@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObjectEnumerator.cpp,v 1.4 2001/06/22 10:07:57 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skXMLElementObjectEnumerator.cpp,v 1.6 2001/11/22 11:13:21 sdw Exp $
 */
 
 #include "skXMLElementObjectEnumerator.h"
@@ -12,17 +26,17 @@
 #include "dom/DOM_NodeList.hpp"
 
 //-----------------------------------------------------------------
-skXMLElementObjectEnumerator::skXMLElementObjectEnumerator(skXMLElementObject * element)
+skXMLElementObjectEnumerator::skXMLElementObjectEnumerator(DOM_Element element,bool add_if_not_present,const skString& location)
 //-----------------------------------------------------------------
-    : m_Element(element),m_NodeNum(0)
+  : m_Element(element),m_NodeNum(0),m_AddIfNotPresent(add_if_not_present),m_Location(location)
 {
   // first wind forward to the first occurrence of the tag
   findNextNode();
 }
 //-----------------------------------------------------------------
-skXMLElementObjectEnumerator::skXMLElementObjectEnumerator(skXMLElementObject * element,const skString& tag)
+skXMLElementObjectEnumerator::skXMLElementObjectEnumerator(DOM_Element element,bool add_if_not_present,const skString& location,const skString& tag)
 //-----------------------------------------------------------------
-    : m_Element(element),m_NodeNum(0),m_Tag(tag)
+    : m_Element(element),m_NodeNum(0),m_Tag(tag),m_AddIfNotPresent(add_if_not_present),m_Location(location)
 {
   // first wind forward to the first occurrence of the tag
   findNextNode();
@@ -51,7 +65,7 @@ bool skXMLElementObjectEnumerator::method(const skString& s,skRValueArray& args,
 void skXMLElementObjectEnumerator::findNextNode()
 //------------------------------------------
 {
-  DOM_NodeList nodes=m_Element->getElement().getChildNodes();
+  DOM_NodeList nodes=m_Element.getChildNodes();
   DOMString sTagName;
   if (m_Tag.length()>0)
     sTagName=skXMLElementObject::fromString(m_Tag);
@@ -67,9 +81,11 @@ bool skXMLElementObjectEnumerator::next(skRValue& r)
   //------------------------------------------
 {
   bool ret=false;
-  DOM_NodeList nodes=m_Element->getElement().getChildNodes();
+  DOM_NodeList nodes=m_Element.getChildNodes();
   if (m_NodeNum<nodes.getLength()){
-    r=skRValue(new skXMLElementObject(m_Element->getLocation(),*(DOM_Element *)&(nodes.item(m_NodeNum))),true);
+    skXMLElementObject * obj=new skXMLElementObject(m_Location,*(DOM_Element *)&(nodes.item(m_NodeNum)));
+    r=skRValue(obj,true);
+    obj->setAddIfNotPresent(m_AddIfNotPresent);
     m_NodeNum++;
     findNextNode();
     ret=true;

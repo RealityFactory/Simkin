@@ -12,10 +12,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name Simkin
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name XercesLib
+    Project_Dep_Name Simkin_TreeNode
     End Project Dependency
 }}}
 
@@ -30,10 +27,10 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name Simkin
+    Project_Dep_Name XercesLib
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name XercesLib
+    Project_Dep_Name Simkin_Xerces
     End Project Dependency
 }}}
 
@@ -48,10 +45,10 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name Simkin
+    Project_Dep_Name XercesLib
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name XercesLib
+    Project_Dep_Name Simkin_Xerces
     End Project Dependency
 }}}
 
@@ -66,16 +63,16 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name Simkin
+    Project_Dep_Name XercesLib
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name XercesLib
+    Project_Dep_Name Simkin_Xerces
     End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "ScriptLoader"=.\examples\scriptloader\ScriptLoader.dsp - Package Owner=<4>
+Project: "ScriptLoader_Expat"=.\examples\Scriptloader\ScriptLoader_Expat.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -84,7 +81,70 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name Simkin
+    Project_Dep_Name expat
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Simkin_Expat
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoader_Expat_DLL"=.\examples\scriptloader\ScriptLoader_Expat_DLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin_Expat_DLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoader_TreeNode"=.\examples\scriptloader\ScriptLoader_TreeNode.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin_TreeNode
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoader_TreeNode_DLL"=.\EXAMPLES\SCRIPTLOADER\ScriptLoader_TreeNode_DLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin_TreeNode_DLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoader_Xerces"=.\examples\scriptloader\ScriptLoader_Xerces.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin_Xerces
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name XercesLib
@@ -93,7 +153,76 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Simkin"=.\Simkin.dsp - Package Owner=<4>
+Project: "ScriptLoader_Xerces_DLL"=.\examples\scriptloader\ScriptLoader_Xerces_DLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name XercesLib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Simkin_Xerces_DLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Simkin_Expat"=.\Simkin_Expat.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Simkin_Expat_DLL"=.\Simkin_Expat_DLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name expat
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Simkin_TreeNode"=.\Simkin_TreeNode.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Simkin_TreeNode_DLL"=.\Simkin_TreeNode_DLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Simkin_Xerces"=.\Simkin_Xerces.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -108,7 +237,34 @@ Package=<4>
 
 ###############################################################################
 
-Project: "XercesLib"="..\..\..\xerces-c-src1_3_0\Projects\Win32\VC6\xerces-all\XercesLib\XercesLib.dsp" - Package Owner=<4>
+Project: "Simkin_Xerces_DLL"=.\Simkin_Xerces_DLL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name XercesLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "XercesLib"="..\..\..\xerces-c-src1_5_2\Projects\Win32\VC6\xerces-all\XercesLib\XercesLib.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "expat"="..\..\..\Expat-1.95.2\Source\lib\expat.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

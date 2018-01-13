@@ -458,7 +458,7 @@ static const short yycheck[] = {     2,
 #define YYSTACK_USE_ALLOCA
 #define alloca __builtin_alloca
 #else /* not GNU C.  */
-#if (!defined (__STDC__) && defined (sparc)) || defined (__sparc__) || defined (__sparc) || defined (__sgi) || (defined (__sun) && defined (__i386))
+#if (!defined (__STDC__) && defined (sparc)) || defined (__sparc__) || defined (__sparc) || defined (__sgi) || (defined (__sun) && defined (__i386)) 
 #define YYSTACK_USE_ALLOCA
 #include <alloca.h>
 #else /* not sparc */

@@ -2,7 +2,21 @@
 Copyright 1996-2001
 Simon Whiteside
 
-$Id: skHashTable.inl,v 1.6 2001/03/05 16:46:28 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+$Id: skHashTable.inl,v 1.8 2001/11/22 11:13:21 sdw Exp $
 */
 
 //---------------------------------------------------
@@ -48,7 +62,7 @@ inline skHashTableIterator::~skHashTableIterator()
     delete m_ListIterator;
 }
 //---------------------------------------------------
-inline skHashEntry * skHashTable::findEntry(void * key, USize & slot) const
+inline skHashEntry * skHashTable::findEntry(const void * key, USize & slot) const
      //---------------------------------------------------
 {
     assert(key);
@@ -62,7 +76,7 @@ inline skHashEntry * skHashTable::findEntry(void * key, USize & slot) const
 }
 // Version which doesn't return slot.
 //---------------------------------------------------
-inline skHashEntry * skHashTable::findEntry(void * key) const
+inline skHashEntry * skHashTable::findEntry(const void * key) const
      //---------------------------------------------------
 {
     assert(key);
@@ -161,10 +175,10 @@ TTH_PREFIX inline void skTHashTable<TKey,TValue>::remove(const TKey * key)
     skHashTable::remove(key);
 }
 //---------------------------------------------------
-TTH_PREFIX inline int skTHashTable<TKey,TValue>::compareKeys(void * key1, void * key2) const
+TTH_PREFIX inline int skTHashTable<TKey,TValue>::compareKeys(const void * key1, const void * key2) const
      //---------------------------------------------------
 {
-    return (*(TKey *)key1==*(TKey *)key2);
+    return (*(const TKey *)key1==*(const TKey *)key2);
 }
 //---------------------------------------------------
 TTH_PREFIX inline void skTHashTable<TKey,TValue>::deleteKey(void * key)
@@ -179,10 +193,10 @@ TTH_PREFIX inline void skTHashTable<TKey,TValue>::deleteValue(void * value)
     delete (TValue *)value;
 }
 //---------------------------------------------------
-TTH_PREFIX inline USize skTHashTable<TKey,TValue>::hashKey(void * key) const
+TTH_PREFIX inline USize skTHashTable<TKey,TValue>::hashKey(const void * key) const
      //---------------------------------------------------
 {
-    return ::hashKey((TKey *)key);
+    return ::hashKey((const TKey *)key);
 }
 //---------------------------------------------------
 TTH_PREFIX inline skTHashTableIterator<TKey,TValue>::skTHashTableIterator(const skTHashTable<TKey,TValue>& l)

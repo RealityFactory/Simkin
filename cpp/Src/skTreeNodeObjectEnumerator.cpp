@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skTreeNodeObjectEnumerator.cpp,v 1.5 2001/06/22 10:07:57 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skTreeNodeObjectEnumerator.cpp,v 1.8 2001/11/22 11:13:21 sdw Exp $
 */
 
 #include "skTreeNodeObjectEnumerator.h"
@@ -10,17 +24,20 @@
 #include "skRValue.h"
 #include "skInterpreter.h"
 
+skLITERAL(next);
+skLITERAL(reset);
+
 //-----------------------------------------------------------------
-skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNodeObject * element)
+skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNode * element,const skString& location)
   //-----------------------------------------------------------------
-  : m_Iter(*(element->getNode())),m_Object(element)
+  : m_Iter(*(element)),m_Location(location)
 {
   m_CurrentNode=m_Iter();
 }
 //-----------------------------------------------------------------
-skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNodeObject * element,const skString& tag)
+skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNode * element,const skString& location,const skString& tag)
   //-----------------------------------------------------------------
-  : m_Iter(*(element->getNode())),m_Tag(tag),m_Object(element)
+  : m_Iter(*(element)),m_Location(location)
 {
   // first wind forward to the first occurrence of the tag
   findNextNode();
@@ -30,11 +47,11 @@ bool skTreeNodeObjectEnumerator::method(const skString& s,skRValueArray& args,sk
   //------------------------------------------
 {
   bool bRet=false;
-  if (s=="next"){
+  if (s==s_next){
     if (next(r)==false)
       r=skRValue(&skInterpreter::g_Null);
     bRet=true;
-  }else if (s=="reset"){
+  }else if (s==s_reset){
     m_Iter.reset();
     if (m_Tag.length())
       findNextNode();
@@ -64,7 +81,8 @@ bool skTreeNodeObjectEnumerator::next(skRValue& r)
 {
   bool ret=false;
   if (m_CurrentNode){
-    r=skRValue(new skTreeNodeObject(m_Object->getLocation(),m_CurrentNode,false),true);
+    skTreeNodeObject * obj=new skTreeNodeObject(m_Location,m_CurrentNode,false);
+    r=skRValue(obj,true);
     if (m_Tag.length())
       findNextNode();
     else

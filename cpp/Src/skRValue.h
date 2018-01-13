@@ -2,20 +2,34 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skRValue.h,v 1.12 2001/06/19 14:02:47 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skRValue.h,v 1.14 2001/11/22 11:13:21 sdw Exp $
 */
 #ifndef skRVALUE_H
 #define skRVALUE_H
 
 #include "skString.h"
 
-class skExecutable;
-class skObjectRef;
+class CLASSEXPORT skiExecutable;
+class CLASSEXPORT skObjectRef;
 
 /**
  * This class is used to hold the value of a variable in Simkin. It can hold reference counts for objects and delete them when these reach zero.
  */
-class skRValue	
+class CLASSEXPORT  skRValue	
 { 
  public:
   /**
@@ -36,7 +50,7 @@ class skRValue
    * @param object - the object to be associated with the RValue
    * @param created - set this to true if you want the object to be deleted once all references have reached zero
    */
-  skRValue(skExecutable * obj,bool created=false);
+  skRValue(skiExecutable * obj,bool created=false);
   /**
    * Constructor with a string
    */
@@ -96,7 +110,7 @@ class skRValue
   /**
    * returns the object associated with this RValue, or 0 if there is none
    */
-  skExecutable * obj()  const;
+  skiExecutable * obj()  const;
   /**
    * returns the type of the value held in this RValue - one of the enumerated RType
    */

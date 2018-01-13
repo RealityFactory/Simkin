@@ -2,17 +2,26 @@
   Copyright 1996-2000
   Simon Whiteside, All Rights Reserved
 
-  THIS CODE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
-  KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
-  PURPOSE.
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
   Demo_Win32.cpp
 
   This file provides Windows-specific event handling
 
 
-  $Id: Demo_Win32.cpp,v 1.1 2000/12/21 13:32:59 sdw Exp $
+  $Id: Demo_Win32.cpp,v 1.2 2001/11/22 11:13:21 sdw Exp $
 */
 #ifdef WIN32
 #include <windows.h>

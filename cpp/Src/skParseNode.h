@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
- * $Id: skParseNode.h,v 1.22 2001/06/29 09:17:04 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+ * $Id: skParseNode.h,v 1.25 2001/11/22 11:13:21 sdw Exp $
 */
 
 #ifndef PARSENODE_H
@@ -47,18 +61,24 @@ static const int s_For=35;
 /**
  * This is the base class for Simkin parse nodes
  */
-class skParseNode {
+class  skParseNode {
  public:
+  /** constructor for a parse node
+   * @param linenum - the source code line number where the construct was declared */
   skParseNode(int linenum){
 	  m_LineNum=linenum;
   }
+  /** destructor for the parse node */
   virtual ~skParseNode(){
   }
+  /** returns the type of the node */
   virtual int getType(){
     return 0;
   }
+  /** called if an error occurs during the parse */
   virtual void clear(){
   }
+  /** the line number where the construct was defined */
   int m_LineNum;
  private:
   skParseNode(const skParseNode& ){
@@ -67,17 +87,17 @@ class skParseNode {
     return *this;
   }
 };
-class skParseNodeList : public skTAList<skParseNode>{
+class  skParseNodeList : public skTAList<skParseNode>{
 };
 typedef  skTAListIterator<skParseNode> skParseNodeListIterator;
-class skStatNode : public skParseNode {
+class  skStatNode : public skParseNode {
  public:
   skStatNode(int linenum) : skParseNode(linenum){
   }
   virtual ~skStatNode(){
   }
 };
-class skExprNode : public skParseNode {
+class  skExprNode : public skParseNode {
  public:
   skExprNode(int linenum) : skParseNode(linenum){
   }
@@ -87,7 +107,7 @@ class skExprNode : public skParseNode {
 typedef skTAList<skStatNode> skStatList;
 typedef skTAListIterator<skStatNode> skStatListIterator;
 
-class skStatListNode : public skParseNode {
+class  skStatListNode : public skParseNode {
  public:
   skStatList m_Stats;
   skStatListNode(int linenum): skParseNode(linenum){
@@ -107,7 +127,7 @@ class skStatListNode : public skParseNode {
 };
 typedef skTAList<skExprNode> skExprList;
 typedef skTAListIterator<skExprNode> skExprListIterator;
-class skExprListNode : public skParseNode {
+class  skExprListNode : public skParseNode {
  public:
   skExprList m_Exprs;
   skExprListNode(int linenum): skParseNode(linenum){
@@ -125,7 +145,7 @@ class skExprListNode : public skParseNode {
     m_Exprs.clear();
   }
 };
-class skIdNode : public skExprNode {
+class  skIdNode : public skExprNode {
  public:
   skString m_Id;
   skExprListNode * m_Exprs;
@@ -146,10 +166,10 @@ class skIdNode : public skExprNode {
     return s_Id;
   }
 };
-class skIdNodeList : public skTAList<skIdNode>{
+class  skIdNodeList : public skTAList<skIdNode>{
 };
 typedef  skTAListIterator<skIdNode> skIdNodeListIterator;
-class skIdListNode : public skExprNode {
+class  skIdListNode : public skExprNode {
  public:
   skIdNodeList m_Ids;
   skString m_Attribute;
@@ -176,7 +196,7 @@ class skIdListNode : public skExprNode {
     return s_IdList;
   }
 };
-class skCaseNode : public skParseNode {
+class  skCaseNode : public skParseNode {
  public:
   skExprNode * m_Expr;
   skStatListNode * m_Stats;
@@ -198,7 +218,7 @@ class skCaseNode : public skParseNode {
 };
 typedef skTAList<skCaseNode> skCaseList;
 typedef skTAListIterator<skCaseNode> skCaseListIterator;
-class skCaseListNode : public skParseNode {
+class  skCaseListNode : public skParseNode {
  public:
   skCaseList m_Cases;
   inline skCaseListNode(int linenum) : skParseNode(linenum){
@@ -216,7 +236,7 @@ class skCaseListNode : public skParseNode {
     m_Cases.clear();
   }
 };
-class skSwitchNode : public skStatNode {
+class  skSwitchNode : public skStatNode {
  public:
   skExprNode * m_Expr;
   skCaseListNode * m_Cases;
@@ -240,7 +260,7 @@ class skSwitchNode : public skStatNode {
     return s_Switch;
   }
 };
-class skIfNode : public skStatNode {
+class  skIfNode : public skStatNode {
  public:
   skExprNode * m_Expr;
   skStatListNode * m_Stats;
@@ -264,7 +284,7 @@ class skIfNode : public skStatNode {
     return s_If;
   }
 };
-class skReturnNode : public skStatNode {
+class  skReturnNode : public skStatNode {
  public:
   skExprNode * m_Expr;
   inline skReturnNode(int linenum,skExprNode * expr) : skStatNode(linenum){
@@ -280,7 +300,7 @@ class skReturnNode : public skStatNode {
     return s_Return;
   }
 };
-class skWhileNode : public skStatNode {
+class  skWhileNode : public skStatNode {
  public:
   skExprNode * m_Expr;
   skStatListNode * m_Stats;
@@ -300,7 +320,7 @@ class skWhileNode : public skStatNode {
     return s_While;
   }
 };
-class skForEachNode : public skStatNode {
+class  skForEachNode : public skStatNode {
  public:
   skString m_Id;
   skString m_Qualifier;
@@ -329,7 +349,7 @@ class skForEachNode : public skStatNode {
     return s_ForEach;
   }
 };
-class skForNode : public skStatNode {
+class  skForNode : public skStatNode {
  public:
   skString m_Id;
   skExprNode * m_StartExpr;
@@ -366,7 +386,7 @@ class skForNode : public skStatNode {
     return s_For;
   }
 };
-class skAssignNode : public skStatNode {
+class  skAssignNode : public skStatNode {
  public:
   skIdListNode * m_Ids;
   skExprNode * m_Expr;
@@ -389,7 +409,7 @@ class skAssignNode : public skStatNode {
     return s_Assign;
   }
 };
-class skMethodStatNode : public skStatNode {
+class  skMethodStatNode : public skStatNode {
  public:
   skIdListNode * m_Ids;
   inline skMethodStatNode(int linenum,skIdListNode * idlist) : skStatNode(linenum){
@@ -406,7 +426,7 @@ class skMethodStatNode : public skStatNode {
     return s_Method;
   }
 };
-class skLiteralNode : public skExprNode {
+class  skLiteralNode : public skExprNode {
  public:
   int m_Type;
   union {
@@ -442,7 +462,7 @@ class skLiteralNode : public skExprNode {
     return m_Type;
   }
 };
-class skOpNode : public skExprNode {
+class  skOpNode : public skExprNode {
  public:
   skExprNode * m_Expr1;
   skExprNode * m_Expr2;
@@ -468,22 +488,28 @@ class skOpNode : public skExprNode {
  * This class represents the parse tree for a whole method in Simkin.
  * You should not modify any of its data members.
  */
-class skMethodDefNode : public skParseNode {
+class  skMethodDefNode : public skParseNode {
  public:
+  /** This statements in the method */
   skStatListNode * m_Stats;
+  /** The parameters to this method */
   skIdListNode * m_Params;
+  /** Constructor for Method node */
   inline skMethodDefNode(int linenum,skStatListNode * stats) : skParseNode(linenum){
     m_Stats=stats;
     m_Params=0;
   }
+  /** Constructor for Method node */
   inline skMethodDefNode(int linenum,skIdListNode * params,skStatListNode * stats) : skParseNode(linenum){
     m_Stats=stats;
     m_Params=params;
   }
+  /** Destructor for Method node */
   inline ~skMethodDefNode(){
     delete m_Stats;
     delete m_Params;
   }
+  /** this method is called if an error occurs in the parse */
   inline void clear(){
     m_Stats=0;
     m_Params=0;

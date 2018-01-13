@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skAlist.h,v 1.10 2001/03/05 16:46:28 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skAlist.h,v 1.12 2001/11/22 11:13:21 sdw Exp $
 */
 
 #ifndef skALIST_H
@@ -11,12 +25,12 @@
 
 #include "skGeneral.h"
   
-class  skAList;  
+class  CLASSEXPORT skAList;  
 
 /**
  * This class provides an interator for the list, it is subclassed to provide type-safety
  */
-class  skAListIterator 
+class  CLASSEXPORT skAListIterator 
 {       
  public:
   /**
@@ -54,7 +68,7 @@ class  skAListIterator
  * Array-Based List of pointers with template sub-classes
 */
 
-class  skAList 
+class  CLASSEXPORT skAList 
 {   
  public:
   /**
@@ -179,17 +193,13 @@ class  skAList
 /**
  * This template class is used to provide type-safety to the list
  */
-template <class T> class skTAList : public skAList
+template <class T> class CLASSEXPORT skTAList : public skAList
 {
  public:
   /**
    * default constructor
    */
   skTAList();
-  /**
-   * Copy constructor - does a deep copy
-   */
-  skTAList(const skTAList<T>&);
   /**
    * Constructor specifying the size and growth increment for the list
    */
@@ -230,20 +240,25 @@ template <class T> class skTAList : public skAList
    * returns true if the list contains the given object
    */
   bool contains(const T *) const;
-  /**
-   * assignment operator - clears and destroys this list, and then does a deep copy
-   */
-  skTAList<T>& operator=(const skTAList<T>& l);
  protected:
   /**
    * this method calls delete on the object casted to the correct type, this ensures the destructor is called
    */
   void deleteItem(void *);
+ private:
+  /**
+   * assignment operator - clears and destroys this list, and then does a deep copy
+   */
+  skTAList<T>& operator=(const skTAList<T>& l);
+  /**
+   * Copy constructor - does a deep copy
+   */
+  skTAList(const skTAList<T>&);
 };
 /**
  * this class provides a templated list iterator
  */
-template <class T> class skTAListIterator : public skAListIterator
+template <class T> class CLASSEXPORT skTAListIterator : public skAListIterator
 {       
  public:
   /**

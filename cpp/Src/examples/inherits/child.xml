@@ -1,6 +1,6 @@
 <object>
 <another_object>
-<value>Child Value</value>
+<value>Child Value (overriding parent value)</value>
 <inherits>parent.xml</inherits>
 </another_object>
 <function name="main">

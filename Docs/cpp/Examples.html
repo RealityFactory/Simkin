@@ -14,7 +14,13 @@ There are several examples included with this distribution. They are located in 
 <li><a href="examples/helloworld/HelloWorld.cpp.txt">HelloWorld</a> - a very simple example that prints "Hello World"
 <p>
 </li>
-<li><a href="examples/scriptloader/Scriptloader.cpp.txt">Scriptloader</a> - a small C++ program that loads an XML file whose name appears on the command line, and runs a method called <b>main</b> within it.<p>You can use this to run the following example scripts:<p>
+<li><a href="examples/scriptloader/Scriptloader.cpp.txt">Scriptloader</a> - a small C++ program that loads an XML or TreeNode file whose name appears on the command line, and runs a method called <b>main</b> within it.<p>There are 3 flavours of this application:
+<ol>
+<li>Scriptloader_TreeNode - loads a <a href="../Simkin/TreeNode.html">TreeNode</a> file
+<li>ScriptLoader_Expat - loads an XML file using the Expat parser and Simkin DOM classes</li>
+<li>Scriptloader_Xerces - loads an XML file using the Xerces library</li>
+</ol>
+You can use this to run the following example scripts:<p>
 <ul>
 <li><a href="examples/simple/Simple.xml.txt">Simple</a> - shows some simple Simkin script<p>To run this, change to the <b>examples\simple</b> directory and type:
 <pre>

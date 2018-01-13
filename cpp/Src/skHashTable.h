@@ -2,7 +2,21 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skHashTable.h,v 1.12 2001/03/05 16:46:28 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skHashTable.h,v 1.14 2001/11/22 11:13:21 sdw Exp $
 */
 #ifndef skHASHTBL_H
 #define skHASHTBL_H
@@ -14,7 +28,7 @@
 /**
  * this class represents a single entry in the hashtable
  */
-class  skHashEntry 
+class  CLASSEXPORT skHashEntry 
 {    
  public:
   /**
@@ -40,7 +54,7 @@ typedef skTAListIterator<skHashEntry> skHashEntryListIterator;
    HashTable Class with template sub-class for type-safety
 */
 
-class   skHashTable 
+class   CLASSEXPORT skHashTable 
 {
  public:
   /**
@@ -87,19 +101,19 @@ class   skHashTable
   /**
    * deletes the key but not the value associated with the given key
    */
-  void delKeyNotValue(void * key);
+  void delKeyNotValue(const void * key);
   /**
    * removes the entry associated with the given key
    */
-  void remove(void * key);
+  void remove(const void * key);
   /**
    * this method is overriden by derived classes and returns a hash value for the given key
    */
-  virtual USize hashKey(void * key) const=0;
+  virtual USize hashKey(const void * key) const=0;
   /**
    * this method is overriden by derived classes and compares two key values
    */
-  virtual int compareKeys(void * key1, void * key2) const=0;
+  virtual int compareKeys(const void * key1, const void * key2) const=0;
   /**
    * this method is overriden by derived classes and deletes the given key object
    */
@@ -124,11 +138,11 @@ class   skHashTable
   /**
    * finds the entry containing the given key, and also returns the slot number
    */
-  skHashEntry * findEntry(void * key,USize & slot) const;
+  skHashEntry * findEntry(const void * key,USize & slot) const;
   /**
    * finds the entry containing the given key
    */
-  skHashEntry * findEntry(void * key) const;
+  skHashEntry * findEntry(const void * key) const;
   /**
    * an array of HashEntry lists
    */
@@ -146,7 +160,7 @@ class   skHashTable
 /**
  * this class provides an iterator for the hashtable
  */
-class  skHashTableIterator
+class  CLASSEXPORT skHashTableIterator
 {
  public:
   /**
@@ -202,7 +216,7 @@ const int DEFAULT_skHashTable_SIZE=3;
 /**
  * This class overrides the base class to provide type-safety
  */
-template <class TKey,class TValue>  class  skTHashTable: public skHashTable
+template <class TKey,class TValue>  class  CLASSEXPORT skTHashTable: public skHashTable
 {
  public:
   /**
@@ -242,7 +256,7 @@ template <class TKey,class TValue>  class  skTHashTable: public skHashTable
   /**
    * this method compares two instances of the key. It uses the == operator for the class
    */
-  int compareKeys(void * key1, void * key2) const;
+  int compareKeys(const void * key1, const void * key2) const;
   /**
    * deletes the given key (casting it appropriately)
    */
@@ -254,12 +268,12 @@ template <class TKey,class TValue>  class  skTHashTable: public skHashTable
   /**
    * returns a hash value for the given key, calling a global function USize ::hashKey(TKey * key)
    */
-  USize hashKey(void * key) const;
+  USize hashKey(const void * key) const;
 };
 /**
  * This class provides a type-safe iterator for the templated hash table
  */
-template <class TKey,class TValue>  class skTHashTableIterator: public skHashTableIterator
+template <class TKey,class TValue>  class CLASSEXPORT skTHashTableIterator: public skHashTableIterator
 {
  public:
   /**

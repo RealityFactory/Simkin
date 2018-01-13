@@ -2,9 +2,22 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skExecutable.cpp,v 1.20 2001/06/29 09:17:04 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skExecutable.cpp,v 1.23 2001/11/22 11:13:21 sdw Exp $
 */
-#include <iostream.h>
 #include "skExecutable.h"
 #include "skRValue.h"
 #include "skRValueArray.h"
@@ -126,10 +139,10 @@ bool skExecutable::method(const skString& s,skRValueArray& args,skRValue& r)
   return bRet;
 }
 //------------------------------------------
-bool skExecutable::equals(skExecutable * o) const
+bool skExecutable::equals(const skiExecutable * o) const
   //------------------------------------------
 {
-  return (this==o);
+  return (o==this);
 }
 //------------------------------------------
 skExecutableIterator * skExecutable::createIterator(const skString& qualifier)

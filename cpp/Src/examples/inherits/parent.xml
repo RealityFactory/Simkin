@@ -1,6 +1,6 @@
 <parent>
 <value>Value</value>
 <function name="parent">
-trace("Parent value" # value);
+trace("Parent value: " # value);
 </function>
 </parent>

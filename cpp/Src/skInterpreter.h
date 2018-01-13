@@ -2,21 +2,54 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skInterpreter.h,v 1.18 2001/06/29 09:17:04 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skInterpreter.h,v 1.24 2001/11/22 11:13:21 sdw Exp $
 */
 #ifndef skINTERPRETER_H
 #define skINTERPRETER_H
 
 #include "skRValue.h"
-#include "skExecutable.h"
+#include "skiExecutable.h"
 #include "skNull.h"
 
-class skRValueArray;
-class skParseNode;
-class skStringList;
-class skMethodDefNode;
-class skTraceCallback;
-class skStatementStepper;
+class CLASSEXPORT skRValueArray;
+class CLASSEXPORT skParseNode;
+class CLASSEXPORT skStringList;
+class CLASSEXPORT skMethodDefNode;
+class CLASSEXPORT skTraceCallback;
+class CLASSEXPORT skStatementStepper;
+
+/**
+ * This class stores info about the current execution context - such the name of the current script and the line number being executed.
+ */
+
+class CLASSEXPORT skContext 
+{
+ public:
+  /** Constructor
+   * @param location - the name of the source file
+   */
+  skContext(const skString& location):
+    m_Location(location)
+    {};
+  /** location during script execution */
+  skString m_Location; 
+  /** line number during script execution */
+  int m_LineNum; 
+};
 
 /**
  * This class parses and executes Simkin script, and holds a list of
@@ -25,7 +58,7 @@ class skStatementStepper;
  * There is one global Interpreter object which you should set up at
  * the start, although others can also be created.
 */
-class skInterpreter : public skExecutable
+class CLASSEXPORT skInterpreter : public skExecutable
 { 
  public:
   //------------------------
@@ -65,7 +98,7 @@ class skInterpreter : public skExecutable
    * @exception skParseException - if a syntax error is encountered
    * @exception skRuntimeException - if an error occurs while the script is running
    */
-  void executeString(const skString& location,skExecutable * obj,const skString& code,skRValueArray&  args,skRValue& return_value,skMethodDefNode ** parseTree);
+  void executeString(const skString& location,skiExecutable * obj,const skString& code,skRValueArray&  args,skRValue& return_value,skMethodDefNode ** parseTree);
 
   /**
    * this function parses and executes script with externally declared parameters which is assumed to belong to the object passed in.
@@ -79,7 +112,7 @@ class skInterpreter : public skExecutable
    * @exception skParseException - if a syntax error is encountered
    * @exception skRuntimeException - if an error occurs while the script is running
    */
-  void executeStringExternalParams(const skString& location,skExecutable * obj,skStringList& paramNames,const skString& code,skRValueArray&  args,skRValue& r,skMethodDefNode ** keepParseTree);
+  void executeStringExternalParams(const skString& location,skiExecutable * obj,skStringList& paramNames,const skString& code,skRValueArray&  args,skRValue& r,skMethodDefNode ** keepParseTree);
 
   /**
    * this function executes some script that has already been parsed into a parse tree. 
@@ -90,7 +123,7 @@ class skInterpreter : public skExecutable
    * @param return_value - an RValue which receives the result of the method call
    * @exception skRuntimeException - if an error occurs while the script is running
    */
-  void executeParseTree(const skString& location,skExecutable * obj,skMethodDefNode * parseTree,skRValueArray&  args,skRValue& return_value);
+  void executeParseTree(const skString& location,skiExecutable * obj,skMethodDefNode * parseTree,skRValueArray&  args,skRValue& return_value);
   //------------------------
   // Global Variable methods
   //------------------------
@@ -156,7 +189,7 @@ class skInterpreter : public skExecutable
   void setStatementStepper(skStatementStepper * stepper);
 
   /** creates and throws a skRuntimeException */
-  void runtimeError(const skString& msg); 
+  void runtimeError(skContext& ctxt,const skString& msg); 
 
   //---------------------------
   // Constructor and Destructor
@@ -171,8 +204,9 @@ class skInterpreter : public skExecutable
    */
   ~skInterpreter();
     
+  /** This variable points to the private implementation object */
   class P_Interpreter *	pimp;
-
+  
   /**
    * public null object
    */

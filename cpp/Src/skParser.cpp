@@ -1,7 +1,22 @@
 /*
   Copyright 1996-2001
   Simon Whiteside
-  $Id: skParser.cpp,v 1.6 2001/06/29 09:17:04 sdw Exp $
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  $Id: skParser.cpp,v 1.8 2001/11/22 11:13:21 sdw Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
@@ -28,25 +43,25 @@ struct KeyWord{
   int			m_Token;
 };
 KeyWord keywords[]={
-  {new skSTR("each"),L_EACH},
-  {new skSTR("in"),L_IN},
-  {new skSTR("for"),L_FOR},
-  {new skSTR("while"),L_WHILE},
-  {new skSTR("if"),L_IF},
-  {new skSTR("else"),L_ELSE},
-  {new skSTR("or"),L_OR},
-  {new skSTR("and"),L_AND},
-  {new skSTR("not"),L_NOT},
-  {new skSTR("return"),L_RETURN},
-  {new skSTR("lt"),L_LT},
-  {new skSTR("gt"),L_GT},
-  {new skSTR("switch"),L_SWITCH},
-  {new skSTR("case"),L_CASE},
-  {new skSTR("default"),L_DEFAULT},
-  {new skSTR("le"),L_LE},
-  {new skSTR("ge"),L_GE},
-  {new skSTR("to"),L_TO},
-  {new skSTR("step"),L_STEP}
+  {new skString(skSTR("each")),L_EACH},
+  {new skString(skSTR("in")),L_IN},
+  {new skString(skSTR("for")),L_FOR},
+  {new skString(skSTR("while")),L_WHILE},
+  {new skString(skSTR("if")),L_IF},
+  {new skString(skSTR("else")),L_ELSE},
+  {new skString(skSTR("or")),L_OR},
+  {new skString(skSTR("and")),L_AND},
+  {new skString(skSTR("not")),L_NOT},
+  {new skString(skSTR("return")),L_RETURN},
+  {new skString(skSTR("lt")),L_LT},
+  {new skString(skSTR("gt")),L_GT},
+  {new skString(skSTR("switch")),L_SWITCH},
+  {new skString(skSTR("case")),L_CASE},
+  {new skString(skSTR("default")),L_DEFAULT},
+  {new skString(skSTR("le")),L_LE},
+  {new skString(skSTR("ge")),L_GE},
+  {new skString(skSTR("to")),L_TO},
+  {new skString(skSTR("step")),L_STEP}
 };
 const int NUMKEYS=sizeof(keywords)/sizeof(KeyWord);
 const int MAX_ARGS=256;

@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.3 2001/05/04 11:09:10 sdw Exp $
+# $Id: Makefile,v 1.5 2001/11/05 19:22:33 sdw Exp $
 
 CFLAGS = -c 
 CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src1_4_0/src -I../../ -D_REENTRANT 
@@ -14,12 +14,25 @@ LINKFLAGS = -lm -L/usr/lib -L/usr/local/lib -lc
 .c.o:	
 	${CPP} ${CPPFLAGS}  $<
 
-LIBS = ../../skInterpreter.a /usr/share/xerces-c-src1_4_0/lib/libxerces-c1_4.so /usr/lib/libpthread.so
 OBJS = ScriptLoader.o 
 
+XERCES_LIBS = ../../Simkin_Xerces.a /usr/share/xerces-c-src1_4_0/lib/libxerces-c1_4.so /usr/lib/libpthread.so
 
-ScriptLoader: $(OBJS) $(LIBS)
-	${CPP} $(OBJS) $(LIBS) ${LINKFLAGS} -o ScriptLoader
+Scriptloader_Xerces:  $(XERCES_LIBS)
+	${CPP} ${CPPFLAGS} ScriptLoader.cpp -D USE_XERCES 
+	${CPP} $(OBJS) $(XERCES_LIBS) ${LINKFLAGS} -o ScriptLoader_Xerces
+
+EXPAT_LIBS = ../../Simkin_Expat.a /usr/lib/libexpat.a
+
+Scriptloader_Expat: $(EXPAT_LIBS)
+	${CPP} ${CPPFLAGS} ScriptLoader.cpp -D USE_EXPAT 
+	${CPP} $(OBJS) $(EXPAT_LIBS) ${LINKFLAGS} -o ScriptLoader_Expat
+
+TREENODE_LIBS = ../../Simkin_TreeNode.a
+
+Scriptloader_TreeNode: $(TREENODE_LIBS)
+	${CPP} ${CPPFLAGS} ScriptLoader.cpp -D USE_TREENODE 
+	${CPP} $(OBJS) $(TREENODE_LIBS) ${LINKFLAGS} -o ScriptLoader_TreeNode
 
 clean:
 	rm *.o *.a

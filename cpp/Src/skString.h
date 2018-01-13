@@ -2,15 +2,41 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skString.h,v 1.11 2001/06/13 16:48:21 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skString.h,v 1.16 2001/11/22 11:13:21 sdw Exp $
 */
 
 
 #ifndef skSTRING_H
 #define skSTRING_H
 
-#include <iostream.h>
 #include "skGeneral.h"
+
+#ifdef STREAMS_ENABLED
+#include <iostream.h>
+#endif
+
+
+#ifdef UNICODE_STRINGS
+typedef wchar_t Char;
+#define skSTR(x)			L ## x
+#else
+typedef char Char;
+#define skSTR(x)			x
+#endif
 
 class P_String;
 
@@ -18,7 +44,7 @@ class P_String;
  * This class encapsulates a null-terminated 8-bit c-string
  * It uses a pointer to a string plus a reference count to save copying when passed by value
 */
-class skString 
+class CLASSEXPORT skString 
 {
  public:
   /**
@@ -28,11 +54,7 @@ class skString
   /**
    * Constructor - from a null-terminated c-string
    */
-  skString(const char *);
-  /**
-   * Constructor - from a null-terminated c-string
-   */
-  skString(const unsigned char *);
+  skString(const Char *);
   /**
    * Copy Constructor
    */
@@ -42,13 +64,13 @@ class skString
    * @param buffer - the buffer to be copied from
    * @param len - the length of the data to be copied
    */
-  skString(const unsigned char * buffer, USize len);
+  skString(const Char * buffer, USize len);
   /**
    * Constructor - a repeated list of characters
    * @param repeatChar - the character to be repeated
    * @param len - the number of times the character is repeated
    */
-  skString(const unsigned char repeatChar, USize len);
+  skString(const Char repeatChar, USize len);
   /**
    * Destructor
    */
@@ -60,11 +82,7 @@ class skString
   /**
    * Assignment operator - dereferences the P_String object and makes a new one by copying the given buffer
    */
-  skString& operator=(const unsigned char *);
-  /**
-   * Assignment operator - dereferences the P_String object and makes a new one by copying the given buffer
-   */
-  skString& operator=(const char *);
+  skString& operator=(const Char *);
   /**
    * Comparison operator
    * @return true if the current string is alphabetically before the other string
@@ -79,12 +97,7 @@ class skString
    * Equality operator 
    * @return true if the other c-string is the same as the current one
    */
-  bool operator==(const unsigned char *) const;
-  /**
-   * Equality operator 
-   * @return true if the other c-string is the same as the current one
-   */
-  bool operator==(const char *) const;
+  bool operator==(const Char *) const;
   /**
    * Inequality operator
    * @return true if the other string is different to the current one
@@ -94,22 +107,12 @@ class skString
    * Inequality operator
    * @return true if the other c-string is different to the current one
    */
-  bool operator!=(const char *) const;
-  /**
-   * Inequality operator
-   * @return true if the other c-string is different to the current one
-   */
-  bool operator!=(const unsigned char *) const;
+  bool operator!=(const Char *) const;
   /**
    * Conversion operator
    * @return a pointer to the buffer contained within the P_String object
    */
-  operator const unsigned char * () const;
-  /**
-   * Conversion operator
-   * @return a pointer to the buffer contained within the P_String object
-   */
-  operator const char * () const;
+  operator const Char * () const;
   /**
    * Returns a hash value for this string
    */
@@ -119,7 +122,7 @@ class skString
    * @param index - the index of the character, starting at 0
    * @return the character, or 0 if the index does not lie within the length of the string
    */
-  unsigned char at(USize index) const;
+  Char at(USize index) const;
   /**
    * Returns a substring of this string
    * @param start - the 0-based start of the substring
@@ -152,7 +155,7 @@ class skString
    * returns the index of the first occurrence of the given character within the string
    * @return an index, or -1 if not found
    */
-  int indexOf(char c);
+  int indexOf(Char c) const;
   /**
    * Converts the string to an integer
    */
@@ -164,7 +167,7 @@ class skString
   /**
    * Constructs a string from static string - the static string is *not* copied
    */
-  static skString literal(const char *);
+  static skString literal(const Char *);
   /**
    * Constructs a string from a signed integer
    */
@@ -180,11 +183,11 @@ class skString
   /**
    * Constructs a string from a character
    */
-  static skString from(unsigned char ch);
+  static skString from(Char ch);
   /**
    * Constructs a string from a buffer, which is *not* copied. The string will delete the buffer when the reference count reaches zero
    */
-  static skString fromBuffer(unsigned char * buffer);
+  static skString fromBuffer(Char * buffer);
  protected:
   /**
    * Constructor - internal taking a P_String and not copying it
@@ -193,11 +196,11 @@ class skString
   /**
    * Constructor - internal, taking a buffer and not copying it
    */
-  skString(const unsigned char * s,int);
+  skString(const Char * s,int);
   /**
    * Assigns another buffer to this one, and copies it
    */
-  void assign(const unsigned char *,int len=0);				
+  void assign(const Char *,int len=0);				
   /**
    * Dereferences the P_String object, deleting it if the reference count is zero
    */
@@ -210,27 +213,36 @@ class skString
 /*
  * A hashKey function for HashTables
  */
-inline USize hashKey(skString * s)
+inline USize hashKey(const skString * s)
 {
     return s->hash();
 }
+#ifdef STREAMS_ENABLED
 /*
  * A streaming operator to write a string to an output stream
  */
-ostream& operator<<(ostream&,const skString&s);
-
+CLASSEXPORT ostream& operator<<(ostream&,const skString&s);
+#endif
 /*
  * Some helper macros for declaring literal strings, and references to literal strings
  */
-#define skLITERAL(s) skString s_##s=skString::literal(#s)
+#define skLITERAL(s) skString s_##s=skString::literal(skSTR(#s))
 #define xskLITERAL(s) extern skString s_##s
-#define skSTR(s) skString(s)
-typedef char Char;
+//#define skSTR(s) skString(s)
+
 inline float ATOF(const Char * c){
+#ifdef UNICODE_STRINGS
+  return (float) wcstod(c,0);
+#else
   return (float) atof(c);
+#endif
 }
 inline int ATOI(const Char * c){
+#ifdef UNICODE_STRINGS
+  return _wtoi(c);
+#else
   return atoi(c);
+#endif
 }
 
 #include "skString.inl"

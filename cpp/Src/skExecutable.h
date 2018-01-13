@@ -2,32 +2,33 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skExecutable.h,v 1.19 2001/06/19 14:02:46 sdw Exp $
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+* $Id: skExecutable.h,v 1.22 2001/11/22 11:13:21 sdw Exp $
 */
 
 #ifndef skEXECUTABLE_H
 #define skEXECUTABLE_H
 
-#include "skString.h"
+#include "skiExecutable.h"
 
-class skRValueArray;
-class skRValue;
-class skExecutableIterator;
-
-
-/*
- * this constant is for undefined type primitive objects
- */
-const int UNDEFINED_TYPE=0;
-/*
- * this constant is should be used for the type of any user-defined primitive objects
- */
-const int START_USER_TYPES=10;
 
 /**
- * This class gives an interface for the Interpreter to call into
+ * This class gives a default implementation for the skiExecutable interface.
  */
-class skExecutable
+class CLASSEXPORT skExecutable : public skiExecutable
 { 
  public:
   /**
@@ -40,7 +41,7 @@ class skExecutable
   virtual ~skExecutable();
   
   /**
-   * this method returns the type of the object. By default this is UNDEFINED_TYPE.
+   * this method returns the type of the object at this level this is UNDEFINED_TYPE.
    * Define your own value if you want to check the type of your object at run-time
    */
   virtual int executableType() const;			
@@ -105,9 +106,9 @@ class skExecutable
    */
   virtual bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value);
   /**
-   * This method compares this object with another object. The default implementation checks object pointers.
+   * This method compares this object with another object. This implementation checks object pointers.
    */
-  virtual bool equals(skExecutable * other_object) const;
+  virtual bool equals(const skiExecutable * other_object) const;
   /**
    * This method returns an executable iterator used in foreach statements
    * @param qualifier a value to qualify the iteration by
@@ -130,11 +131,6 @@ class skExecutable
   skExecutable& operator=(const skExecutable& other);
 };
 
-// Some help-defines for method, getValue and setValue
-
-#define IS_METHOD(s,m)		(s==m)
-#define IS_GETVALUE(s,v)	(s==v)
-#define IS_SETVALUE(s,v)	(s==v)
 
 
 #endif
