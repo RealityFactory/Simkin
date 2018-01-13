@@ -1,6 +1,13 @@
 Simkin for C++
 (c)1996-2004 Simon Whiteside
 
+Simkin version 2.23
+-------------------
+Date: 17/12/2004
+
+* allowed for compound statements to contain no statements at all, allowing for blank methods
+* added a "break" statement for loops
+
 Simkin version 2.22
 Date: 18/11/2004
 -------------------

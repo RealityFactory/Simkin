@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skInterpreter.h,v 1.49 2003/04/19 13:22:23 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skInterpreter_8h-source.html,v 1.7 2004/12/17 21:31:15 sdw Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skINTERPRETER_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skINTERPRETER_H</span>
@@ -136,163 +136,170 @@
 00317   skInterpreter(<span class="keyword">const</span> skInterpreter&amp;);
 00321   skInterpreter&amp; operator=(<span class="keyword">const</span> skInterpreter&amp;);
 00322 
-00323 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00324 <span class="preprocessor"></span>
-00335   skExprNode * parseExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);  
-00336 <span class="preprocessor">#else</span>
-00337 <span class="preprocessor"></span>
-00348   skCompiledExprNode * parseExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);  
-00349 <span class="preprocessor">#endif</span>
-00350 <span class="preprocessor"></span>    <span class="comment">// Expression evaluation</span>
-00351   
-00357 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00358 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evaluate(skStackFrame&amp; frame,skExprNode * n);
-00359 <span class="preprocessor">#else</span>
-00360 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evaluate(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc);
-00361 <span class="preprocessor">#endif</span>
-00362 <span class="preprocessor"></span>
-00367 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00368 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evalMethod(skStackFrame&amp; frame,skIdListNode * ids);
-00369 <span class="preprocessor">#else</span>
-00370 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evalMethod(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc);
-00371 <span class="preprocessor">#endif</span>
-00372 <span class="preprocessor"></span>
-00382 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00383 <span class="preprocessor"></span>  <span class="keywordtype">void</span> makeMethodCall(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,skExprNode * array_index, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,skExprListNode * exprs,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
-00384 <span class="preprocessor">#else</span>
-00385 <span class="preprocessor"></span>  <span class="keywordtype">void</span> makeMethodCall(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,<span class="keywordtype">bool</span> has_array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute, <a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
-00386 <span class="preprocessor">#endif</span>
-00387 <span class="preprocessor"></span>  
-00388     <span class="comment">// Statement execution</span>
-00389 
-00395 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00396 <span class="preprocessor"></span>  <span class="keywordtype">void</span> executeAssignStat(skStackFrame&amp; frame,skAssignNode * n);
-00397 <span class="preprocessor">#else</span>
-00398 <span class="preprocessor"></span>  <span class="keywordtype">void</span> executeAssignStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00399 <span class="preprocessor">#endif</span>
-00400 <span class="preprocessor"></span>  
-00401     <span class="comment">// the statements below return true to halt further processing (i.e. a return statement has been encountered)</span>
-00402 
-00410 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00411 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeStats(skStackFrame&amp; frame,skStatListNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00412 <span class="preprocessor">#else</span>
-00413 <span class="preprocessor"></span>
-00423   <span class="keywordtype">bool</span> executeStats(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<span class="keywordtype">int</span>&amp; num_bytes,<span class="keywordtype">bool</span> execute_bytes,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00424 <span class="preprocessor">#endif</span>
-00425 <span class="preprocessor"></span>
-00432 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00433 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeReturnStat(skStackFrame&amp; frame,skReturnNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00434 <span class="preprocessor">#else</span>
-00435 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeReturnStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_expr);
-00436 <span class="preprocessor">#endif</span>
-00437 <span class="preprocessor"></span>
-00445 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00446 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeIfStat(skStackFrame&amp; frame,skIfNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00447 <span class="preprocessor">#else</span>
-00448 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeIfStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_else);
-00449 <span class="preprocessor">#endif</span>
-00450 <span class="preprocessor"></span>
-00458 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00459 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeWhileStat(skStackFrame&amp; frame,skWhileNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00460 <span class="preprocessor">#else</span>
-00461 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeWhileStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00462 <span class="preprocessor">#endif</span>
-00463 <span class="preprocessor"></span>
-00471 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00472 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeSwitchStat(skStackFrame&amp; frame,skSwitchNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00473 <span class="preprocessor">#else</span>
-00474 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeSwitchStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_default);
-00475 <span class="preprocessor">#endif</span>
-00476 <span class="preprocessor"></span>
-00484 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00485 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeForEachStat(skStackFrame&amp; frame,skForEachNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00486 <span class="preprocessor">#else</span>
-00487 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeForEachStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,USize id_index);
-00488 <span class="preprocessor">#endif</span>
-00489 <span class="preprocessor"></span>
-00497 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00498 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeForStat(skStackFrame&amp; frame,skForNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
-00499 <span class="preprocessor">#else</span>
-00500 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> executeForStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_step);
-00501 <span class="preprocessor">#endif</span>
-00502 <span class="preprocessor"></span>
-00503   <span class="comment">// Misc runtime routines</span>
-00504 
-00511   <span class="keywordtype">void</span> addLocalVariable(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; var,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValue.html">skRValue</a> value); 
-00519   <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> checkIndirectId(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name); 
-00528 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00529 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> findValue(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute); 
-00530 <span class="preprocessor">#else</span>
-00531 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> findValue(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a> * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute); 
-00532 <span class="preprocessor">#endif</span>
-00533 <span class="preprocessor"></span>
-00539 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00540 <span class="preprocessor"></span>  <span class="keywordtype">void</span> followIdList(skStackFrame&amp; frame,skIdListNode * idList,<a class="code" href="classskRValue.html">skRValue</a>&amp; object); 
-00541 <span class="preprocessor">#else</span>
-00542 <span class="preprocessor"></span>  <span class="keywordtype">void</span> followIdList(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<span class="keywordtype">int</span> num_ids,<a class="code" href="classskRValue.html">skRValue</a>&amp; object); 
-00543 <span class="preprocessor">#endif</span>
-00544 <span class="preprocessor"></span>
-00545 
-00555 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00556 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractFieldArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; field_name,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
-00557 <span class="preprocessor">#else</span>
-00558 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractFieldArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; field_name,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
-00559 <span class="preprocessor">#endif</span>
-00560 <span class="preprocessor"></span>
-00567 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00568 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
-00569 <span class="preprocessor">#else</span>
-00570 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
-00571 <span class="preprocessor">#endif</span>
-00572 <span class="preprocessor"></span>
-00580   <span class="keywordtype">bool</span> extractValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
-00581 
-00590 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00591 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> insertArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject, skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00592 <span class="preprocessor">#else</span>
-00593 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> insertArrayValue(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00594 <span class="preprocessor">#endif</span>
-00595 <span class="preprocessor"></span>
-00603   <span class="keywordtype">bool</span> insertValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00604 
-00605 <span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-00606 <span class="preprocessor"></span>  <span class="keywordtype">void</span> getIdNode(skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskString.html">skString</a>&amp; id,<span class="keywordtype">bool</span>&amp; has_array,<span class="keywordtype">bool</span>&amp; is_method);
-00607   <span class="keywordtype">void</span> getIdNodes(skCompiledCode&amp; code,USize&amp; pc,<span class="keywordtype">int</span>&amp; num_ids,<a class="code" href="classskString.html">skString</a>&amp; attribute);
-00608 <span class="preprocessor">#endif</span>
-00609 <span class="preprocessor"></span>
-00610   <span class="comment">// Variables</span>
-00612 <span class="comment"></span>  <a class="code" href="classskRValueTable.html">skRValueTable</a> m_GlobalVars; 
-00614   <span class="keywordtype">bool</span> m_Tracing; 
-00616   skTraceCallback * m_TraceCallback; 
-00618   skStatementStepper * m_StatementStepper; <span class="comment">// the statement stepper</span>
-00622 <span class="comment"></span>  <a class="code" href="classskNull.html">skNull</a> m_Null;
-00623 };      
-00624 <span class="comment">//---------------------------------------------------</span>
-00625 <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> skInterpreter::checkIndirectId(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name)
-00626 <span class="comment">//---------------------------------------------------</span>
-00627 {
-00628   <span class="comment">// look for an initial "@" in a field name, and de-reference it if necessary</span>
-00629   <a class="code" href="classskString.html">skString</a> ret=name;
-00630   <span class="keywordflow">if</span> (name.<a class="code" href="classskString.html#a17">at</a>(0)==<span class="charliteral">'@'</span>){
-00631     ret=name.<a class="code" href="classskString.html#a18">substr</a>(1,name.<a class="code" href="classskString.html#a22">length</a>()-1);
-00632     <a class="code" href="classskRValue.html">skRValue</a> new_name=findValue(frame,ret,0,<a class="code" href="classskString.html">skString</a>());
-00633     ret=new_name.<a class="code" href="classskRValue.html#a20">str</a>();
-00634   }
-00635   <span class="keywordflow">return</span> ret;
-00636 }       
-00637 <span class="comment">//---------------------------------------------------</span>
-00638 <span class="keyword">inline</span> <a class="code" href="classskNull.html">skNull</a>&amp; skInterpreter::getNull()
+00325   <span class="keyword">enum</span> StatementReturnCode {SRC_CONTINUE=0,SRC_RETURN=1,SRC_BREAK=2};
+00326 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00327 <span class="preprocessor"></span>
+00338   skExprNode * parseExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);  
+00339 <span class="preprocessor">#else</span>
+00340 <span class="preprocessor"></span>
+00351   skCompiledExprNode * parseExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);  
+00352 <span class="preprocessor">#endif</span>
+00353 <span class="preprocessor"></span>    <span class="comment">// Expression evaluation</span>
+00354   
+00360 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00361 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evaluate(skStackFrame&amp; frame,skExprNode * n);
+00362 <span class="preprocessor">#else</span>
+00363 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evaluate(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc);
+00364 <span class="preprocessor">#endif</span>
+00365 <span class="preprocessor"></span>
+00370 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00371 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evalMethod(skStackFrame&amp; frame,skIdListNode * ids);
+00372 <span class="preprocessor">#else</span>
+00373 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> evalMethod(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc);
+00374 <span class="preprocessor">#endif</span>
+00375 <span class="preprocessor"></span>
+00385 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00386 <span class="preprocessor"></span>  <span class="keywordtype">void</span> makeMethodCall(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,skExprNode * array_index, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,skExprListNode * exprs,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
+00387 <span class="preprocessor">#else</span>
+00388 <span class="preprocessor"></span>  <span class="keywordtype">void</span> makeMethodCall(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,<span class="keywordtype">bool</span> has_array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute, <a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
+00389 <span class="preprocessor">#endif</span>
+00390 <span class="preprocessor"></span>  
+00391     <span class="comment">// Statement execution</span>
+00392 
+00398 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00399 <span class="preprocessor"></span>  <span class="keywordtype">void</span> executeAssignStat(skStackFrame&amp; frame,skAssignNode * n);
+00400 <span class="preprocessor">#else</span>
+00401 <span class="preprocessor"></span>  <span class="keywordtype">void</span> executeAssignStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00402 <span class="preprocessor">#endif</span>
+00403 <span class="preprocessor"></span>  
+00404     <span class="comment">// the statements below return true to halt further processing (i.e. a return statement has been encountered)</span>
+00405 
+00413 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00414 <span class="preprocessor"></span>  StatementReturnCode executeStats(skStackFrame&amp; frame,skStatListNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00415 <span class="preprocessor">#else</span>
+00416 <span class="preprocessor"></span>
+00426   StatementReturnCode executeStats(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<span class="keywordtype">int</span>&amp; num_bytes,<span class="keywordtype">bool</span> execute_bytes,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00427 <span class="preprocessor">#endif</span>
+00428 <span class="preprocessor"></span>
+00435 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00436 <span class="preprocessor"></span>  StatementReturnCode executeReturnStat(skStackFrame&amp; frame,skReturnNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00437 <span class="preprocessor">#else</span>
+00438 <span class="preprocessor"></span>  StatementReturnCode executeReturnStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_expr);
+00439 <span class="preprocessor">#endif</span>
+00440 <span class="preprocessor"></span>
+00447 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00448 <span class="preprocessor"></span>  StatementReturnCode executeBreakStat(skStackFrame&amp; frame,skBreakNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00449 <span class="preprocessor">#else</span>
+00450 <span class="preprocessor"></span>  StatementReturnCode executeBreakStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00451 <span class="preprocessor">#endif</span>
+00452 <span class="preprocessor"></span>
+00460 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00461 <span class="preprocessor"></span>  StatementReturnCode executeIfStat(skStackFrame&amp; frame,skIfNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00462 <span class="preprocessor">#else</span>
+00463 <span class="preprocessor"></span>  StatementReturnCode executeIfStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_else);
+00464 <span class="preprocessor">#endif</span>
+00465 <span class="preprocessor"></span>
+00473 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00474 <span class="preprocessor"></span>  StatementReturnCode executeWhileStat(skStackFrame&amp; frame,skWhileNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00475 <span class="preprocessor">#else</span>
+00476 <span class="preprocessor"></span>  StatementReturnCode executeWhileStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00477 <span class="preprocessor">#endif</span>
+00478 <span class="preprocessor"></span>
+00486 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00487 <span class="preprocessor"></span>  StatementReturnCode executeSwitchStat(skStackFrame&amp; frame,skSwitchNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00488 <span class="preprocessor">#else</span>
+00489 <span class="preprocessor"></span>  StatementReturnCode executeSwitchStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_default);
+00490 <span class="preprocessor">#endif</span>
+00491 <span class="preprocessor"></span>
+00499 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00500 <span class="preprocessor"></span>  StatementReturnCode executeForEachStat(skStackFrame&amp; frame,skForEachNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00501 <span class="preprocessor">#else</span>
+00502 <span class="preprocessor"></span>  StatementReturnCode executeForEachStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,USize id_index);
+00503 <span class="preprocessor">#endif</span>
+00504 <span class="preprocessor"></span>
+00512 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00513 <span class="preprocessor"></span>  StatementReturnCode executeForStat(skStackFrame&amp; frame,skForNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00514 <span class="preprocessor">#else</span>
+00515 <span class="preprocessor"></span>  StatementReturnCode executeForStat(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<span class="keywordtype">bool</span> has_step);
+00516 <span class="preprocessor">#endif</span>
+00517 <span class="preprocessor"></span>
+00518   <span class="comment">// Misc runtime routines</span>
+00519 
+00526   <span class="keywordtype">void</span> addLocalVariable(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; var,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValue.html">skRValue</a> value); 
+00534   <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> checkIndirectId(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name); 
+00543 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00544 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> findValue(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute); 
+00545 <span class="preprocessor">#else</span>
+00546 <span class="preprocessor"></span>  <a class="code" href="classskRValue.html">skRValue</a> findValue(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a> * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute); 
+00547 <span class="preprocessor">#endif</span>
+00548 <span class="preprocessor"></span>
+00554 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00555 <span class="preprocessor"></span>  <span class="keywordtype">void</span> followIdList(skStackFrame&amp; frame,skIdListNode * idList,<a class="code" href="classskRValue.html">skRValue</a>&amp; object); 
+00556 <span class="preprocessor">#else</span>
+00557 <span class="preprocessor"></span>  <span class="keywordtype">void</span> followIdList(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<span class="keywordtype">int</span> num_ids,<a class="code" href="classskRValue.html">skRValue</a>&amp; object); 
+00558 <span class="preprocessor">#endif</span>
+00559 <span class="preprocessor"></span>
+00560 
+00570 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00571 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractFieldArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; field_name,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
+00572 <span class="preprocessor">#else</span>
+00573 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractFieldArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; field_name,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
+00574 <span class="preprocessor">#endif</span>
+00575 <span class="preprocessor"></span>
+00582 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00583 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
+00584 <span class="preprocessor">#else</span>
+00585 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> extractArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
+00586 <span class="preprocessor">#endif</span>
+00587 <span class="preprocessor"></span>
+00595   <span class="keywordtype">bool</span> extractValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
+00596 
+00605 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00606 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> insertArrayValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject, skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00607 <span class="preprocessor">#else</span>
+00608 <span class="preprocessor"></span>  <span class="keywordtype">bool</span> insertArrayValue(skStackFrame&amp; frame,skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00609 <span class="preprocessor">#endif</span>
+00610 <span class="preprocessor"></span>
+00618   <span class="keywordtype">bool</span> insertValue(skStackFrame&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00619 
+00620 <span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+00621 <span class="preprocessor"></span>  <span class="keywordtype">void</span> getIdNode(skCompiledCode&amp; code,USize&amp; pc,<a class="code" href="classskString.html">skString</a>&amp; id,<span class="keywordtype">bool</span>&amp; has_array,<span class="keywordtype">bool</span>&amp; is_method);
+00622   <span class="keywordtype">void</span> getIdNodes(skCompiledCode&amp; code,USize&amp; pc,<span class="keywordtype">int</span>&amp; num_ids,<a class="code" href="classskString.html">skString</a>&amp; attribute);
+00623 <span class="preprocessor">#endif</span>
+00624 <span class="preprocessor"></span>
+00625   <span class="comment">// Variables</span>
+00627 <span class="comment"></span>  <a class="code" href="classskRValueTable.html">skRValueTable</a> m_GlobalVars; 
+00629   <span class="keywordtype">bool</span> m_Tracing; 
+00631   skTraceCallback * m_TraceCallback; 
+00633   skStatementStepper * m_StatementStepper; <span class="comment">// the statement stepper</span>
+00637 <span class="comment"></span>  <a class="code" href="classskNull.html">skNull</a> m_Null;
+00638 };      
 00639 <span class="comment">//---------------------------------------------------</span>
-00640 {
-00641   <span class="keywordflow">return</span> m_Null;
-00642 }
-00643 
-00644 xskNAMED_LITERAL(OnANonObject,skSTR(<span class="stringliteral">" on a non-object\n"</span>));
-00645 
-00646 <span class="preprocessor">#endif</span>
-00647 <span class="preprocessor"></span>
-00648 
-</pre></div><hr><address style="align: right;"><small>Generated on Thu Nov 18 20:31:14 2004 for Simkin C++ for Symbian by
+00640 <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> skInterpreter::checkIndirectId(skStackFrame&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name)
+00641 <span class="comment">//---------------------------------------------------</span>
+00642 {
+00643   <span class="comment">// look for an initial "@" in a field name, and de-reference it if necessary</span>
+00644   <a class="code" href="classskString.html">skString</a> ret=name;
+00645   <span class="keywordflow">if</span> (name.<a class="code" href="classskString.html#a17">at</a>(0)==<span class="charliteral">'@'</span>){
+00646     ret=name.<a class="code" href="classskString.html#a18">substr</a>(1,name.<a class="code" href="classskString.html#a22">length</a>()-1);
+00647     <a class="code" href="classskRValue.html">skRValue</a> new_name=findValue(frame,ret,0,<a class="code" href="classskString.html">skString</a>());
+00648     ret=new_name.<a class="code" href="classskRValue.html#a20">str</a>();
+00649   }
+00650   <span class="keywordflow">return</span> ret;
+00651 }       
+00652 <span class="comment">//---------------------------------------------------</span>
+00653 <span class="keyword">inline</span> <a class="code" href="classskNull.html">skNull</a>&amp; skInterpreter::getNull()
+00654 <span class="comment">//---------------------------------------------------</span>
+00655 {
+00656   <span class="keywordflow">return</span> m_Null;
+00657 }
+00658 
+00659 xskNAMED_LITERAL(OnANonObject,skSTR(<span class="stringliteral">" on a non-object\n"</span>));
+00660 
+00661 <span class="preprocessor">#endif</span>
+00662 <span class="preprocessor"></span>
+00663 
+</pre></div><hr><address style="align: right;"><small>Generated on Fri Dec 17 20:28:26 2004 for Simkin C++ for Symbian by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>
