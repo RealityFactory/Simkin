@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skXMLElementObject.h,v 1.23 2001/05/22 11:57:58 sdw Exp $
+* $Id: skXMLElementObject.h,v 1.24 2001/06/01 10:54:44 sdw Exp $
 */
 
 
@@ -86,7 +86,7 @@ class skXMLElementObject : public skExecutable {
    */
   skString strValue() const;
   /**
-   * sets the value of an item in the element. The first sub-element matching the tag is found. If the value passed is an element, it is first copied. 
+   * sets the value of an item in the element. The first sub-element matching the tag is found. If the value passed is an element, it is first copied. If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present
    * @param name - the name of the element tag to set (null if it's the overall element)
    * @param attribute - the name of the attribute to set (null to set text for the element)
    * @param return_value - the RValue to receive the value
@@ -94,7 +94,7 @@ class skXMLElementObject : public skExecutable {
    */
   bool setValue(const skString& s,const skString& attribute,const skRValue& return_value);
   /**
-   * Sets a value within the nth element of the XML element. 
+   * Sets a value within the nth element of the XML element. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present.
    * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
    * @param attribute - the attribute name to set (may be blank)
    * @param value - the value to be set
@@ -104,6 +104,7 @@ class skXMLElementObject : public skExecutable {
   /**
    * Retrieves a field from the XML. The first sub-element matching the tag is found. The value returned is an XMLElementObject, unless the attrib value is specified. It also supports the following built-in field:
    * <P> "nodename" - returns the tag name of this element
+   * <p>If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present.
    * @param name - the tag name containing the data
    * @param attrib - the attribute name to retrieve
    * @param return_value -  the RValue to containing the value to be set
@@ -112,7 +113,7 @@ class skXMLElementObject : public skExecutable {
   bool getValue(const skString& s,const skString& attribute,skRValue& return_value);
   /**
    * Retrieves the nth value from within the element. If the array index falls within the range of the number of children of this element, 
-   * a new XMLElementObject encapsulating the child is returned. 
+   * a new XMLElementObject encapsulating the child is returned. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present
    */
   bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
@@ -207,11 +208,19 @@ class skXMLElementObject : public skExecutable {
    */
   virtual void setElement(DOM_Element element);
   /**
-   * This method creates a new XML Element object to wrap an element. Override this for special behaviour in derived classes
+   * This method creates a new XML Element object to wrap an element. Override this for special behaviour in derived classes. In this method, the newly created object inherits this object's m_AddIfNotPresent flag
    * @param location the location of this element
    * @param element the DOM element to associate with the object
    */
   virtual skXMLElementObject * createXMLElementObject(const skString& location,DOM_Element element);
+  /** sets the flag controlling whether new elements are created as they are accessed
+   * @param enable enables this feature (which by default is disabled)
+   */
+  virtual void setAddIfNotPresent(bool enable);
+  /** this returns the value of the flag controlling whether new elements are created as they are accessed 
+   * @return true if the feature is enabled, otherwise false (the default)
+   */
+  virtual bool getAddIfNotPresent();
   /**
    * the location that the XML document came from
    */
@@ -233,6 +242,12 @@ class skXMLElementObject : public skExecutable {
    * Executables can't be copied
    */
   skXMLElementObject& operator=(const skXMLElementObject&);
+  /**
+   * this variable controls whether new items are added to this element if they are not found, by default it is false,
+   but can be modified using the setAddIfNotPresent() method
+  */
+  bool m_AddIfNotPresent;
+
 };
 
 #endif

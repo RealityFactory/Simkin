@@ -1,6 +1,6 @@
 /**
 	Interpreter implementation class
-	$Id: skInterpreterp.h,v 1.16 2001/05/22 10:56:38 sdw Exp $
+	$Id: skInterpreterp.h,v 1.18 2001/05/29 16:11:48 sdw Exp $
 	Copyright 1996-2001
 	Simon Whiteside
 */
@@ -32,7 +32,7 @@ class P_Interpreter
   
     skRValue evaluate(skExecutable * obj,skRValueTable& var,skExprNode * n);
     skRValue evalMethod(skExecutable * obj,skRValueTable& var,skIdListNode * ids);
-    void makeMethodCall(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& method_name,skExprNode * array_index, skExprListNode * exprs,skRValue& ret);
+    void makeMethodCall(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& method_name,skExprNode * array_index, const skString& attribute,skExprListNode * exprs,skRValue& ret);
 
     // Statement execution
 
@@ -51,11 +51,22 @@ class P_Interpreter
 
     void addLocalVariable(skRValueTable& var,const skString& name,skRValue value); // adds a local variable to the current list
     skString checkIndirectId(skExecutable * obj,skRValueTable& var,const skString& name); // checks whether a field name includes the indirection character
-    skRValue findValue(skExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attribute); // tries to find a the value of the named variable
+    // tries to find a the value of the named variable
+    skRValue findValue(skExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attribute); 
     void runtimeError(const char * buffer,...); // creates and throws a skRuntimeException
     void followIdList(skExecutable * obj,skRValueTable& var,skIdListNode * idList,skRValue& object); // follows a dotted list of id's
-    bool extractValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name,skExprNode * array_index,const skString& attrib,skRValue& ret) ;
-    bool insertValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name, skExprNode * array_index,const skString& attr,const skRValue& value);
+
+    // extracts a value of the form foo[1] - first dereferencing foo
+    bool extractFieldArrayValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret);
+    // extracts a value of the form robject[1] - assumes robject is already a collection object
+    bool extractArrayValue(skExecutable * obj,skRValueTable& var,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) ;
+    // extracts an instance variable with the given name
+    bool extractValue(skRValue& robject,const skString& name,const skString& attrib,skRValue& ret) ;
+    
+    // wrapper around setValueAt
+    bool insertArrayValue(skExecutable * obj,skRValueTable& var,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value);
+    // wrapper around setValue
+    bool insertValue(skRValue& robject,const skString& name, const skString& attr,const skRValue& value);
 
     // Variables
     skRValueTable m_GlobalVars; // the global variables

@@ -1,6 +1,14 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.08
+-------------------
+
+* bug fix in array index operator for cases a=foo[0] and foo[0]=a
+* bug fix in methods plus attributes, foo():attr will now behave correctly
+* bug fix in skXMLElementObject - nodes from other documents are now *imported* rather than *cloned*
+* added AddIfNotPresent feature to skXMLElementObject: this means that elements that are references but do not exist can be added on the fly (by default the feature is disabled)
+
 Simkin Version 2.07
 Date: 22nd May 2001
 -------------------

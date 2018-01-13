@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObject.cpp,v 1.22 2001/05/22 12:24:10 sdw Exp $
+  $Id: skXMLElementObject.cpp,v 1.24 2001/06/01 10:54:44 sdw Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -30,12 +30,14 @@ skXMLElementObject::skXMLElementObject(const skString& scriptLocation,DOM_Elemen
   m_ScriptLocation=scriptLocation;
   m_Element=elem;
   m_MethodCache=0;
+  m_AddIfNotPresent=false;
 }
 //------------------------------------------
 skXMLElementObject::skXMLElementObject()
   //------------------------------------------
 {
   m_MethodCache=0;
+  m_AddIfNotPresent=false;
 }
 //------------------------------------------
 skXMLElementObject::~skXMLElementObject()
@@ -107,9 +109,14 @@ bool skXMLElementObject::setValueAt(const skRValue& array_index,const skString& 
   int index=array_index.intValue();
   DOM_Element child=m_Element;
   child=findChild(m_Element,index);
-  if (child.isNull())
-    bRet=false;
-  else{
+  if (child.isNull()){
+    if (m_AddIfNotPresent){
+      child=m_Element.getOwnerDocument().createElement(fromString("array_element"));
+      m_Element.appendChild(child);
+    }else
+      bRet=false;
+  }
+  if (child.isNull()==false){
     if (otherIsXML)
       ((skXMLElementObject *)other)->copyItemsInto(child);
     else
@@ -137,9 +144,14 @@ bool skXMLElementObject::setValue(const skString& name,const skString& attrib,co
   DOM_Element child=m_Element;
   if (name.length()>0)
     child=findChild(m_Element,name);
-  if (child.isNull())
-    bRet=false;
-  else{
+  if (child.isNull()){
+    if (m_AddIfNotPresent){
+      child=m_Element.getOwnerDocument().createElement(fromString(name));
+      m_Element.appendChild(child);
+    }else
+      bRet=false;
+  }
+  if (child.isNull()==false){
     if (otherIsXML)
       ((skXMLElementObject *)other)->copyItemsInto(child);
     else
@@ -165,13 +177,17 @@ void skXMLElementObject::copyItemsInto(DOM_Element other)
     for (int i=0;i<numNodes;i++)
       other.removeChild(theNodes.item(i));
   }
+  bool bSameOwner = m_Element.getOwnerDocument() == other.getOwnerDocument();
   if (m_Element.isNull()==false){
     // now copy our nodes in
     nodes=m_Element.getChildNodes();
     if (nodes.getLength()>0){
       int numNodes=nodes.getLength();
       for (int i=0;i<numNodes;i++)
-	other.appendChild(nodes.item(i).cloneNode(true));
+	if (bSameOwner)
+	  other.appendChild(nodes.item(i).cloneNode(true));
+	else
+	  other.appendChild(other.getOwnerDocument().importNode(nodes.item(i),true));	
     }
   }
 }
@@ -188,9 +204,14 @@ bool skXMLElementObject::getValueAt(const skRValue& array_index,const skString& 
   bool bRet=true;
   int index=array_index.intValue();
   DOM_Element child=findChild(m_Element,index);
-  if (child.isNull())
-    bRet=false;
-  if (bRet==true){
+  if (child.isNull()){
+    if (m_AddIfNotPresent){
+      child=m_Element.getOwnerDocument().createElement(fromString("array_element"));
+      m_Element.appendChild(child);
+    }else
+      bRet=false;
+  }
+  if (child.isNull()==false){
     if (attribute.length()==0)
       value=skRValue(createXMLElementObject(m_ScriptLocation+"["+skString::from(index)+"]",child),true);
     else{
@@ -206,7 +227,9 @@ bool skXMLElementObject::getValueAt(const skRValue& array_index,const skString& 
 skXMLElementObject * skXMLElementObject::createXMLElementObject(const skString& location,DOM_Element element)
 //------------------------------------------
 {
-  return new skXMLElementObject(location,element);
+  skXMLElementObject * obj= new skXMLElementObject(location,element);
+  obj->setAddIfNotPresent(getAddIfNotPresent());
+  return obj;
 }
 //------------------------------------------
 bool skXMLElementObject::getValue(const skString& name,const skString& attrib,skRValue& v) 
@@ -221,10 +244,15 @@ bool skXMLElementObject::getValue(const skString& name,const skString& attrib,sk
   }else{
     if (name.length()>0){
       child=findChild(m_Element,name);
-      if (child.isNull())
-	bRet=false;
+      if (child.isNull()){
+	if (m_AddIfNotPresent){
+	  child=m_Element.getOwnerDocument().createElement(fromString(name));
+	  m_Element.appendChild(child);
+	}else
+	  bRet=false;
+      }
     }
-    if (bRet==true){
+    if (child.isNull()==false){
       if (attrib.length()==0)
 	v=skRValue(createXMLElementObject(m_ScriptLocation+":"+name,child),true);
       else{
@@ -514,4 +542,16 @@ skString skXMLElementObject::getLocation() const
   //------------------------------------------
 {
   return m_ScriptLocation;
+}
+//------------------------------------------
+void skXMLElementObject::setAddIfNotPresent(bool enable)
+//------------------------------------------
+{
+  m_AddIfNotPresent=enable;
+}
+//------------------------------------------
+bool skXMLElementObject::getAddIfNotPresent()
+//------------------------------------------
+{
+  return m_AddIfNotPresent;
 }

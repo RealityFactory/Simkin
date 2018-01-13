@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skInterpreter.cpp,v 1.32 2001/05/22 10:56:38 sdw Exp $
+  $Id: skInterpreter.cpp,v 1.35 2001/05/29 16:11:48 sdw Exp $
 */
 
 #include "skInterpreter.h"
@@ -156,17 +156,20 @@ void P_Interpreter::followIdList(skExecutable * obj,skRValueTable& var,skIdListN
     object=findValue(obj,var,name,idNode->m_ArrayIndex,g_BlankString);
   else{
     skRValue caller(obj);
-    makeMethodCall(obj,var,caller,name,idNode->m_ArrayIndex,idNode->m_Exprs,object);
+    makeMethodCall(obj,var,caller,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,object);
   }
   for (unsigned int i=1;i<idList->m_Ids.entries()-1;i++){
     idNode=idList->m_Ids[i];
     name=idNode->m_Id;
     //    skTracer::trace("followIdList: %d: %s\n",i,(const char *)name);
     skRValue result;
-    if (idNode->m_Exprs==0)
-      extractValue(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,result);
-    else
-      makeMethodCall(obj,var,object,name,idNode->m_ArrayIndex,idNode->m_Exprs,result);
+    if (idNode->m_Exprs==0){
+      if (idNode->m_ArrayIndex)
+	extractFieldArrayValue(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,result);
+      else
+	extractValue(object,name,g_BlankString,result);
+    }else
+      makeMethodCall(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,result);
     object=result;
   }
 }
@@ -179,17 +182,17 @@ skRValue  P_Interpreter::evalMethod(skExecutable * obj,skRValueTable& var,skIdLi
   skString method_name=idNode->m_Id;
   if (ids->numIds()==1){
     skRValue caller(obj);
-    makeMethodCall(obj,var,caller,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,ret);
+    makeMethodCall(obj,var,caller,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,ret);
   }else{
     // follow the chain of Id's and then call the method
     skRValue robject;
     followIdList(obj,var,ids,robject);
-    makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,ret);
+    makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,ret);
   }
   return ret;
 }
 //---------------------------------------------------
-void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& method_name,skExprNode * array_index,skExprListNode * exprs,skRValue& ret)
+void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& method_name,skExprNode * array_index,const skString& attribute, skExprListNode * exprs,skRValue& ret)
   //---------------------------------------------------
 {
   skString checked_method_name=checkIndirectId(obj,var,method_name);
@@ -205,13 +208,18 @@ void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValueTable& var,skRVal
     bool bRet=robject.obj()->method(checked_method_name,args,ret);	
     if (bRet==false)
       runtimeError("Method %s not found\n",(const char *)checked_method_name);
+    // case foo()[i]
     if (array_index){
-      if (ret.type()==skRValue::T_Object){
-	skRValue rExpr=evaluate(obj,var,array_index);
-	skExecutable * result_object=ret.obj();
-	bRet=result_object->getValueAt(rExpr,g_BlankString,ret);
-      }else
-	runtimeError("Cannot call array index on a non-object\n");
+      skRValue array_value;
+      bRet=extractArrayValue(obj,var,ret,array_index,attribute,array_value);
+      ret=array_value;
+    }else{
+      // case foo():attr
+      if (attribute.length()){
+	skRValue attr_value;
+	bRet=extractValue(ret,g_BlankString,attribute,attr_value);
+	ret=attr_value;
+      }
     }
   }else{
     runtimeError("Cannot call Method %s on a non-object\n",(const char *)checked_method_name);
@@ -290,9 +298,12 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
     else if (valueName==s_null)
       r=skRValue(&skInterpreter::g_Null);
     else if (valueName==s_self){
-      if (attrib.length()){
+      if (attrib.length() || array_index){
 	skRValue caller(obj);
-	extractValue(obj,var,caller,g_BlankString,array_index,attrib,r);
+	if (array_index){
+	  extractArrayValue(obj,var,caller,array_index,attrib,r);
+	}else
+	  extractValue(caller,g_BlankString,attrib,r);
       }else
 	r=obj;
     }else{
@@ -302,23 +313,35 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
       pvalue=var.value(&valueName);
       if (pvalue){
 	r=*pvalue;
-	if (attrib.length()){
+	if (attrib.length() || array_index){
 	  skRValue result;
-	  extractValue(obj,var,r,g_BlankString,array_index,attrib,result);
+	  if (array_index){
+	    extractArrayValue(obj,var,r,array_index,attrib,result);
+	  }else
+	    extractValue(r,g_BlankString,attrib,result);
 	  r=result;
 	}
       }else{
 	// then in the instance fields
 	skRValue caller(obj);
-	if (obj==0 || extractValue(obj,var,caller,valueName,array_index,attrib,r)==false){
+	bool found=false;
+	if (array_index)
+	  found=extractFieldArrayValue(obj,var,caller,valueName,array_index,attrib,r);
+	else
+	  found=extractValue(caller,valueName,attrib,r);
+	if (found==false){
 	  // and finally in the global variables
 	  pvalue=m_GlobalVars.value(&valueName);
 	  if (pvalue){
 	    r=*pvalue;
-	    if (attrib.length()){
+	    if (attrib.length() || array_index){
 	      skRValue result;
-	      extractValue(obj,var,r,g_BlankString,array_index,attrib,result);
-	      r=result;
+	      if (array_index){
+		extractArrayValue(obj,var,r,array_index,attrib,result);
+		r=result;
+	      }else
+		extractValue(r,g_BlankString,attrib,result);
+		r=result;
 	    }
 	  }else
 	    runtimeError("Field %s not found\n",(const char *)valueName);
@@ -329,22 +352,37 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
   return r;
 }
 //---------------------------------------------------
-bool P_Interpreter:: extractValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name,skExprNode * array_index,const skString& attrib,skRValue& ret) 
+bool P_Interpreter::extractFieldArrayValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret) 
+  //---------------------------------------------------
+{
+  skRValue array_field;
+  bool found=extractValue(robject,field_name,g_BlankString,array_field);
+  if (found){
+    extractArrayValue(obj,var,array_field,array_index,attrib,ret);
+  }
+  return found;
+}
+//---------------------------------------------------
+bool P_Interpreter::extractArrayValue(skExecutable * obj,skRValueTable& var,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) 
   //---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
-    //    skTracer::trace("Extracting %s:%s\n",(const char *)name,(const char *)attrib);
-    if (array_index){
-      found=robject.obj()->getValue(name,g_BlankString,ret);
-      if (ret.type()==skRValue::T_Object){
-	skExecutable * result=ret.obj();
-	skRValue rExpr=evaluate(obj,var,array_index);
-	found=result->getValueAt(rExpr,attrib,ret);
-      }else
-	runtimeError("Cannot apply an array index to a  non-object\n");
-    }else
-      found=robject.obj()->getValue(name,attrib,ret);
+    skRValue rExpr=evaluate(obj,var,array_index);
+    found=robject.obj()->getValueAt(rExpr,attrib,ret);
+    if (found==false)
+      runtimeError("Cannot get an array member\n");
+  }else
+    runtimeError("Cannot get an array member from a non-object\n");
+  return found;
+}
+//---------------------------------------------------
+bool P_Interpreter::extractValue(skRValue& obj,const skString& name,const skString& attrib,skRValue& ret) 
+  //---------------------------------------------------
+{
+  bool found=false;
+  if (obj.type()==skRValue::T_Object){
+      found=obj.obj()->getValue(name,attrib,ret);
   }else
     runtimeError("Cannot get field %s from a non-object\n",(const char *)name);
   return found;
@@ -361,15 +399,24 @@ void P_Interpreter::executeAssignStat(skExecutable * obj,skRValueTable& var,skAs
     bool inserted=false;
     if (obj!=0){
       skRValue caller(obj);
-      if (field_name==s_self)
-	inserted=insertValue(obj,var,caller,g_BlankString,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
-      else{
-	if (n->m_Ids->m_Attribute.length()==0)
-	  inserted=insertValue(obj,var,caller,field_name,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
-	else{
-	  // e.g. "field:name"
+      if (field_name==s_self){
+	if (idNode->m_ArrayIndex)
+	  inserted=insertArrayValue(obj,var,caller,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+	else
+	  inserted=insertValue(caller,g_BlankString,n->m_Ids->m_Attribute,value);
+      }else{
+	if (idNode->m_ArrayIndex){
 	  caller=findValue(obj,var,field_name,0,g_BlankString);
-	  inserted=insertValue(obj,var,caller,g_BlankString,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+	  inserted=insertArrayValue(obj,var,caller,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+	}else{
+	  if (n->m_Ids->m_Attribute.length()>0){
+	    // e.g. "field:name"
+	    caller=findValue(obj,var,field_name,0,g_BlankString);
+	    inserted=insertValue(caller,g_BlankString,n->m_Ids->m_Attribute,value);
+	    if (inserted==false)
+	      runtimeError("Setting attribute %s on %s failed\n",(const char *)n->m_Ids->m_Attribute,(const char *)field_name);
+	  }else
+	    inserted=insertValue(caller,field_name,n->m_Ids->m_Attribute,value);
 	}
       }
     }
@@ -380,28 +427,38 @@ void P_Interpreter::executeAssignStat(skExecutable * obj,skRValueTable& var,skAs
     // otherwise follow the id's to the penultimate one
     skRValue robject;
     followIdList(obj,var,n->m_Ids,robject);
-    insertValue(obj,var,robject,field_name,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+    if (idNode->m_ArrayIndex){
+      skRValue array_field;
+      if (extractValue(robject,field_name,g_BlankString,array_field)){
+	  insertArrayValue(obj,var,array_field,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+      }else{
+	runtimeError("Cannot find field %s\n",(const char *)field_name);
+      }
+    }else
+      insertValue(robject,field_name,n->m_Ids->m_Attribute,value);
   }
 }
 //---------------------------------------------------
-bool P_Interpreter::insertValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name, skExprNode * array_index,const skString& attr,const skRValue& value)
+bool P_Interpreter::insertArrayValue(skExecutable * obj,skRValueTable& var,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value)
   //---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
-    if (array_index){
-      skRValue ret;
-      found=robject.obj()->getValue(name,g_BlankString,ret);
-      if (found){
-	if (ret.type()==skRValue::T_Object){
-	  skRValue rExpr=evaluate(obj,var,array_index);
-	  found=ret.obj()->setValueAt(rExpr,attr,value);
-	}else
-	  runtimeError("Cannot set an array member on a non-object\n");
-      }else
-	runtimeError("Cannot find field %s\n",(const char *)name);
-    }else
-      found=robject.obj()->setValue(name,attr,value);
+    skRValue rExpr=evaluate(obj,var,array_index);
+    found=robject.obj()->setValueAt(rExpr,attr,value);
+    if (found==false)
+      runtimeError("Setting array member failed\n");
+  }else
+    runtimeError("Cannot set an array member on a non-object\n");
+  return found;
+}
+//---------------------------------------------------
+bool P_Interpreter::insertValue(skRValue& robject,const skString& name, const skString& attr,const skRValue& value)
+  //---------------------------------------------------
+{
+  bool found=false;
+  if (robject.type()==skRValue::T_Object){
+    found=robject.obj()->setValue(name,attr,value);
   }else
     runtimeError("Cannot set field %s on a non-object\n",(const char *)name);
   return found;
@@ -513,15 +570,22 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	r=findValue(obj,var,method_name,idNode->m_ArrayIndex,ids->m_Attribute);
       else{
 	skRValue caller(obj);
-	makeMethodCall(obj,var,caller,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,r);
+	makeMethodCall(obj,var,caller,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
       }
     }else{
       skRValue robject;
       followIdList(obj,var,ids,robject);
-      if (idNode->m_Exprs==0)
-	extractValue(obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,r);
-      else
-	makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,r);
+      if (idNode->m_Exprs==0){
+	if (idNode->m_ArrayIndex){
+	  skRValue array_field;
+	  if (extractValue(robject,method_name,g_BlankString,array_field))
+	    extractArrayValue(obj,var,array_field,idNode->m_ArrayIndex,ids->m_Attribute,r);
+	  else
+	    runtimeError("Cannot get field %s\n",(const char *)method_name);
+	}else
+	  extractValue(robject,method_name,ids->m_Attribute,r);
+      }else
+	makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
     }
     break;
   }

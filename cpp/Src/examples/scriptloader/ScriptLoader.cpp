@@ -28,11 +28,26 @@ public:
   }
   bool getValue(const skString& field_name,const skString& attribute,skRValue& value){
     cout << "skTest::getValue field_name=" << field_name << " attribute=" << attribute << "\n";
-    return skExecutable::getValue(field_name,attribute,value);
+    cout.flush();
+    return true;
   }
   bool setValue(const skString& field_name,const skString& attribute,const skRValue& value){
     cout << "skTest::setValue field_name=" << field_name << " attribute=" << attribute << "\n";
-    return skExecutable::setValue(field_name,attribute,value);
+    cout.flush();
+    return true;
+  }
+  bool setValueAt(const skRValue& array_index, const skString& attribute,const skRValue& value)
+  {
+    cout << "skTest::setValueAt array_index=" << array_index.str() << " attribute=" << attribute << " value=" << value.str() << "\n";
+    cout.flush();
+    return true;
+  }
+
+  bool getValueAt(const skRValue& array_index, const skString& attribute, skRValue& value)
+  {
+    cout << "skTest::getValueAt array_index=" << array_index.str() << " attribute=" << attribute << "\n";
+    cout.flush();
+    return true;
   }
   bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value){
     cout << "skTest::method method_name=" << method_name << "\n";
