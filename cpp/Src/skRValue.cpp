@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skRValue.cpp,v 1.14 2002/02/21 20:47:45 sdw Exp $
+  $Id: skRValue.cpp,v 1.16 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #ifdef STREAMS_ENABLED
 #include <ostream.h>
@@ -43,7 +43,7 @@ skRValue::~skRValue()
     m_Value.m_ObjectRef->m_RefCount--;
     if (m_Value.m_ObjectRef->m_RefCount==0){
       if (m_Value.m_ObjectRef->m_Created)
-	delete m_Value.m_ObjectRef->m_Object;
+	      delete m_Value.m_ObjectRef->m_Object;
       delete m_Value.m_ObjectRef;	
     }	
   }	
@@ -74,16 +74,16 @@ skRValue::skRValue(const skRValue& v)
 }
 //------------------------------------------
 skRValue& skRValue::operator=(const skRValue& v)
-  //------------------------------------------
+//------------------------------------------
 {
   if (&v!=this){
     if (m_Type==T_Object){
       m_Value.m_ObjectRef->m_RefCount--;
       if (m_Value.m_ObjectRef->m_RefCount==0){
-	if (m_Value.m_ObjectRef->m_Created)
-	  delete m_Value.m_ObjectRef->m_Object;
-	delete m_Value.m_ObjectRef;	
-	m_Value.m_ObjectRef=0;
+        if (m_Value.m_ObjectRef->m_Created)
+          delete m_Value.m_ObjectRef->m_Object;
+        delete m_Value.m_ObjectRef;	
+	      m_Value.m_ObjectRef=0;
       }	
     }
     m_Type=v.m_Type;

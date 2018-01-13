@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.h,v 1.7 2002/12/13 17:21:54 sdw Exp $
+* $Id: skElement.h,v 1.9 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #ifndef skELEMENT_H
 #define skELEMENT_H
@@ -86,13 +86,11 @@ class CLASSEXPORT skElement : public skNode
    * @return a string containing this element
    */
   virtual skString toString() const;
-#ifdef STREAMS_ENABLED
   /**
-   * Writes this element, its attributes and children to the given stream.
-   * @param out - the stream to write to
+   * Writes this element, its attributes and children to the given destination.
+   * @param out - the destination to write to
    */
-  virtual void write(ostream& out) const;
-#endif
+  virtual void write(skOutputDestination& out) const;
  protected:
   /** this method finds a named attribute */
   skAttribute * findAttribute(const skString& name) const;

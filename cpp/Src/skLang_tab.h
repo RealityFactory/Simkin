@@ -12,6 +12,7 @@ typedef union{
   skIdNode * idNode;
   skString * string;
   skMethodDefNode * methodDef;
+  skParseNode * parseNode;
 } YYSTYPE;
 
 #ifndef YYLTYPE

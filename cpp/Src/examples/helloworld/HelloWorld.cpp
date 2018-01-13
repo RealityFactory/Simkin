@@ -19,6 +19,7 @@
 #include "skInterpreter.h"
 #include "skElementExecutable.h"
 #include "skRValueArray.h"
+#include "skInputSource.h"
 
 /**
  * This example shows the simplest possible application which just prints "Hello World"
@@ -37,7 +38,7 @@ void main(){
   skExecutableContext ctxt(&i);
 
   // create an XMLExecutable object with the xml string
-  skElementExecutable executable("Hello World",g_XML,ctxt);
+  skElementExecutable executable("Hello World",skInputString(g_XML),ctxt);
 
   // call the "main" method
   skRValueArray args;

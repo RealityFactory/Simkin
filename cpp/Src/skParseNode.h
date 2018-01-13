@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
- * $Id: skParseNode.h,v 1.27 2002/12/13 17:21:54 sdw Exp $
+ * $Id: skParseNode.h,v 1.29 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #ifndef PARSENODE_H
@@ -57,6 +57,7 @@ static const int s_ForEach=32;
 static const int s_LessEqual=33;
 static const int s_MoreEqual=34;
 static const int s_For=35;
+static const int s_MethodDef=36;
 
 /**
  * This is the base class for Simkin parse nodes
@@ -515,6 +516,9 @@ class  skMethodDefNode : public skParseNode {
   inline void clear(){
     m_Stats=0;
     m_Params=0;
+  }
+  inline int getType(){
+    return s_MethodDef;
   }
  private:
   skMethodDefNode(const skMethodDefNode& ) : skParseNode(0){

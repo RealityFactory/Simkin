@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,10 +16,10 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTextNode.cpp,v 1.5 2002/12/13 17:21:54 sdw Exp $
+* $Id: skTextNode.cpp,v 1.7 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #include "skTextNode.h"
-
+#include "skOutputDestination.h"
 //------------------------------------------
 skTextNode::skTextNode(const skString& text)
 //------------------------------------------
@@ -50,14 +50,12 @@ skNode * skTextNode::clone()
 {
   return new skTextNode(m_Text);
 }
-#ifdef STREAMS_ENABLED
 //------------------------------------------
-void skTextNode::write(ostream& out) const
+void skTextNode::write(skOutputDestination& out) const
 //------------------------------------------
 {
-  out << escapeXMLDelimiters(m_Text);
+  out.write(escapeXMLDelimiters(m_Text));
 }
-#endif
 //------------------------------------------
 skString skTextNode::toString() const
 //------------------------------------------

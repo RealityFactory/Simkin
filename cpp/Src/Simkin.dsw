@@ -36,6 +36,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Demo_MSXML"=.\examples\demo_msxml\Demo_MSXML.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin_MSXML
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "Demo_XML"=.\examples\demo_xml\Demo_XML.dsp - Package Owner=<4>
 
 Package=<5>
@@ -118,6 +133,21 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name expat_1_95_5
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoader_MSXML"=.\examples\scriptloader\ScriptLoader_MSXML.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin_MSXML
     End Project Dependency
 }}}
 
@@ -215,6 +245,18 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name expat_1_95_5
     End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Simkin_MSXML"=.\Simkin_MSXML.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
 }}}
 
 ###############################################################################

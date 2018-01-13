@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,10 +16,10 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skCDataNode.cpp,v 1.4 2002/12/13 17:21:54 sdw Exp $
+* $Id: skCDataNode.cpp,v 1.6 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #include "skCDataNode.h"
-
+#include "skOutputDestination.h"
 //------------------------------------------
 skCDataNode::skCDataNode(const skString& text)
 //------------------------------------------
@@ -38,11 +38,11 @@ skNode * skCDataNode::clone()
 {
   return new skCDataNode(m_Text);
 }
-#ifdef STREAMS_ENABLED
 //------------------------------------------
-void skCDataNode::write(ostream& out) const
+void skCDataNode::write(skOutputDestination& out) const
 //------------------------------------------
 {
-  out << "![CDATA[" << m_Text << "!]]";
+  out.write(skSTR("![CDATA["));
+  out.write(m_Text);
+  out.write(skSTR("!]]"));
 }
-#endif

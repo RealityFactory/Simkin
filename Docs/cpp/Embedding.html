@@ -14,13 +14,19 @@ is usually done at the beginning of your application:
 <BR> 
 <PRE>void main()
 {
- skInterpreter::setInterpreter(new skInterpreter);
+ // Set up global interpreter
+ skInterpreter interpreter;
+ // set up an executable context
+ skExecutableContext ctxt(&interpreter);
+
 
 // application code ....
 
-// remember to delete the interpreter at the end of everything
- delete skInterpreter::getInterpreter();
- skInterpreter::setInterpreter(0);
+ // e.g. call an entry point
+
+ skRValueArray args;
+ skRValue return_value;
+ obj.method("init",args,return_value,ctxt);
 }</PRE>
 
 <P><BR>To expose fields and methods in your C++ classes you derive from

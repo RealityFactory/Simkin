@@ -93,6 +93,10 @@ SOURCE=.\skExecutable.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skExecutableContext.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skExecutableIterator.cpp
 # End Source File
 # Begin Source File
@@ -114,6 +118,10 @@ SOURCE=.\skParser.cpp
 # Begin Source File
 
 SOURCE=.\skRValue.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.cpp
 # End Source File
 # Begin Source File
 

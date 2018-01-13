@@ -101,6 +101,10 @@ SOURCE=.\skExecutable.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skExecutableContext.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skExecutableIterator.cpp
 # End Source File
 # Begin Source File
@@ -122,6 +126,10 @@ SOURCE=.\skParser.cpp
 # Begin Source File
 
 SOURCE=.\skRValue.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.cpp
 # End Source File
 # Begin Source File
 
@@ -159,6 +167,14 @@ SOURCE=.\skXMLExecutable.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\skExecutableContext.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 

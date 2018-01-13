@@ -30,28 +30,38 @@
 <tr><td>&nbsp;</td><td><font size=-1><em>this function parses and executes script with externally declared parameters which is assumed to belong to the object passed in.</em> <a href="#a3"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a4">executeParseTree</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskMethodDefNode.html">skMethodDefNode</a> *parseTree, <a class="el" href="classskRValueArray.html">skRValueArray</a> &amp;args, <a class="el" href="classskRValue.html">skRValue</a> &amp;return_value, <a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;ctxt)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>this function executes some script that has already been parsed into a parse tree.</em> <a href="#a4"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a5">addGlobalVariable</a> (const <a class="el" href="classskString.html">skString</a> &amp;name, <a class="el" href="classskRValue.html">skRValue</a> value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>this method adds a global variable to the list held by this interpreter.</em> <a href="#a5"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a6">removeGlobalVariable</a> (const <a class="el" href="classskString.html">skString</a> &amp;name)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>this method removes a global variable from the list held by this interpreter</em> <a href="#a6"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a7">findGlobalVariable</a> (const <a class="el" href="classskString.html">skString</a> &amp;name, <a class="el" href="classskRValue.html">skRValue</a> &amp;return_value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>this method finds the value of a global variable by name</em> <a href="#a7"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a8">setValue</a> (const <a class="el" href="classskString.html">skString</a> &amp;s, const <a class="el" href="classskString.html">skString</a> &amp;attribute, const <a class="el" href="classskRValue.html">skRValue</a> &amp;v)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>this method is used to set the Tracing variable in the interpreter.</em> <a href="#a8"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a9">trace</a> (const <a class="el" href="classskString.html">skString</a> &amp;msg)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>output a message to the current trace output</em> <a href="#a9"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a10">setTraceCallback</a> (<a class="el" href="classskTraceCallback.html">skTraceCallback</a> *callback)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>this method sets an object to receive trace messages.</em> <a href="#a10"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a11">setStatementStepper</a> (<a class="el" href="classskStatementStepper.html">skStatementStepper</a> *stepper)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>this method sets an object to be called each time a statement is executed.</em> <a href="#a11"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a12" doxytag="skInterpreter::runtimeError"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a12">runtimeError</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, const <a class="el" href="classskString.html">skString</a> &amp;msg)</td></tr>
+<tr><td nowrap align=right valign=top>skExprNode *&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a5">parseExpression</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, const <a class="el" href="classskString.html">skString</a> &amp;expression, <a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;ctxt)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this function parses the script in the code variable and returns a parse tree if there are no syntax errors.</em> <a href="#a5"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a6">evaluateExpression</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, const <a class="el" href="classskString.html">skString</a> &amp;expression, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;vars, <a class="el" href="classskRValue.html">skRValue</a> &amp;return_value, <a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;ctxt)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this function parses and evaluates an expression within the given context</em> <a href="#a6"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a7">evaluateExpression</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, skExprNode *expression, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;vars, <a class="el" href="classskRValue.html">skRValue</a> &amp;return_value, <a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;ctxt)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this function parses and evaluates an expression within the given context</em> <a href="#a7"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a8">addGlobalVariable</a> (const <a class="el" href="classskString.html">skString</a> &amp;name, <a class="el" href="classskRValue.html">skRValue</a> value)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method adds a global variable to the list held by this interpreter.</em> <a href="#a8"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a9">removeGlobalVariable</a> (const <a class="el" href="classskString.html">skString</a> &amp;name)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method removes a global variable from the list held by this interpreter</em> <a href="#a9"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a10">findGlobalVariable</a> (const <a class="el" href="classskString.html">skString</a> &amp;name, <a class="el" href="classskRValue.html">skRValue</a> &amp;return_value)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method finds the value of a global variable by name</em> <a href="#a10"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>const <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a11">getGlobalVariables</a> () const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method returns the table of global variables</em> <a href="#a11"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a12">setValue</a> (const <a class="el" href="classskString.html">skString</a> &amp;s, const <a class="el" href="classskString.html">skString</a> &amp;attribute, const <a class="el" href="classskRValue.html">skRValue</a> &amp;v)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method is used to set the Tracing variable in the interpreter.</em> <a href="#a12"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a13">method</a> (const <a class="el" href="classskString.html">skString</a> &amp;method_name, <a class="el" href="classskRValueArray.html">skRValueArray</a> &amp;arguments, <a class="el" href="classskRValue.html">skRValue</a> &amp;return_value, <a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;ctxt)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Requests that the object execute the given method.</em> <a href="#a13"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a14">trace</a> (const <a class="el" href="classskString.html">skString</a> &amp;msg)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>output a message to the current trace output</em> <a href="#a14"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a15">setTraceCallback</a> (<a class="el" href="classskTraceCallback.html">skTraceCallback</a> *callback)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method sets an object to receive trace messages.</em> <a href="#a15"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a16">setStatementStepper</a> (<a class="el" href="classskStatementStepper.html">skStatementStepper</a> *stepper)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method sets an object to be called each time a statement is executed.</em> <a href="#a16"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a17" doxytag="skInterpreter::runtimeError"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a17">runtimeError</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;ctxt, const <a class="el" href="classskString.html">skString</a> &amp;msg)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>creates and throws a <a class="el" href="classskRuntimeException.html">skRuntimeException</a></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a13" doxytag="skInterpreter::skInterpreter"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a13">skInterpreter</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a name="a18" doxytag="skInterpreter::skInterpreter"></a>
+&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a18">skInterpreter</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Constructor - adds the interpreter as a global variable with the name "Interpreter".</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a14" doxytag="skInterpreter::~skInterpreter"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a14">~skInterpreter</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a name="a19" doxytag="skInterpreter::~skInterpreter"></a>
+&nbsp;</td><td valign=bottom><a class="el" href="classskInterpreter.html#a19">~skInterpreter</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Destructor - deletes the global variable list.</em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Public Attributes</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="m0" doxytag="skInterpreter::pimp"></a>
@@ -68,7 +78,7 @@ This class parses and executes Simkin script, and holds a list of global variabl
 There is one global Interpreter object which you should set up at the start, although others can also be created. 
 <p>
 <hr><h2>Member Function Documentation</h2>
-<a name="a5" doxytag="skInterpreter::addGlobalVariable"></a><p>
+<a name="a8" doxytag="skInterpreter::addGlobalVariable"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -109,6 +119,167 @@ If the variable already has a value, it is replaced with the new one <dl compact
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>name</em>&nbsp;</td><td>- the name of the global variable </td></tr>
     <tr><td valign=top><em>value</em>&nbsp;</td><td>- the value of the global variable, which can be any RValue </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a name="a7" doxytag="skInterpreter::evaluateExpression"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> void skInterpreter::evaluateExpression </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>location</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>skExprNode *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>vars</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskRValue.html">skRValue</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>return_value</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>ctxt</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+this function parses and evaluates an expression within the given context
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>location</em>&nbsp;</td><td>- a textual description of the location of the expression (this appears in error messages) </td></tr>
+    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the executable object which "owns" the expression </td></tr>
+    <tr><td valign=top><em>vars</em>&nbsp;</td><td>- a table of local variables defined for the expression </td></tr>
+    <tr><td valign=top><em>expression</em>&nbsp;</td><td>- a single Simkin expression in a parse tree created by parseExpression </td></tr>
+    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the expression </td></tr>
+    <tr><td valign=top><em>parseTree</em>&nbsp;</td><td>- if you supply this pointer, the parse tree is assigned to it, and you must delete it yourself. Without the parameter the parse tree will be deleted by the interpreter. The parse tree can be used in a cache and passed to executeParseTree later. </td></tr>
+    <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>skParseException</em>&nbsp;</td><td>- if a syntax error is encountered </td></tr>
+    <tr><td valign=top><em>skRuntimeException</em>&nbsp;</td><td>- if an error occurs while the expression is evaluated </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a name="a6" doxytag="skInterpreter::evaluateExpression"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> void skInterpreter::evaluateExpression </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>location</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>vars</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskRValue.html">skRValue</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>return_value</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>ctxt</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+this function parses and evaluates an expression within the given context
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>location</em>&nbsp;</td><td>- a textual description of the location of the expression (this appears in error messages) </td></tr>
+    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the executable object which "owns" the expression </td></tr>
+    <tr><td valign=top><em>vars</em>&nbsp;</td><td>- a table of local variables defined for the expression </td></tr>
+    <tr><td valign=top><em>expression</em>&nbsp;</td><td>- a single Simkin expression </td></tr>
+    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the expression </td></tr>
+    <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>skParseException</em>&nbsp;</td><td>- if a syntax error is encountered </td></tr>
+    <tr><td valign=top><em>skRuntimeException</em>&nbsp;</td><td>- if an error occurs while the expression is evaluated </td></tr>
   </table>
 </dl>
     </td>
@@ -182,7 +353,7 @@ this function executes some script that has already been parsed into a parse tre
     <tr><td valign=top><em>parseTree</em>&nbsp;</td><td>- a parse tree that has been generated by one of the parse or execute functions of the Interpreter </td></tr>
     <tr><td valign=top><em>args</em>&nbsp;</td><td>- an array of arguments to the function, which are passed as parameters to the script </td></tr>
     <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
-    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the method call </td></tr>
+    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the script </td></tr>
   </table>
 </dl>
 <dl compact><dt><b>Exceptions:</b></dt><dd>
@@ -266,7 +437,7 @@ this function parses and executes script which is assumed to belong to the objec
     <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the executable object which "owns" the script </td></tr>
     <tr><td valign=top><em>args</em>&nbsp;</td><td>- an array of arguments to the function, which are passed as parameters to the script </td></tr>
     <tr><td valign=top><em>code</em>&nbsp;</td><td>- a string of Simkin script, including parameter declarations </td></tr>
-    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the method call </td></tr>
+    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the script </td></tr>
     <tr><td valign=top><em>parseTree</em>&nbsp;</td><td>- if you supply this pointer, the parse tree is assigned to it, and you must delete it yourself. Without the parameter the parse tree will be deleted by the interpreter. The parse tree can be used in a cache and passed to executeParseTree later. </td></tr>
     <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
   </table>
@@ -360,7 +531,7 @@ this function parses and executes script with externally declared parameters whi
     <tr><td valign=top><em>paramNames</em>&nbsp;</td><td>- a list of parameter names (hence the name "ExternalParams" </td></tr>
     <tr><td valign=top><em>args</em>&nbsp;</td><td>- an array of arguments to the function, which are passed as parameters to the script </td></tr>
     <tr><td valign=top><em>code</em>&nbsp;</td><td>- a string of Simkin script, which does *not* include parameter declarations </td></tr>
-    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the method call </td></tr>
+    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an RValue which receives the result of the script </td></tr>
     <tr><td valign=top><em>parseTree</em>&nbsp;</td><td>- if you supply this pointer, the parse tree is assigned to it, and you must delete it yourself. Without the parameter the parse tree will be deleted by the interpreter. The parse tree can be used in a cache and passed to executeParseTree later. </td></tr>
     <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
   </table>
@@ -374,7 +545,7 @@ this function parses and executes script with externally declared parameters whi
     </td>
   </tr>
 </table>
-<a name="a7" doxytag="skInterpreter::findGlobalVariable"></a><p>
+<a name="a10" doxytag="skInterpreter::findGlobalVariable"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -418,6 +589,159 @@ this method finds the value of a global variable by name
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the variable was found, otherwise false </dd></dl>
+    </td>
+  </tr>
+</table>
+<a name="a11" doxytag="skInterpreter::getGlobalVariables"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> const <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp; skInterpreter::getGlobalVariables </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap> const</td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+this method returns the table of global variables
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>a hashtable of global variables mapping name to object </dd></dl>
+    </td>
+  </tr>
+</table>
+<a name="a13" doxytag="skInterpreter::method"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> bool skInterpreter::method </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>method_name</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskRValueArray.html">skRValueArray</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>arguments</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskRValue.html">skRValue</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>return_value</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>ctxt</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [virtual]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Requests that the object execute the given method.
+<p>
+Methods supported: breakpoint - breaks to the debugger (if present) <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>method_name</em>&nbsp;</td><td>- the name of the method to execute </td></tr>
+    <tr><td valign=top><em>arguments</em>&nbsp;</td><td>- an array of RValue objects, which are the arguments to the method </td></tr>
+    <tr><td valign=top><em>return_value</em>&nbsp;</td><td>- an object to receive the return value of the method </td></tr>
+    <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>true if the method could be executed, or false if the method is not supported </dd></dl>
+
+<p>
+Reimplemented from <a class="el" href="classskExecutable.html#a12">skExecutable</a>.    </td>
+  </tr>
+</table>
+<a name="a5" doxytag="skInterpreter::parseExpression"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skExprNode * skInterpreter::parseExpression </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>location</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>ctxt</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+this function parses the script in the code variable and returns a parse tree if there are no syntax errors.
+<p>
+If there are syntax errors the function throws an <a class="el" href="classskParseException.html">skParseException</a> object <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>location</em>&nbsp;</td><td>- a string describing where this code is located, this will appear in any error messages </td></tr>
+    <tr><td valign=top><em>expression</em>&nbsp;</td><td>- a single Simkin expression </td></tr>
+    <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>returns a parse tree, if the syntax was valid. The caller must free this tree. </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>skParseException</em>&nbsp;</td><td>- if a syntax error is encountered </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -546,7 +870,7 @@ If there are syntax errors the function throws an <a class="el" href="classskPar
     </td>
   </tr>
 </table>
-<a name="a6" doxytag="skInterpreter::removeGlobalVariable"></a><p>
+<a name="a9" doxytag="skInterpreter::removeGlobalVariable"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -582,7 +906,7 @@ this method removes a global variable from the list held by this interpreter
     </td>
   </tr>
 </table>
-<a name="a11" doxytag="skInterpreter::setStatementStepper"></a><p>
+<a name="a16" doxytag="skInterpreter::setStatementStepper"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -618,7 +942,7 @@ this method sets an object to be called each time a statement is executed.
     </td>
   </tr>
 </table>
-<a name="a10" doxytag="skInterpreter::setTraceCallback"></a><p>
+<a name="a15" doxytag="skInterpreter::setTraceCallback"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -654,7 +978,7 @@ Pass 0 to fall back to standard mechanism (using skTracer) <dl compact><dt><b>Pa
     </td>
   </tr>
 </table>
-<a name="a8" doxytag="skInterpreter::setValue"></a><p>
+<a name="a12" doxytag="skInterpreter::setValue"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -702,7 +1026,7 @@ This will show method calls as the script is executed In Simkin call Interpreter
 Reimplemented from <a class="el" href="classskExecutable.html#a8">skExecutable</a>.    </td>
   </tr>
 </table>
-<a name="a9" doxytag="skInterpreter::trace"></a><p>
+<a name="a14" doxytag="skInterpreter::trace"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -740,7 +1064,7 @@ output a message to the current trace output
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skInterpreter_8h-source.html">skInterpreter.h</a><li>skInterpreter.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:12 2002 for Simkin by
+<hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:39 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

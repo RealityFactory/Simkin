@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,11 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementExecutable.cpp,v 1.9 2002/12/13 17:28:15 sdw Exp $
+* $Id: skElementExecutable.cpp,v 1.13 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #include "skElementExecutable.h"
 #include "skExpatParser.h"
+#include "skInputSource.h"
+#include "skOutputDestination.h"
 #ifdef STREAMS_ENABLED
 #include <fstream.h>
 #else
@@ -31,16 +33,8 @@ skElementExecutable::skElementExecutable()
 //------------------------------------------
 {
 }
-#ifdef STREAMS_ENABLED
 //------------------------------------------
-skElementExecutable::skElementExecutable(const skString& scriptLocation,istream& in)
-//------------------------------------------
-{
-  load(scriptLocation,in);
-}
-#endif
-//------------------------------------------
-skElementExecutable::skElementExecutable(const skString& scriptLocation,const skString& in,skExecutableContext& context)
+skElementExecutable::skElementExecutable(const skString& scriptLocation,skInputSource& in,skExecutableContext& context)
 //------------------------------------------
 {
   load(scriptLocation,in,context);
@@ -52,7 +46,7 @@ skElementExecutable::skElementExecutable(const skString& fileName,skExecutableCo
   load(fileName,context);
 }
 //------------------------------------------
-void skElementExecutable::load(const skString& scriptLocation,const skString& in,skExecutableContext& context)
+void skElementExecutable::load(const skString& scriptLocation,skInputSource& in,skExecutableContext& context)
 //------------------------------------------
 {
   m_ScriptLocation=scriptLocation;
@@ -60,48 +54,25 @@ void skElementExecutable::load(const skString& scriptLocation,const skString& in
   skElement * elem=parser.parse(in,context);
   setElement(elem);
 }
-#ifdef STREAMS_ENABLED
-//------------------------------------------
-void skElementExecutable::load(const skString& scriptLocation,istream& in) 
-//------------------------------------------
-{
-  m_ScriptLocation=scriptLocation;
-  skExpatParser parser;
-  skElement * elem=parser.parse(in);
-  setElement(elem);
-}
-#endif
 //------------------------------------------
 void skElementExecutable::load(const skString& fileName,skExecutableContext& context)
 //------------------------------------------
 {
-#ifdef STREAMS_ENABLED
-  ifstream in (fileName);
-  load(fileName,in);
-#else
-  skString text=skString::readFromFile(fileName);
-	load(fileName,text,context);
-#endif
+  skInputFile in(fileName);
+  load(fileName,in,context);
 }
-#ifdef STREAMS_ENABLED
 //------------------------------------------
-void skElementExecutable::save(ostream& out) 
+void skElementExecutable::save(skOutputDestination& out) 
 //------------------------------------------
 {
-  out << *getElement();
+  getElement()->write(out);
 }
-#endif
 //------------------------------------------
 void skElementExecutable::save(const skString& fileName) 
 //------------------------------------------
 {
-#ifdef STREAMS_ENABLED
-  ofstream out(fileName);
+  skOutputFile out(fileName);
   save(out);
-#else
-  skString text=m_Element->toString();
-  text.writeToFile(fileName);
-#endif
 }
 //------------------------------------------
 skElementExecutable::skElementExecutable(const skElementExecutable& other)

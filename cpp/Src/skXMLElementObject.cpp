@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElementObject.cpp,v 1.37 2002/12/13 17:21:54 sdw Exp $
+  $Id: skXMLElementObject.cpp,v 1.40 2003/01/23 15:30:55 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -40,6 +40,8 @@ xskLITERAL(true);
 ostream& operator<<(ostream& target, const DOMString& toWrite);
 skLITERAL(function);
 skLITERAL(name);
+static Char c_colon=':';
+static skString s_colon=skSTR(":");
 
 //------------------------------------------
 skXMLElementObject::skXMLElementObject(const skString& scriptLocation,DOM_Element elem)
@@ -267,7 +269,7 @@ bool skXMLElementObject::getValue(const skString& name,const skString& attrib,sk
     }
     if (child.isNull()==false){
       if (attrib.length()==0)
-        v=skRValue(createXMLElementObject(m_ScriptLocation+":"+name,child),true);
+        v=skRValue(createXMLElementObject(m_ScriptLocation+s_colon+name,child),true);
       else{
         DOMString attrName=fromString(attrib);
         DOMString attrValue=child.getAttribute(attrName);
@@ -369,6 +371,41 @@ DOM_Element skXMLElementObject::findChild(DOM_Element parent,const skString& tag
   return ret;
 }
 //------------------------------------------
+skString skXMLElementObject::getSource(const skString& location)
+//------------------------------------------
+{
+  skString src;
+  if (m_Element.isNull()==false){
+    // extract the object name
+    int index=location.indexOfLast(c_colon);
+    skString name=location;
+    if (index!=-1)
+      name=location.substr(index+1);
+    DOM_Element node=findChild(m_Element,s_function,s_name,name);
+    if (node.isNull()==false)
+      src=getData(node);
+  }
+  return src;
+}
+//------------------------------------------
+void skXMLElementObject::getInstanceVariables(skRValueTable& table)
+//------------------------------------------
+{
+  if (m_Element.isNull()==false){
+    DOM_NodeList nodes=m_Element.getChildNodes();
+    for (unsigned int i=0;i<nodes.getLength();i++){
+      DOM_Node node=nodes.item(i);
+      int type=node.getNodeType();
+      if (type==DOM_Node::ELEMENT_NODE){
+	      DOM_Element element=*(DOM_Element *)&node;
+        skString name=toString(element.getNodeName());
+        table.insertKeyAndValue(new skString(name),
+                    new skRValue(new skXMLElementObject(name,element)));
+      }
+    }
+  }
+}
+//------------------------------------------
 DOM_Element skXMLElementObject::findChild(DOM_Element parent,const skString& tagname,const skString& attribute,const skString& value)
   //------------------------------------------
 {
@@ -453,7 +490,7 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
 	        skStringTokenizer tokenizer(params,", ");
 	        while (tokenizer.hasMoreTokens())
 	          paramList.append(tokenizer.nextToken());
-	        ctxt.m_Interpreter->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
+	        ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
 	        if (methNode){
 	          if (m_MethodCache==0)
 	            m_MethodCache=new skMethodTable();
@@ -462,7 +499,7 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
         }else
 	        bRet=skExecutable::method(s,args,ret,ctxt);
       }else{	
-        ctxt.m_Interpreter->executeParseTree(location,this,methNode,args,ret,ctxt);
+        ctxt.getInterpreter()->executeParseTree(location,this,methNode,args,ret,ctxt);
         bRet=true;
       }
     }else

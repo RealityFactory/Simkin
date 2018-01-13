@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skRValue.h,v 1.15 2002/12/13 17:21:54 sdw Exp $
+* $Id: skRValue.h,v 1.17 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #ifndef skRVALUE_H
 #define skRVALUE_H
@@ -35,7 +35,7 @@ class CLASSEXPORT  skRValue
   /**
    * An RValue has a value of one of these types: Executable object, String, integer, float or character
    */
-  enum RType { T_Object,T_String,T_Int,T_Float,T_Char,T_Bool };
+  enum RType { T_Object,T_String,T_Int,T_Float,T_Char,T_Bool, NUM_RTYPES };
    
   /**
    * Default Constructor - creates a blank string object

@@ -21,9 +21,9 @@
   This file provides Windows-specific event handling
 
 
-  $Id: Demo_Win32.cpp,v 1.1 2002/12/16 14:53:18 sdw Exp $
+  $Id: Demo_Win32.cpp,v 1.3 2002/12/20 16:02:23 sdw Exp $
 */
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32_WCE)
 #include "skString.h"
 #include <windows.h>
 
@@ -52,10 +52,14 @@ int ProcessEventLoop()
 {
 	MSG msg;
 	while (GetMessage (&msg, NULL, 0, 0)){
+#ifndef _WIN32_WCE
 		if (g_MainWindow==0 || IsDialogMessage(g_MainWindow,&msg)==FALSE){
-			TranslateMessage (&msg) ;
+#endif
+      TranslateMessage (&msg) ;
 			DispatchMessage (&msg) ;
+#ifndef _WIN32_WCE
 		}
+#endif
 	}
 	return 0;
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreter.cpp,v 1.55 2002/12/13 17:21:54 sdw Exp $
+  $Id: skInterpreter.cpp,v 1.61 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #include "skInterpreter.h"
@@ -32,7 +32,7 @@
 #include "skParser.h"
 #include "skTraceCallback.h"
 #include "skStatementStepper.h"
-
+#include "skStackFrame.h"
 
 skLITERAL(true);
 skLITERAL(false);
@@ -41,6 +41,7 @@ skLITERAL(self);
 skLITERAL(tracing);
 skLITERAL(Interpreter);
 skLITERAL(debugBreak);
+skLITERAL(breakpoint);
 
 
 //skInterpreter * P_Interpreter::g_GlobalInterpreter;	//	used by client
@@ -82,56 +83,56 @@ skInterpreter::~skInterpreter()
   delete pimp;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skStatNode * pstat,skRValue& r)
+bool P_Interpreter::executeStat(skStackFrame& frame,skStatNode * pstat,skRValue& r)
   //---------------------------------------------------
 {
   bool stop=false;
-  ctxt.m_LineNum=pstat->m_LineNum;
+  frame.setLineNum(pstat->m_LineNum);
   int stat_type=pstat->getType();
   if (m_StatementStepper)
-    stop=(m_StatementStepper->statementExecuted(ctxt.m_Location,ctxt.m_LineNum,obj,var,stat_type)==false);
+    stop=(m_StatementStepper->statementExecuted(frame,stat_type)==false);
   if (stop==false)
     switch(stat_type){
     case s_If:
-      stop=executeIfStat(ctxt,obj,var,(skIfNode*)pstat,r);break;
+      stop=executeIfStat(frame,(skIfNode*)pstat,r);break;
     case s_While:
-      stop=executeWhileStat(ctxt,obj,var,(skWhileNode*)pstat,r);break;
+      stop=executeWhileStat(frame,(skWhileNode*)pstat,r);break;
     case s_Return:
-      stop=executeReturnStat(ctxt,obj,var,(skReturnNode*)pstat,r);break;
+      stop=executeReturnStat(frame,(skReturnNode*)pstat,r);break;
     case s_Assign:
-      executeAssignStat(ctxt,obj,var,(skAssignNode*)pstat);break;
+      executeAssignStat(frame,(skAssignNode*)pstat);break;
     case s_Method:
-      r=evalMethod(ctxt,obj,var,((skMethodStatNode*)pstat)->m_Ids);break;
+      r=evalMethod(frame,((skMethodStatNode*)pstat)->m_Ids);break;
     case s_Switch:
-      stop=executeSwitchStat(ctxt,obj,var,(skSwitchNode*)pstat,r);break;
+      stop=executeSwitchStat(frame,(skSwitchNode*)pstat,r);break;
     case s_ForEach:
-      stop=executeForEachStat(ctxt,obj,var,(skForEachNode*)pstat,r);break;
+      stop=executeForEachStat(frame,(skForEachNode*)pstat,r);break;
     case s_For:
-      stop=executeForStat(ctxt,obj,var,(skForNode*)pstat,r);break;
+      stop=executeForStat(frame,(skForNode*)pstat,r);break;
     }
   return stop;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeStats(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skStatListNode * n,skRValue& r)
+bool P_Interpreter::executeStats(skStackFrame& frame,skStatListNode * n,skRValue& r)
   //---------------------------------------------------
 {
   bool bRet=false;
   if (n){
-    if (m_StatementStepper)
-      bRet=(m_StatementStepper->compoundStatementExecuted(ctxt.m_Location,ctxt.m_LineNum,obj,var)==false);
     if (bRet==false){
       skStatListIterator iter(n->m_Stats);
       skStatNode * node=0;
       while ((node=iter())!=0){
 #ifndef EXCEPTIONS_DEFINED
-        if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+        if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
           break;
 #endif
-        bRet=executeStat(ctxt,obj,var,node,r);
+        bRet=executeStat(frame,node,r);
         // break out if stop has been passed back
         if (bRet)
           break;
       }
+      if (m_StatementStepper)
+        bRet=(m_StatementStepper->compoundStatementExecuted(frame)==false);
     }
   }
   return bRet;
@@ -174,8 +175,14 @@ void skInterpreter::removeGlobalVariable(const skString& s)
 {
   pimp->m_GlobalVars.del(&s);
 }
+//------------------------------------------
+const skRValueTable& skInterpreter::getGlobalVariables() const
+  //------------------------------------------
+{
+  return pimp->m_GlobalVars;
+}
 //---------------------------------------------------
-void P_Interpreter::followIdList(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skIdListNode * idList,skRValue& object)
+void P_Interpreter::followIdList(skStackFrame& frame,skIdListNode * idList,skRValue& object)
   //---------------------------------------------------
 {
   // skip down the id.id.id list, resolving each as we go along, we exclude the final id in the list
@@ -183,14 +190,14 @@ void P_Interpreter::followIdList(skContext& ctxt,skiExecutable * obj,skRValueTab
   skString name=idNode->m_Id;
   //  trace("followIdList: %s - %d ids\n",(const char *)name,idList->m_Ids.entries());
   if (idNode->m_Exprs==0)
-    object=findValue(ctxt,obj,var,name,idNode->m_ArrayIndex,g_BlankString);
+    object=findValue(frame,name,idNode->m_ArrayIndex,g_BlankString);
   else{
-    skRValue caller(obj);
-    makeMethodCall(ctxt,obj,var,caller,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,object);
+    skRValue caller(frame.getObject());
+    makeMethodCall(frame,caller,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,object);
   }
   for (unsigned int i=1;i<idList->m_Ids.entries()-1;i++){
 #ifndef EXCEPTIONS_DEFINED
-    if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+    if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
         break;
 #endif
     idNode=idList->m_Ids[i];
@@ -199,163 +206,163 @@ void P_Interpreter::followIdList(skContext& ctxt,skiExecutable * obj,skRValueTab
     skRValue result;
     if (idNode->m_Exprs==0){
       if (idNode->m_ArrayIndex)
-        extractFieldArrayValue(ctxt,obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,result);
+        extractFieldArrayValue(frame,object,name,idNode->m_ArrayIndex,g_BlankString,result);
       else
-        if (extractValue(ctxt,object,name,g_BlankString,result)==false)
-          runtimeError(ctxt,skString(skSTR("Cannot get field "))+name+skSTR("\n"));
+        if (extractValue(frame,object,name,g_BlankString,result)==false)
+          runtimeError(frame,skString(skSTR("Cannot get field "))+name+skSTR("\n"));
     }else
-      makeMethodCall(ctxt,obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,result);
+      makeMethodCall(frame,object,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,result);
     object=result;
   }
 }
 //---------------------------------------------------
-skRValue  P_Interpreter::evalMethod(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skIdListNode * ids)
+skRValue  P_Interpreter::evalMethod(skStackFrame& frame,skIdListNode * ids)
   //---------------------------------------------------
 {
   skRValue ret;
   skIdNode * idNode=ids->getLastId();
   skString method_name=idNode->m_Id;
   if (ids->numIds()==1){
-    skRValue caller(obj);
-    makeMethodCall(ctxt,obj,var,caller,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,ret);
+    skRValue caller(frame.getObject());
+    makeMethodCall(frame,caller,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,ret);
   }else{
     // follow the chain of Id's and then call the method
     skRValue robject;
-    followIdList(ctxt,obj,var,ids,robject);
-    makeMethodCall(ctxt,obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,ret);
+    followIdList(frame,ids,robject);
+    makeMethodCall(frame,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,ret);
   }
   return ret;
 }
 //---------------------------------------------------
-void  P_Interpreter::makeMethodCall(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject,const skString& method_name,skExprNode * array_index,const skString& attribute, skExprListNode * exprs,skRValue& ret)
+void  P_Interpreter::makeMethodCall(skStackFrame& frame,skRValue& robject,const skString& method_name,skExprNode * array_index,const skString& attribute, skExprListNode * exprs,skRValue& ret)
   //---------------------------------------------------
 {
-  skString checked_method_name=checkIndirectId(ctxt,obj,var,method_name);
+  skString checked_method_name=checkIndirectId(frame,method_name);
   if (robject.type()==skRValue::T_Object){
     skRValueArray args;
     skExprListIterator iter(exprs->m_Exprs);
     skExprNode * expr=0;
     while ((expr=iter())!=0){
 #ifndef EXCEPTIONS_DEFINED
-      if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+      if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
           break;
 #endif
-      args.append(evaluate(ctxt,obj,var,expr));
+      args.append(evaluate(frame,expr));
     }
 #ifndef EXCEPTIONS_DEFINED
-    if (ctxt.m_Context.m_Error.getErrorCode()==skScriptError::NONE){
+    if (frame.getContext().getError().getErrorCode()==skScriptError::NONE){
 #endif
       if (m_Tracing)
-        trace(ctxt.m_Location+skSTR(":")+skString::from(ctxt.m_LineNum)+skSTR(": ")+checked_method_name+skSTR("()\n"));
+        trace(frame.getLocation()+skSTR(":")+skString::from(frame.getLineNum())+skSTR(": ")+checked_method_name+skSTR("()\n"));
       // call to this object
-      bool bRet=robject.obj()->method(checked_method_name,args,ret,ctxt.m_Context);
+      bool bRet=robject.obj()->method(checked_method_name,args,ret,frame.getContext());
       if (bRet==false)
-        runtimeError(ctxt,skString(skSTR("Method "))+ checked_method_name+skSTR(" not found\n"));
+        runtimeError(frame,skString(skSTR("Method "))+ checked_method_name+skSTR(" not found\n"));
       // case foo()[i]
       if (array_index){
         skRValue array_value;
-        bRet=extractArrayValue(ctxt,obj,var,ret,array_index,attribute,array_value);
+        bRet=extractArrayValue(frame,ret,array_index,attribute,array_value);
         ret=array_value;
       }else{
         // case foo():attr
         if (attribute.length()){
           skRValue attr_value;
-          bRet=extractValue(ctxt,ret,g_BlankString,attribute,attr_value);
+          bRet=extractValue(frame,ret,g_BlankString,attribute,attr_value);
           ret=attr_value;
         }
       }
     }else{
-      runtimeError(ctxt,skString(skSTR("Cannot call Method "))+checked_method_name+skSTR(" on a non-object\n"));
+      runtimeError(frame,skString(skSTR("Cannot call Method "))+checked_method_name+skSTR(" on a non-object\n"));
     }
 #ifndef EXCEPTIONS_DEFINED
   }
 #endif
 }
 //---------------------------------------------------
-bool P_Interpreter::executeReturnStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skReturnNode * n,skRValue& r)
+bool P_Interpreter::executeReturnStat(skStackFrame& frame,skReturnNode * n,skRValue& r)
   //---------------------------------------------------
 {
-  r=evaluate(ctxt,obj,var,n->m_Expr);
+  r=evaluate(frame,n->m_Expr);
   return true;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeWhileStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skWhileNode * n,skRValue& r)
+bool P_Interpreter::executeWhileStat(skStackFrame& frame,skWhileNode * n,skRValue& r)
   //---------------------------------------------------
 {
   bool bRet=false;
   while(bRet==false){
 #ifndef EXCEPTIONS_DEFINED
-    if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+    if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
         break;
 #endif
-    skRValue rExpr=evaluate(ctxt,obj,var,n->m_Expr);
+    skRValue rExpr=evaluate(frame,n->m_Expr);
     if (rExpr.boolValue()){
       if (n->m_Stats)
-        bRet=executeStats(ctxt,obj,var,n->m_Stats,r);
+        bRet=executeStats(frame,n->m_Stats,r);
     }else
       break;
   }
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeIfStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skIfNode * n,skRValue& r)
+bool P_Interpreter::executeIfStat(skStackFrame& frame,skIfNode * n,skRValue& r)
   //---------------------------------------------------
 {
   bool bRet=false;
-  skRValue rExpr=evaluate(ctxt,obj,var,n->m_Expr);
+  skRValue rExpr=evaluate(frame,n->m_Expr);
 #ifndef EXCEPTIONS_DEFINED
-  if (ctxt.m_Context.m_Error.getErrorCode()==skScriptError::NONE){
+  if (frame.getContext().getError().getErrorCode()==skScriptError::NONE){
 #endif
     if (rExpr.boolValue()){
       if (n->m_Stats)
-        bRet=executeStats(ctxt,obj,var,n->m_Stats,r);
+        bRet=executeStats(frame,n->m_Stats,r);
     }else
       if (n->m_Else)		
-        bRet=executeStats(ctxt,obj,var,n->m_Else,r);
+        bRet=executeStats(frame,n->m_Else,r);
 #ifndef EXCEPTIONS_DEFINED
   }
 #endif
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeSwitchStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skSwitchNode * n,skRValue& r)
+bool P_Interpreter::executeSwitchStat(skStackFrame& frame,skSwitchNode * n,skRValue& r)
   //---------------------------------------------------
 {
   bool bRet=false;
-  skRValue expr=evaluate(ctxt,obj,var,n->m_Expr);
+  skRValue expr=evaluate(frame,n->m_Expr);
   skCaseNode * caseFound=0;
   skCaseListIterator iter(n->m_Cases->m_Cases);
   skCaseNode * caseNode=0;
   while ((caseNode=iter())!=0){
 #ifndef EXCEPTIONS_DEFINED
-    if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+    if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
         break;
 #endif
-    skRValue testExpr=evaluate(ctxt,obj,var,caseNode->m_Expr);
+    skRValue testExpr=evaluate(frame,caseNode->m_Expr);
     if (testExpr==expr){
       caseFound=caseNode;
       break;
     }
   }
 #ifndef EXCEPTIONS_DEFINED
-  if (ctxt.m_Context.m_Error.getErrorCode()==skScriptError::NONE){
+  if (frame.getContext().getError().getErrorCode()==skScriptError::NONE){
 #endif
     if (caseFound!=0)
-      bRet=executeStats(ctxt,obj,var,caseFound->m_Stats,r);
+      bRet=executeStats(frame,caseFound->m_Stats,r);
     else if (n->m_Default!=0)
-      bRet=executeStats(ctxt,obj,var,n->m_Default,r);
+      bRet=executeStats(frame,n->m_Default,r);
 #ifndef EXCEPTIONS_DEFINED
   }
 #endif
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeForEachStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skForEachNode * n,skRValue& r)
+bool P_Interpreter::executeForEachStat(skStackFrame& frame,skForEachNode * n,skRValue& r)
   //---------------------------------------------------
 {
   bool bRet=false;
-  skString checked_id=checkIndirectId(ctxt,obj,var,n->m_Id);
-  skRValue expr=evaluate(ctxt,obj,var,n->m_Expr);
+  skString checked_id=checkIndirectId(frame,n->m_Id);
+  skRValue expr=evaluate(frame,n->m_Expr);
   if (expr.type()==skRValue::T_Object){
     skExecutableIterator * iterator=0;
     if (n->m_Qualifier.length())
@@ -366,34 +373,34 @@ bool P_Interpreter::executeForEachStat(skContext& ctxt,skiExecutable * obj,skRVa
       skRValue value;
       while ((iterator->next(value) && bRet==false)){
 #ifndef EXCEPTIONS_DEFINED
-        if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+        if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
             break;
 #endif
-        addLocalVariable(var,checked_id,value);
+        addLocalVariable(frame.getVars(),checked_id,value);
         if (n->m_Stats){
-          bRet=executeStats(ctxt,obj,var,n->m_Stats,r);
+          bRet=executeStats(frame,n->m_Stats,r);
         }
       }
       delete iterator;
     }else
-      runtimeError(ctxt,skSTR("Object could not create an iterator, in a foreach statement\n"));
+      runtimeError(frame,skSTR("Object could not create an iterator, in a foreach statement\n"));
   }else
-    runtimeError(ctxt,skSTR("Cannot apply foreach to a non-executable object\n"));
+    runtimeError(frame,skSTR("Cannot apply foreach to a non-executable object\n"));
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeForStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skForNode * n,skRValue& r)
+bool P_Interpreter::executeForStat(skStackFrame& frame,skForNode * n,skRValue& r)
   //---------------------------------------------------
 {
   bool bRet=false;
-  skString checked_id=checkIndirectId(ctxt,obj,var,n->m_Id);
-  skRValue start_expr=evaluate(ctxt,obj,var,n->m_StartExpr);
+  skString checked_id=checkIndirectId(frame,n->m_Id);
+  skRValue start_expr=evaluate(frame,n->m_StartExpr);
   int start_value=start_expr.intValue();
-  skRValue end_expr=evaluate(ctxt,obj,var,n->m_EndExpr);
+  skRValue end_expr=evaluate(frame,n->m_EndExpr);
   int end_value=end_expr.intValue();
   int step_value=1;
   if (n->m_StepExpr){
-    skRValue step_expr=evaluate(ctxt,obj,var,n->m_StepExpr);
+    skRValue step_expr=evaluate(frame,n->m_StepExpr);
     step_value=step_expr.intValue();
   }
   if (start_value!=end_value){
@@ -401,47 +408,47 @@ bool P_Interpreter::executeForStat(skContext& ctxt,skiExecutable * obj,skRValueT
       if (end_value>start_value){
         for (int i=start_value;i<end_value;i+=step_value){
 #ifndef EXCEPTIONS_DEFINED
-          if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+          if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
               break;
 #endif
-          addLocalVariable(var,checked_id,i);
+          addLocalVariable(frame.getVars(),checked_id,i);
           if (n->m_Stats){
-            bRet=executeStats(ctxt,obj,var,n->m_Stats,r);
+            bRet=executeStats(frame,n->m_Stats,r);
             if (bRet)
               break;
           }
         }
       }else
-        runtimeError(ctxt,skSTR("End value is not greater than the start value in a for statement\n"));
+        runtimeError(frame,skSTR("End value is not greater than the start value in a for statement\n"));
     }else{
       if (step_value<0){
         if (start_value>end_value){
           for (int i=start_value;i>end_value;i+=step_value){
 #ifndef EXCEPTIONS_DEFINED
-            if (ctxt.m_Context.m_Error.getErrorCode()!=skScriptError::NONE)
+            if (frame.getContext().getError().getErrorCode()!=skScriptError::NONE)
                 break;
 #endif
-            addLocalVariable(var,checked_id,i);
+            addLocalVariable(frame.getVars(),checked_id,i);
             if (n->m_Stats){
-              bRet=executeStats(ctxt,obj,var,n->m_Stats,r);
+              bRet=executeStats(frame,n->m_Stats,r);
               if (bRet)
                 break;
             }
           }
         }else
-          runtimeError(ctxt,skSTR("Start value is not greater than the end value in a for statement\n"));
+          runtimeError(frame,skSTR("Start value is not greater than the end value in a for statement\n"));
       }else
-        runtimeError(ctxt,skSTR("Cannot use a zero step increment in a for statement\n"));
+        runtimeError(frame,skSTR("Cannot use a zero step increment in a for statement\n"));
     }
   }// else do nothing
   return bRet;
 }
 //---------------------------------------------------
-skRValue P_Interpreter::findValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attrib)
+skRValue P_Interpreter::findValue(skStackFrame& frame,const skString& name,skExprNode * array_index,const skString& attrib)
   //---------------------------------------------------
 {              
   skRValue r;
-  skString valueName=checkIndirectId(ctxt,obj,var,name);
+  skString valueName=checkIndirectId(frame,name);
   if (valueName.length()){
     // first check some built-ins: true, false and self
     if (valueName==s_true)
@@ -452,38 +459,38 @@ skRValue P_Interpreter::findValue(skContext& ctxt,skiExecutable * obj,skRValueTa
       r=skRValue(&skInterpreter::g_Null);
     else if (valueName==s_self){
       if (attrib.length() || array_index){
-        skRValue caller(obj);
+        skRValue caller(frame.getObject());
         if (array_index){
-          extractArrayValue(ctxt,obj,var,caller,array_index,attrib,r);
+          extractArrayValue(frame,caller,array_index,attrib,r);
         }else
-          if (extractValue(ctxt,caller,g_BlankString,attrib,r)==false)
-            runtimeError(ctxt,skString(skSTR("Cannot get attribute "))+attrib+skSTR("\n"));
+          if (extractValue(frame,caller,g_BlankString,attrib,r)==false)
+            runtimeError(frame,skString(skSTR("Cannot get attribute "))+attrib+skSTR("\n"));
       }else
-        r=obj;
+        r=frame.getObject();
     }else{
       // otherwise look up the scope hierarchy
       skRValue * pvalue=0;
       // first in the local variables
-      pvalue=var.value(&valueName);
+      pvalue=frame.getVars().value(&valueName);
       if (pvalue){
         r=*pvalue;
         if (attrib.length() || array_index){
           skRValue result;
           if (array_index){
-            extractArrayValue(ctxt,obj,var,r,array_index,attrib,result);
+            extractArrayValue(frame,r,array_index,attrib,result);
           }else
-            if (extractValue(ctxt,r,g_BlankString,attrib,result)==false)
-              runtimeError(ctxt,skString(skSTR("Cannot get attribute "))+attrib+skSTR("\n"));
+            if (extractValue(frame,r,g_BlankString,attrib,result)==false)
+              runtimeError(frame,skString(skSTR("Cannot get attribute "))+attrib+skSTR("\n"));
           r=result;
         }
       }else{
         // then in the instance fields
-        skRValue caller(obj);
+        skRValue caller(frame.getObject());
         bool found=false;
         if (array_index)
-          found=extractFieldArrayValue(ctxt,obj,var,caller,valueName,array_index,attrib,r);
+          found=extractFieldArrayValue(frame,caller,valueName,array_index,attrib,r);
         else
-          found=extractValue(ctxt,caller,valueName,attrib,r);
+          found=extractValue(frame,caller,valueName,attrib,r);
         if (found==false){
           // and finally in the global variables
           pvalue=m_GlobalVars.value(&valueName);
@@ -492,15 +499,15 @@ skRValue P_Interpreter::findValue(skContext& ctxt,skiExecutable * obj,skRValueTa
             if (attrib.length() || array_index){
               skRValue result;
               if (array_index){
-                extractArrayValue(ctxt,obj,var,r,array_index,attrib,result);
+                extractArrayValue(frame,r,array_index,attrib,result);
                 r=result;
               }else
-                if (extractValue(ctxt,r,g_BlankString,attrib,result)==false)
-                  runtimeError(ctxt,skString(skSTR("Cannot get attribute "))+attrib+skSTR("\n"));
+                if (extractValue(frame,r,g_BlankString,attrib,result)==false)
+                  runtimeError(frame,skString(skSTR("Cannot get attribute "))+attrib+skSTR("\n"));
               r=result;
             }
           }else
-            runtimeError(ctxt,skString(skSTR("Field "))+valueName+skSTR("  not found\n"));
+            runtimeError(frame,skString(skSTR("Field "))+valueName+skSTR("  not found\n"));
         }	
       }	
     }
@@ -508,156 +515,159 @@ skRValue P_Interpreter::findValue(skContext& ctxt,skiExecutable * obj,skRValueTa
   return r;
 }
 //---------------------------------------------------
-bool P_Interpreter::extractFieldArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret) 
+bool P_Interpreter::extractFieldArrayValue(skStackFrame& frame,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret) 
   //---------------------------------------------------
 {
   skRValue array_field;
-  bool found=extractValue(ctxt,robject,field_name,g_BlankString,array_field);
+  bool found=extractValue(frame,robject,field_name,g_BlankString,array_field);
   if (found){
-    extractArrayValue(ctxt,obj,var,array_field,array_index,attrib,ret);
+    extractArrayValue(frame,array_field,array_index,attrib,ret);
   }
   return found;
 }
 //---------------------------------------------------
-bool P_Interpreter::extractArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) 
+bool P_Interpreter::extractArrayValue(skStackFrame& frame,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) 
   //---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
-    skRValue rExpr=evaluate(ctxt,obj,var,array_index);
+    skRValue rExpr=evaluate(frame,array_index);
     found=robject.obj()->getValueAt(rExpr,attrib,ret);
     if (found==false)
-      runtimeError(ctxt,skSTR("Cannot get an array member\n"));
+      runtimeError(frame,skSTR("Cannot get an array member\n"));
   }else
-    runtimeError(ctxt,skSTR("Cannot get an array member from a non-object\n"));
+    runtimeError(frame,skSTR("Cannot get an array member from a non-object\n"));
   return found;
 }
 //---------------------------------------------------
-bool P_Interpreter::extractValue(skContext& ctxt,skRValue& obj,const skString& name,const skString& attrib,skRValue& ret) 
+bool P_Interpreter::extractValue(skStackFrame& frame,skRValue& obj,const skString& name,const skString& attrib,skRValue& ret) 
   //---------------------------------------------------
 {
   bool found=false;
   if (obj.type()==skRValue::T_Object){
     found=obj.obj()->getValue(name,attrib,ret);
   }else
-    runtimeError(ctxt,skString(skSTR("Cannot get field "))+name+skSTR("  from a non-object\n"));
+    runtimeError(frame,skString(skSTR("Cannot get field "))+name+skSTR("  from a non-object\n"));
   return found;
 }
 //---------------------------------------------------
-void P_Interpreter::executeAssignStat(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skAssignNode * n)
+void P_Interpreter::executeAssignStat(skStackFrame& frame,skAssignNode * n)
   //---------------------------------------------------
 {
-  skRValue value=evaluate(ctxt,obj,var,n->m_Expr);
+  skRValue value=evaluate(frame,n->m_Expr);
 #ifndef EXCEPTIONS_DEFINED
-  if (ctxt.m_Context.m_Error.getErrorCode()==skScriptError::NONE){
+  if (frame.getContext().getError().getErrorCode()==skScriptError::NONE){
 #endif
     skIdNode * idNode=n->m_Ids->getLastId();
-    skString field_name=checkIndirectId(ctxt,obj,var,idNode->m_Id);
+    skString field_name=checkIndirectId(frame,idNode->m_Id);
     if (n->m_Ids->numIds()==1){
       // special case where there is a single id
       bool inserted=false;
-      if (obj!=0){
-        skRValue caller(obj);
+      if (frame.getObject()!=0){
+        skRValue caller(frame.getObject());
         if (field_name==s_self){
           if (idNode->m_ArrayIndex)
-            inserted=insertArrayValue(ctxt,obj,var,caller,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+            inserted=insertArrayValue(frame,caller,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
           else
-            inserted=insertValue(ctxt,caller,g_BlankString,n->m_Ids->m_Attribute,value);
+            inserted=insertValue(frame,caller,g_BlankString,n->m_Ids->m_Attribute,value);
         }else{
           if (idNode->m_ArrayIndex){
-            caller=findValue(ctxt,obj,var,field_name,0,g_BlankString);
-            inserted=insertArrayValue(ctxt,obj,var,caller,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+            caller=findValue(frame,field_name,0,g_BlankString);
+            inserted=insertArrayValue(frame,caller,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
           }else{
             if (n->m_Ids->m_Attribute.length()>0){
               // e.g. "field:name"
-              caller=obj;
-              inserted=insertValue(ctxt,caller,field_name,n->m_Ids->m_Attribute,value);
+              caller=frame.getObject();
+              inserted=insertValue(frame,caller,field_name,n->m_Ids->m_Attribute,value);
               if (inserted==false)
-                runtimeError(ctxt,skString(skSTR("Setting attribute "))+n->m_Ids->m_Attribute+skSTR(" on ")+field_name+skSTR(" failed\n"));
+                runtimeError(frame,skString(skSTR("Setting attribute "))+n->m_Ids->m_Attribute+skSTR(" on ")+field_name+skSTR(" failed\n"));
             }else
-              inserted=insertValue(ctxt,caller,field_name,n->m_Ids->m_Attribute,value);
+              inserted=insertValue(frame,caller,field_name,n->m_Ids->m_Attribute,value);
           }
         }
       }
       if (inserted==false)
         // if the object doesn't want this variable, we add it as a local variable
-        addLocalVariable(var,field_name,value);
+        addLocalVariable(frame.getVars(),field_name,value);
     }else{
       // otherwise follow the id's to the penultimate one
       skRValue robject;
-      followIdList(ctxt,obj,var,n->m_Ids,robject);
+      followIdList(frame,n->m_Ids,robject);
       if (idNode->m_ArrayIndex){
         skRValue array_field;
-        if (extractValue(ctxt,robject,field_name,g_BlankString,array_field)){
-          insertArrayValue(ctxt,obj,var,array_field,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+        if (extractValue(frame,robject,field_name,g_BlankString,array_field)){
+          insertArrayValue(frame,array_field,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
         }else{
-          runtimeError(ctxt,skString(skSTR("Cannot find field "))+field_name+skSTR("\n"));
+          runtimeError(frame,skString(skSTR("Cannot find field "))+field_name+skSTR("\n"));
         }
       }else
-        insertValue(ctxt,robject,field_name,n->m_Ids->m_Attribute,value);
+        insertValue(frame,robject,field_name,n->m_Ids->m_Attribute,value);
     }
 #ifndef EXCEPTIONS_DEFINED
   }
 #endif
 }
 //---------------------------------------------------
-bool P_Interpreter::insertArrayValue(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value)
+bool P_Interpreter::insertArrayValue(skStackFrame& frame,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value)
   //---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
-    skRValue rExpr=evaluate(ctxt,obj,var,array_index);
+    skRValue rExpr=evaluate(frame,array_index);
     found=robject.obj()->setValueAt(rExpr,attr,value);
     if (found==false)
-      runtimeError(ctxt,skSTR("Setting array member failed\n"));
+      runtimeError(frame,skSTR("Setting array member failed\n"));
   }else
-    runtimeError(ctxt,skSTR("Cannot set an array member on a non-object\n"));
+    runtimeError(frame,skSTR("Cannot set an array member on a non-object\n"));
   return found;
 }
 //---------------------------------------------------
-bool P_Interpreter::insertValue(skContext& ctxt,skRValue& robject,const skString& name, const skString& attr,const skRValue& value)
+bool P_Interpreter::insertValue(skStackFrame& frame,skRValue& robject,const skString& name, const skString& attr,const skRValue& value)
   //---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
     found=robject.obj()->setValue(name,attr,value);
   }else
-    runtimeError(ctxt,skString(skSTR("Cannot set field "))+name+skSTR("  on a non-object\n"));
+    runtimeError(frame,skString(skSTR("Cannot set field "))+name+skSTR("  on a non-object\n"));
   return found;
 }
 //---------------------------------------------------
-void  skInterpreter::executeParseTree(const skString& location,skiExecutable * obj,skMethodDefNode * pExecuteNode,skRValueArray& args,skRValue& r,skExecutableContext& user_ctxt)
+void  skInterpreter::executeParseTree(const skString& location,skiExecutable * obj,skMethodDefNode * pExecuteNode,skRValueArray& args,skRValue& r,skExecutableContext& ctxt)
   //---------------------------------------------------
 {      
-  skContext ctxt(location,user_ctxt);
+  skRValueTable vars;
+  skStackFrame frame(location,obj,vars,ctxt);
   if (pExecuteNode){
-    skRValueTable vars;
     // fix up parameters
     if (pExecuteNode->m_Params){
       for (unsigned int i=0;i<pExecuteNode->m_Params->m_Ids.entries();i++)
         if (i<args.entries())
           pimp->addLocalVariable(vars,pExecuteNode->m_Params->m_Ids[i]->m_Id,args[i]);
     }
-    pimp->executeStats(ctxt,obj,vars,pExecuteNode->m_Stats,r);
+    pimp->executeStats(frame,pExecuteNode->m_Stats,r);
   }
 }
 //---------------------------------------------------
-skMethodDefNode * skInterpreter::parseString(const skString& location,const skString& code,skExecutableContext& ctxt)
+skMethodDefNode * skInterpreter::parseString(const skString& location,
+                                             const skString& code,skExecutableContext& ctxt)
   //---------------------------------------------------
 { 
-  skMethodDefNode * methNode=0;                                    
   skParser parser(code,location);
-  parser.parse();
-  if (parser.getTopNode()){
-    methNode=parser.getTopNode();
-    parser.clearTempNodes();
-  }else{
-    parser.cleanupTempNodes();
-#ifdef EXCEPTIONS_DEFINED
-    throw skParseException(parser.getErrList());
-#else
-    ctxt.m_Error.setError(skScriptError::PARSE_ERROR,new skParseException(parser.getErrList()));
-#endif
+  skMethodDefNode * methNode=parser.parseMethod();
+  if (methNode==0){
+    bool throw_exception=true;
+    skParseException e(parser.getErrList());
+    if (pimp->m_StatementStepper)
+      throw_exception=pimp->m_StatementStepper->exceptionEncountered(ctxt.getTopFrame(),e);
+    if (throw_exception){
+  #ifdef EXCEPTIONS_DEFINED
+      throw e;
+  #else
+      // inefficient - takes another copy of the error
+      ctxt.getError().setError(skScriptError::PARSE_ERROR,new skParseException(parser.getErrList()));
+  #endif
+    }
   }
   return methNode;
 }
@@ -705,7 +715,7 @@ void skInterpreter::executeStringExternalParams(const skString& location,skiExec
   skMethodDefNode * parseNode=parseExternalParams(location,paramNames,code,user_ctxt);
   if (parseNode){
     executeParseTree(location,obj,parseNode,args,r,user_ctxt);
-    if (user_ctxt.m_Error.getErrorCode()==skScriptError::NONE){
+    if (user_ctxt.getError().getErrorCode()==skScriptError::NONE){
       // give the parse node back to the caller if they want it
       if (keepParseNode)
         *keepParseNode=parseNode;
@@ -744,7 +754,7 @@ void skInterpreter::executeString(const skString& location,skiExecutable * obj,c
   skMethodDefNode * parseNode=parseString(location,code,user_ctxt);
   if (parseNode){
     executeParseTree(location,obj,parseNode,args,r,user_ctxt);
-    if (user_ctxt.m_Error.getErrorCode()==skScriptError::NONE){
+    if (user_ctxt.getError().getErrorCode()==skScriptError::NONE){
       // give the parse node back to the caller if they want it
       if (keepParseNode)
         *keepParseNode=parseNode;
@@ -756,7 +766,7 @@ void skInterpreter::executeString(const skString& location,skiExecutable * obj,c
 #endif
 }
 //---------------------------------------------------
-skRValue P_Interpreter::evaluate(skContext& ctxt,skiExecutable * obj,skRValueTable& var,skExprNode * n)
+skRValue P_Interpreter::evaluate(skStackFrame& frame,skExprNode * n)
   //---------------------------------------------------
 { 
   skRValue r;
@@ -767,27 +777,27 @@ skRValue P_Interpreter::evaluate(skContext& ctxt,skiExecutable * obj,skRValueTab
     skString method_name=idNode->m_Id;
     if (ids->numIds()==1){
       if (idNode->m_Exprs==0)
-        r=findValue(ctxt,obj,var,method_name,idNode->m_ArrayIndex,ids->m_Attribute);
+        r=findValue(frame,method_name,idNode->m_ArrayIndex,ids->m_Attribute);
       else{
-        skRValue caller(obj);
-        makeMethodCall(ctxt,obj,var,caller,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
+        skRValue caller(frame.getObject());
+        makeMethodCall(frame,caller,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
       }
     }else{
-      method_name=checkIndirectId(ctxt,obj,var,method_name);
+      method_name=checkIndirectId(frame,method_name);
       skRValue robject;
-      followIdList(ctxt,obj,var,ids,robject);
+      followIdList(frame,ids,robject);
       if (idNode->m_Exprs==0){
         if (idNode->m_ArrayIndex){
           skRValue array_field;
-          if (extractValue(ctxt,robject,method_name,g_BlankString,array_field))
-            extractArrayValue(ctxt,obj,var,array_field,idNode->m_ArrayIndex,ids->m_Attribute,r);
+          if (extractValue(frame,robject,method_name,g_BlankString,array_field))
+            extractArrayValue(frame,array_field,idNode->m_ArrayIndex,ids->m_Attribute,r);
           else
-            runtimeError(ctxt,skString(skSTR("Cannot get field "))+method_name+skSTR("\n"));
+            runtimeError(frame,skString(skSTR("Cannot get field "))+method_name+skSTR("\n"));
         }else
-          if (extractValue(ctxt,robject,method_name,ids->m_Attribute,r)==false)
-            runtimeError(ctxt,skString(skSTR("Cannot get field "))+method_name+skSTR("\n"));
+          if (extractValue(frame,robject,method_name,ids->m_Attribute,r)==false)
+            runtimeError(frame,skString(skSTR("Cannot get field "))+method_name+skSTR("\n"));
       }else
-        makeMethodCall(ctxt,obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
+        makeMethodCall(frame,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
     }
     break;
   }
@@ -805,23 +815,23 @@ skRValue P_Interpreter::evaluate(skContext& ctxt,skiExecutable * obj,skRValueTab
     break;
   default:
     skOpNode * opNode=(skOpNode *)n;
-    skRValue item1=evaluate(ctxt,obj,var,opNode->m_Expr1);
+    skRValue item1=evaluate(frame,opNode->m_Expr1);
     int item1Type=item1.type();
     switch(n->getType()){
     case s_Not:
       r=skRValue((bool)(!item1.boolValue()));
       break;
     case s_And:
-      r=skRValue((bool)(item1.boolValue() && evaluate(ctxt,obj,var,opNode->m_Expr2).boolValue()));
+      r=skRValue((bool)(item1.boolValue() && evaluate(frame,opNode->m_Expr2).boolValue()));
       break;
     case s_Or:
-      r=skRValue((bool)(item1.boolValue() || evaluate(ctxt,obj,var,opNode->m_Expr2).boolValue()));
+      r=skRValue((bool)(item1.boolValue() || evaluate(frame,opNode->m_Expr2).boolValue()));
       break;
     case s_Equals:
-      r=skRValue((bool)(item1 == evaluate(ctxt,obj,var,opNode->m_Expr2)));
+      r=skRValue((bool)(item1 == evaluate(frame,opNode->m_Expr2)));
       break;
     case s_NotEquals:{
-      bool equals=item1 == evaluate(ctxt,obj,var,opNode->m_Expr2);
+      bool equals=item1 == evaluate(frame,opNode->m_Expr2);
       if (equals)
         r=false;
       else
@@ -835,10 +845,10 @@ skRValue P_Interpreter::evaluate(skContext& ctxt,skiExecutable * obj,skRValueTab
         r=skRValue((-item1.intValue()));
       break;
     case s_Concat:
-      r=skRValue(item1.str() + evaluate(ctxt,obj,var,opNode->m_Expr2).str());
+      r=skRValue(item1.str() + evaluate(frame,opNode->m_Expr2).str());
       break;
     default:{
-      skRValue item2=evaluate(ctxt,obj,var,opNode->m_Expr2);
+      skRValue item2=evaluate(frame,opNode->m_Expr2);
       int item2Type=item2.type();
       if (item1Type==skRValue::T_Int && item2Type==skRValue::T_Int){
         // we can use integer arithmetic if both objects are integer
@@ -880,8 +890,10 @@ skRValue P_Interpreter::evaluate(skContext& ctxt,skiExecutable * obj,skRValueTab
 	        long bottom=val2;
 	        if (bottom)
 	          r=skRValue((int)(top/bottom));
-	        else
-	          runtimeError(ctxt,skSTR("Divide by zero error"));
+          else{
+	          r=skRValue((int)1);
+	          runtimeError(frame,skSTR("Divide by zero error"));
+          }
 	        break;
         }
         case s_Mult:
@@ -931,9 +943,10 @@ skRValue P_Interpreter::evaluate(skContext& ctxt,skiExecutable * obj,skRValueTab
 	        double bottom=val2;
 	        if (bottom)
 	          r=skRValue((float)(top/bottom));
-	        else
+          else{
             r=skRValue(1.0f);
-	          runtimeError(ctxt,skSTR("Divide by zero error"));
+	          runtimeError(frame,skSTR("Divide by zero error"));
+          }
 	        break;
 	      }
 	      case s_Mult:
@@ -950,8 +963,20 @@ skRValue P_Interpreter::evaluate(skContext& ctxt,skiExecutable * obj,skRValueTab
   return r;
 }
 //------------------------------------------
+bool skInterpreter::method(const skString& method_name,skRValueArray& arguments,skRValue& return_value,skExecutableContext& ctxt)
+//------------------------------------------
+{
+  bool bRet=false;
+  if (method_name==s_breakpoint){
+    bRet=true;
+    if (pimp->m_StatementStepper)
+      pimp->m_StatementStepper->breakpoint(ctxt.getTopFrame());
+  }
+  return bRet;
+}
+//------------------------------------------
 bool skInterpreter::setValue(const skString& s,const skString& attrib,const skRValue& v)
-  //------------------------------------------
+//------------------------------------------
 {
   bool bRet=false;
   if (s==s_tracing){
@@ -970,20 +995,26 @@ bool skInterpreter::setValue(const skString& s,const skString& attrib,const skRV
   return bRet;
 }
 //------------------------------------------
-void skInterpreter::runtimeError(skContext& ctxt,const skString& msg)
+void skInterpreter::runtimeError(skStackFrame& frame,const skString& msg)
   //------------------------------------------
 {
-  pimp->runtimeError(ctxt,msg);
+  pimp->runtimeError(frame,msg);
 }
 //------------------------------------------
-void P_Interpreter::runtimeError(skContext& ctxt,const skString& msg)
+void P_Interpreter::runtimeError(skStackFrame& frame,const skString& msg)
   //------------------------------------------
 {
-#ifdef EXCEPTIONS_DEFINED
-  throw skRuntimeException(ctxt.m_Location,ctxt.m_LineNum,msg);
-#else
-  ctxt.m_Context.m_Error.setError(skScriptError::RUNTIME_ERROR,new skRuntimeException(ctxt.m_Location,ctxt.m_LineNum,msg));
-#endif
+  bool throw_exception=true;
+  skRuntimeException e(frame.getLocation(),frame.getLineNum(),msg);
+  if (m_StatementStepper)
+    throw_exception=m_StatementStepper->exceptionEncountered(&frame,e);
+  if (throw_exception){
+  #ifdef EXCEPTIONS_DEFINED
+    throw e;
+  #else
+    frame.getContext().getError().setError(skScriptError::RUNTIME_ERROR,new skRuntimeException(frame.getLocation(),frame.getLineNum(),msg));
+  #endif
+  }
 }
 //------------------------------------------
 void skInterpreter::trace(const skString& msg)
@@ -1003,6 +1034,59 @@ void skInterpreter::setStatementStepper(skStatementStepper * stepper)
 {
   pimp->m_StatementStepper=stepper;
 }
-
-
+//------------------------------------------
+skExprNode * skInterpreter::parseExpression(const skString& location,const skString& expression,skExecutableContext& ctxt)
+//------------------------------------------
+{
+  skParser parser(expression,location);
+  skExprNode * exprNode=parser.parseExpression();
+  if (exprNode==0){
+    bool throw_exception=true;
+    skParseException e(parser.getErrList());
+    if (pimp->m_StatementStepper)
+      throw_exception=pimp->m_StatementStepper->exceptionEncountered(ctxt.getTopFrame(),e);
+    if (throw_exception){
+  #ifdef EXCEPTIONS_DEFINED
+      throw e;
+  #else
+      // inefficient - another copy of the exception is generated
+      ctxt.getError().setError(skScriptError::PARSE_ERROR,new skParseException(parser.getErrList()));
+  #endif
+    }
+  }
+  return exprNode;
+}
+//------------------------------------------
+void skInterpreter::evaluateExpression(const skString& location,skiExecutable * obj,
+                      const skString& expression,skRValueTable&  vars,
+                      skRValue& return_value,skExecutableContext& ctxt)
+//------------------------------------------
+{
+  skExprNode * exprNode=parseExpression(location,expression,ctxt);
+  if (exprNode){
+#ifdef EXCEPTIONS_DEFINED
+    try{
+      evaluateExpression(location,obj,exprNode,vars,return_value,ctxt);
+    }catch(skRuntimeException e){
+      delete exprNode;
+      throw e;
+    }catch(skParseException e1){
+      delete exprNode;
+      throw e1;
+    }
+#else
+    evaluateExpression(location,obj,exprNode,vars,return_value,ctxt);
+#endif
+    delete exprNode;
+  }
+}
+//------------------------------------------
+void skInterpreter::evaluateExpression(const skString& location,skiExecutable * obj,
+                      skExprNode * expression,skRValueTable&  vars,
+                      skRValue& return_value,skExecutableContext& ctxt)
+//------------------------------------------
+{
+  skStackFrame frame(location,obj,vars,ctxt);
+  return_value=pimp->evaluate(frame,expression);
+}
 

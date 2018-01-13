@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.h,v 1.7 2002/12/13 17:21:54 sdw Exp $
+  $Id: skParser.h,v 1.8 2003/01/10 17:59:08 simkin_cvs Exp $
 */
 
 #ifndef skPARSER_H
@@ -44,18 +44,21 @@ class  skParser {
   ~skParser();
   /**
    * this method instructs the parser to begin parsing the string passed into the constructor
-   * <p>If the parse is valid, then getTopNode() will return the top of the parse tree
+   * The string is assumed to contain a method definition
+   * @return If the parse is valid, then this will return the top of the parse tree, which the caller should delete
    */
-  void parse();
+  skMethodDefNode * parseMethod();
+  /**
+   * this method instructs the parser to begin parsing the string passed into the constructor
+   * The string is assumed to contain an expression, beginning with "="
+   * @return If the parse is valid, then this will return the top of the parse tree, which the caller should delete
+   */
+  skExprNode * parseExpression();
   /**
    * sets the current top-level parse node
-   * @param pNode the method definition node
+   * @param pNode the method definition or expression node
    */
-  void setTopNode(skMethodDefNode* pNode);
-  /** 
-   * returns the current top-level parse node
-   */
-  skMethodDefNode * getTopNode();
+  void setTopNode(skParseNode* pNode);
   /**
    * Saves a parse node to the list of temporary nodes. If an error occurs these will be cleared up
    */
@@ -86,6 +89,10 @@ class  skParser {
    * returns true if the eof the stream has been reached
    */
   bool eof(); 
+ private:
+  /**
+   * private members to support the parser.
+   */
   /**
    * deletes the parse tree if an error occurs during parsing
    */
@@ -95,11 +102,7 @@ class  skParser {
    */
   void clearTempNodes();
   
- private:
-  /**
-   * private members to support the parser.
-   */
-   skMethodDefNode*		m_TopNode;
+   skParseNode*		m_TopNode;
    skParseNodeList		m_TempNodes;
    skCompileErrorList	m_ErrList;
    

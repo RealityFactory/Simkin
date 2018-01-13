@@ -21,7 +21,7 @@
   This file implements the class which controls the behaviour of the
   view in the demo.
 
-  $Id: Demo_Controller.cpp,v 1.1 2002/12/16 14:53:18 sdw Exp $
+  $Id: Demo_Controller.cpp,v 1.2 2003/01/20 23:07:01 simkin_cvs Exp $
 */
 #include "Demo_Controller.h"
 #include "skRValueArray.h"
@@ -50,9 +50,10 @@ Controller::Controller(const skString& fileName,skInterpreter * interp)
   //-----------------------------------------------------------------
   //	this class loads the demo script file, whose methods
   //	are an extension of the class functionality
-  : m_View(0),m_FileName(fileName),m_Context(interp)
+  : m_View(0),m_FileName(fileName),m_Interpreter(interp)
 {
-  load(fileName,m_Context);
+  skExecutableContext context(m_Interpreter);
+  load(fileName,context);
   init();
 }
 //-----------------------------------------------------------------
@@ -98,7 +99,8 @@ void Controller::init()
   }
   skRValueArray args;
   skRValue ret;
-  method(s_init,args,ret,m_Context);
+  skExecutableContext context(m_Interpreter);
+  method(s_init,args,ret,context);
 }
 //-----------------------------------------------------------------
 void Controller::buttonPressed(int id)
@@ -124,7 +126,8 @@ void Controller::buttonPressed(int id)
 	            //	call a method on ourselves, if one is set up
 	            skRValueArray args;
 	            skRValue ret;
-	            method(methodName,args,ret,m_Context);
+              skExecutableContext context(m_Interpreter);
+	            method(methodName,args,ret,context);
 	          }
 	          break;
 	        }
@@ -145,7 +148,8 @@ bool Controller::method(const skString& s,skRValueArray& args,skRValue& ret,skEx
     //	the view recreated
     delete m_View;
     m_View=0;
-    load(m_FileName,m_Context);
+    skExecutableContext context(m_Interpreter);
+    load(m_FileName,context);
     init();
     bRet=true;
   }else if (IS_METHOD(s,s_setFocus) && m_View && args.entries()==1){

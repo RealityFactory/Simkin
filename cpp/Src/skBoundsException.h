@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skBoundsException.h,v 1.9 2002/12/13 17:21:54 sdw Exp $
+  $Id: skBoundsException.h,v 1.11 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #ifndef SKBOUNDSEXCEPTION_H
 #define SKBOUNDSEXCEPTION_H
@@ -27,7 +27,7 @@ const int skBoundsException_Code=1;
 
 /**
  * this class represents an exception thrown by the collection classes
- */
+\ */
 class CLASSEXPORT skBoundsException {
  public:
   /**
@@ -39,13 +39,13 @@ class CLASSEXPORT skBoundsException {
   /**
    * produces a string describing the exception
    */
-  skString toString() const{
+  skString      toString() const{
 	  return skString::literal(m_File)+skSTR(":")+skString::from(m_LineNum)+m_Msg;
   }
  private:
-  skString m_Msg;
-  const Char * m_File;
-  int m_LineNum;
+  skString      m_Msg;
+  const Char *  m_File;
+  int           m_LineNum;
 
 };
 #endif

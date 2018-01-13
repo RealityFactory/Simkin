@@ -1,5 +1,5 @@
 /*
-  copyright 1996-2002
+  copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNode.cpp,v 1.21 2002/12/16 16:11:46 sdw Exp $
+  $Id: skTreeNode.cpp,v 1.27 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -24,14 +24,22 @@
 #include "skTreeNodp.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "skOutputDestination.h"
 #ifdef STREAMS_ENABLED
 #include <fstream.h>
 #endif
 #include <ctype.h>
 #include "skExecutableContext.h"
+#include "skInputSource.h"
 
 static skString false_string=skSTR("false");
 static skString true_string=skSTR("true");
+static skString s_tab(skSTR("\t"));
+static skString s_left_bracket(skSTR(" ["));
+static skString s_right_bracket(skSTR("] "));
+static skString s_cr(skSTR("\n"));
+static skString s_left_brace(skSTR(" {\n"));
+static skString s_right_brace(skSTR(" }\n"));
 
 //-----------------------------------------------------------------
 skTreeNodeList::skTreeNodeList()
@@ -339,6 +347,16 @@ void skTreeNode::addChild(skTreeNode* child)
   }
 }
 //-----------------------------------------------------------------
+void skTreeNode::removeChild(skTreeNode* child)
+//-----------------------------------------------------------------
+{
+  if (m_Items){
+    m_Items->remove(child);
+  }else{
+    assert("removeChild: error, node has no children!"==0);
+  }
+}
+//-----------------------------------------------------------------
 void skTreeNode::deleteChild(skTreeNode* child)
 //-----------------------------------------------------------------
 {
@@ -439,148 +457,69 @@ skTreeNode* skTreeNode::findChild(const skString& label,const skString& data) co
     node=m_Items->findItem(label,data);
   return node;
 }
-#ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------
-void writeTabs(ostream& out,int tabstops)
+void writeTabs(skOutputDestination& out,int tabstops)
 //-----------------------------------------------------------------
 {
-    for (int i=0;i<tabstops;i++)
-        out << '\t';
+  for (int i=0;i<tabstops;i++)
+    out.write(s_tab);
 }
-#endif
 //-----------------------------------------------------------------
-bool skTreeNode::write(const skString& s) const
+bool skTreeNode::write(const skString& filename) const
 //-----------------------------------------------------------------
 {   
-  bool bRet=false;
-#ifdef STREAMS_ENABLED
-  ofstream o(s);
-  if (o.good()){
-    write(o,0);
-    if (o.good())
-      bRet=true;
-  }
-#endif
+  bool bRet=true;
+  skOutputFile o(filename);
+  write(o,0);
   return bRet;	
 }
-#ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------
-void skTreeNode::write(ostream& out,USize tabstops) const
+void skTreeNode::write(skOutputDestination& out,USize tabstops) const
 //-----------------------------------------------------------------
 {
 
   writeTabs(out,tabstops);
-  out << m_Label;
-  const char * databuffer=m_Data;
-  int datalen=strlen(databuffer);
-  if (datalen)
-	out << " [" << databuffer << "]";
+  out.write(m_Label);
+  if (m_Data.length()){
+	  out.write(s_left_bracket);
+    out.write(m_Data);
+    out.write(s_right_bracket);
+  }
   if (numChildren()){
-    out << "\n";
+    out.write(s_cr);
     writeTabs(out,tabstops);
-    out << "{\n";
+    out.write(s_left_brace);
     skTreeNodeListIterator iter(*this);
     skTreeNode * pnode=0;
     while ((pnode=iter())!=0)
       pnode->write(out,tabstops+1);
     writeTabs(out,tabstops);
-    out << "}";
+    out.write(s_right_brace);
   }
-  out << "\n";
+  out.write(s_cr);
 }
-#endif
 //-----------------------------------------------------------------
-skTreeNode * skTreeNode::read(const skString& s,skExecutableContext& ctxt)
+skTreeNode * skTreeNode::read(const skString& filename,skExecutableContext& ctxt)
 //-----------------------------------------------------------------
 {
-  skTreeNode * pnode=0;
-#ifdef STREAMS_ENABLED
-#ifdef __MWERKS__
-  ifstream i(s,ios::in|ios::binary);
-#else
-  ifstream i(s,ios::in|ios::nocreate|ios::binary);
-#endif
-  if (i.good()){
-    skTreeNodeReader r(i,s);
-    pnode=r.read(ctxt);
-  }
-#else
-#ifdef UNICODE_STRINGS
-  FILE * i=_wfopen(s,skSTR("rb"));
-  if (i){
-    unsigned short format;
-    fread(&format,sizeof(format),1,i);
-    skTreeNodeReader r(i,s);
-    pnode=r.read(ctxt);
-#else
-  FILE * i=fopen(s,skSTR("r"));
-  if (i){
-    skTreeNodeReader r(i,s);
-    pnode=r.read(ctxt);
-#endif
-    fclose(i);
-  }
-#endif
-  return pnode;	
+  skInputFile in(filename);
+  skTreeNodeReader r(in,filename);
+  return r.read(ctxt);
 }
 #ifdef USECLASSBUFFER
 Char P_TreeNodeReader::g_ClassLexText[MAXBUFFER];
 bool	P_TreeNodeReader::g_LexTextUsed=false;
 //	an optimization reusing the same buffer, but costs extra memory
 #endif
-#ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------
-skTreeNodeReader::skTreeNodeReader(istream& in)
-//-----------------------------------------------------------------
-{
-    pimp=new P_TreeNodeReader(in);
-    pimp->m_Error=false;
-    pimp->grabBuffer();
-}
-#else
-//-----------------------------------------------------------------
-skTreeNodeReader::skTreeNodeReader(FILE * f)
-//-----------------------------------------------------------------
-{
-    pimp=new P_TreeNodeReader(f);
-    pimp->m_Error=false;
-    pimp->grabBuffer();
-}
-#endif
-//-----------------------------------------------------------------
-void P_TreeNodeReader::grabBuffer()
-//-----------------------------------------------------------------
-{
-#ifdef USECLASSBUFFER
-  if (P_TreeNodeReader::g_LexTextUsed==false){
-    P_TreeNodeReader::g_LexTextUsed=true;
-    m_UsingClassLexText=true;
-    m_LexText=g_ClassLexText;
-  }else
-#endif
-    m_LexText=new Char[MAXBUFFER];
-}
-#ifdef STREAMS_ENABLED
-//-----------------------------------------------------------------
-skTreeNodeReader::skTreeNodeReader(istream& in,skString fileName)
+skTreeNodeReader::skTreeNodeReader(skInputSource& in, const skString& source_name)
 //-----------------------------------------------------------------
 {
   pimp=new P_TreeNodeReader(in);
+  pimp->m_FileName=source_name;
   pimp->m_Error=false;
-  pimp->m_FileName=fileName;
   pimp->grabBuffer();
 }
-#else
-//-----------------------------------------------------------------
-skTreeNodeReader::skTreeNodeReader(FILE * in,skString fileName)
-//-----------------------------------------------------------------
-{
-  pimp=new P_TreeNodeReader(in);
-  pimp->m_Error=false;
-  pimp->m_FileName=fileName;
-  pimp->grabBuffer();
-}
-#endif
 //-----------------------------------------------------------------
 skTreeNodeReader::~skTreeNodeReader()
 //-----------------------------------------------------------------
@@ -595,9 +534,8 @@ skTreeNodeReader::~skTreeNodeReader()
 #endif
   delete pimp;
 }
-#ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------
-P_TreeNodeReader::P_TreeNodeReader(istream& in)
+P_TreeNodeReader::P_TreeNodeReader(skInputSource& in)
 //-----------------------------------------------------------------
   : m_In(in),m_UnLex(false),m_LastLexeme(L_EOF),m_Pos(0)
 #ifdef USECLASSBUFFER
@@ -605,23 +543,25 @@ P_TreeNodeReader::P_TreeNodeReader(istream& in)
 #endif
 {
 }
-#else
 //-----------------------------------------------------------------
-P_TreeNodeReader::P_TreeNodeReader(FILE * in)
+void P_TreeNodeReader::grabBuffer()
 //-----------------------------------------------------------------
-  : m_In(in),m_UnLex(false),m_LastLexeme(L_EOF),m_Pos(0),m_Peeked(false)
-#ifdef USECLASSBUFFER
-, m_UsingClassLexText(false)
-#endif
 {
-}
+#ifdef USECLASSBUFFER
+  if (P_TreeNodeReader::g_LexTextUsed==false){
+    P_TreeNodeReader::g_LexTextUsed=true;
+    m_UsingClassLexText=true;
+    m_LexText=g_ClassLexText;
+  }else
 #endif
+    m_LexText=new Char[MAXBUFFER];
+}
 //-----------------------------------------------------------------
 void P_TreeNodeReader::addToLexText(Char c)
 //-----------------------------------------------------------------
 {
-    if (m_Pos<MAXBUFFER-1)
-        m_LexText[m_Pos++]=c;
+  if (m_Pos<MAXBUFFER-1)
+      m_LexText[m_Pos++]=c;
 }
 //-----------------------------------------------------------------
 void P_TreeNodeReader::unLex()
@@ -651,7 +591,7 @@ skTreeNode * skTreeNodeReader::read(skExecutableContext& ctxt)
 #ifdef EXCEPTIONS_DEFINED
     throw skTreeNodeReaderException(pimp->m_FileName,pimp->m_LexText);
 #else
-    ctxt.m_Error.setError(skScriptError::TREENODEPARSE_ERROR,new skTreeNodeReaderException(pimp->m_FileName,pimp->m_LexText));
+    ctxt.getError().setError(skScriptError::TREENODEPARSE_ERROR,new skTreeNodeReaderException(pimp->m_FileName,pimp->m_LexText));
 #endif
   }
   return pret;	
@@ -762,54 +702,6 @@ void P_TreeNodeReader::parseTreeNodeList(skTreeNode * pnode)
   }while (loop && m_Error==false);
 }
 //-----------------------------------------------------------------
-bool P_TreeNodeReader::eof()
-//-----------------------------------------------------------------
-{
-  bool eof=false;
-#ifdef STREAMS_ENABLED
-  if (m_In.eof())
-    eof=true;
-#else
-  if (feof(m_In))
-    eof=true;
-#endif
-  return eof;
-}
-//-----------------------------------------------------------------
-int P_TreeNodeReader::get()
-//-----------------------------------------------------------------
-{
-  int c=0;
-#ifdef STREAMS_ENABLED
-  c=m_In.get();
-#else
-  if (m_Peeked){
-    c=m_PeekedChar;
-    m_Peeked=false;
-  }else
-#ifdef UNICODE_STRINGS
-    c=fgetwc(m_In);
-#else
-    c=fgetc(m_In);
-#endif
-#endif
-  return c;
-}
-//-----------------------------------------------------------------
-int P_TreeNodeReader::peek()
-//-----------------------------------------------------------------
-{
-  int c=0;
-#ifdef STREAMS_ENABLED
-  c=m_In.peek();
-#else
-  c=get();
-  m_Peeked=true;
-  m_PeekedChar=c;
-#endif
-  return c;
-}
-//-----------------------------------------------------------------
 P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
 //-----------------------------------------------------------------
 {
@@ -819,8 +711,8 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
     m_Pos=0;
     int c;
     int loop=1;
-    while (loop && !eof() && m_Error==false){
-      c=get();
+    while (loop && !m_In.eof() && m_Error==false){
+      c=m_In.get();
       if (c=='\n')
         m_LineNum++;
       switch (c){
@@ -842,8 +734,8 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
         int textloop=1;
         int num_braces=1;
         m_LastLexeme=L_TEXT;
-        while(textloop && !eof()){
-          c=get();
+        while(textloop && !m_In.eof()){
+          c=m_In.get();
           switch(c){
           case EOF:
 	          m_LastLexeme=L_ERROR;
@@ -852,7 +744,7 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
 	          break;
           case '\\':
 	          // let any character through
-	          c=get();
+	          c=m_In.get();
 	          addToLexText((unsigned char)c);
 	          break;
           case '[':
@@ -885,14 +777,16 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
 	      m_LastLexeme=L_IDENT;
 	      addToLexText((unsigned char)c);
 	      int identloop=1;
-	      while (identloop && !eof())
-	        if (ISALNUM(peek()) || peek()=='\\' 
-	      || peek()=='_' || peek()=='~' || peek()=='-' 
-	      || peek()=='/' || peek()=='.' || peek()==':'){
-	          c=get();
+        while (identloop && !m_In.eof()){
+          int peeked=m_In.peek();
+	        if (ISALNUM(peeked) || peeked=='\\' 
+	            || peeked=='_' || peeked=='~' || peeked=='-' 
+	            || peeked=='/' || peeked=='.' || peeked==':'){
+	          c=m_In.get();
 	          addToLexText((unsigned char)c);
 	        }else
 	          identloop=0;
+        }
 	      loop=0;	
       }else
         if (!ISSPACE(c)){

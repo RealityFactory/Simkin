@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTreeNodeObject.h,v 1.24 2002/12/16 16:11:46 sdw Exp $
+* $Id: skTreeNodeObject.h,v 1.26 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 
@@ -60,27 +60,27 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
   /**
    * returns the value TREENODE_TYPE to identify this as a TreeNodeObject
    */
-  int executableType() const;			
+  virtual int executableType() const;			
   /**
    * Returns the data field of the node as an integer
    */
-  int intValue() const;
+  virtual int intValue() const;
   /**
    * Returns the data field of the node as a float
    */
-  float floatValue() const;
+  virtual float floatValue() const;
   /**
    * Returns the data field of the node as a boolean
    */
-  bool boolValue() const;
+  virtual bool boolValue() const;
   /**
    * Returns the first character of the data field of the node
    */
-  Char charValue() const;
+  virtual Char charValue() const;
   /**
    * Returns the data field of the node as a string
    */
-  skString strValue() const;
+  virtual skString strValue() const;
   /**
    * Sets a value within the node. The field name is matched to a child of the treenode with the same label.
    * If a match is found, the child's data is changed. 
@@ -88,7 +88,7 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
    * @param attribute - the attribute name is ignored
    * @param value - the value to be assigned to the child. If this is a TREENODE_TYPE object, the full treenode is copied
    */
-  bool setValue(const skString& name,const skString& attribute,const skRValue& value);
+  virtual bool setValue(const skString& name,const skString& attribute,const skRValue& value);
   /**
    * Sets a value within the nth node of the tree node. 
    * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
@@ -96,17 +96,17 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
    * @param value - the value to be set
    * @return true if the field was changed, false if the field could not be set or found
    */
-  bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
+  virtual bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
   /**
    * Retrieves a value from within the node. The field name is matched to a child of the treenode with the same label.
    * If a match is found, a new TreeNodeObject encapsulating the child is returned. 
    */
-  bool getValue(const skString& name,const skString& attribute,skRValue& v);
+  virtual bool getValue(const skString& name,const skString& attribute,skRValue& v);
   /**
    * Retrieves the nth value from within the node. If the array index falls within the range of the number of children of this node, 
    * a new TreeNodeObject encapsulating the child is returned. 
    */
-  bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
+  virtual bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
    * This function attempts to call a method defined within the TreeNode. It searches for a child whose label matches the method name, and tries to execute its data as a Simkin script
    * @param name - the name of the method
@@ -115,7 +115,7 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
    * @param context context object to receive errors
    * @return true if the method was found, otherwise false
    */
-  bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
+  virtual bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**
    * This function returns the treenode wrapped by this object
    */
@@ -141,6 +141,15 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
    * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over *all* children of this node
    */
   skExecutableIterator * createIterator();
+  /**
+  * Returns the source code for the given method
+  */
+  virtual skString getSource(const skString& location);
+  /**
+  * This method returns the instance variables for this object
+  * @param table a table to filled with references to the instance variables
+  */
+  virtual void getInstanceVariables(skRValueTable& table);
  protected:
   /**
    * the location the node came from

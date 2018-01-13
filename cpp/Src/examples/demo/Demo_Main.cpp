@@ -21,7 +21,7 @@
 
   This function provides an entry point for the demo.
 
-  $Id: Demo_Main.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
+  $Id: Demo_Main.cpp,v 1.4 2002/12/20 15:06:32 sdw Exp $
 */
 
 //	these functions are implemented in Demo_xxx.cpp where xxx is the platform
@@ -48,7 +48,11 @@ main(int argc,char * argv[])
   // creata an executable context
   skExecutableContext context(&interp);
   //	create a controller
+#ifdef _WIN32_WCE
+  Controller controller(skSTR("\\My Documents\\Demo.s"),context);
+#else
   Controller controller(skSTR("Demo.s"),context);
+#endif
   if (controller.getNode()){
     //	go into event processing
     int r=ProcessEventLoop();

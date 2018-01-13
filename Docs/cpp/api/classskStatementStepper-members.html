@@ -7,9 +7,11 @@
 <center>
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="hierarchy.html">Class Hierarchy</a> &nbsp; <a class="qindex" href="classes.html">Alphabetical List</a> &nbsp; <a class="qindex" href="annotated.html">Compound List</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Compound Members</a> &nbsp; </center>
 <hr><h1>skStatementStepper Member List</h1>This is the complete list of members for <a class="el" href="classskStatementStepper.html">skStatementStepper</a>, including all inherited members.<table>
-  <tr bgcolor="#f0f0f0"><td><a class="el" href="classskStatementStepper.html#a1">compoundStatementExecuted</a>(const skString &amp;location, int line_num, skiExecutable *obj, skRValueTable &amp;local_vars)=0</td><td><a class="el" href="classskStatementStepper.html">skStatementStepper</a></td><td><code> [pure virtual]</code></td></tr>
-  <tr bgcolor="#f0f0f0"><td><a class="el" href="classskStatementStepper.html#a0">statementExecuted</a>(const skString &amp;location, int line_num, skiExecutable *obj, skRValueTable &amp;local_vars, int statement_type)=0</td><td><a class="el" href="classskStatementStepper.html">skStatementStepper</a></td><td><code> [pure virtual]</code></td></tr>
-</table><hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:12 2002 for Simkin by
+  <tr bgcolor="#f0f0f0"><td><a class="el" href="classskStatementStepper.html#a3">breakpoint</a>(const skStackFrame *stack_frame)=0</td><td><a class="el" href="classskStatementStepper.html">skStatementStepper</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr bgcolor="#f0f0f0"><td><a class="el" href="classskStatementStepper.html#a1">compoundStatementExecuted</a>(const skStackFrame &amp;stack_frame)=0</td><td><a class="el" href="classskStatementStepper.html">skStatementStepper</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr bgcolor="#f0f0f0"><td><a class="el" href="classskStatementStepper.html#a2">exceptionEncountered</a>(const skStackFrame *stack_frame, const skException &amp;e)=0</td><td><a class="el" href="classskStatementStepper.html">skStatementStepper</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr bgcolor="#f0f0f0"><td><a class="el" href="classskStatementStepper.html#a0">statementExecuted</a>(const skStackFrame &amp;stack_frame, int statement_type)=0</td><td><a class="el" href="classskStatementStepper.html">skStatementStepper</a></td><td><code> [pure virtual]</code></td></tr>
+</table><hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:40 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

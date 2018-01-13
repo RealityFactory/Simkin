@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,14 +16,14 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAttribute.h,v 1.7 2002/12/13 17:21:54 sdw Exp $
+* $Id: skAttribute.h,v 1.9 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #ifndef skATTRIBUTE_H
 #define skATTRIBUTE_H
 
 #include "skAlist.h"
 #include "skString.h"
-
+class CLASSEXPORT skOutputDestination;
 /**
  * This class represents an attribute of an element in an XML document. The class forms part of the Simkin DOM class library.
  */
@@ -54,6 +54,7 @@ class CLASSEXPORT skAttribute
     m_Value=name;
   }
   skString toString() const;
+  void write(skOutputDestination& out);
  private:
   skString m_Name;
   skString m_Value;
@@ -66,7 +67,4 @@ EXTERN_TEMPLATE template class CLASSEXPORT skTAList<skAttribute>;
  */
 class CLASSEXPORT skAttributeList : public skTAList<skAttribute>{
 };
-#ifdef STREAMS_ENABLED
-CLASSEXPORT ostream& operator<<(ostream& out,const skAttribute& a);
-#endif
 #endif

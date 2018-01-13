@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skString.h,v 1.20 2002/12/13 17:21:54 sdw Exp $
+* $Id: skString.h,v 1.23 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 
@@ -157,10 +157,20 @@ class CLASSEXPORT skString
    */
   USize length() const;
   /**
+   * returns the index of the first occurrence of the given string within the string
+   * @return an index, or -1 if not found
+   */
+  int indexOf(const skString& s) const;
+  /**
    * returns the index of the first occurrence of the given character within the string
    * @return an index, or -1 if not found
    */
   int indexOf(Char c) const;
+  /**
+   * returns the index of the last occurrence of the given character within the string
+   * @return an index, or -1 if not found
+   */
+  int indexOfLast(Char c) const;
   /**
    * Converts the string to an integer
    */

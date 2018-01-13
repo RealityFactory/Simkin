@@ -34,8 +34,8 @@
 <tr><td>&nbsp;</td><td><font size=-1><em>This abstract virtual function requests that the node create a copy of itself.</em> <a href="#a3"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#a4">toString</a> () const=0</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This abstract virtual function writes a textual representation of this node and its children to a string.</em> <a href="#a4"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#a5">write</a> (ostream &amp;out) const=0</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>This abstract virtual function writes a textual representation of this node and its children to the given stream.</em> <a href="#a5"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#a5">write</a> (<a class="el" href="classskOutputDestination.html">skOutputDestination</a> &amp;out) const=0</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>This abstract virtual function writes a textual representation of this node and its children to the given destination.</em> <a href="#a5"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a name="a6" doxytag="skNode::addRef"></a>
 void&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#a6">addRef</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Increments the reference count for this node.</em></font><br><br></td></tr>
@@ -274,7 +274,7 @@ Implemented in <a class="el" href="classskElement.html#a10">skElement</a>, and <
         <tr>
           <td class="md" nowrap valign="top"> virtual void skNode::write </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">ostream &amp;&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskOutputDestination.html">skOutputDestination</a> &amp;&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>out</em>          </td>
           <td class="md" valign="top">)&nbsp;</td>
           <td class="md" nowrap> const<code> [pure virtual]</code></td>
@@ -292,11 +292,11 @@ Implemented in <a class="el" href="classskElement.html#a10">skElement</a>, and <
     <td>
 
 <p>
-This abstract virtual function writes a textual representation of this node and its children to the given stream.
+This abstract virtual function writes a textual representation of this node and its children to the given destination.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>out</em>&nbsp;</td><td>- the stream to write to </td></tr>
+    <tr><td valign=top><em>out</em>&nbsp;</td><td>- the destination to write to </td></tr>
   </table>
 </dl>
 
@@ -306,7 +306,7 @@ Implemented in <a class="el" href="classskCDataNode.html#a3">skCDataNode</a>, <a
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skNode_8h-source.html">skNode.h</a><li>skNode.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:12 2002 for Simkin by
+<hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:39 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.cpp,v 1.12 2002/12/09 23:22:32 sdw Exp $
+  $Id: skParser.cpp,v 1.14 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
@@ -365,16 +365,10 @@ void skParser::cleanupTempNodes()
   m_TempNodes.clearAndDestroy();
 }
 //---------------------------------------------------
-void skParser::setTopNode(skMethodDefNode* pNode) 
+void skParser::setTopNode(skParseNode* pNode) 
 //---------------------------------------------------
 {
   m_TopNode = pNode; 
-}
-//---------------------------------------------------
-skMethodDefNode *  skParser::getTopNode()
-//---------------------------------------------------
-{
-  return m_TopNode;
 }
 //---------------------------------------------------
 void  skParser::addParseNode(skParseNode* pNode) 
@@ -396,10 +390,44 @@ const skCompileErrorList&  skParser::getErrList()
   return m_ErrList;
 }
 //---------------------------------------------------
-void skParser::parse()
+skMethodDefNode * skParser::parseMethod()
 //---------------------------------------------------
 {
+  skMethodDefNode * node=0;
   yyparse(this);
+  if (m_TopNode){
+    if (m_TopNode->getType()!=s_MethodDef){
+      appendError(skSTR("Not a valid method definition"));
+    }else{
+      node=(skMethodDefNode *)m_TopNode;
+      m_TopNode=0;
+    }
+  }
+  if (node)
+    clearTempNodes();
+  else
+    cleanupTempNodes();
+  return node;
+}
+//---------------------------------------------------
+skExprNode * skParser::parseExpression()
+//---------------------------------------------------
+{
+  skExprNode * node=0;
+  yyparse(this);
+  if (m_TopNode){
+    if (m_TopNode->getType()==s_MethodDef){
+      appendError(skSTR("Not a valid expression"));
+    }else{
+      node=(skExprNode *)m_TopNode;
+      m_TopNode=0;
+    }
+  }
+  if (node)
+    clearTempNodes();
+  else
+    cleanupTempNodes();
+  return node;
 }
 
 //---------------------------------------------------

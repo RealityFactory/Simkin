@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementObject.h,v 1.10 2002/12/16 16:11:46 sdw Exp $
+* $Id: skElementObject.h,v 1.13 2003/01/23 15:30:55 simkin_cvs Exp $
 */
 
 
@@ -216,6 +216,24 @@ class CLASSEXPORT skElementObject : public skExecutable {
   void setLocation(const skString& location) ;
   /** this method returns the number of element children of the given element */
   static int countChildren(skElement * parent);
+  /**
+   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over elements with the given tag.
+   * @param qualifier tag - only elements with this tag will appear in the iteration
+   */
+  skExecutableIterator * createIterator(const skString& qualifier);
+  /**
+   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over *all* children of this element
+   */
+  skExecutableIterator * createIterator();
+  /**
+  * Returns the source code for the given method
+  */
+  virtual skString getSource(const skString& location);
+  /**
+  * This method returns the instance variables for this object
+  * @param table a table to filled with references to the instance variables
+  */
+  virtual void getInstanceVariables(skRValueTable& table);
  protected:
   /**
    * This method updates the associated element and clears the parse tree cache
@@ -233,15 +251,6 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * the location that the  document came from
    */
   skString m_ScriptLocation;
-  /**
-   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over elements with the given tag.
-   * @param qualifier tag - only elements with this tag will appear in the iteration
-   */
-  skExecutableIterator * createIterator(const skString& qualifier);
-  /**
-   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over *all* children of this element
-   */
-  skExecutableIterator * createIterator();
  protected:
   /**
    * the underlying document

@@ -85,7 +85,27 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE="..\..\..\expat-1.95.5\lib\expat.h"
+# End Source File
+# Begin Source File
+
 SOURCE=.\skAlist.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAlist.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAlist.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAttribute.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skBoundsException.h
 # End Source File
 # Begin Source File
 
@@ -93,7 +113,15 @@ SOURCE=.\skCDataNode.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skCDataNode.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skElement.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skElement.h
 # End Source File
 # Begin Source File
 
@@ -101,7 +129,15 @@ SOURCE=.\skElementExecutable.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skElementExecutable.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skElementObject.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skElementObject.h
 # End Source File
 # Begin Source File
 
@@ -109,7 +145,27 @@ SOURCE=.\skElementObjectEnumerator.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skElementObjectEnumerator.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skException.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skExecutable.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExecutable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExecutableContext.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExecutableContext.h
 # End Source File
 # Begin Source File
 
@@ -117,7 +173,19 @@ SOURCE=.\skExecutableIterator.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skExecutableIterator.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skExpatParser.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExpatParser.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skGeneral.h
 # End Source File
 # Begin Source File
 
@@ -125,7 +193,35 @@ SOURCE=.\skHashTable.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skHashTable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skHashTable.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\skiExecutable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInputSource.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInputSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skInterpreter.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreter.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreterp.h
 # End Source File
 # Begin Source File
 
@@ -133,7 +229,39 @@ SOURCE=.\skLang_tab.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skLang_tab.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skMethodTable.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skNode.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skNull.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skOutputDestination.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skOutputDestination.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseNode.h
 # End Source File
 # Begin Source File
 
@@ -150,7 +278,39 @@ SOURCE=.\skParser.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skParser.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRuntimeException.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skRValue.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValue.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValue.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValueArray.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValueTable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStatementStepper.h
 # End Source File
 # Begin Source File
 
@@ -158,7 +318,23 @@ SOURCE=.\skString.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skString.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skString.inl
+# End Source File
+# Begin Source File
+
 SOURCE=.\skStringBuffer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStringBuffer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStringList.h
 # End Source File
 # Begin Source File
 
@@ -166,11 +342,35 @@ SOURCE=.\skStringTokenizer.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skStringTokenizer.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skTextNode.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skTextNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skTraceCallback.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skTracer.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skTracer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skValist.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skXMLParseException.h
 # End Source File
 # End Group
 # Begin Group "Header Files"

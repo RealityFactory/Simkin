@@ -20,7 +20,7 @@
 
   This file defines the interface for the class which controls the demo's view.
 
-  $Id: Demo_Controller.h,v 1.3 2002/12/13 17:21:54 sdw Exp $
+  $Id: Demo_Controller.h,v 1.4 2003/01/20 23:07:01 simkin_cvs Exp $
 */
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
@@ -35,7 +35,7 @@ class Controller : public skScriptedExecutable, public ViewCallback
 //	buttons are pressed on the view
 {
  public:
-  Controller(skString fileName,skExecutableContext& context);
+  Controller(skString fileName,skExecutableContext& ctxt);
   ~Controller();
   void	buttonPressed(int id);
   bool	method(const skString& s,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
@@ -43,7 +43,7 @@ class Controller : public skScriptedExecutable, public ViewCallback
   void	init();
   View *	m_View;
   skString m_FileName;
-  skExecutableContext& m_Context;
+  skInterpreter * m_Interpreter;
 };
 
 #endif

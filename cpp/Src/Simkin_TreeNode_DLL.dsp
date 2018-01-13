@@ -100,6 +100,10 @@ SOURCE=.\skExecutable.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skExecutableContext.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skExecutableIterator.cpp
 # End Source File
 # Begin Source File
@@ -108,11 +112,19 @@ SOURCE=.\skHashTable.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skInputSource.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skInterpreter.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\skLang_tab.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skOutputDestination.cpp
 # End Source File
 # Begin Source File
 
@@ -125,6 +137,10 @@ SOURCE=.\skRValue.cpp
 # Begin Source File
 
 SOURCE=.\skScriptedExecutable.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.cpp
 # End Source File
 # Begin Source File
 
@@ -158,6 +174,14 @@ SOURCE=.\skTreeNodeObjectEnumerator.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\skExecutableContext.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 

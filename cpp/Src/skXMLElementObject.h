@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skXMLElementObject.h,v 1.35 2002/12/16 16:11:46 sdw Exp $
+* $Id: skXMLElementObject.h,v 1.37 2003/01/23 15:30:55 simkin_cvs Exp $
 */
 
 
@@ -231,6 +231,15 @@ class CLASSEXPORT skXMLElementObject : public skExecutable {
    * @exception IOException if there was an error writing to the stream
    */
   void save(ostream& out);
+  /**
+  * Returns the source code for the given method
+  */
+  virtual skString getSource(const skString& location);
+  /**
+  * This method returns the instance variables for this object
+  * @param table a table to filled with references to the instance variables
+  */
+  virtual void getInstanceVariables(skRValueTable& table);
  protected:
   /**
    * This method updates the associated element and clears the parse tree cache

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObject.cpp,v 1.27 2002/12/13 17:21:54 sdw Exp $
+  $Id: skTreeNodeObject.cpp,v 1.33 2003/01/24 00:35:27 simkin_cvs Exp $
 */
 
 #include "skTreeNodeObject.h"
@@ -25,11 +25,13 @@
 #include "skRValueArray.h"
 #include "skInterpreter.h"
 #include "skMethodTable.h"
+#include "skRValueTable.h"
 
 skLITERAL(numChildren);
 skLITERAL(enumerate);
 skLITERAL(label);
-skString s_colon=skSTR(":");
+static skString s_colon=skSTR(":");
+static Char c_colon=':';
 skString s_leftbracket=skSTR("[");
 skString s_rightbracket=skSTR("]");
 
@@ -198,7 +200,7 @@ bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& re
         func_node=m_Node->findChild(s);
         if (func_node){
 	        bRet=true;
-	        ctxt.m_Interpreter->executeString(location,this,func_node->data(),args,ret,&methNode,ctxt);
+	        ctxt.getInterpreter()->executeString(location,this,func_node->data(),args,ret,&methNode,ctxt);
 	        if (methNode){
 	          if (m_MethodCache==0)
 	            m_MethodCache=new skMethodTable();
@@ -208,7 +210,7 @@ bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& re
           bRet=skExecutable::method(s,args,ret,ctxt);
       }else{
         // otherwise execute the parse tree immediately
-        ctxt.m_Interpreter->executeParseTree(location,this,methNode,args,ret,ctxt);
+        ctxt.getInterpreter()->executeParseTree(location,this,methNode,args,ret,ctxt);
         bRet=true;
       }
     }else
@@ -245,4 +247,30 @@ skExecutableIterator * skTreeNodeObject::createIterator()
 {
   return new skTreeNodeObjectEnumerator(m_Node,getLocation());
 }
-
+//------------------------------------------
+skString skTreeNodeObject::getSource(const skString& location)
+//------------------------------------------
+{
+  skString src;
+  if (m_Node){
+    // extract the object name
+    int index=location.indexOfLast(c_colon);
+    skString name=location;
+    if (index!=-1)
+      name=location.substr(index+1);
+    src=m_Node->findChildData(name);
+  }
+  return src;
+}
+//------------------------------------------
+void skTreeNodeObject::getInstanceVariables(skRValueTable& table)
+//------------------------------------------
+{
+  if (m_Node){
+    for (unsigned int i=0;i<m_Node->numChildren();i++){
+      skTreeNode * var=m_Node->nthChild(i);
+      skString name=var->label();
+      table.insertKeyAndValue(new skString(name),new skRValue(new skTreeNodeObject(name,var,false)));
+    }
+  }
+}

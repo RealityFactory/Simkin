@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObject.cpp,v 1.11 2002/12/13 17:21:54 sdw Exp $
+  $Id: skElementObject.cpp,v 1.14 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -32,6 +32,8 @@ xskLITERAL(true);
 
 skLITERAL(function);
 skLITERAL(name);
+static Char c_colon=':';
+static skString s_colon=skSTR(":");
 
 //------------------------------------------
 skElementObject::skElementObject(const skString& scriptLocation,skElement * elem,bool created)
@@ -289,7 +291,7 @@ bool skElementObject::getValue(const skString& name,const skString& attrib,skRVa
       }
       if (child){
         if (attrib.length()==0)
-          v=skRValue(createElementObject(m_ScriptLocation+skSTR(":")+name,child,false),true);
+          v=skRValue(createElementObject(m_ScriptLocation+s_colon+name,child,false),true);
         else{
           v=skRValue(child->getAttribute(attrib));
         }
@@ -471,7 +473,7 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
       else
         ret=skRValue(new skElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),args[0].str()),true);
     }else{
-      skString location=m_ScriptLocation+skSTR(":")+s;
+      skString location=m_ScriptLocation+s_colon+s;
       if (m_Element){
         skMethodDefNode * methNode=0;
         if (m_MethodCache!=0)
@@ -488,7 +490,7 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
             skStringTokenizer tokenizer(params,skSTR(", "));
             while (tokenizer.hasMoreTokens())
               paramList.append(tokenizer.nextToken());
-            ctxt.m_Interpreter->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
+            ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
             if (methNode){
               if (m_MethodCache==0)
                 m_MethodCache=new skMethodTable();
@@ -497,7 +499,7 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
           }else
             bRet=skExecutable::method(s,args,ret,ctxt);
         }else{	
-          ctxt.m_Interpreter->executeParseTree(location,this,methNode,args,ret,ctxt);
+          ctxt.getInterpreter()->executeParseTree(location,this,methNode,args,ret,ctxt);
           bRet=true;
         }
       }
@@ -560,4 +562,39 @@ skExecutableIterator * skElementObject::createIterator()
   if (m_Element)
     iter=new skElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation());
   return iter;
+}
+//------------------------------------------
+skString skElementObject::getSource(const skString& location)
+//------------------------------------------
+{
+  skString src;
+  if (m_Element){
+    // extract the object name
+    int index=location.indexOfLast(c_colon);
+    skString name=location;
+    if (index!=-1)
+      name=location.substr(index+1);
+    skElement * node=skElementObject::findChild(m_Element,s_function,s_name,name);
+    if (node)
+      src=skElementObject::getData(node);
+  }
+  return src;
+}
+//------------------------------------------
+void skElementObject::getInstanceVariables(skRValueTable& table)
+//------------------------------------------
+{
+  if (m_Element){
+    skNodeList& nodes=m_Element->getChildNodes();
+    for (unsigned int i=0;i<nodes.entries();i++){
+      skNode * node=nodes[i];
+      skNode::NodeType type=node->getNodeType();
+      if (type==skNode::ELEMENT_NODE){
+        skElement * element=(skElement *)node;
+        skString name=element->getTagName();
+        table.insertKeyAndValue(new skString(name),
+                    new skRValue(new skElementObject(name,element,false)));
+      }
+    }
+  }
 }

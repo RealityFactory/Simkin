@@ -66,6 +66,11 @@ void&nbsp;</td><td valign=bottom><a class="el" href="classskXMLElementObject.htm
 <tr><td>&nbsp;</td><td><font size=-1><em>This function returns the location associated with this object (typically a file name).</em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskXMLElementObject.html#a21">save</a> (ostream &amp;out)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Call this method to save the state of the object back to a stream.</em> <a href="#a21"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a22" doxytag="skXMLElementObject::getSource"></a>
+virtual <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskXMLElementObject.html#a22">getSource</a> (const <a class="el" href="classskString.html">skString</a> &amp;location)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Returns the source code for the given method.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskXMLElementObject.html#a23">getInstanceVariables</a> (<a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;table)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>This method returns the instance variables for this object.</em> <a href="#a23"></a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Static Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskXMLElementObject.html#d0">getData</a> (DOM_Element element)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>retrieves the text data from an element</em> <a href="#d0"></a><em></em></font><br><br></td></tr>
@@ -739,6 +744,44 @@ This method returns the XML Element being held by the object.
     </td>
   </tr>
 </table>
+<a name="a23" doxytag="skXMLElementObject::getInstanceVariables"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> void skXMLElementObject::getInstanceVariables </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp; <em>table</em>          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap><code> [virtual]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This method returns the instance variables for this object.
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>table</em>&nbsp;</td><td>a table to filled with references to the instance variables </td></tr>
+  </table>
+</dl>
+
+<p>
+Reimplemented from <a class="el" href="classskExecutable.html#a17">skExecutable</a>.    </td>
+  </tr>
+</table>
 <a name="a11" doxytag="skXMLElementObject::getValue"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -1250,7 +1293,7 @@ Reimplemented from <a class="el" href="classskExecutable.html#a6">skExecutable</
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skXMLElementObject_8h-source.html">skXMLElementObject.h</a><li>skXMLElementObject.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:13 2002 for Simkin by
+<hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:40 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

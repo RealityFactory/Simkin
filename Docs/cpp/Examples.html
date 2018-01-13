@@ -14,11 +14,12 @@ There are several examples included with this distribution. They are located in 
 <li><a href="examples/helloworld/HelloWorld.cpp.txt">HelloWorld</a> - a very simple example that prints "Hello World"
 <p>
 </li>
-<li>Scriptloader - a small C++ program that loads an XML or TreeNode file whose name appears on the command line, and runs a method called <b>main</b> within it.<p>There are 3 flavours of this application:
+<li>Scriptloader - a small C++ program that loads an XML or TreeNode file whose name appears on the command line, and runs a method called <b>main</b> within it.<p>There are 4 flavours of this application:
 <ol>
 <li><a href="examples/scriptloader/ScriptLoader_TreeNode.cpp.txt">Scriptloader_TreeNode</a> - loads a <a href="../Simkin/TreeNode.html">TreeNode</a> file
 <li><a href="examples/scriptloader/ScriptLoader_Expat.cpp.txt">ScriptLoader_Expat</a> - loads an XML file using the Expat parser and Simkin DOM classes</li>
 <li><a href="examples/scriptloader/ScriptLoader_Xerces.cpp.txt">Scriptloader_Xerces</a> - loads an XML file using the Xerces library</li>
+<li><a href="examples/scriptloader/ScriptLoader_MSXML.cpp.txt">Scriptloader_MSXML</a> - loads an XML file using the Microsoft MSXML library</li>
 </ol>
 You can use this to run the following example scripts:<p>
 <ul>
@@ -48,6 +49,12 @@ You can use this to run the following example scripts:<p>
 <pre>
 &lt;path-to&gt;Demo_XML Demo.xml
 </pre>
+There are versions of this example using the other XML libraries:
+<ul>
+<li><a href="examples/demo_expat/Demo_Controller.cpp.txt">Expat</a></li>
+<li><a href="examples/demo_msxml/Demo_Controller.cpp.txt">Microsoft MSXML</a></li>
+</ul>
+<p>
 </li>
 <li><a href="examples/demo/Demo_Controller.cpp.txt">Demo_Controller</a> - is the same example as above, but using the TreeNode file format.<p>This example uses <a href="examples/demo/Demo.s.txt">Demo.s</a> to describe the dialog.
 <p>To run the example, change to the <b>examples\demo</b> directory and type:

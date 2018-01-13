@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skNode.cpp,v 1.7 2002/12/13 17:21:54 sdw Exp $
+* $Id: skNode.cpp,v 1.9 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #include "skNode.h"
 #include "skStringBuffer.h"
@@ -95,12 +95,3 @@ skElement * skNode::getParent()
   return m_Parent;
 }
 
-#ifdef STREAMS_ENABLED
-//------------------------------------------
-ostream& operator<<(ostream& out,const skNode& n)
-//------------------------------------------
-{
-  n.write(out);
-  return out;
-}
-#endif

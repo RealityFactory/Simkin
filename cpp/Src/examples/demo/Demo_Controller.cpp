@@ -21,7 +21,7 @@
   This file implements the class which controls the behaviour of the
   view in the demo.
 
-  $Id: Demo_Controller.cpp,v 1.4 2002/12/13 17:21:54 sdw Exp $
+  $Id: Demo_Controller.cpp,v 1.5 2003/01/20 23:07:01 simkin_cvs Exp $
 */
 #include "Demo_Controller.h"
 #include "skTreeNode.h"
@@ -47,11 +47,11 @@ skLITERAL(close);
 skLITERAL(init);
 
 //-----------------------------------------------------------------
-Controller::Controller(skString fileName,skExecutableContext& context)
+Controller::Controller(skString fileName,skExecutableContext& ctxt)
   //-----------------------------------------------------------------
   //	this class loads the demo script file, whose methods
   //	are an extension of the class functionality
-  : skScriptedExecutable(fileName,context),m_View(0),m_FileName(fileName),m_Context(context)
+  : skScriptedExecutable(fileName,ctxt),m_View(0),m_FileName(fileName),m_Interpreter(ctxt.getInterpreter())
 {
   init();
 }
@@ -97,7 +97,8 @@ void Controller::init()
     // call the init function
     skRValueArray args;
     skRValue ret;
-    method(s_init,args,ret,m_Context);
+    skExecutableContext context(m_Interpreter);
+    method(s_init,args,ret,context);
   }
 }//-----------------------------------------------------------------
 void Controller::buttonPressed(int id)
@@ -122,7 +123,8 @@ void Controller::buttonPressed(int id)
 	            //	call a method on ourselves, if one is set up
 	            skRValueArray args;
 	            skRValue ret;
-	            method(methodName,args,ret,m_Context);
+              skExecutableContext context(m_Interpreter);
+	            method(methodName,args,ret,context);
 	          }
 	          break;
 	        }
@@ -141,7 +143,7 @@ bool Controller::method(const skString& s,skRValueArray& args,skRValue& ret,skEx
   if (IS_METHOD(s,s_reload)){
     //	this code causes the script file to be re-read and
     //	the view recreated
-    skTreeNode * newCode=skTreeNode::read(m_FileName,m_Context);
+    skTreeNode * newCode=skTreeNode::read(m_FileName,ctxt);
     if (newCode){
       delete m_View;
       m_View=0;

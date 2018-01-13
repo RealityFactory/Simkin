@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skParser.h,v 1.7 2002/12/13 17:21:54 sdw Exp $</span>
+00019 <span class="comment">  $Id: skParser_8h-source.html,v 1.5 2003/01/23 15:31:03 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 <span class="preprocessor">#ifndef skPARSER_H</span>
@@ -39,34 +39,34 @@
 00034  <span class="keyword">public</span>:
 00040   <a class="code" href="classskParser.html#a0">skParser</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
 00044   <a class="code" href="classskParser.html#a1">~skParser</a>();
-00049   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a2">parse</a>();
-00054   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a3">setTopNode</a>(<a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>* pNode);
-00058   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * <a class="code" href="classskParser.html#a4">getTopNode</a>();
-00062   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a5">addParseNode</a>(<a class="code" href="classskParseNode.html">skParseNode</a>* pNode);
-00066   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a6">appendError</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg);
-00070   <span class="keyword">const</span> <a class="code" href="classskCompileErrorList.html">skCompileErrorList</a>&amp; <a class="code" href="classskParser.html#a7">getErrList</a>();
-00076   <span class="keywordtype">int</span> <a class="code" href="classskParser.html#a8">lex</a>(<span class="keywordtype">void</span> * lvalp,<span class="keywordtype">void</span> * lloc); <span class="comment">// returns a token</span>
-00080 <span class="comment"></span>  <span class="keywordtype">int</span> <a class="code" href="classskParser.html#a9">nextChar</a>(); 
-00084   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a10">putbackchar</a>(<span class="keywordtype">int</span> i); 
-00088   <span class="keywordtype">bool</span> <a class="code" href="classskParser.html#a11">eof</a>(); 
-00092   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a12">cleanupTempNodes</a>(); 
-00096   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a13">clearTempNodes</a>();
-00097   
-00098  <span class="keyword">private</span>:
-00102    <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>*             m_TopNode;
-00103    skParseNodeList              m_TempNodes;
-00104    <a class="code" href="classskCompileErrorList.html">skCompileErrorList</a>   m_ErrList;
-00105    
-00106    Char m_LexBuffer[MAXYYTEXT]; <span class="comment">//  used by lexical analyser to hold the current token</span>
-00107    <a class="code" href="classskString.html">skString</a> m_InputBuffer; <span class="comment">// the buffer read by the lexer</span>
-00108    <span class="keywordtype">int</span> m_PutBack; <span class="comment">// character to be put back</span>
-00109    <span class="keywordtype">int</span> m_LineNum; <span class="comment">// linenumber being lexed</span>
-00110    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> m_Pos; <span class="comment">//  position in the line</span>
-00111    <a class="code" href="classskString.html">skString</a> m_Location;
-00112 };
-00113 
-00114 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:12 2002 for Simkin by
+00050   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * <a class="code" href="classskParser.html#a2">parseMethod</a>();
+00056   skExprNode * <a class="code" href="classskParser.html#a3">parseExpression</a>();
+00061   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a4">setTopNode</a>(<a class="code" href="classskParseNode.html">skParseNode</a>* pNode);
+00065   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a5">addParseNode</a>(<a class="code" href="classskParseNode.html">skParseNode</a>* pNode);
+00069   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a6">appendError</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg);
+00073   <span class="keyword">const</span> <a class="code" href="classskCompileErrorList.html">skCompileErrorList</a>&amp; <a class="code" href="classskParser.html#a7">getErrList</a>();
+00079   <span class="keywordtype">int</span> <a class="code" href="classskParser.html#a8">lex</a>(<span class="keywordtype">void</span> * lvalp,<span class="keywordtype">void</span> * lloc); <span class="comment">// returns a token</span>
+00083 <span class="comment"></span>  <span class="keywordtype">int</span> <a class="code" href="classskParser.html#a9">nextChar</a>(); 
+00087   <span class="keywordtype">void</span> <a class="code" href="classskParser.html#a10">putbackchar</a>(<span class="keywordtype">int</span> i); 
+00091   <span class="keywordtype">bool</span> <a class="code" href="classskParser.html#a11">eof</a>(); 
+00092  <span class="keyword">private</span>:
+00099   <span class="keywordtype">void</span> cleanupTempNodes(); 
+00103   <span class="keywordtype">void</span> clearTempNodes();
+00104   
+00105    <a class="code" href="classskParseNode.html">skParseNode</a>*         m_TopNode;
+00106    skParseNodeList              m_TempNodes;
+00107    <a class="code" href="classskCompileErrorList.html">skCompileErrorList</a>   m_ErrList;
+00108    
+00109    Char m_LexBuffer[MAXYYTEXT]; <span class="comment">//  used by lexical analyser to hold the current token</span>
+00110    <a class="code" href="classskString.html">skString</a> m_InputBuffer; <span class="comment">// the buffer read by the lexer</span>
+00111    <span class="keywordtype">int</span> m_PutBack; <span class="comment">// character to be put back</span>
+00112    <span class="keywordtype">int</span> m_LineNum; <span class="comment">// linenumber being lexed</span>
+00113    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> m_Pos; <span class="comment">//  position in the line</span>
+00114    <a class="code" href="classskString.html">skString</a> m_Location;
+00115 };
+00116 
+00117 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:39 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

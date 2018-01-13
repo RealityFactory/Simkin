@@ -21,10 +21,14 @@
 
   This file implements the class View for the Windows platform
 
-  $Id: Demo_View_Win32.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
+  $Id: Demo_View_Win32.cpp,v 1.6 2003/01/07 11:53:41 simkin_cvs Exp $
 */
 #if defined(WIN32) || defined(_WIN32_WCE)
 #include <windows.h>
+#ifdef _WIN32_WCE
+#include <sipapi.h>
+#define USER_SHOWIM WM_USER+1000
+#endif
 
 #include "Demo_View.h"
 
@@ -47,17 +51,22 @@ View::View(ViewCallback& callback,skString title,int x,int y,int width,int heigh
 #ifdef _WIN32_WCE
   wc.hIcon = 0;
   wc.hCursor = 0;
+  wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 #else
   wc.hIcon = LoadIcon (0, IDI_APPLICATION) ;
   wc.hCursor = LoadCursor (0, IDC_ARROW) ;
-#endif
   wc.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1); 
+#endif
   wc.lpszMenuName = 0;
   wc.lpszClassName = skSTR("View");
   ::RegisterClass (&wc);
-  m_Handle=::CreateWindow(skSTR("View"),title,WS_OVERLAPPED|WS_CAPTION|WS_VISIBLE,x,y,width,height,0,0,g_ModuleHandle,0);
+  m_Handle=::CreateWindow(skSTR("View"),title,WS_OVERLAPPED|WS_CAPTION|WS_VISIBLE,CW_USEDEFAULT,CW_USEDEFAULT,width,height,0,0,g_ModuleHandle,0);
   if (m_Handle)
     ::SetWindowLong((HWND)m_Handle,GWL_USERDATA,(long)this);
+#ifdef _WIN32_WCE
+  // post a message to show the IM
+  PostMessage((HWND)m_Handle,USER_SHOWIM,0,0);
+#endif
 }
 //-----------------------------------------------------------------
 View::~View()
@@ -145,6 +154,14 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
     }
     break;
   }
+#ifdef _WIN32_WCE
+ case WM_DESTROY:
+    SipShowIM(SIPF_OFF);
+    break;
+ case USER_SHOWIM:
+    SipShowIM(SIPF_ON);
+    break;
+#endif
   case WM_CLOSE:{
     View * view=(View *)::GetWindowLong(hwnd,GWL_USERDATA);
     if (view)

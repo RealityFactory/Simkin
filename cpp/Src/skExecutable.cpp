@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skExecutable.cpp,v 1.28 2002/12/13 17:21:54 sdw Exp $
+  $Id: skExecutable.cpp,v 1.32 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #include "skExecutable.h"
 #include "skRValue.h"
@@ -117,7 +117,7 @@ bool skExecutable::method(const skString& s,skRValueArray& args,skRValue& r,skEx
   bool bRet=false;
   if (s==s_trace){
     if (args.entries()>0)
-      ctxt.m_Interpreter->trace(args[0].str()+skSTR("\n"));
+      ctxt.getInterpreter()->trace(args[0].str()+skSTR("\n"));
     bRet=true;
   }else if (s==s_isObject){
     if (args.entries()==1){
@@ -155,4 +155,14 @@ skExecutableIterator * skExecutable::createIterator()
 {
   return 0;
 }
-
+//------------------------------------------
+skString skExecutable::getSource(const skString& location)
+//------------------------------------------
+{
+  return skString();
+}
+//------------------------------------------
+void skExecutable::getInstanceVariables(skRValueTable& table)
+//------------------------------------------
+{
+}

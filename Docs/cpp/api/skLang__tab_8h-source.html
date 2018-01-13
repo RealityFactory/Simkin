@@ -20,52 +20,53 @@
 00012   skIdNode * idNode;
 00013   <a class="code" href="classskString.html">skString</a> * string;
 00014   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * methodDef;
-00015 } YYSTYPE;
-00016 
-00017 <span class="preprocessor">#ifndef YYLTYPE</span>
-00018 <span class="preprocessor"></span><span class="keyword">typedef</span>
-00019   <span class="keyword">struct </span>yyltype
-00020     {
-00021       <span class="keywordtype">int</span> timestamp;
-00022       <span class="keywordtype">int</span> first_line;
-00023       <span class="keywordtype">int</span> first_column;
-00024       <span class="keywordtype">int</span> last_line;
-00025       <span class="keywordtype">int</span> last_column;
-00026       <span class="keywordtype">char</span> *text;
-00027    }
-00028   yyltype;
-00029 
-00030 <span class="preprocessor">#define YYLTYPE yyltype</span>
-00031 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-00032 <span class="preprocessor"></span>
-00033 <span class="preprocessor">#define L_CHARACTER     257</span>
-00034 <span class="preprocessor"></span><span class="preprocessor">#define L_INTEGER       258</span>
-00035 <span class="preprocessor"></span><span class="preprocessor">#define L_FLOAT 259</span>
-00036 <span class="preprocessor"></span><span class="preprocessor">#define L_ID    260</span>
-00037 <span class="preprocessor"></span><span class="preprocessor">#define L_STRING        261</span>
-00038 <span class="preprocessor"></span><span class="preprocessor">#define L_RETURN        262</span>
-00039 <span class="preprocessor"></span><span class="preprocessor">#define L_OR    263</span>
-00040 <span class="preprocessor"></span><span class="preprocessor">#define L_AND   264</span>
-00041 <span class="preprocessor"></span><span class="preprocessor">#define L_NOT   265</span>
-00042 <span class="preprocessor"></span><span class="preprocessor">#define L_IF    266</span>
-00043 <span class="preprocessor"></span><span class="preprocessor">#define L_ELSE  267</span>
-00044 <span class="preprocessor"></span><span class="preprocessor">#define L_WHILE 268</span>
-00045 <span class="preprocessor"></span><span class="preprocessor">#define L_GE    269</span>
-00046 <span class="preprocessor"></span><span class="preprocessor">#define L_GT    270</span>
-00047 <span class="preprocessor"></span><span class="preprocessor">#define L_LE    271</span>
-00048 <span class="preprocessor"></span><span class="preprocessor">#define L_LT    272</span>
-00049 <span class="preprocessor"></span><span class="preprocessor">#define L_SWITCH        273</span>
-00050 <span class="preprocessor"></span><span class="preprocessor">#define L_DEFAULT       274</span>
-00051 <span class="preprocessor"></span><span class="preprocessor">#define L_CASE  275</span>
-00052 <span class="preprocessor"></span><span class="preprocessor">#define L_FOR   276</span>
-00053 <span class="preprocessor"></span><span class="preprocessor">#define L_EACH  277</span>
-00054 <span class="preprocessor"></span><span class="preprocessor">#define L_IN    278</span>
-00055 <span class="preprocessor"></span><span class="preprocessor">#define L_TO    279</span>
-00056 <span class="preprocessor"></span><span class="preprocessor">#define L_STEP  280</span>
-00057 <span class="preprocessor"></span><span class="preprocessor">#define L_NEQ   281</span>
-00058 <span class="preprocessor"></span><span class="preprocessor">#define UNARY   282</span>
-00059 <span class="preprocessor"></span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:12 2002 for Simkin by
+00015   <a class="code" href="classskParseNode.html">skParseNode</a> * parseNode;
+00016 } YYSTYPE;
+00017 
+00018 <span class="preprocessor">#ifndef YYLTYPE</span>
+00019 <span class="preprocessor"></span><span class="keyword">typedef</span>
+00020   <span class="keyword">struct </span>yyltype
+00021     {
+00022       <span class="keywordtype">int</span> timestamp;
+00023       <span class="keywordtype">int</span> first_line;
+00024       <span class="keywordtype">int</span> first_column;
+00025       <span class="keywordtype">int</span> last_line;
+00026       <span class="keywordtype">int</span> last_column;
+00027       <span class="keywordtype">char</span> *text;
+00028    }
+00029   yyltype;
+00030 
+00031 <span class="preprocessor">#define YYLTYPE yyltype</span>
+00032 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+00033 <span class="preprocessor"></span>
+00034 <span class="preprocessor">#define L_CHARACTER     257</span>
+00035 <span class="preprocessor"></span><span class="preprocessor">#define L_INTEGER       258</span>
+00036 <span class="preprocessor"></span><span class="preprocessor">#define L_FLOAT 259</span>
+00037 <span class="preprocessor"></span><span class="preprocessor">#define L_ID    260</span>
+00038 <span class="preprocessor"></span><span class="preprocessor">#define L_STRING        261</span>
+00039 <span class="preprocessor"></span><span class="preprocessor">#define L_RETURN        262</span>
+00040 <span class="preprocessor"></span><span class="preprocessor">#define L_OR    263</span>
+00041 <span class="preprocessor"></span><span class="preprocessor">#define L_AND   264</span>
+00042 <span class="preprocessor"></span><span class="preprocessor">#define L_NOT   265</span>
+00043 <span class="preprocessor"></span><span class="preprocessor">#define L_IF    266</span>
+00044 <span class="preprocessor"></span><span class="preprocessor">#define L_ELSE  267</span>
+00045 <span class="preprocessor"></span><span class="preprocessor">#define L_WHILE 268</span>
+00046 <span class="preprocessor"></span><span class="preprocessor">#define L_GE    269</span>
+00047 <span class="preprocessor"></span><span class="preprocessor">#define L_GT    270</span>
+00048 <span class="preprocessor"></span><span class="preprocessor">#define L_LE    271</span>
+00049 <span class="preprocessor"></span><span class="preprocessor">#define L_LT    272</span>
+00050 <span class="preprocessor"></span><span class="preprocessor">#define L_SWITCH        273</span>
+00051 <span class="preprocessor"></span><span class="preprocessor">#define L_DEFAULT       274</span>
+00052 <span class="preprocessor"></span><span class="preprocessor">#define L_CASE  275</span>
+00053 <span class="preprocessor"></span><span class="preprocessor">#define L_FOR   276</span>
+00054 <span class="preprocessor"></span><span class="preprocessor">#define L_EACH  277</span>
+00055 <span class="preprocessor"></span><span class="preprocessor">#define L_IN    278</span>
+00056 <span class="preprocessor"></span><span class="preprocessor">#define L_TO    279</span>
+00057 <span class="preprocessor"></span><span class="preprocessor">#define L_STEP  280</span>
+00058 <span class="preprocessor"></span><span class="preprocessor">#define L_NEQ   281</span>
+00059 <span class="preprocessor"></span><span class="preprocessor">#define UNARY   282</span>
+00060 <span class="preprocessor"></span>
+</pre></div><hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:38 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

@@ -21,7 +21,7 @@
 
   This file defines the interface for the class which controls the demo's view.
 
-  $Id: Demo_Controller.h,v 1.1 2002/12/16 14:53:18 sdw Exp $
+  $Id: Demo_Controller.h,v 1.2 2003/01/20 23:07:01 simkin_cvs Exp $
 */
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
@@ -44,7 +44,7 @@ class Controller : public skElementExecutable, public ViewCallback
   void	init();
   View *	m_View;
   skString m_FileName;
-  skExecutableContext m_Context;
+  skInterpreter* m_Interpreter;
 };
 
 #endif

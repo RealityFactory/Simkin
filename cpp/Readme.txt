@@ -1,5 +1,17 @@
 Simkin for C++
-(c)1996-2002 Simon Whiteside
+(c)1996-2003 Simon Whiteside
+
+Simkin Version 2.15
+Date: 23/1/2003
+-------------------
+
+* renamed skContext to skStackFrame and modified the usage for use in debugging
+* showed IM in Windows CE demo
+* added skInputSource to manage reading skTreeNode's and Expat XML documents from different data sources such as sockets
+* added some functions to skiExecutable to aid debugging
+* added evaluateExpression functionality to the Interpreter
+* added support for Microsoft XML parser (thanks Marlin!) (look for classes called skMSXML... )
+* Windows CE InputFile classes can now translate from ANSI documents to Unicode on the fly.
 
 Simkin Version 2.14
 Date: 14/12/2002

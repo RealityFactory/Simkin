@@ -328,6 +328,10 @@ BSC32=bscmake.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE="..\..\..\expat-1.95.5\lib\expat.h"
+# End Source File
+# Begin Source File
+
 SOURCE=.\skAlist.cpp
 
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
@@ -353,7 +357,9 @@ DEP_CPP_SKALI=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKALI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -435,9 +441,7 @@ DEP_CPP_SKALI=\
 	".\skGeneral.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	
-NODEP_CPP_SKALI=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -468,6 +472,230 @@ DEP_CPP_SKALI=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAlist.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAlist.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAsciiString.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKASC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAsciiStringBuffer.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKASCI=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAsciiStringBuffer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAttribute.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skBoundsException.h
 # End Source File
 # Begin Source File
 
@@ -502,7 +730,9 @@ DEP_CPP_SKCDA=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skTextNode.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKCDA=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -599,12 +829,12 @@ DEP_CPP_SKCDA=\
 	".\skCDataNode.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringBuffer.h"\
 	".\skTextNode.h"\
-	
-NODEP_CPP_SKCDA=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -633,14 +863,20 @@ DEP_CPP_SKCDA=\
 	".\skCDataNode.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringBuffer.h"\
 	".\skTextNode.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skCDataNode.h
 # End Source File
 # Begin Source File
 
@@ -677,7 +913,9 @@ DEP_CPP_SKELE=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELE=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -780,12 +1018,11 @@ DEP_CPP_SKELE=\
 	".\skElement.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	
-NODEP_CPP_SKELE=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -816,6 +1053,7 @@ DEP_CPP_SKELE=\
 	".\skElement.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
@@ -827,12 +1065,15 @@ DEP_CPP_SKELE=\
 # End Source File
 # Begin Source File
 
+SOURCE=.\skElement.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skElementExecutable.cpp
 
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -853,6 +1094,7 @@ DEP_CPP_SKELEM=\
 	".\skStringBuffer.h"\
 	
 NODEP_CPP_SKELEM=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
@@ -878,13 +1120,14 @@ DEP_CPP_SKELEM=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELEM=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -905,13 +1148,13 @@ DEP_CPP_SKELEM=\
 	".\skStringBuffer.h"\
 	
 NODEP_CPP_SKELEM=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -932,13 +1175,13 @@ DEP_CPP_SKELEM=\
 	".\skStringBuffer.h"\
 	
 NODEP_CPP_SKELEM=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -959,13 +1202,13 @@ DEP_CPP_SKELEM=\
 	".\skStringBuffer.h"\
 	
 NODEP_CPP_SKELEM=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -986,13 +1229,13 @@ DEP_CPP_SKELEM=\
 	".\skStringBuffer.h"\
 	
 NODEP_CPP_SKELEM=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -1013,13 +1256,14 @@ DEP_CPP_SKELEM=\
 	".\skStringBuffer.h"\
 	
 NODEP_CPP_SKELEM=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
+	"..\..\..\expat-1.95.5\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -1033,20 +1277,19 @@ DEP_CPP_SKELEM=\
 	".\skExpatParser.h"\
 	".\skGeneral.h"\
 	".\skiExecutable.h"\
+	".\skInputSource.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	
-NODEP_CPP_SKELEM=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
 
 DEP_CPP_SKELEM=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -1067,6 +1310,7 @@ DEP_CPP_SKELEM=\
 	".\skStringBuffer.h"\
 	
 NODEP_CPP_SKELEM=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
@@ -1087,7 +1331,9 @@ DEP_CPP_SKELEM=\
 	".\skExpatParser.h"\
 	".\skGeneral.h"\
 	".\skiExecutable.h"\
+	".\skInputSource.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
@@ -1097,6 +1343,10 @@ DEP_CPP_SKELEM=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skElementExecutable.h
 # End Source File
 # Begin Source File
 
@@ -1173,7 +1423,9 @@ DEP_CPP_SKELEME=\
 	".\skStringTokenizer.h"\
 	".\skTextNode.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELEME=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -1392,6 +1644,7 @@ DEP_CPP_SKELEME=\
 	".\skRValue.h"\
 	".\skRValue.inl"\
 	".\skRValueArray.h"\
+	".\skRValueTable.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
@@ -1399,9 +1652,7 @@ DEP_CPP_SKELEME=\
 	".\skStringTokenizer.h"\
 	".\skTextNode.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKELEME=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -1468,6 +1719,7 @@ DEP_CPP_SKELEME=\
 	".\skRValue.h"\
 	".\skRValue.inl"\
 	".\skRValueArray.h"\
+	".\skRValueTable.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
@@ -1480,6 +1732,10 @@ DEP_CPP_SKELEME=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skElementObject.h
 # End Source File
 # Begin Source File
 
@@ -1538,7 +1794,9 @@ DEP_CPP_SKELEMEN=\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKELEMEN=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -1701,18 +1959,19 @@ DEP_CPP_SKELEMEN=\
 	".\skExecutableContext.h"\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
+	".\skHashTable.h"\
+	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
 	".\skNode.h"\
 	".\skNull.h"\
 	".\skRValue.h"\
 	".\skRValue.inl"\
+	".\skRValueTable.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	
-NODEP_CPP_SKELEMEN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -1759,12 +2018,15 @@ DEP_CPP_SKELEMEN=\
 	".\skExecutableContext.h"\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
+	".\skHashTable.h"\
+	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
 	".\skNode.h"\
 	".\skNull.h"\
 	".\skRValue.h"\
 	".\skRValue.inl"\
+	".\skRValueTable.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
@@ -1773,6 +2035,145 @@ DEP_CPP_SKELEMEN=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skElementObjectEnumerator.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skEncodingUtils.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKENC=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skEncodingUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skException.h
 # End Source File
 # Begin Source File
 
@@ -1821,7 +2222,9 @@ DEP_CPP_SKEXE=\
 	".\skString.inl"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKEXE=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -1947,25 +2350,28 @@ NODEP_CPP_SKEXE=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
 
 DEP_CPP_SKEXE=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
 	".\skBoundsException.h"\
 	".\skException.h"\
 	".\skExecutable.h"\
 	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skHashTable.h"\
+	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
 	".\skNull.h"\
 	".\skRValue.h"\
 	".\skRValue.inl"\
 	".\skRValueArray.h"\
+	".\skRValueTable.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKEXE=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -1995,17 +2401,22 @@ NODEP_CPP_SKEXE=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
 
 DEP_CPP_SKEXE=\
+	".\skAlist.h"\
+	".\skAlist.inl"\
 	".\skBoundsException.h"\
 	".\skException.h"\
 	".\skExecutable.h"\
 	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skHashTable.h"\
+	".\skHashTable.inl"\
 	".\skiExecutable.h"\
 	".\skInterpreter.h"\
 	".\skNull.h"\
 	".\skRValue.h"\
 	".\skRValue.inl"\
 	".\skRValueArray.h"\
+	".\skRValueTable.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
@@ -2019,13 +2430,22 @@ DEP_CPP_SKEXE=\
 # End Source File
 # Begin Source File
 
-SOURCE=.\skExecutableIterator.cpp
+SOURCE=.\skExecutable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExecutableContext.cpp
 
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
 	
 NODEP_CPP_SKEXEC=\
 	".\bgapi.h"\
@@ -2034,16 +2454,28 @@ NODEP_CPP_SKEXEC=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKEXEC=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
 	
 NODEP_CPP_SKEXEC=\
 	".\bgapi.h"\
@@ -2052,8 +2484,13 @@ NODEP_CPP_SKEXEC=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
 	
 NODEP_CPP_SKEXEC=\
 	".\bgapi.h"\
@@ -2062,8 +2499,13 @@ NODEP_CPP_SKEXEC=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
 	
 NODEP_CPP_SKEXEC=\
 	".\bgapi.h"\
@@ -2072,8 +2514,13 @@ NODEP_CPP_SKEXEC=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
 	
 NODEP_CPP_SKEXEC=\
 	".\bgapi.h"\
@@ -2082,8 +2529,13 @@ NODEP_CPP_SKEXEC=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
 	
 NODEP_CPP_SKEXEC=\
 	".\bgapi.h"\
@@ -2092,18 +2544,26 @@ NODEP_CPP_SKEXEC=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
-	
-NODEP_CPP_SKEXEC=\
-	".\bgapi.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
 
 DEP_CPP_SKEXEC=\
-	".\skExecutableIterator.h"\
+	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
 	
 NODEP_CPP_SKEXEC=\
 	".\bgapi.h"\
@@ -2112,6 +2572,118 @@ NODEP_CPP_SKEXEC=\
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
 
 DEP_CPP_SKEXEC=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExecutableContext.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExecutableIterator.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKEXECU=\
+	".\skExecutableIterator.h"\
+	".\skGeneral.h"\
+	
+NODEP_CPP_SKEXECU=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKEXECU=\
 	".\skExecutableIterator.h"\
 	".\skGeneral.h"\
 	{$(INCLUDE)}"dbgapi.h"\
@@ -2119,6 +2691,10 @@ DEP_CPP_SKEXEC=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExecutableIterator.h
 # End Source File
 # Begin Source File
 
@@ -2127,7 +2703,6 @@ SOURCE=.\skExpatParser.cpp
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2145,6 +2720,7 @@ DEP_CPP_SKEXP=\
 	".\skXMLParseException.h"\
 	
 NODEP_CPP_SKEXP=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
@@ -2167,13 +2743,14 @@ DEP_CPP_SKEXP=\
 	".\skString.inl"\
 	".\skTextNode.h"\
 	".\skXMLParseException.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKEXP=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2191,13 +2768,13 @@ DEP_CPP_SKEXP=\
 	".\skXMLParseException.h"\
 	
 NODEP_CPP_SKEXP=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2215,13 +2792,13 @@ DEP_CPP_SKEXP=\
 	".\skXMLParseException.h"\
 	
 NODEP_CPP_SKEXP=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2239,13 +2816,13 @@ DEP_CPP_SKEXP=\
 	".\skXMLParseException.h"\
 	
 NODEP_CPP_SKEXP=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2263,13 +2840,13 @@ DEP_CPP_SKEXP=\
 	".\skXMLParseException.h"\
 	
 NODEP_CPP_SKEXP=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2287,13 +2864,14 @@ DEP_CPP_SKEXP=\
 	".\skXMLParseException.h"\
 	
 NODEP_CPP_SKEXP=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
+	"..\..\..\expat-1.95.5\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2301,23 +2879,22 @@ DEP_CPP_SKEXP=\
 	".\skCDataNode.h"\
 	".\skElement.h"\
 	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skExpatParser.h"\
 	".\skGeneral.h"\
+	".\skInputSource.h"\
 	".\skNode.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skTextNode.h"\
 	".\skXMLParseException.h"\
-	
-NODEP_CPP_SKEXP=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
 
 DEP_CPP_SKEXP=\
-	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\skAlist.h"\
 	".\skAlist.inl"\
 	".\skAttribute.h"\
@@ -2335,6 +2912,7 @@ DEP_CPP_SKEXP=\
 	".\skXMLParseException.h"\
 	
 NODEP_CPP_SKEXP=\
+	"..\..\..\expat-1.95.2\source\lib\expat.h"\
 	".\bgapi.h"\
 	
 
@@ -2349,8 +2927,10 @@ DEP_CPP_SKEXP=\
 	".\skCDataNode.h"\
 	".\skElement.h"\
 	".\skException.h"\
+	".\skExecutableContext.h"\
 	".\skExpatParser.h"\
 	".\skGeneral.h"\
+	".\skInputSource.h"\
 	".\skNode.h"\
 	".\skScriptError.h"\
 	".\skString.h"\
@@ -2362,6 +2942,14 @@ DEP_CPP_SKEXP=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skExpatParser.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skGeneral.h
 # End Source File
 # Begin Source File
 
@@ -2394,7 +2982,9 @@ DEP_CPP_SKHAS=\
 	".\skHashTable.inl"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKHAS=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -2488,9 +3078,7 @@ DEP_CPP_SKHAS=\
 	".\skHashTable.inl"\
 	".\skString.h"\
 	".\skString.inl"\
-	
-NODEP_CPP_SKHAS=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2525,6 +3113,150 @@ DEP_CPP_SKHAS=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skHashTable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skHashTable.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\skiExecutable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInputSource.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKINP=\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKINP=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKINP=\
+	".\skAsciiString.h"\
+	".\skAsciiString.inl"\
+	".\skAsciiStringBuffer.h"\
+	".\skEncodingUtils.h"\
+	".\skGeneral.h"\
+	".\skInputSource.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=\source\simkin\cpp\src\skInputSource.h
 # End Source File
 # Begin Source File
 
@@ -2601,7 +3333,9 @@ DEP_CPP_SKINT=\
 	".\skTraceCallback.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKINT=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -2820,6 +3554,7 @@ DEP_CPP_SKINT=\
 	".\skRValueArray.h"\
 	".\skRValueTable.h"\
 	".\skScriptError.h"\
+	".\skStackFrame.h"\
 	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
@@ -2827,9 +3562,7 @@ DEP_CPP_SKINT=\
 	".\skTraceCallback.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKINT=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -2896,6 +3629,7 @@ DEP_CPP_SKINT=\
 	".\skRValueArray.h"\
 	".\skRValueTable.h"\
 	".\skScriptError.h"\
+	".\skStackFrame.h"\
 	".\skStatementStepper.h"\
 	".\skString.h"\
 	".\skString.inl"\
@@ -2908,6 +3642,14 @@ DEP_CPP_SKINT=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreter.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skInterpreterp.h
 # End Source File
 # Begin Source File
 
@@ -2948,7 +3690,9 @@ DEP_CPP_SKLAN=\
 	".\skString.inl"\
 	".\skStringList.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKLAN=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -3066,9 +3810,7 @@ DEP_CPP_SKLAN=\
 	".\skString.inl"\
 	".\skStringList.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKLAN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3114,6 +3856,14 @@ DEP_CPP_SKLAN=\
 # End Source File
 # Begin Source File
 
+SOURCE=.\skLang_tab.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skMethodTable.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skNode.cpp
 
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
@@ -3143,7 +3893,9 @@ DEP_CPP_SKNOD=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKNOD=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -3237,9 +3989,7 @@ DEP_CPP_SKNOD=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	
-NODEP_CPP_SKNOD=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3274,6 +4024,159 @@ DEP_CPP_SKNOD=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skNull.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skOutputDestination.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	
+NODEP_CPP_SKOUT=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKOUT=\
+	".\skGeneral.h"\
+	".\skOutputDestination.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	".\skStringBuffer.h"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skOutputDestination.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseException.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseNode.h
 # End Source File
 # Begin Source File
 
@@ -3318,7 +4221,9 @@ DEP_CPP_SKPAR=\
 	".\skStringList.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKPAR=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -3448,9 +4353,7 @@ DEP_CPP_SKPAR=\
 	".\skStringList.h"\
 	".\skTracer.h"\
 	".\skValist.h"\
-	
-NODEP_CPP_SKPAR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3497,6 +4400,14 @@ DEP_CPP_SKPAR=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParser.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRuntimeException.h
 # End Source File
 # Begin Source File
 
@@ -3533,7 +4444,9 @@ DEP_CPP_SKRVA=\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKRVA=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -3639,9 +4552,7 @@ DEP_CPP_SKRVA=\
 	".\skScriptError.h"\
 	".\skString.h"\
 	".\skString.inl"\
-	
-NODEP_CPP_SKRVA=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3680,6 +4591,187 @@ DEP_CPP_SKRVA=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValue.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValue.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValueArray.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skRValueTable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skScriptError.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.cpp
+
+!IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Debug"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Debug"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Release"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH3) Debug"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Release"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE ARM) Debug"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	
+NODEP_CPP_SKSTA=\
+	".\bgapi.h"\
+	
+
+!ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Debug"
+
+DEP_CPP_SKSTA=\
+	".\skException.h"\
+	".\skExecutableContext.h"\
+	".\skGeneral.h"\
+	".\skScriptError.h"\
+	".\skStackFrame.h"\
+	".\skString.h"\
+	".\skString.inl"\
+	{$(INCLUDE)}"dbgapi.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStackFrame.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStatementStepper.h
 # End Source File
 # Begin Source File
 
@@ -3704,7 +4796,9 @@ DEP_CPP_SKSTR=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKSTR=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -3774,9 +4868,7 @@ DEP_CPP_SKSTR=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	
-NODEP_CPP_SKSTR=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3803,6 +4895,14 @@ DEP_CPP_SKSTR=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skString.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skString.inl
 # End Source File
 # Begin Source File
 
@@ -3827,7 +4927,9 @@ DEP_CPP_SKSTRI=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKSTRI=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -3897,9 +4999,7 @@ DEP_CPP_SKSTRI=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringBuffer.h"\
-	
-NODEP_CPP_SKSTRI=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -3929,6 +5029,14 @@ DEP_CPP_SKSTRI=\
 # End Source File
 # Begin Source File
 
+SOURCE=.\skStringBuffer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStringList.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\skStringTokenizer.cpp
 
 !IF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE MIPS) Release"
@@ -3950,7 +5058,9 @@ DEP_CPP_SKSTRIN=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringTokenizer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKSTRIN=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -4020,9 +5130,7 @@ DEP_CPP_SKSTRIN=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skStringTokenizer.h"\
-	
-NODEP_CPP_SKSTRIN=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4049,6 +5157,10 @@ DEP_CPP_SKSTRIN=\
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skStringTokenizer.h
 # End Source File
 # Begin Source File
 
@@ -4081,7 +5193,9 @@ DEP_CPP_SKTEX=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skTextNode.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKTEX=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -4172,12 +5286,12 @@ DEP_CPP_SKTEX=\
 	".\skBoundsException.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringBuffer.h"\
 	".\skTextNode.h"\
-	
-NODEP_CPP_SKTEX=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4204,14 +5318,24 @@ DEP_CPP_SKTEX=\
 	".\skBoundsException.h"\
 	".\skGeneral.h"\
 	".\skNode.h"\
+	".\skOutputDestination.h"\
 	".\skString.h"\
 	".\skString.inl"\
+	".\skStringBuffer.h"\
 	".\skTextNode.h"\
 	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ENDIF 
 
+# End Source File
+# Begin Source File
+
+SOURCE=.\skTextNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skTraceCallback.h
 # End Source File
 # Begin Source File
 
@@ -4236,7 +5360,9 @@ DEP_CPP_SKTRA=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skTracer.h"\
-	{$(INCLUDE)}"dbgapi.h"\
+	
+NODEP_CPP_SKTRA=\
+	".\bgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE SH4) Release"
@@ -4306,9 +5432,7 @@ DEP_CPP_SKTRA=\
 	".\skString.h"\
 	".\skString.inl"\
 	".\skTracer.h"\
-	
-NODEP_CPP_SKTRA=\
-	".\bgapi.h"\
+	{$(INCLUDE)}"dbgapi.h"\
 	
 
 !ELSEIF  "$(CFG)" == "SimkinCE_Expat - Win32 (WCE x86em) Release"
@@ -4336,10 +5460,30 @@ DEP_CPP_SKTRA=\
 !ENDIF 
 
 # End Source File
+# Begin Source File
+
+SOURCE=.\skTracer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skValist.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skXMLParseException.h
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\skAsciiString.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skAsciiString.inl
+# End Source File
 # End Group
 # End Target
 # End Project

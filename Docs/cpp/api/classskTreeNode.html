@@ -79,48 +79,51 @@ void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a20">a
 <tr><td>&nbsp;</td><td><font size=-1><em>adds the given node to the end of the child list for this node</em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a21">setChild</a> (skTreeNode *)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Assigns the given node to the first node with the matching label in the child list of this node.</em> <a href="#a21"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a22" doxytag="skTreeNode::deleteChild"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a22">deleteChild</a> (skTreeNode *)</td></tr>
+<tr><td nowrap align=right valign=top><a name="a22" doxytag="skTreeNode::removeChild"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a22">removeChild</a> (skTreeNode *)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>removes the given node from the list of children at this node</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a23" doxytag="skTreeNode::deleteChild"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a23">deleteChild</a> (skTreeNode *)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>deletes the given node from the list of children at this node</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a23" doxytag="skTreeNode::containsChild"></a>
-bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a23">containsChild</a> (skTreeNode *)</td></tr>
+<tr><td nowrap align=right valign=top><a name="a24" doxytag="skTreeNode::containsChild"></a>
+bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a24">containsChild</a> (skTreeNode *)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Returns true if the child list of this node contains the given node.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a24">findChild</a> (const <a class="el" href="classskString.html">skString</a> &amp;label) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>This method searches for a node whose label matches the one given.</em> <a href="#a24"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a25">findChild</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, const <a class="el" href="classskString.html">skString</a> &amp;data) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>This method searches for a node whose label and data matches the ones given.</em> <a href="#a25"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a26">findChildData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, const <a class="el" href="classskString.html">skString</a> &amp;defaultVal=<a class="el" href="classskString.html">skString</a>()) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given.</em> <a href="#a26"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a27">findChildboolData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, bool defaultVal=false) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given as a boolean.</em> <a href="#a27"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a28">findChildIntData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, int defaultVal=0) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given as an integer.</em> <a href="#a28"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>float&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a29">findChildFloatData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, float defaultVal=0.0f) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given as a float.</em> <a href="#a29"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a30" doxytag="skTreeNode::nthChildData"></a>
-<a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a30">nthChildData</a> (USize index) const</td></tr>
+<tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a25">findChild</a> (const <a class="el" href="classskString.html">skString</a> &amp;label) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>This method searches for a node whose label matches the one given.</em> <a href="#a25"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a26">findChild</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, const <a class="el" href="classskString.html">skString</a> &amp;data) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>This method searches for a node whose label and data matches the ones given.</em> <a href="#a26"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a27">findChildData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, const <a class="el" href="classskString.html">skString</a> &amp;defaultVal=<a class="el" href="classskString.html">skString</a>()) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given.</em> <a href="#a27"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a28">findChildboolData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, bool defaultVal=false) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given as a boolean.</em> <a href="#a28"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a29">findChildIntData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, int defaultVal=0) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given as an integer.</em> <a href="#a29"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>float&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a30">findChildFloatData</a> (const <a class="el" href="classskString.html">skString</a> &amp;label, float defaultVal=0.0f) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Finds the data associated with the first child whose label matches that given as a float.</em> <a href="#a30"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a31" doxytag="skTreeNode::nthChildData"></a>
+<a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a31">nthChildData</a> (USize index) const</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Returns the data for nth child in the list of children at this node.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a31" doxytag="skTreeNode::nthChildIntData"></a>
-int&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a31">nthChildIntData</a> (USize index) const</td></tr>
+<tr><td nowrap align=right valign=top><a name="a32" doxytag="skTreeNode::nthChildIntData"></a>
+int&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a32">nthChildIntData</a> (USize index) const</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Returns the data for nth child in the list of children at this node as an integer.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a32" doxytag="skTreeNode::write"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a32">write</a> (ostream &amp;out, USize tabstops) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Writes this node to an output stream with the given indentation.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a33">write</a> (const <a class="el" href="classskString.html">skString</a> &amp;file) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Writes this node out to a file.</em> <a href="#a33"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a34">nthChild</a> (USize i) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Returns a child from the list at this node.</em> <a href="#a34"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a35" doxytag="skTreeNode::numChildren"></a>
-USize&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a35">numChildren</a> () const</td></tr>
+<tr><td nowrap align=right valign=top><a name="a33" doxytag="skTreeNode::write"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a33">write</a> (<a class="el" href="classskOutputDestination.html">skOutputDestination</a> &amp;out, USize tabstops) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Writes this node to an output destination with the given indentation.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a34">write</a> (const <a class="el" href="classskString.html">skString</a> &amp;file) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Writes this node out to a file.</em> <a href="#a34"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a35">nthChild</a> (USize i) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Returns a child from the list at this node.</em> <a href="#a35"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a36" doxytag="skTreeNode::numChildren"></a>
+USize&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a36">numChildren</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Returns the number of children at this node.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a36" doxytag="skTreeNode::copyItems"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a36">copyItems</a> (skTreeNode &amp;node)</td></tr>
+<tr><td nowrap align=right valign=top><a name="a37" doxytag="skTreeNode::copyItems"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a37">copyItems</a> (skTreeNode &amp;node)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>makes a deep copy of the items from the other node, but does not change the label or data of this node</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a37" doxytag="skTreeNode::moveItemsFrom"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a37">moveItemsFrom</a> (skTreeNode &amp;node)</td></tr>
+<tr><td nowrap align=right valign=top><a name="a38" doxytag="skTreeNode::moveItemsFrom"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a38">moveItemsFrom</a> (skTreeNode &amp;node)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Moves the items from the child list of the given node into this node.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a38" doxytag="skTreeNode::clear"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a38">clear</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a name="a39" doxytag="skTreeNode::clear"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a39">clear</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>deletes all children from the list</em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Static Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#d0">read</a> (const <a class="el" href="classskString.html">skString</a> &amp;file, <a class="el" href="classskExecutableContext.html">skExecutableContext</a> &amp;ctxt)</td></tr>
@@ -139,7 +142,7 @@ The node has a label, a piece of data and a list of subitems
 The label and data are both stored as strings. TreeNodes can be used to conveniently store hierchically ordered trees of textual data. 
 <p>
 <hr><h2>Member Function Documentation</h2>
-<a name="a25" doxytag="skTreeNode::findChild"></a><p>
+<a name="a26" doxytag="skTreeNode::findChild"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -180,7 +183,7 @@ This method searches for a node whose label and data matches the ones given.
     </td>
   </tr>
 </table>
-<a name="a24" doxytag="skTreeNode::findChild"></a><p>
+<a name="a25" doxytag="skTreeNode::findChild"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -212,7 +215,7 @@ This method searches for a node whose label matches the one given.
     </td>
   </tr>
 </table>
-<a name="a27" doxytag="skTreeNode::findChildboolData"></a><p>
+<a name="a28" doxytag="skTreeNode::findChildboolData"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -259,7 +262,7 @@ Finds the data associated with the first child whose label matches that given as
     </td>
   </tr>
 </table>
-<a name="a26" doxytag="skTreeNode::findChildData"></a><p>
+<a name="a27" doxytag="skTreeNode::findChildData"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -306,7 +309,7 @@ Finds the data associated with the first child whose label matches that given.
     </td>
   </tr>
 </table>
-<a name="a29" doxytag="skTreeNode::findChildFloatData"></a><p>
+<a name="a30" doxytag="skTreeNode::findChildFloatData"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -353,7 +356,7 @@ Finds the data associated with the first child whose label matches that given as
     </td>
   </tr>
 </table>
-<a name="a28" doxytag="skTreeNode::findChildIntData"></a><p>
+<a name="a29" doxytag="skTreeNode::findChildIntData"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -400,7 +403,7 @@ Finds the data associated with the first child whose label matches that given as
     </td>
   </tr>
 </table>
-<a name="a34" doxytag="skTreeNode::nthChild"></a><p>
+<a name="a35" doxytag="skTreeNode::nthChild"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -524,7 +527,7 @@ Assigns the given node to the first node with the matching label in the child li
 If no match is found, the node is added to the end of the list     </td>
   </tr>
 </table>
-<a name="a33" doxytag="skTreeNode::write"></a><p>
+<a name="a34" doxytag="skTreeNode::write"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -558,7 +561,7 @@ Writes this node out to a file.
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skTreeNode_8h-source.html">skTreeNode.h</a><li>skTreeNode.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:13 2002 for Simkin by
+<hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:40 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

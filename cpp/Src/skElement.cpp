@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,11 +16,11 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.cpp,v 1.8 2002/12/13 17:21:54 sdw Exp $
+* $Id: skElement.cpp,v 1.10 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #include "skElement.h"
 #include "skStringBuffer.h"
-
+#include "skOutputDestination.h"
 //------------------------------------------
 skElement::skElement(const skString& tagname)
 //------------------------------------------
@@ -115,27 +115,23 @@ skString skElement::getTagName() const
   }
   return element;
 }
-#ifdef STREAMS_ENABLED
 //------------------------------------------
-void skElement::write(ostream& out) const
+void skElement::write(skOutputDestination& out) const
 //------------------------------------------
 {
-  out << "<" << m_TagName;
-  for (USize i=0;i<m_Attributes.entries();i++)
-    out << " " << *m_Attributes[i];
-  out << ">";
+  out.write(skSTR("<"));
+  out.write(m_TagName);
+  for (USize i=0;i<m_Attributes.entries();i++){
+    out.write(skSTR(" ")); 
+    m_Attributes[i]->write(out);
+  }
+  out.write(skSTR(">"));
   for (USize j=0;j<m_ChildNodes.entries();j++)
-    out << *m_ChildNodes[j];
-  out << "</" << m_TagName << ">";
+    m_ChildNodes[j]->write(out);
+  out.write(skSTR("</"));
+  out.write(m_TagName);
+  out.write(skSTR(">"));
 }
-//------------------------------------------
-ostream& operator<<(ostream& out,const skAttribute& a)
-//------------------------------------------
-{
-  out << a.getName() << "=\"" << skNode::escapeXMLDelimiters(a.getValue()) << "\"";
-  return out;
-}
-#endif
 //------------------------------------------
 skString skElement::toString() const
 //------------------------------------------
@@ -165,4 +161,13 @@ skString skAttribute::toString() const
   buffer.append(skNode::escapeXMLDelimiters(getValue()));
   buffer.append(skSTR("\""));
   return buffer.toString();
+}
+//------------------------------------------
+void skAttribute::write(skOutputDestination& out)
+//------------------------------------------
+{
+  out.write(m_Name);
+  out.write(skSTR("=\""));
+  out.write(skNode::escapeXMLDelimiters(m_Value));
+  out.write(skSTR("\""));
 }

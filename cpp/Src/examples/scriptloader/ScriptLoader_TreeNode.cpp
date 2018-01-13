@@ -81,8 +81,8 @@ main(int argc,Char * argv[]){
 #else
       // if exceptions are not being used - examine the error code in the 
       // skExecutableContext object to spot any errors
-      if (ctxt.m_Error.getErrorCode()!=skScriptError::NONE)
-        skTracer::trace(ctxt.m_Error.getException()->toString());
+      if (ctxt.getError().getErrorCode()!=skScriptError::NONE)
+        skTracer::trace(ctxt.getError().getException()->toString());
 #endif
     }
   }else

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,19 +16,18 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.h,v 1.11 2002/12/16 16:11:46 sdw Exp $
+* $Id: skExpatParser.h,v 1.13 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #ifndef skEXPATPARSER_H
 #define skEXPATPARSER_H
 
 #include "skString.h"
-#ifdef STREAMS_ENABLED
-#include <iostream.h>
-#endif
 #include "skElement.h"
 #include <expat.h>
 #include "skExecutableContext.h"
+
+class CLASSEXPORT skInputSource;
 
 /**
  * This class gives an interface to the Expat parser. It can be used to parse an XML document and return a Simkin Element class.
@@ -41,24 +40,7 @@ class CLASSEXPORT skExpatParser
   skExpatParser();
   ~skExpatParser();
 
-#ifdef STREAMS_ENABLED
-  /** 
-   * This method parses the given input stream. If there is an error in the format, an skXMLParseException is thrown. Otherwise a new Element object is returned to represent the hierarchy in the XML document stored in the stream. 
-   * @throw skXMLParseException
-   * @param in - the stream to read from
-   * @return a new Element object representing the XML document in the stream
-   */
-  skElement * parse(istream& in);
-#endif
-
-  /** 
-   * This method parses an XML document stored within the given string. The method returns a new Element object representing this document. If there is an error in the structure of the document, an skXMLParseException is thrown.
-   * @throw skXMLParseException
-   * @param in - the string to read from
-   * @param context context object to receive errors
-   * @return a new Element object representing the XML document in the string
-   */
-  skElement * parse(const skString& in,skExecutableContext& context);
+  skElement * parse(skInputSource& in,skExecutableContext& context);
  private:
   /** prevent C++ from making copies of the parser */
   skExpatParser(const skExpatParser&);

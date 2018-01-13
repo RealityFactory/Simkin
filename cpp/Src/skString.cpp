@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.19 2002/12/13 17:21:54 sdw Exp $
+  $Id: skString.cpp,v 1.22 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -90,6 +90,26 @@ int skString::indexOf(Char c) const
 {
   int pos=-1;
   Char * ppos=STRCHR(pimp->m_PString,c);
+  if (ppos!=0)
+    pos=ppos-pimp->m_PString;
+  return pos;
+}
+//---------------------------------------------------
+int skString::indexOfLast(Char c) const
+  //---------------------------------------------------
+{
+  int pos=-1;
+  Char * ppos=STRRCHR(pimp->m_PString,c);
+  if (ppos!=0)
+    pos=ppos-pimp->m_PString;
+  return pos;
+}
+//---------------------------------------------------
+int skString::indexOf(const skString& s) const
+  //---------------------------------------------------
+{
+  int pos=-1;
+  Char * ppos=STRSTR(pimp->m_PString,s.pimp->m_PString);
   if (ppos!=0)
     pos=ppos-pimp->m_PString;
   return pos;

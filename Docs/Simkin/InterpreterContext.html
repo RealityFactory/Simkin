@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Creating Interpreters and Contexts</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Creating Interpreters and Contexts</H1>
+<hr>
+<h2>Interpreters</h2>
+In order to use Simkin scripting, your program must have at least once instance of the Interpreter (i.e. <a href="../java/api/simkin/Interpreter.html">Interpreter in Java</a> or <a href="../cpp/api/classskInterpreter.html">skInterpreter  in C++</a> ) class.
+<p>
+Some applications will work well with a single instance created at the start of the program, others may require more. You might for example want a different interpreter in each thread of your program.
+<p>
+For example in C++:
+<pre>
+m_Interpreter=new skInterpreter();
+</pre>
+in Java:
+<pre>
+m_Interpreter=new Interpreter();
+</pre>
+Each instance of the interpreter will have its own separate list of global variables.
+<p>
+<h2>ExecutableContext</h2>
+In order to start executing a sequence of scripts through a Simkin interpreter, you need to create an ExecutableContext (i.e. <a href="../java/api/simkin/ExecutableContext.html">ExecutableContext in Java</a> or <a href="../cpp/api/classskExecutableContext.html">skExecutableContext  in C++</a> ).
+<p>
+This object is passed to every method invoked by the interpreter, and stores information such as the interpreter being used, the current script name and the current line number.
+<p>
+If you are implementing a function from the Executable interface you will be passed an ExecutableContext object which you should re-use.
+<p>
+You should create a new ExecutableContext each time you start a call into the Interpreter, although you can use the same Interpreter object for  many calls.
+<p>
+For example in C++:
+<pre>
+skRValueArray args;
+skRValue ret;
+skExecutableContext context(m_Interpreter);
+method("foo",args,ret,context);
+</pre>
+or in Java:
+<pre>
+Hashtable args=new Hashtable();
+ExecutableContext context=new ExecutableContext(m_Interpreter);
+Object ret=method("foo",args,ret,context);
+</pre>
+<p>
+Note: ExecutableContexts are also used to carry exception information where exceptions are not available (such as in Windows CE). In this case check the <b>getError()</b> method after calling into the interpreter.
+<p>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

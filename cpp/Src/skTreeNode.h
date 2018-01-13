@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
- * $Id: skTreeNode.h,v 1.18 2002/12/16 16:11:46 sdw Exp $
+ * $Id: skTreeNode.h,v 1.22 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 
@@ -29,6 +29,8 @@
 class  CLASSEXPORT skTreeNode;
 class  CLASSEXPORT skTreeNodeList;
 class  CLASSEXPORT skExecutableContext;
+class  CLASSEXPORT skInputSource;
+class  CLASSEXPORT skOutputDestination;
 
 /**
  * This class provides an iterator over the children of a {@link skTreeNode skTreeNode}
@@ -154,6 +156,10 @@ class  CLASSEXPORT skTreeNode
    */
   void  setChild(skTreeNode*);	
   /**
+   * removes the given node from the list of children at this node
+   */
+  void  removeChild(skTreeNode*);
+  /**
    * deletes the given node from the list of children at this node
    */
   void  deleteChild(skTreeNode*);
@@ -207,12 +213,10 @@ class  CLASSEXPORT skTreeNode
    * Returns the data for nth child in the list of children at this node as an integer
    */
   int	nthChildIntData(USize index) const;
-#ifdef STREAMS_ENABLED
   /**
-   * Writes this node to an output stream with the given indentation
+   * Writes this node to an output destination with the given indentation
    */
-  void  write(ostream& out,USize tabstops) const;
-#endif
+  void  write(skOutputDestination& out,USize tabstops) const;
   /**
    * Writes this node out to a file
    * @return true if the file could be written, or false if there was a problem
@@ -271,25 +275,7 @@ class  CLASSEXPORT skTreeNode
 class  CLASSEXPORT skTreeNodeReader 
 {
  public:
-#ifdef STREAMS_ENABLED
-  /**
-   * Constructor - takes the input stream to read the {@link skTreeNode skTreeNode} from
-   */
-  skTreeNodeReader(istream& in);
-  /**
-   * Constructor - takes the input stream to read the TreeNode from, and specifies a filename
-   */
-  skTreeNodeReader(istream& in,skString  fileName);
-#else
-  /**
-   * Constructor - takes the input file to read the {@link skTreeNode skTreeNode} from
-   */
-  skTreeNodeReader(FILE * in);
-  /**
-   * Constructor - takes the input file to read the TreeNode from, and specifies a filename
-   */
-  skTreeNodeReader(FILE * in,skString  fileName);
-#endif
+   skTreeNodeReader(skInputSource& in, const skString& source_name);
   /**
    * Destructor
    */

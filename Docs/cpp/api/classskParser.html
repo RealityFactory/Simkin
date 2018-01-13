@@ -19,13 +19,12 @@
 <tr><td nowrap align=right valign=top><a name="a1" doxytag="skParser::~skParser"></a>
 &nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a1">~skParser</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Destructor - *clears* the temporary node list.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a2">parse</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>this method instructs the parser to begin parsing the string passed into the constructor</em> <a href="#a2"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a3">setTopNode</a> (<a class="el" href="classskMethodDefNode.html">skMethodDefNode</a> *pNode)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>sets the current top-level parse node</em> <a href="#a3"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a4" doxytag="skParser::getTopNode"></a>
-<a class="el" href="classskMethodDefNode.html">skMethodDefNode</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a4">getTopNode</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>returns the current top-level parse node</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskMethodDefNode.html">skMethodDefNode</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a2">parseMethod</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method instructs the parser to begin parsing the string passed into the constructor The string is assumed to contain a method definition</em> <a href="#a2"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>skExprNode *&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a3">parseExpression</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this method instructs the parser to begin parsing the string passed into the constructor The string is assumed to contain an expression, beginning with "="</em> <a href="#a3"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a4">setTopNode</a> (<a class="el" href="classskParseNode.html">skParseNode</a> *pNode)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>sets the current top-level parse node</em> <a href="#a4"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a5">addParseNode</a> (<a class="el" href="classskParseNode.html">skParseNode</a> *pNode)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Saves a parse node to the list of temporary nodes.</em> <a href="#a5"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a name="a6" doxytag="skParser::appendError"></a>
@@ -45,12 +44,6 @@ void&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a10">put
 <tr><td nowrap align=right valign=top><a name="a11" doxytag="skParser::eof"></a>
 bool&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a11">eof</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>returns true if the eof the stream has been reached</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a12" doxytag="skParser::cleanupTempNodes"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a12">cleanupTempNodes</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>deletes the parse tree if an error occurs during parsing</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a13" doxytag="skParser::clearTempNodes"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskParser.html#a13">clearTempNodes</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>clears the list of nodes, but does *not* delete them (this is done if no error occurs</em></font><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This class is used to parse a string of Simkin code.
@@ -180,13 +173,13 @@ This message returns the next token in the stream.
     </td>
   </tr>
 </table>
-<a name="a2" doxytag="skParser::parse"></a><p>
+<a name="a3" doxytag="skParser::parseExpression"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> void skParser::parse </td>
+          <td class="md" nowrap valign="top"> skExprNode * skParser::parseExpression </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
           <td class="md" valign="top">)&nbsp;</td>
@@ -205,12 +198,44 @@ This message returns the next token in the stream.
     <td>
 
 <p>
-this method instructs the parser to begin parsing the string passed into the constructor
+this method instructs the parser to begin parsing the string passed into the constructor The string is assumed to contain an expression, beginning with "="
 <p>
-If the parse is valid, then <a class="el" href="classskParser.html#a4">getTopNode()</a> will return the top of the parse tree     </td>
+<dl compact><dt><b>Returns:</b></dt><dd>If the parse is valid, then this will return the top of the parse tree, which the caller should delete </dd></dl>
+    </td>
   </tr>
 </table>
-<a name="a3" doxytag="skParser::setTopNode"></a><p>
+<a name="a2" doxytag="skParser::parseMethod"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> <a class="el" href="classskMethodDefNode.html">skMethodDefNode</a> * skParser::parseMethod </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+this method instructs the parser to begin parsing the string passed into the constructor The string is assumed to contain a method definition
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>If the parse is valid, then this will return the top of the parse tree, which the caller should delete </dd></dl>
+    </td>
+  </tr>
+</table>
+<a name="a4" doxytag="skParser::setTopNode"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -218,7 +243,7 @@ If the parse is valid, then <a class="el" href="classskParser.html#a4">getTopNod
         <tr>
           <td class="md" nowrap valign="top"> void skParser::setTopNode </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskMethodDefNode.html">skMethodDefNode</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskParseNode.html">skParseNode</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>&nbsp; <em>pNode</em>          </td>
           <td class="md" valign="top">)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -240,7 +265,7 @@ sets the current top-level parse node
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>pNode</em>&nbsp;</td><td>the method definition node </td></tr>
+    <tr><td valign=top><em>pNode</em>&nbsp;</td><td>the method definition or expression node </td></tr>
   </table>
 </dl>
     </td>
@@ -248,7 +273,7 @@ sets the current top-level parse node
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skParser_8h-source.html">skParser.h</a><li>skParser.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:12 2002 for Simkin by
+<hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:40 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skiExecutable.h,v 1.8 2002/12/16 16:11:46 sdw Exp $
+* $Id: skiExecutable.h,v 1.11 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 
 #ifndef skiEXECUTABLE_H
@@ -26,6 +26,7 @@
 #include "skExecutableContext.h"
 
 class CLASSEXPORT skRValueArray;
+class CLASSEXPORT skRValueTable;
 class CLASSEXPORT skRValue;
 class CLASSEXPORT skExecutableIterator;
 class CLASSEXPORT skInterpreter;
@@ -136,6 +137,18 @@ class CLASSEXPORT skiExecutable
    * @return an skExecutableIterator object that can be used to iterate over the components of this container
    */
   virtual skExecutableIterator * createIterator()=0;
+
+  /**
+  * This method returns the source for a scripted method described by the location
+  * @param location the location of the method - in the format passed to the execute functions in the Interpreter
+  * @return the source for the method
+  */
+  virtual skString getSource(const skString& location)=0;
+  /**
+  * This method returns the instance variables for this object
+  * @param table a table to filled with references to the instance variables
+  */
+  virtual void getInstanceVariables(skRValueTable& table)=0;
 };
 
 // Some help-defines for method, getValue and setValue

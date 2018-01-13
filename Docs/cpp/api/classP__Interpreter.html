@@ -20,51 +20,51 @@
 <tr><td nowrap align=right valign=top><a name="a1" doxytag="P_Interpreter::~P_Interpreter"></a>
 &nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a1">~P_Interpreter</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Destructor for implementation class.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskRValue.html">skRValue</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a2">evaluate</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skExprNode *n)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskRValue.html">skRValue</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a2">evaluate</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skExprNode *n)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>this method evaluates an arbitrary Simkin expression</em> <a href="#a2"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskRValue.html">skRValue</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a3">evalMethod</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skIdListNode *ids)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskRValue.html">skRValue</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a3">evalMethod</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skIdListNode *ids)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>this method evaluates the given method</em> <a href="#a3"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a4">makeMethodCall</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;method_name, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attribute, skExprListNode *exprs, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a4">makeMethodCall</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;method_name, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attribute, skExprListNode *exprs, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>this method actually executes a method</em> <a href="#a4"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a5">executeAssignStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skAssignNode *n)</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a5">executeAssignStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skAssignNode *n)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes an assignment statement.</em> <a href="#a5"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a6">executeStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skStatNode *pstat, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a6">executeStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skStatNode *pstat, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes a statement.</em> <a href="#a6"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a7">executeStats</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skStatListNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a7">executeStats</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skStatListNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes a list of statements.</em> <a href="#a7"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a8">executeReturnStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skReturnNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a8">executeReturnStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skReturnNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes a return statement.</em> <a href="#a8"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a9">executeIfStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skIfNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a9">executeIfStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skIfNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes an if statement.</em> <a href="#a9"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a10">executeWhileStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skWhileNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a10">executeWhileStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skWhileNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes a while statement.</em> <a href="#a10"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a11">executeSwitchStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skSwitchNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a11">executeSwitchStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skSwitchNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes a switch statement.</em> <a href="#a11"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a12">executeForEachStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skForEachNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a12">executeForEachStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skForEachNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes a foreach statement.</em> <a href="#a12"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a13">executeForStat</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skForNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a13">executeForStat</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skForNode *n, <a class="el" href="classskRValue.html">skRValue</a> &amp;r)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method executes a for statement.</em> <a href="#a13"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a14">addLocalVariable</a> (<a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, const <a class="el" href="classskString.html">skString</a> &amp;name, <a class="el" href="classskRValue.html">skRValue</a> value)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Adds a new local variable to the current list.</em> <a href="#a14"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a15">checkIndirectId</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, const <a class="el" href="classskString.html">skString</a> &amp;name)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a15">checkIndirectId</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, const <a class="el" href="classskString.html">skString</a> &amp;name)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method checks whether a field name includes the indirection character.</em> <a href="#a15"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskRValue.html">skRValue</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a16">findValue</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, const <a class="el" href="classskString.html">skString</a> &amp;name, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attribute)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskRValue.html">skRValue</a>&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a16">findValue</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, const <a class="el" href="classskString.html">skString</a> &amp;name, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attribute)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method finds a value associated with a given name.</em> <a href="#a16"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a17">runtimeError</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, const <a class="el" href="classskString.html">skString</a> &amp;s)</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a17">runtimeError</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, const <a class="el" href="classskString.html">skString</a> &amp;s)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method reports a runtime error by throwing a <a class="el" href="classskRuntimeException.html">skRuntimeException</a>.</em> <a href="#a17"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a18">followIdList</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, skIdListNode *idList, <a class="el" href="classskRValue.html">skRValue</a> &amp;object)</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a18">followIdList</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, skIdListNode *idList, <a class="el" href="classskRValue.html">skRValue</a> &amp;object)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method follows a dotted list of id's to retrieve the associated value.</em> <a href="#a18"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a19">trace</a> (const <a class="el" href="classskString.html">skString</a> &amp;s)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method sends a message to the tracer output.</em> <a href="#a19"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a20">extractFieldArrayValue</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;field_name, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attrib, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a20">extractFieldArrayValue</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;field_name, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attrib, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method extracts a value of the form foo[1] - first dereferencing foo.</em> <a href="#a20"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a21">extractArrayValue</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attrib, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a21">extractArrayValue</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attrib, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method extracts a value of the form robject[1] - assumes robject is already a collection object.</em> <a href="#a21"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a22">extractValue</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;name, const <a class="el" href="classskString.html">skString</a> &amp;attrib, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a22">extractValue</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;name, const <a class="el" href="classskString.html">skString</a> &amp;attrib, <a class="el" href="classskRValue.html">skRValue</a> &amp;ret)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method extracts an instance variable with the given name.</em> <a href="#a22"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a23">insertArrayValue</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskiExecutable.html">skiExecutable</a> *obj, <a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;var, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attr, const <a class="el" href="classskRValue.html">skRValue</a> &amp;value)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a23">insertArrayValue</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, skExprNode *array_index, const <a class="el" href="classskString.html">skString</a> &amp;attr, const <a class="el" href="classskRValue.html">skRValue</a> &amp;value)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method is a wrapper around calling the setValueAt method.</em> <a href="#a23"></a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a24">insertValue</a> (<a class="el" href="classskContext.html">skContext</a> &amp;ctxt, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;name, const <a class="el" href="classskString.html">skString</a> &amp;attr, const <a class="el" href="classskRValue.html">skRValue</a> &amp;value)</td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classP__Interpreter.html#a24">insertValue</a> (<a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;frame, <a class="el" href="classskRValue.html">skRValue</a> &amp;robject, const <a class="el" href="classskString.html">skString</a> &amp;name, const <a class="el" href="classskString.html">skString</a> &amp;attr, const <a class="el" href="classskRValue.html">skRValue</a> &amp;value)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method is a wrapper around calling the setValue method.</em> <a href="#a24"></a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Public Attributes</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="m0" doxytag="P_Interpreter::m_GlobalVars"></a>
@@ -145,20 +145,8 @@ Adds a new local variable to the current list.
         <tr>
           <td class="md" nowrap valign="top"> <a class="el" href="classskString.html">skString</a> P_Interpreter::checkIndirectId </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -205,20 +193,8 @@ This method checks whether a field name includes the indirection character.
         <tr>
           <td class="md" nowrap valign="top"> <a class="el" href="classskRValue.html">skRValue</a> P_Interpreter::evalMethod </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -248,9 +224,7 @@ this method evaluates the given method
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>ids</em>&nbsp;</td><td>- the parse tree giving the method name </td></tr>
   </table>
 </dl>
@@ -265,20 +239,8 @@ this method evaluates the given method
         <tr>
           <td class="md" nowrap valign="top"> <a class="el" href="classskRValue.html">skRValue</a> P_Interpreter::evaluate </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -308,9 +270,7 @@ this method evaluates an arbitrary Simkin expression
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the expression parse tree </td></tr>
   </table>
 </dl>
@@ -325,20 +285,8 @@ this method evaluates an arbitrary Simkin expression
         <tr>
           <td class="md" nowrap valign="top"> void P_Interpreter::executeAssignStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -368,9 +316,7 @@ This method executes an assignment statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the assignment statement parse tree </td></tr>
   </table>
 </dl>
@@ -385,20 +331,8 @@ This method executes an assignment statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeForEachStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -434,9 +368,7 @@ This method executes a foreach statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the foreach statement parse tree </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statement </td></tr>
   </table>
@@ -453,20 +385,8 @@ This method executes a foreach statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeForStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -502,9 +422,7 @@ This method executes a for statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the for statement parse tree </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statement </td></tr>
   </table>
@@ -521,20 +439,8 @@ This method executes a for statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeIfStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -570,9 +476,7 @@ This method executes an if statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the if statement parse tree </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statement </td></tr>
   </table>
@@ -589,20 +493,8 @@ This method executes an if statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeReturnStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -638,9 +530,7 @@ This method executes a return statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the return statement parse tree </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statement </td></tr>
   </table>
@@ -657,20 +547,8 @@ This method executes a return statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -706,9 +584,7 @@ This method executes a statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>pstat</em>&nbsp;</td><td>- the assignment statement parse tree </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statement </td></tr>
   </table>
@@ -725,20 +601,8 @@ This method executes a statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeStats </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -774,9 +638,7 @@ This method executes a list of statements.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the parse tree for the list of statements </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statements </td></tr>
   </table>
@@ -793,20 +655,8 @@ This method executes a list of statements.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeSwitchStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -842,9 +692,7 @@ This method executes a switch statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the switch statement parse tree </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statement </td></tr>
   </table>
@@ -861,20 +709,8 @@ This method executes a switch statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::executeWhileStat </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -910,9 +746,7 @@ This method executes a while statement.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>n</em>&nbsp;</td><td>- the while statement parse tree </td></tr>
     <tr><td valign=top><em>r</em>&nbsp;</td><td>- the value to receive the return value from the statement </td></tr>
   </table>
@@ -929,20 +763,8 @@ This method executes a while statement.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::extractArrayValue </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -990,9 +812,7 @@ This method extracts a value of the form robject[1] - assumes robject is already
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>robject</em>&nbsp;</td><td>- the object owning the field name </td></tr>
     <tr><td valign=top><em>array_index</em>&nbsp;</td><td>- the parse tree for the array index (if any) </td></tr>
     <tr><td valign=top><em>attrib</em>&nbsp;</td><td>- the name of the attribute, if present </td></tr>
@@ -1010,20 +830,8 @@ This method extracts a value of the form robject[1] - assumes robject is already
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::extractFieldArrayValue </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1077,9 +885,7 @@ This method extracts a value of the form foo[1] - first dereferencing foo.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>robject</em>&nbsp;</td><td>- the object owning the field name </td></tr>
     <tr><td valign=top><em>field_name</em>&nbsp;</td><td>- the field name being accessed </td></tr>
     <tr><td valign=top><em>array_index</em>&nbsp;</td><td>- the parse tree for the array index (if any) </td></tr>
@@ -1098,8 +904,8 @@ This method extracts a value of the form foo[1] - first dereferencing foo.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::extractValue </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1147,7 +953,7 @@ This method extracts an instance variable with the given name.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>robject</em>&nbsp;</td><td>- the object owning the field name </td></tr>
     <tr><td valign=top><em>name</em>&nbsp;</td><td>- the field name being accessed </td></tr>
     <tr><td valign=top><em>attrib</em>&nbsp;</td><td>- the name of the attribute, if present </td></tr>
@@ -1165,20 +971,8 @@ This method extracts an instance variable with the given name.
         <tr>
           <td class="md" nowrap valign="top"> <a class="el" href="classskRValue.html">skRValue</a> P_Interpreter::findValue </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1220,9 +1014,7 @@ This method finds a value associated with a given name.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>name</em>&nbsp;</td><td>- the name being checked </td></tr>
     <tr><td valign=top><em>array_index</em>&nbsp;</td><td>- the parse tree for the array index (if any) </td></tr>
     <tr><td valign=top><em>attribute</em>&nbsp;</td><td>- the name of the attribute, if present </td></tr>
@@ -1240,20 +1032,8 @@ This method finds a value associated with a given name.
         <tr>
           <td class="md" nowrap valign="top"> void P_Interpreter::followIdList </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1289,9 +1069,7 @@ This method follows a dotted list of id's to retrieve the associated value.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
-    <tr><td valign=top><em>var</em>&nbsp;</td><td>- the local variables </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>idlist</em>&nbsp;</td><td>- the list of ids in the dotted name </td></tr>
     <tr><td valign=top><em>object</em>&nbsp;</td><td>- this object receives the value corresponding to the id list </td></tr>
   </table>
@@ -1307,20 +1085,8 @@ This method follows a dotted list of id's to retrieve the associated value.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::insertArrayValue </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1368,8 +1134,7 @@ This method is a wrapper around calling the setValueAt method.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>robject</em>&nbsp;</td><td>- the object owning the field name </td></tr>
     <tr><td valign=top><em>array_index</em>&nbsp;</td><td>- the parse tree for the array index (if any) </td></tr>
     <tr><td valign=top><em>attr</em>&nbsp;</td><td>- the name of the attribute, if present </td></tr>
@@ -1387,8 +1152,8 @@ This method is a wrapper around calling the setValueAt method.
         <tr>
           <td class="md" nowrap valign="top"> bool P_Interpreter::insertValue </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1454,20 +1219,8 @@ This method is a wrapper around calling the setValue method.
         <tr>
           <td class="md" nowrap valign="top"> void P_Interpreter::makeMethodCall </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskiExecutable.html">skiExecutable</a> *&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>obj</em>, </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="md" nowrap><a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>var</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1527,8 +1280,7 @@ this method actually executes a method
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>- the current source code context </td></tr>
-    <tr><td valign=top><em>obj</em>&nbsp;</td><td>- the object owning the current method </td></tr>
+    <tr><td valign=top><em>frame</em>&nbsp;</td><td>- the current stack frame </td></tr>
     <tr><td valign=top><em>robject</em>&nbsp;</td><td>- the object that the method is to be called on </td></tr>
     <tr><td valign=top><em>method_name</em>&nbsp;</td><td>- the name of the method </td></tr>
     <tr><td valign=top><em>array_index</em>&nbsp;</td><td>- the parse tree for the array index (if any) </td></tr>
@@ -1548,8 +1300,8 @@ this method actually executes a method
         <tr>
           <td class="md" nowrap valign="top"> void P_Interpreter::runtimeError </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskContext.html">skContext</a> &amp;&nbsp;</td>
-          <td class="mdname" nowrap>&nbsp; <em>ctxt</em>, </td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskStackFrame.html">skStackFrame</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>frame</em>, </td>
         </tr>
         <tr>
           <td></td>
@@ -1624,7 +1376,7 @@ This method sends a message to the tracer output.
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skInterpreterp_8h-source.html">skInterpreterp.h</a><li>skInterpreter.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Dec 16 16:30:12 2002 for Simkin by
+<hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:39 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

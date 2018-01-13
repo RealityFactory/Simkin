@@ -21,7 +21,7 @@
   This file implements the class which controls the behaviour of the
   view in the demo.
 
-  $Id: Demo_Controller.cpp,v 1.3 2002/12/13 17:21:54 sdw Exp $
+  $Id: Demo_Controller.cpp,v 1.4 2003/01/20 23:07:01 simkin_cvs Exp $
 */
 #include "Demo_Controller.h"
 #include "skRValueArray.h"
@@ -50,7 +50,7 @@ Controller::Controller(const skString& fileName,skInterpreter * interp)
   //-----------------------------------------------------------------
   //	this class loads the demo script file, whose methods
   //	are an extension of the class functionality
-  : skXMLExecutable(fileName),m_View(0),m_FileName(fileName),m_Context(interp)
+  : skXMLExecutable(fileName),m_View(0),m_FileName(fileName),m_Interpreter(interp)
 {
   init();
 }
@@ -110,7 +110,8 @@ void Controller::init()
   }
   skRValueArray args;
   skRValue ret;
-  method("init",args,ret,m_Context);
+  skExecutableContext context(m_Interpreter);
+  method("init",args,ret,context);
 }
 //-----------------------------------------------------------------
 void Controller::buttonPressed(int id)
@@ -137,7 +138,8 @@ void Controller::buttonPressed(int id)
 	            //	call a method on ourselves, if one is set up
 	            skRValueArray args;
 	            skRValue ret;
-	            method(methodName,args,ret,m_Context);
+              skExecutableContext context(m_Interpreter);
+	            method(methodName,args,ret,context);
 	          }
 	          break;
 	        }

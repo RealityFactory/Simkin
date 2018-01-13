@@ -1,5 +1,5 @@
 /*
-  Copyright 1996-2002
+  Copyright 1996-2003
   Simon Whiteside
 
     This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodp.h,v 1.16 2002/12/13 17:21:54 sdw Exp $
+  $Id: skTreeNodp.h,v 1.18 2003/01/20 18:48:18 simkin_cvs Exp $
 */
 #include "skAlist.h"
 
@@ -66,24 +66,19 @@ class  CLASSEXPORT skTreeNodeList :  public skTAList<skTreeNode>
 class P_TreeNodeReader 
 {
  public:
-#ifdef STREAMS_ENABLED
-  /** Construct a reader from a given stream */
-  P_TreeNodeReader(istream& in);
-#else
-  /** Construct a reader from a given file */
-  P_TreeNodeReader(FILE * file);
-#endif
+  /** Construct a reader from a given source */
+  P_TreeNodeReader(skInputSource& in);
   enum Lexeme		{ L_IDENT, L_TEXT, L_LBRACE, L_RBRACE, L_EOF, L_ERROR };
   /** this method sets up the LexText buffer */
   void grabBuffer();
   /** this method sets the error flag */
   void error(const skString& msg);
-  /** this method returns true if the end of the input stream was found */
-  bool eof();
-  /** this method returns the next character from the stream */
+  /** this method returns true if the end of the input stream was found 
+  bool eof();*/
+  /** this method returns the next character from the stream *
   int get();
-  /** this method returns the next character from the stream, without consuming it */
-  int peek();
+  ** this method returns the next character from the stream, without consuming it *
+  int peek();*/
   /** this method returns the next lexical token from the current stream
    */
   Lexeme lex();
@@ -108,21 +103,12 @@ class P_TreeNodeReader
   Lexeme m_LastLexeme;
   /** the buffer used to collect the text for the current lexical token */
   Char	* m_LexText;
-  /** the position within the current input stream */
-  unsigned short m_Pos;
   /** the line number of the current input stream position */
   unsigned short m_LineNum;
-#ifdef STREAMS_ENABLED
-  /** the input stream */
-  istream& m_In;
-#else
-  /** the file handle */
-  FILE * m_In;
-  /** whether a character has been peeked from the file */
-  bool m_Peeked;
-  /** the value of the character peeked */
-  int m_PeekedChar;
-#endif
+  /** the position within the current lex text */
+  unsigned short m_Pos;
+  /** the input source */
+  skInputSource& m_In;
   /** a flag indicating whether there was a parse error in the input stream */
   bool 	m_Error;
 #ifdef USECLASSBUFFER
