@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.cpp,v 1.8 2001/11/22 11:13:21 sdw Exp $
+  $Id: skParser.cpp,v 1.10 2002/02/06 23:21:54 sdw Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
@@ -47,6 +47,7 @@ struct KeyWord{
   int m_Token;
 };
 KeyWord keywords[]={
+  {new skString(skSTR("!=")),L_NEQ},
   {new skString(skSTR("each")),L_EACH},
   {new skString(skSTR("in")),L_IN},
   {new skString(skSTR("for")),L_FOR},
@@ -136,6 +137,15 @@ int skParser::lex(void * lvalp,void * llocp)
     // Whitespace----------------------------------------
     if (isspace(c)){
       continue;
+    }
+    // NEQ -------------------------------------------
+    if (c=='!'){
+      int c1=nextChar();
+      if (c1=='='){
+	c=L_NEQ;
+	break;
+      }else
+	putbackchar(c1);
     }
     // Identifier/Keyword--------------------------------
     if (isalpha(c) || c=='_' || c=='@'){

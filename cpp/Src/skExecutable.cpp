@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skExecutable.cpp,v 1.23 2001/11/22 11:13:21 sdw Exp $
+  $Id: skExecutable.cpp,v 1.24 2002/02/13 16:53:16 sdw Exp $
 */
 #include "skExecutable.h"
 #include "skRValue.h"
@@ -116,7 +116,8 @@ bool skExecutable::method(const skString& s,skRValueArray& args,skRValue& r)
 {
   bool bRet=false;
   if (s==s_trace){
-    skInterpreter::getInterpreter()->trace(args[0].str()+skSTR("\n"));
+    if (args.entries()>0)
+      skInterpreter::getInterpreter()->trace(args[0].str()+skSTR("\n"));
     bRet=true;
   }else  if (s==s_isObject){
     if (args.entries()==1){

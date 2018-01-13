@@ -16,10 +16,22 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skGeneral.h,v 1.16 2001/11/22 11:13:21 sdw Exp $
+  $Id: skGeneral.h,v 1.17 2002/02/06 23:21:54 sdw Exp $
 */
 #ifndef skGENERAL_H
 #define skGENERAL_H
+
+
+#if defined(_MSC_VER)
+   #ifdef _DEBUG
+      #define MYDEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
+       // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+       //allocations to be of _CLIENT_BLOCK type
+   #else
+      #define MYDEBUG_NEW
+   #endif // _DEBUG
+#endif
+
 
 // Look out for Windows CE - which doesn't support streams or exceptions or assert!
 
@@ -91,6 +103,21 @@ typedef unsigned int USize;
 #else
 #include <windows.h>
 #define THROW(x,c) RaiseException(c,0,0,0)
+#endif
+
+#if defined(_MSC_VER)
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#define _INC_MALLOC
+#include <crtdbg.h>
+#endif
+#endif
+
+
+#if defined(_MSC_VER)
+   #ifdef _DEBUG
+   #define new MYDEBUG_NEW
+   #endif
 #endif
 
 #endif

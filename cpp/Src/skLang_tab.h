@@ -54,5 +54,6 @@ typedef
 #define	L_IN	278
 #define	L_TO	279
 #define	L_STEP	280
-#define	UNARY	281
+#define	L_NEQ	281
+#define	UNARY	282
 

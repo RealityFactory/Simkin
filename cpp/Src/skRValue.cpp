@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skRValue.cpp,v 1.12 2001/11/22 11:13:21 sdw Exp $
+  $Id: skRValue.cpp,v 1.13 2002/01/18 16:56:50 sdw Exp $
 */
 #include <ostream.h>
 #include "skRValue.h"

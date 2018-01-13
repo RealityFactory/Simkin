@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreter.cpp,v 1.48 2001/11/22 11:13:21 sdw Exp $
+  $Id: skInterpreter.cpp,v 1.49 2002/02/06 23:21:54 sdw Exp $
 */
 
 #include "skInterpreter.h"
@@ -609,7 +609,7 @@ skMethodDefNode * skInterpreter::parseString(const skString& location,const skSt
     parser.clearTempNodes();
   }else{
     parser.cleanupTempNodes();
-    THROW( skParseException(parser.getErrList()),skBoundsException_Code);
+    THROW( skParseException(parser.getErrList()),skParseException_Code);
   }
   return methNode;
 }
@@ -634,8 +634,14 @@ void skInterpreter::executeStringExternalParams(const skString& location,skiExec
   //---------------------------------------------------
 {      
   skMethodDefNode * parseNode=parseExternalParams(location,paramNames,code);
-  if (parseNode)
-    executeParseTree(location,obj,parseNode,args,r);
+  if (parseNode){
+    try{
+      executeParseTree(location,obj,parseNode,args,r);
+    }catch(skRuntimeException e){
+      delete parseNode;
+      THROW(e,skRuntimeException_Code);
+    }
+  }
   // give the parse node back to the caller if they want it
   if (keepParseNode)
     *keepParseNode=parseNode;
@@ -647,8 +653,14 @@ void skInterpreter::executeString(const skString& location,skiExecutable * obj,c
   //---------------------------------------------------
 {      
   skMethodDefNode * parseNode=parseString(location,code);
-  if (parseNode)
-    executeParseTree(location,obj,parseNode,args,r);
+  if (parseNode){
+    try{
+      executeParseTree(location,obj,parseNode,args,r);
+    }catch(skRuntimeException e){
+      delete parseNode;
+      THROW(e,skRuntimeException_Code);
+    }
+  }
   // give the parse node back to the caller if they want it
   if (keepParseNode)
     *keepParseNode=parseNode;
@@ -866,7 +878,7 @@ void skInterpreter::runtimeError(skContext& ctxt,const skString& msg)
 void P_Interpreter::runtimeError(skContext& ctxt,const skString& msg)
   //------------------------------------------
 {
-  THROW(skRuntimeException(ctxt.m_Location,ctxt.m_LineNum,msg),skBoundsException_Code);
+  THROW(skRuntimeException(ctxt.m_Location,ctxt.m_LineNum,msg),skRuntimeException_Code);
 }
 //------------------------------------------
 void skInterpreter::trace(const skString& msg)

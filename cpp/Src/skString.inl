@@ -16,7 +16,7 @@ Simon Whiteside
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-$Id: skString.inl,v 1.9 2002/01/08 23:04:40 sdw Exp $
+$Id: skString.inl,v 1.10 2002/01/18 16:56:50 sdw Exp $
 */
 
 #ifndef _STR_INL

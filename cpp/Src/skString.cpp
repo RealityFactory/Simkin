@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.15 2002/01/09 23:04:14 sdw Exp $
+  $Id: skString.cpp,v 1.16 2002/01/18 16:56:50 sdw Exp $
 */
 
 #include <string.h>

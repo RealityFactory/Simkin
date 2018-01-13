@@ -1,6 +1,15 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.13
+Date: 13/2/2002
+-------------------
+
+* fixed bug in skElementObject where it would crash if load() hadn't been called
+* fixed memory leak of a parse tree if executeString() caused a runtime exception
+* fixed precedence problems with the "!=" operator
+* fixed crash if trace() called with no arguments
+
 Simkin Version 2.12
 Date: 18/1/2002
 -------------------
