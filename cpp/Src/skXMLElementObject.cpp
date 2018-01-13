@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObject.cpp,v 1.18 2001/05/14 06:01:26 sdw Exp $
+  $Id: skXMLElementObject.cpp,v 1.19 2001/05/14 09:27:40 sdw Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -250,13 +250,18 @@ void skXMLElementObject::setData(DOM_Element element,const skString& data)
   //------------------------------------------
 {
   DOM_NodeList nodes=element.getChildNodes();
+  bool found=false;
   for (unsigned int i=0;i<nodes.getLength();i++){
     DOM_Node node=nodes.item(i);
     int type=node.getNodeType();
     if (type==DOM_Node::CDATA_SECTION_NODE || type==DOM_Node::TEXT_NODE){
       node.setNodeValue(fromString(data));
+      found=true;
       break;
     }
+  }
+  if (found==false){
+    element.appendChild(element.getOwnerDocument().createTextNode(fromString(data)));
   }
 }
 //------------------------------------------

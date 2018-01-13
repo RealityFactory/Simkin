@@ -1,6 +1,13 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.06
+Date: 14th May 2001
+-------------------
+
+* bug fix in skXMLElementObject - now adds a text node to an element if there isn't already one
+* bug fix in Interpreter - wasn't coping with "field:attribute=value" properly
+
 Simkin Version 2.05
 -------------------
 

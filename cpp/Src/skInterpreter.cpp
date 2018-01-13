@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skInterpreter.cpp,v 1.28 2001/05/14 06:01:26 sdw Exp $
+  $Id: skInterpreter.cpp,v 1.29 2001/05/14 10:51:24 sdw Exp $
 */
 
 #include "skInterpreter.h"
@@ -394,8 +394,15 @@ void P_Interpreter::executeAssignStat(skExecutable * obj,skRValueTable& var,skAs
       skRValue caller(obj);
       if (field_name==s_self)
 	inserted=insertValue(obj,var,caller,g_BlankString,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
-      else
-	inserted=insertValue(obj,var,caller,field_name,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+      else{
+	if (n->m_Ids->m_Attribute.length()==0)
+	  inserted=insertValue(obj,var,caller,field_name,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+	else{
+	  // e.g. "field:name"
+	  caller=findValue(obj,var,field_name,0,g_BlankString);
+	  inserted=insertValue(obj,var,caller,g_BlankString,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+	}
+      }
     }
     if (inserted==false)
       // if the object doesn't want this variable, we add it as a local variable

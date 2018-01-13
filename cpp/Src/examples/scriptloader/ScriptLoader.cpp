@@ -29,6 +29,10 @@ public:
     cout << "skTest::getValue field_name=" << field_name << " attribute=" << attribute;
     return skExecutable::getValue(field_name,attribute,value);
   }
+  bool setValue(const skString& field_name,const skString& attribute,const skRValue& value){
+    cout << "skTest::setValue field_name=" << field_name << " attribute=" << attribute;
+    return skExecutable::setValue(field_name,attribute,value);
+  }
   bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value){
     bool bRet=false;
     if (method_name=="createObject"){
