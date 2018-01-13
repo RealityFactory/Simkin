@@ -3,17 +3,92 @@
 <pre>
 <h1>Build Log</h1>
 <h3>
+--------------------Configuration: Simkin - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSP7.tmp" with contents
+[
+/nologo /MDd /W3 /GX /Z7 /Od /I "f:\source\xerces-c1_3_0-win32\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "PLATFORM_WIN32" /Fp".\Debug/Simkin.pch" /YX /Fo".\Debug/" /Fd".\Debug/" /FD /c 
+"F:\source\Simkin\cpp\Src\skAlist.cpp"
+"F:\source\Simkin\cpp\Src\skExecutable.cpp"
+"F:\source\Simkin\cpp\Src\skHashTable.cpp"
+"F:\source\Simkin\cpp\Src\skInterpreter.cpp"
+"F:\source\Simkin\cpp\Src\skLang_tab.cpp"
+"F:\source\Simkin\cpp\Src\skRValue.cpp"
+"F:\source\Simkin\cpp\Src\skScriptedExecutable.cpp"
+"F:\source\Simkin\cpp\Src\skString.cpp"
+"F:\source\Simkin\cpp\Src\skStringTokenizer.cpp"
+"F:\source\Simkin\cpp\Src\skTracer.cpp"
+"F:\source\Simkin\cpp\Src\skTreeNode.cpp"
+"F:\source\Simkin\cpp\Src\skTreeNodeObject.cpp"
+"F:\source\Simkin\cpp\Src\skTreeNodeObjectEnumerator.cpp"
+"F:\source\Simkin\cpp\Src\skXMLElementObject.cpp"
+"F:\source\Simkin\cpp\Src\skXMLElementObjectEnumerator.cpp"
+"F:\source\Simkin\cpp\Src\skXMLErrorHandler.cpp"
+"F:\source\Simkin\cpp\Src\skXMLExecutable.cpp"
+]
+Creating command line "cl.exe @D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSP7.tmp" 
+Creating temporary file "D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSP8.tmp" with contents
+[
+/nologo /out:".\Debug\Simkin.lib" 
+.\Debug\skAlist.obj
+.\Debug\skExecutable.obj
+.\Debug\skHashTable.obj
+.\Debug\skInterpreter.obj
+.\Debug\skLang_tab.obj
+.\Debug\skRValue.obj
+.\Debug\skScriptedExecutable.obj
+.\Debug\skString.obj
+.\Debug\skStringTokenizer.obj
+.\Debug\skTracer.obj
+.\Debug\skTreeNode.obj
+.\Debug\skTreeNodeObject.obj
+.\Debug\skTreeNodeObjectEnumerator.obj
+.\Debug\skXMLElementObject.obj
+.\Debug\skXMLElementObjectEnumerator.obj
+.\Debug\skXMLErrorHandler.obj
+.\Debug\skXMLExecutable.obj
+]
+Creating command line "link.exe -lib @D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSP8.tmp"
+<h3>Output Window</h3>
+Compiling...
+skAlist.cpp
+skExecutable.cpp
+skHashTable.cpp
+skInterpreter.cpp
+skLang_tab.cpp
+skLang_tab.c(438) : warning C4102: 'yyerrlab' : unreferenced label
+skLang_tab.c(433) : warning C4102: 'yynewerror' : unreferenced label
+skRValue.cpp
+skScriptedExecutable.cpp
+skString.cpp
+skStringTokenizer.cpp
+skTracer.cpp
+skTreeNode.cpp
+skTreeNodeObject.cpp
+skTreeNodeObjectEnumerator.cpp
+skXMLElementObject.cpp
+F:\source\Simkin\cpp\Src\skXMLElementObject.cpp(269) : warning C4018: '<' : signed/unsigned mismatch
+skXMLElementObjectEnumerator.cpp
+F:\source\Simkin\cpp\Src\skXMLElementObjectEnumerator.cpp(38) : warning C4018: '<' : signed/unsigned mismatch
+F:\source\Simkin\cpp\Src\skXMLElementObjectEnumerator.cpp(63) : warning C4018: '<' : signed/unsigned mismatch
+skXMLErrorHandler.cpp
+skXMLExecutable.cpp
+Creating library...
+<h3>
 --------------------Configuration: Demo - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "D:\DOCUME~1\sdw\LOCALS~1\Temp\RSP189.tmp" with contents
+Creating temporary file "D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSP9.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\\" /I "f:\source\xerces-c1_3_0-win32\include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Demo.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "F:\source\Simkin\cpp\Src\examples\demo\Demo_Controller.cpp"
 "F:\source\Simkin\cpp\Src\examples\demo\Demo_Main.cpp"
+"F:\source\Simkin\cpp\Src\examples\demo\Demo_View_Win32.cpp"
+"F:\source\Simkin\cpp\Src\examples\demo\Demo_Win32.cpp"
 ]
-Creating command line "cl.exe @D:\DOCUME~1\sdw\LOCALS~1\Temp\RSP189.tmp" 
-Creating temporary file "D:\DOCUME~1\sdw\LOCALS~1\Temp\RSP18A.tmp" with contents
+Creating command line "cl.exe @D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSP9.tmp" 
+Creating temporary file "D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSPA.tmp" with contents
 [
 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Demo.pdb" /debug /machine:I386 /out:"Debug/Demo.exe" /pdbtype:sept 
 .\Debug\Demo_Controller.obj
@@ -21,19 +96,26 @@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32
 .\Debug\Demo_View_Win32.obj
 .\Debug\Demo_Win32.obj
 \source\Simkin\cpp\Src\Debug\Simkin.lib
-"\source\xerces-c-src1_3_0\Build\Win32\VC6\Debug\xerces-c_1D.lib"
 ]
-Creating command line "link.exe @D:\DOCUME~1\sdw\LOCALS~1\Temp\RSP18A.tmp"
+Creating command line "link.exe @D:\DOCUME~1\SIMONW~1\LOCALS~1\Temp\RSPA.tmp"
 <h3>Output Window</h3>
 Compiling...
 Demo_Controller.cpp
 Demo_Main.cpp
-Linking...
+Demo_View_Win32.cpp
+d:\program files\microsoft visual studio\vc98\include\lzexpand.h(1) : error C2146: syntax error : missing ';' before identifier 'pViewContext'
+d:\program files\microsoft visual studio\vc98\include\lzexpand.h(1) : error C2501: 'LPMAPIVIEWCONTEXT' : missing storage-class or type specifiers
+d:\program files\microsoft visual studio\vc98\include\lzexpand.h(1) : fatal error C1004: unexpected end of file found
+Demo_Win32.cpp
+d:\program files\microsoft visual studio\vc98\include\lzexpand.h(1) : error C2146: syntax error : missing ';' before identifier 'pViewContext'
+d:\program files\microsoft visual studio\vc98\include\lzexpand.h(1) : error C2501: 'LPMAPIVIEWCONTEXT' : missing storage-class or type specifiers
+d:\program files\microsoft visual studio\vc98\include\lzexpand.h(1) : fatal error C1004: unexpected end of file found
+Error executing cl.exe.
 
 
 
 <h3>Results</h3>
-Demo.exe - 0 error(s), 0 warning(s)
+Demo.exe - 6 error(s), 5 warning(s)
 </pre>
 </body>
 </html>

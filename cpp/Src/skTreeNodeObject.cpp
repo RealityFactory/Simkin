@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skTreeNodeObject.cpp,v 1.14 2001/03/05 16:46:28 sdw Exp $
+  $Id: skTreeNodeObject.cpp,v 1.16 2001/05/04 11:09:18 sdw Exp $
 */
 
 #include "skTreeNodeObject.h"
@@ -69,6 +69,24 @@ skString skTreeNodeObject::strValue() const
   return m_Node->data();
 }
 //------------------------------------------
+bool skTreeNodeObject::setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& v)
+//------------------------------------------
+{
+  bool bRet=false;
+  int index=array_index.intValue();
+  skTreeNode * child=m_Node->nthChild(index);
+  if (child){
+    bRet=true;
+    skExecutable * other=v.obj();
+    if (other && other->executableType()==TREENODE_TYPE)
+      child->copyItems(*((skTreeNodeObject *)other)->m_Node);
+    else
+      child->data(v.str());
+  }else
+    bRet=skExecutable::setValueAt(array_index,attribute,v);
+  return bRet;
+}
+//------------------------------------------
 bool skTreeNodeObject::setValue(const skString& s,const skString& attrib,const skRValue& v)
 //------------------------------------------
 {
@@ -85,14 +103,6 @@ bool skTreeNodeObject::setValue(const skString& s,const skString& attrib,const s
     bRet=skExecutable::setValue(s,attrib,v);
   return bRet;
 }
-/*
-//------------------------------------------
-bool skTreeNodeObject::equals(skExecutable * o) const
-//------------------------------------------
-{
-  return (bool)(strValue()==o->strValue());
-}
-*/
 //------------------------------------------
 skTreeNode *	skTreeNodeObject::getNode()
 //------------------------------------------
@@ -107,16 +117,35 @@ void skTreeNodeObject::setNode(skTreeNode * n)
   delete m_MethodCache;
 }
 //------------------------------------------
-bool skTreeNodeObject::getValue(const skString& s,const skString& attrib,skRValue& v)
+bool skTreeNodeObject::getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value)
 //------------------------------------------
 {
   bool bRet=false;
-  skTreeNode * child=m_Node->findChild(s);
+  int index=array_index.intValue();
+  skTreeNode * child=m_Node->nthChild(index);
   if (child){
     bRet=true;
-    v=skRValue(new skTreeNodeObject(m_Location+":"+s,child,false),true);
+    value=skRValue(new skTreeNodeObject(m_Location+"["+skString::from(index)+"]",child,false),true);
   }else
-    bRet=skExecutable::getValue(s,attrib,v);
+    bRet=skExecutable::getValueAt(array_index,attribute,value);
+  return bRet;
+}
+//------------------------------------------
+bool skTreeNodeObject::getValue(const skString& name,const skString& attrib,skRValue& v)
+//------------------------------------------
+{
+  bool bRet=false;
+  if (name == "numChildren"){
+    bRet=true;
+    v=m_Node->numChildren();
+  }else{
+    skTreeNode * child=m_Node->findChild(name);
+    if (child){
+      bRet=true;
+      v=skRValue(new skTreeNodeObject(m_Location+":"+name,child,false),true);
+    }else
+      bRet=skExecutable::getValue(name,attrib,v);
+  }
   return bRet;
 }
 //------------------------------------------

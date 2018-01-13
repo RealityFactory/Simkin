@@ -45,7 +45,7 @@ expression: &lt;expression&gt; "or" &lt;expression&gt;
          | "self"
          | "null"
          | "(" &lt;expression&gt; ")"
-id_list:  &lt;id&gt; [ "(" &lt;expression_list&gt; ")" ] ( "." &lt;id&gt; [ "(" &lt;expression_list&gt; ")" ])*
+id_list:  &lt;id&gt; [ "(" &lt;expression_list&gt; ")" ]<br> ["[" &lt;expression&gt; "]" ] ( "." &lt;id&gt; [ "(" &lt;expression_list&gt; ")" ])*
 </pre>
 Here are the lexical tokens, described as regular expressions:
 <pre>

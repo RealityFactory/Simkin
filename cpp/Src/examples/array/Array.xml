@@ -1,0 +1,15 @@
+<object>
+<array>
+<person><name>Simon</name></person>
+<person><name>Lee</name></person>
+<person><name>Ibrar</name></person>
+</array>
+<function name="main">
+ num_children=array.numChildren;
+ i=0;
+ while (i lt num_children){
+	 trace(array[i].name);
+	i=i+1;
+ }
+</function>
+</object>

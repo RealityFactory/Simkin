@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skExecutable.h,v 1.14 2001/03/05 16:46:28 sdw Exp $
+* $Id: skExecutable.h,v 1.16 2001/05/03 16:01:31 sdw Exp $
 */
 
 #ifndef skEXECUTABLE_H
@@ -73,6 +73,14 @@ class skExecutable
    */
   virtual bool setValue(const skString& field_name,const skString& attribute,const skRValue& value); 
   /**
+   * requests the object to set an item in its collection to a certain value
+   * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
+   * @param attribute - the attribute name to set (may be blank)
+   * @param value - the value to be set
+   * @return true if the field was changed, false if the field could not be set or found
+   */
+  virtual bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
+  /**
    * requests the object to return a field's  value
    * @param field_name - the name of the field name to get
    * @param attribute - the attribute name to get (may be blank)
@@ -80,6 +88,14 @@ class skExecutable
    * @return true if the field was changed, false if the field could not be get or found
    */
   virtual bool getValue(const skString& field_name,const skString& attribute,skRValue& value);
+  /**
+   * requests the object to return an object from its collection
+   * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
+   * @param attribute - the attribute name to get (may be blank)
+   * @param value - the value to receive the value of the field
+   * @return true if the field was changed, false if the field could not be get or found
+   */
+  virtual bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
    * Requests that the object execute the given method
    * @param method_name - the name of the method to execute

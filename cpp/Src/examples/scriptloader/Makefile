@@ -1,9 +1,11 @@
-# $Id: Makefile,v 1.1 2000/12/21 15:37:20 sdw Exp $
+# $Id: Makefile,v 1.3 2001/05/04 11:09:10 sdw Exp $
 
 CFLAGS = -c 
-CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/home/sdw/source/xerces-c-src1_3_0/include -I../../ -D_REENTRANT -instances=static
-CPP = g++ -fpic
+CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src1_4_0/src -I../../ -D_REENTRANT 
+#-instances=static
+CPP = g++ -fpic 
 CC = gcc
+LINKFLAGS = -lm -L/usr/lib -L/usr/local/lib -lc
 .SUFFIXES: .cpp
 
 .cpp.o:	
@@ -12,43 +14,49 @@ CC = gcc
 .c.o:	
 	${CPP} ${CPPFLAGS}  $<
 
-LIBS = ../../skInterpreter.a /home/sdw/source/xerces-c-src1_3_0/lib/libxerces-c1_3.so
+LIBS = ../../skInterpreter.a /usr/share/xerces-c-src1_4_0/lib/libxerces-c1_4.so /usr/lib/libpthread.so
 OBJS = ScriptLoader.o 
 
 
 ScriptLoader: $(OBJS) $(LIBS)
-	${CPP} $(OBJS) $(LIBS) -o ScriptLoader
+	${CPP} $(OBJS) $(LIBS) ${LINKFLAGS} -o ScriptLoader
 
 clean:
 	rm *.o *.a
 
 depend:
-	makedepend -I/home/sdw/source/xerces-c-src1_3_0/include -I../../ *.cpp
+	makedepend -I/usr/share/xerces-c-src1_4_0/src -I../../ *.cpp
 
 # DO NOT DELETE
 
-ScriptLoader.o: ../../skInterpreter.h ../../skRValue.h ../../skString.h
-ScriptLoader.o: ../../skGeneral.h /usr/include/stdlib.h
-ScriptLoader.o: /usr/include/features.h /usr/include/sys/cdefs.h
-ScriptLoader.o: /usr/include/gnu/stubs.h
-ScriptLoader.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-ScriptLoader.o: /usr/include/sys/types.h /usr/include/bits/types.h
-ScriptLoader.o: /usr/include/time.h /usr/include/endian.h
-ScriptLoader.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-ScriptLoader.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-ScriptLoader.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-ScriptLoader.o: /usr/include/assert.h ../../skString.inl
-ScriptLoader.o: /usr/include/string.h ../../skExecutable.h
-ScriptLoader.o: ../../skXMLExecutable.h ../../skXMLElementObject.h
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Element.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XercesDefs.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/util/AutoSense.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Node.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOMString.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/sax/InputSource.hpp
-ScriptLoader.o: ../../skRValueArray.h ../../skValist.h
-ScriptLoader.o: ../../skBoundsException.h
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/util/PlatformUtils.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLException.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLExceptMsgs.hpp
-ScriptLoader.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLUni.hpp
+
+ScriptLoader.c.o: ../../skBoundsException.h ../../skExecutable.h
+ScriptLoader.c.o: ../../skGeneral.h ../../skInterpreter.h ../../skNull.h
+ScriptLoader.c.o: ../../skParseException.h ../../skRuntimeException.h
+ScriptLoader.c.o: ../../skRValueArray.h ../../skRValue.h ../../skString.h
+ScriptLoader.c.o: ../../skString.inl ../../skValist.h
+ScriptLoader.c.o: ../../skXMLElementObject.h ../../skXMLExecutable.h
+ScriptLoader.c.o: /usr/include/alloca.h /usr/include/assert.h
+ScriptLoader.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
+ScriptLoader.c.o: /usr/include/bits/sigset.h /usr/include/bits/types.h
+ScriptLoader.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+ScriptLoader.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+ScriptLoader.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+ScriptLoader.c.o: /usr/include/gconv.h /usr/include/libio.h
+ScriptLoader.c.o: /usr/include/stdlib.h /usr/include/string.h
+ScriptLoader.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+ScriptLoader.c.o: /usr/include/time.h /usr/include/wchar.h
+ScriptLoader.c.o: /usr/include/xlocale.h
+ScriptLoader.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+ScriptLoader.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/sax/InputSource.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/util/PlatformUtils.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLException.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLExceptMsgs.hpp
+ScriptLoader.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLUni.hpp

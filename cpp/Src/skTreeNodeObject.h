@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skTreeNodeObject.h,v 1.13 2001/03/05 16:46:28 sdw Exp $
+* $Id: skTreeNodeObject.h,v 1.16 2001/05/08 11:39:33 sdw Exp $
 */
 
 
@@ -16,7 +16,13 @@ class skMethodTable;
 #define TREENODE_TYPE	1
 
 /**
-   This class gives an skExecutable wrapper to an skTreeNode object
+ * This class gives an skExecutable wrapper to an skTreeNode object
+ * The class implements methods from the Executable interface.
+ * The methods getValue, setValue and method all search for matching child labels within the TreeNode document. Only the first matching label is used.  
+ * <p>The class supports the following fields:<ul>
+ * <li>"numChildren" - returns number of children of this node</li>
+ * <li>enumerate([label]) - returns an skTreeNodeObjectEnumerator which enumerates over the child nodes of this node. If no label is passed the enumerator lists all the children. A label can be passed to show only children with the matching label.</li>
+ * </ul>
 */
 class skTreeNodeObject : public skExecutable
 {
@@ -69,10 +75,23 @@ class skTreeNodeObject : public skExecutable
    */
   bool setValue(const skString& name,const skString& attribute,const skRValue& value);
   /**
+   * Sets a value within the nth node of the tree node. 
+   * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
+   * @param attribute - the attribute name to set (may be blank)
+   * @param value - the value to be set
+   * @return true if the field was changed, false if the field could not be set or found
+   */
+  bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
+  /**
    * Retrieves a value from within the node. The field name is matched to a child of the treenode with the same label.
    * If a match is found, a new TreeNodeObject encapsulating the child is returned. 
    */
   bool getValue(const skString& name,const skString& attribute,skRValue& v);
+  /**
+   * Retrieves the nth value from within the node. If the array index falls within the range of the number of children of this node, 
+   * a new TreeNodeObject encapsulating the child is returned. 
+   */
+  bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
    * This function attempts to call a method defined within the TreeNode. It searches for a child whose label matches the method name, and tries to execute its data as a Simkin script
    * @param name - the name of the method

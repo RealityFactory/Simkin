@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObject.cpp,v 1.15 2001/03/05 16:46:28 sdw Exp $
+  $Id: skXMLElementObject.cpp,v 1.18 2001/05/14 06:01:26 sdw Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -93,6 +93,36 @@ skString skXMLElementObject::strValue() const
   return getData(m_Element);
 }
 //------------------------------------------
+bool skXMLElementObject::setValueAt(const skRValue& array_index,const skString& attrib,const skRValue& v)
+  //------------------------------------------
+{
+  bool bRet=true;
+  skExecutable * other=0;
+  bool otherIsXML=false;
+  if (v.type()==skRValue::T_Object){
+    other=v.obj();
+    if (other!=0 && other->executableType()==XMLELEMENT_TYPE)
+      otherIsXML=true;
+  }
+  int index=array_index.intValue();
+  DOM_Element child=m_Element;
+  child=findChild(m_Element,index);
+  if (child.isNull())
+    bRet=false;
+  else{
+    if (otherIsXML)
+      ((skXMLElementObject *)other)->copyItemsInto(child);
+    else
+      if (attrib.length()==0)
+	setData(child,v.str());
+      else
+	child.setAttribute(DOMString((const char *)attrib),DOMString((const char *)v.str()));
+  }
+  if (bRet==false)
+    bRet=skExecutable::setValueAt(array_index,attrib,v);
+  return bRet;
+}
+//------------------------------------------
 bool skXMLElementObject::setValue(const skString& name,const skString& attrib,const skRValue& v)
   //------------------------------------------
 {
@@ -108,7 +138,7 @@ bool skXMLElementObject::setValue(const skString& name,const skString& attrib,co
   if (name.length()>0)
     child=findChild(m_Element,name);
   if (child.isNull())
-      bRet=false;
+    bRet=false;
   else{
     if (otherIsXML)
       ((skXMLElementObject *)other)->copyItemsInto(child);
@@ -126,38 +156,51 @@ bool skXMLElementObject::setValue(const skString& name,const skString& attrib,co
 void skXMLElementObject::copyItemsInto(DOM_Element other)
   //------------------------------------------
 {
-    // first clear the other node
-    DOM_NodeList nodes=other.getChildNodes();
+  // first clear the other node
+  DOM_NodeList nodes=other.getChildNodes();
+  if (nodes.getLength()>0){
+    int numNodes=nodes.getLength();
+    // take a copy in case the list gets cleared as we go along
+    DOM_NodeList theNodes(nodes);
+    for (int i=0;i<numNodes;i++)
+      other.removeChild(theNodes.item(i));
+  }
+  if (m_Element.isNull()==false){
+    // now copy our nodes in
+    nodes=m_Element.getChildNodes();
     if (nodes.getLength()>0){
-	int numNodes=nodes.getLength();
-	// take a copy in case the list gets cleared as we go along
-	DOM_NodeList theNodes(nodes);
-	for (int i=0;i<numNodes;i++)
-	    other.removeChild(theNodes.item(i));
+      int numNodes=nodes.getLength();
+      for (int i=0;i<numNodes;i++)
+	other.appendChild(nodes.item(i).cloneNode(true));
     }
-    if (m_Element.isNull()==false){
-	// now copy our nodes in
-	nodes=m_Element.getChildNodes();
-	if (nodes.getLength()>0){
-	    int numNodes=nodes.getLength();
-	    for (int i=0;i<numNodes;i++)
-		other.appendChild(nodes.item(i).cloneNode(true));
-	}
-    }
+  }
 }
-/*
-//------------------------------------------
-bool skXMLElementObject::equals(skExecutable * o) const
-  //------------------------------------------
-{
-  return (bool)(strValue()==o->strValue());
-}
-*/
 //------------------------------------------
 DOM_Element skXMLElementObject::getElement()
   //------------------------------------------
 {
   return m_Element;
+}
+//------------------------------------------
+bool skXMLElementObject::getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value)
+  //------------------------------------------
+{
+  bool bRet=true;
+  int index=array_index.intValue();
+  DOM_Element child=findChild(m_Element,index);
+  if (child.isNull())
+    bRet=false;
+  if (bRet==true){
+    if (attribute.length()==0)
+      value=skRValue(new skXMLElementObject(m_ScriptLocation+"["+skString::from(index)+"]",child),true);
+    else{
+      DOMString attrName=fromString(attribute);
+      DOMString attrValue=child.getAttribute(attrName);
+      value=skRValue(toString(attrValue));
+    }
+  }else
+    bRet=skExecutable::getValueAt(array_index,attribute,value);
+  return bRet;
 }
 //------------------------------------------
 bool skXMLElementObject::getValue(const skString& name,const skString& attrib,skRValue& v) 
@@ -167,6 +210,8 @@ bool skXMLElementObject::getValue(const skString& name,const skString& attrib,sk
   DOM_Element child=m_Element;
   if (name == "nodename"){
     v=toString(m_Element.getNodeName());
+  }else if (name == "numChildren"){
+    v=countChildren(m_Element);
   }else{
     if (name.length()>0){
       child=findChild(m_Element,name);
@@ -213,6 +258,45 @@ void skXMLElementObject::setData(DOM_Element element,const skString& data)
       break;
     }
   }
+}
+//------------------------------------------
+DOM_Element skXMLElementObject::findChild(DOM_Element parent,int index)
+  //------------------------------------------
+{
+  DOM_Element ret;
+  if (parent.isNull()==false){
+    DOM_NodeList nodes=parent.getChildNodes();
+    if (index<nodes.getLength()){
+      int element_count=0;
+      for (unsigned int i=0;i<nodes.getLength();i++){
+	DOM_Node node=nodes.item(i);
+	if (node.getNodeType()==DOM_Node::ELEMENT_NODE){
+	  if (element_count==index){
+	    ret=*(DOM_Element *)&node;
+	    break;
+	  }else
+	    element_count++;
+	}
+      }
+    }
+  }
+  return ret;
+}
+//------------------------------------------
+int skXMLElementObject::countChildren(DOM_Element parent)
+  //------------------------------------------
+{
+  int count=0;
+  if (parent.isNull()==false){
+    DOM_NodeList nodes=parent.getChildNodes();
+    for (unsigned int i=0;i<nodes.getLength();i++){
+      DOM_Node node=nodes.item(i);
+      if (node.getNodeType()==DOM_Node::ELEMENT_NODE){
+	count++;
+      }
+    }
+  }
+  return count;
 }
 //------------------------------------------
 DOM_Element skXMLElementObject::findChild(DOM_Element parent,const skString& tagname)
@@ -278,7 +362,20 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
   //------------------------------------------
 {
   bool bRet=false;
-  if (s==("dump")){
+  if (s=="containsElement"){
+    bRet=true;
+    DOM_Element child=findChild(m_Element,args[0].str());
+    if (child.isNull()==false)
+      ret=true;
+    else
+      ret=false;
+  }else if (s=="addElement"){
+    bRet=true;
+    m_Element.appendChild(m_Element.getOwnerDocument().createElement(fromString(args[0].str())));
+  }else if (s=="tagName"){
+    bRet=true;
+    ret=toString(m_Element.getNodeName());
+  }else if (s==("dump")){
     bRet=true;
     cout << m_Element;
   }else if (s=="enumerate" && (args.entries()==0 || args.entries()==1)){
@@ -350,14 +447,14 @@ ostream& operator<<(ostream& target, DOM_Node& toWrite)
     }
     DOM_Node child = toWrite.getFirstChild();
     if (child != 0){
-      target << ">\n";
+      target << ">";
       while( child != 0){
 	target << child;
 	child = child.getNextSibling();
       }
-      target << "\n</" << nodeName << ">\n";
+      target << "</" << nodeName << ">";
     }else
-      target << "/>\n";
+      target << "/>";
   }
   break;        
   default:
@@ -374,14 +471,14 @@ ostream& operator<<(ostream& target, DOM_Node& toWrite)
 // ---------------------------------------------------------------------------
 ostream& operator<< (ostream& target, const DOMString& s)
 {
-    char *p = s.transcode();
-    target << p;
-    delete [] p;
-    return target;
+  char *p = s.transcode();
+  target << p;
+  delete [] p;
+  return target;
 }
 // ---------------------------------------------------------------------------
 skString skXMLElementObject::toString(DOMString str)
-// ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 {
   // nb this now owns the buffer, but does not delete it
   return skString::fromBuffer((unsigned char *)str.transcode());
@@ -394,18 +491,18 @@ DOMString skXMLElementObject::fromString(const skString& str)
 }
 //------------------------------------------
 skXMLElementObject::skXMLElementObject(const skXMLElementObject& other)
-//------------------------------------------
+  //------------------------------------------
 {
 }
 //------------------------------------------
 skXMLElementObject& skXMLElementObject::operator=(const skXMLElementObject& other)
-//------------------------------------------
+  //------------------------------------------
 {
   return *this;
 }
 //------------------------------------------
 skString skXMLElementObject::getLocation() const
-//------------------------------------------
+  //------------------------------------------
 {
   return m_ScriptLocation;
 }

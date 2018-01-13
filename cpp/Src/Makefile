@@ -1,7 +1,8 @@
-# $Id: Makefile,v 1.7 2001/03/05 16:00:33 sdw Exp $
+# $Id: Makefile,v 1.8 2001/05/03 16:01:30 sdw Exp $
 
 CFLAGS = -c 
-CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/home/sdw/source/xerces-c-src1_3_0/include -D_REENTRANT -instances=static
+CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src1_4_0/src -D_REENTRANT 
+#-instances=static
 CPP = g++ -fpic
 CC = gcc
 .SUFFIXES: .cpp
@@ -16,7 +17,7 @@ lib_proj=Interpreter
 
 objects = skAlist.o skTreeNodeObject.o skTreeNodeObjectEnumerator.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skXMLElementObject.o skXMLElementObjectEnumerator.o  skXMLExecutable.o skStringTokenizer.o skXMLErrorHandler.o
 
-skInterpreter.a: $(objects)
+skInterpreter.a: skLang_tab.cpp $(objects) 
 	ar -r skInterpreter.a  $(objects)
 	ranlib skInterpreter.a
 
@@ -29,304 +30,418 @@ clean:
 	rm *.o *.a
 
 depend:
-	makedepend -I/home/sdw/source/xerces-c-src1_3_0/include *.cpp
+	makedepend -I/usr/share/xerces-c-src1_4_0/src *.cpp
 
 # DO NOT DELETE
 
-skAlist.o: skAlist.h skGeneral.h /usr/include/stdlib.h
-skAlist.o: /usr/include/features.h /usr/include/sys/cdefs.h
-skAlist.o: /usr/include/gnu/stubs.h
-skAlist.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skAlist.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skAlist.o: /usr/include/time.h /usr/include/endian.h
-skAlist.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skAlist.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skAlist.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skAlist.o: /usr/include/assert.h skAlist.inl skBoundsException.h skString.h
-skAlist.o: skString.inl /usr/include/string.h
-skExecutable.o: skExecutable.h skString.h skGeneral.h /usr/include/stdlib.h
-skExecutable.o: /usr/include/features.h /usr/include/sys/cdefs.h
-skExecutable.o: /usr/include/gnu/stubs.h
-skExecutable.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skExecutable.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skExecutable.o: /usr/include/time.h /usr/include/endian.h
-skExecutable.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skExecutable.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skExecutable.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skExecutable.o: /usr/include/assert.h skString.inl /usr/include/string.h
-skExecutable.o: skRValue.h skRValueArray.h skValist.h skBoundsException.h
-skExecutable.o: skTracer.h
-skHashTable.o: skHashTable.h skGeneral.h /usr/include/stdlib.h
-skHashTable.o: /usr/include/features.h /usr/include/sys/cdefs.h
-skHashTable.o: /usr/include/gnu/stubs.h
-skHashTable.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skHashTable.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skHashTable.o: /usr/include/time.h /usr/include/endian.h
-skHashTable.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skHashTable.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skHashTable.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skHashTable.o: /usr/include/assert.h skAlist.h skAlist.inl
-skHashTable.o: skBoundsException.h skString.h skString.inl
-skHashTable.o: /usr/include/string.h skHashTable.inl
-skInterpreter.o: skInterpreter.h skRValue.h skString.h skGeneral.h
-skInterpreter.o: /usr/include/stdlib.h /usr/include/features.h
-skInterpreter.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skInterpreter.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skInterpreter.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skInterpreter.o: /usr/include/time.h /usr/include/endian.h
-skInterpreter.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skInterpreter.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skInterpreter.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skInterpreter.o: /usr/include/assert.h skString.inl /usr/include/string.h
-skInterpreter.o: skExecutable.h skInterpreterp.h skHashTable.h skAlist.h
-skInterpreter.o: skAlist.inl skBoundsException.h skHashTable.inl
-skInterpreter.o: skParseNode.h skStringList.h skValist.h /usr/include/ctype.h
-skInterpreter.o: skLang_tab.h /usr/include/stdio.h
-skInterpreter.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
-skInterpreter.o: /usr/include/libio.h /usr/include/_G_config.h
-skInterpreter.o: /usr/include/bits/stdio_lim.h skRValueArray.h
-skInterpreter.o: skParseException.h skRuntimeException.h skTracer.h
-skLang_tab.o: skParseNode.h skStringList.h skString.h skGeneral.h
-skLang_tab.o: /usr/include/stdlib.h /usr/include/features.h
-skLang_tab.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skLang_tab.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skLang_tab.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skLang_tab.o: /usr/include/time.h /usr/include/endian.h
-skLang_tab.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skLang_tab.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skLang_tab.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skLang_tab.o: /usr/include/assert.h skString.inl /usr/include/string.h
-skLang_tab.o: skValist.h skBoundsException.h skAlist.h skAlist.inl skosfcn.h
-skRValue.o: skRValue.h skString.h skGeneral.h /usr/include/stdlib.h
-skRValue.o: /usr/include/features.h /usr/include/sys/cdefs.h
-skRValue.o: /usr/include/gnu/stubs.h
-skRValue.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skRValue.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skRValue.o: /usr/include/time.h /usr/include/endian.h
-skRValue.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skRValue.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skRValue.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skRValue.o: /usr/include/assert.h skString.inl /usr/include/string.h
-skRValue.o: skExecutable.h /usr/include/stdio.h
-skRValue.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
-skRValue.o: /usr/include/libio.h /usr/include/_G_config.h
-skRValue.o: /usr/include/bits/stdio_lim.h
-skScriptedExecutable.o: skScriptedExecutable.h skTreeNodeObject.h
-skScriptedExecutable.o: skExecutable.h skString.h skGeneral.h
-skScriptedExecutable.o: /usr/include/stdlib.h /usr/include/features.h
-skScriptedExecutable.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skScriptedExecutable.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skScriptedExecutable.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skScriptedExecutable.o: /usr/include/time.h /usr/include/endian.h
-skScriptedExecutable.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skScriptedExecutable.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skScriptedExecutable.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skScriptedExecutable.o: /usr/include/assert.h skString.inl
-skScriptedExecutable.o: /usr/include/string.h skTreeNode.h
-skString.o: /usr/include/string.h /usr/include/features.h
-skString.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skString.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skString.o: /usr/include/stdlib.h /usr/include/sys/types.h
-skString.o: /usr/include/bits/types.h /usr/include/time.h
-skString.o: /usr/include/endian.h /usr/include/bits/endian.h
-skString.o: /usr/include/sys/select.h /usr/include/bits/select.h
-skString.o: /usr/include/bits/sigset.h /usr/include/sys/sysmacros.h
-skString.o: /usr/include/alloca.h /usr/include/stdio.h
-skString.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
-skString.o: /usr/include/libio.h /usr/include/_G_config.h
-skString.o: /usr/include/bits/stdio_lim.h skString.h skGeneral.h
-skString.o: /usr/include/assert.h skString.inl
-skStringTokenizer.o: skStringTokenizer.h skString.h skGeneral.h
-skStringTokenizer.o: /usr/include/stdlib.h /usr/include/features.h
-skStringTokenizer.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skStringTokenizer.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skStringTokenizer.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skStringTokenizer.o: /usr/include/time.h /usr/include/endian.h
-skStringTokenizer.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skStringTokenizer.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skStringTokenizer.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skStringTokenizer.o: /usr/include/assert.h skString.inl /usr/include/string.h
-skTracer.o: skTracer.h
-skTracer.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
-skTracer.o: /usr/include/stdio.h /usr/include/features.h
-skTracer.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skTracer.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skTracer.o: /usr/include/bits/types.h /usr/include/libio.h
-skTracer.o: /usr/include/_G_config.h /usr/include/bits/stdio_lim.h
-skTreeNode.o: /usr/include/string.h /usr/include/features.h
-skTreeNode.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skTreeNode.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skTreeNode.o: skTreeNode.h skString.h skGeneral.h /usr/include/stdlib.h
-skTreeNode.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skTreeNode.o: /usr/include/time.h /usr/include/endian.h
-skTreeNode.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skTreeNode.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skTreeNode.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skTreeNode.o: /usr/include/assert.h skString.inl skTreeNodp.h skAlist.h
-skTreeNode.o: skAlist.inl skBoundsException.h /usr/include/stdio.h
-skTreeNode.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
-skTreeNode.o: /usr/include/libio.h /usr/include/_G_config.h
-skTreeNode.o: /usr/include/bits/stdio_lim.h /usr/include/ctype.h
-skTreeNodeObject.o: skTreeNodeObject.h skExecutable.h skString.h skGeneral.h
-skTreeNodeObject.o: /usr/include/stdlib.h /usr/include/features.h
-skTreeNodeObject.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skTreeNodeObject.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skTreeNodeObject.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skTreeNodeObject.o: /usr/include/time.h /usr/include/endian.h
-skTreeNodeObject.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skTreeNodeObject.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skTreeNodeObject.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skTreeNodeObject.o: /usr/include/assert.h skString.inl /usr/include/string.h
-skTreeNodeObject.o: skTreeNode.h skRValue.h skInterpreter.h skMethodTable.h
-skTreeNodeObject.o: skHashTable.h skAlist.h skAlist.inl skBoundsException.h
-skTreeNodeObject.o: skHashTable.inl skParseNode.h skStringList.h skValist.h
-skXMLElementObject.o: skStringTokenizer.h skString.h skGeneral.h
-skXMLElementObject.o: /usr/include/stdlib.h /usr/include/features.h
-skXMLElementObject.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skXMLElementObject.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skXMLElementObject.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skXMLElementObject.o: /usr/include/time.h /usr/include/endian.h
-skXMLElementObject.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skXMLElementObject.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skXMLElementObject.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skXMLElementObject.o: /usr/include/assert.h skString.inl
-skXMLElementObject.o: /usr/include/string.h skXMLElementObject.h
-skXMLElementObject.o: skExecutable.h
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Element.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XercesDefs.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/util/AutoSense.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Node.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOMString.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_NodeList.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_CharacterData.hpp
-skXMLElementObject.o: skRValue.h skXMLElement.h
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Document.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_DocumentType.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_DOMImplementation.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_DocumentFragment.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Comment.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_CDATASection.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Text.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_ProcessingInstruction.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Attr.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Entity.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_EntityReference.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Notation.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_NodeIterator.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_NodeFilter.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Node.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_TreeWalker.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_XMLDecl.hpp
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Range.hpp
-skXMLElementObject.o: skMethodTable.h skHashTable.h skAlist.h skAlist.inl
-skXMLElementObject.o: skBoundsException.h skHashTable.inl skParseNode.h
-skXMLElementObject.o: skStringList.h skValist.h skInterpreter.h
-skXMLElementObject.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_NamedNodeMap.hpp
-skXMLErrorHandler.o: skXMLErrorHandler.h
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/sax/ErrorHandler.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XercesDefs.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/util/AutoSense.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOMString.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/sax/SAXParseException.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/sax/SAXException.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLString.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLUni.hpp
-skXMLErrorHandler.o: skXMLElementObject.h skExecutable.h skString.h
-skXMLErrorHandler.o: skGeneral.h /usr/include/stdlib.h
-skXMLErrorHandler.o: /usr/include/features.h /usr/include/sys/cdefs.h
-skXMLErrorHandler.o: /usr/include/gnu/stubs.h
-skXMLErrorHandler.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skXMLErrorHandler.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skXMLErrorHandler.o: /usr/include/time.h /usr/include/endian.h
-skXMLErrorHandler.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skXMLErrorHandler.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skXMLErrorHandler.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skXMLErrorHandler.o: /usr/include/assert.h skString.inl /usr/include/string.h
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Element.hpp
-skXMLErrorHandler.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Node.hpp
-skXMLExecutable.o: skXMLErrorHandler.h
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/sax/ErrorHandler.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XercesDefs.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/AutoSense.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/parsers/DOMParser.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Document.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_DocumentType.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Node.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOMString.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_DOMImplementation.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Element.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_DocumentFragment.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Comment.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_CharacterData.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_CDATASection.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Text.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_ProcessingInstruction.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Attr.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Entity.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_EntityReference.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_NodeList.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Notation.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_NodeIterator.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_NodeFilter.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Node.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_TreeWalker.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_XMLDecl.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/dom/DOM_Range.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLDocumentHandler.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/RefVectorOf.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/ArrayIndexOutOfBoundsException.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLException.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLExceptMsgs.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLUni.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLEnumerator.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/RefVectorOf.c
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLAttr.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLString.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLAttDef.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLErrorReporter.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/XMLMsgLoader.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLEntityHandler.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/ValueStackOf.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/EmptyStackException.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/ValueVectorOf.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/ValueVectorOf.c
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/ValueStackOf.c
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/validators/DTD/DocTypeHandler.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLNotationDecl.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/validators/DTD/DTDAttDef.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/validators/DTD/DTDElementDecl.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/RefHashTableOf.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/KeyValuePair.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/KeyValuePair.c
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/HashBase.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/IllegalArgumentException.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/NoSuchElementException.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/RuntimeException.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/HashXMLCh.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/RefHashTableOf.c
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLElementDecl.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLAttDefList.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLContentModel.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/validators/DTD/DTDEntityDecl.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLEntityDecl.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/validators/DTD/DTDValidator.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/NameIdPool.hpp
-skXMLExecutable.o: /usr/include/string.h /usr/include/features.h
-skXMLExecutable.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
-skXMLExecutable.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/NameIdPool.c
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/util/StringPool.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLValidator.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLValidityCodes.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/XMLRefInfo.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/LocalFileInputSource.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/sax/InputSource.hpp
-skXMLExecutable.o: /home/sdw/source/xerces-c-src1_3_0/include/framework/MemBufInputSource.hpp
-skXMLExecutable.o: skXMLExecutable.h skXMLElementObject.h skExecutable.h
-skXMLExecutable.o: skString.h skGeneral.h /usr/include/stdlib.h
-skXMLExecutable.o: /usr/include/sys/types.h /usr/include/bits/types.h
-skXMLExecutable.o: /usr/include/time.h /usr/include/endian.h
-skXMLExecutable.o: /usr/include/bits/endian.h /usr/include/sys/select.h
-skXMLExecutable.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
-skXMLExecutable.o: /usr/include/sys/sysmacros.h /usr/include/alloca.h
-skXMLExecutable.o: /usr/include/assert.h skString.inl
+
+skAlist.c.o: skAlist.h skAlist.inl skBoundsException.h skGeneral.h skString.h
+skAlist.c.o: skString.inl /usr/include/alloca.h /usr/include/assert.h
+skAlist.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
+skAlist.c.o: /usr/include/bits/sigset.h /usr/include/bits/types.h
+skAlist.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skAlist.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+skAlist.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skAlist.c.o: /usr/include/gconv.h /usr/include/libio.h /usr/include/stdlib.h
+skAlist.c.o: /usr/include/string.h /usr/include/sys/select.h
+skAlist.c.o: /usr/include/sys/types.h /usr/include/time.h /usr/include/wchar.h
+skAlist.c.o: /usr/include/xlocale.h
+skAlist.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skAlist.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skExecutable.c.o: skBoundsException.h skExecutable.h skGeneral.h
+skExecutable.c.o: skRValueArray.h skRValue.h skString.h skString.inl
+skExecutable.c.o: skTracer.h skValist.h /usr/include/alloca.h
+skExecutable.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
+skExecutable.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skExecutable.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
+skExecutable.c.o: /usr/include/endian.h /usr/include/features.h
+skExecutable.c.o: /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h
+skExecutable.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skExecutable.c.o: /usr/include/libio.h /usr/include/stdlib.h
+skExecutable.c.o: /usr/include/string.h /usr/include/sys/select.h
+skExecutable.c.o: /usr/include/sys/types.h /usr/include/time.h
+skExecutable.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skHashTable.c.o: skAlist.h skAlist.inl skBoundsException.h skGeneral.h
+skHashTable.c.o: skHashTable.h skHashTable.inl skString.h skString.inl
+skHashTable.c.o: /usr/include/alloca.h /usr/include/assert.h
+skHashTable.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
+skHashTable.c.o: /usr/include/bits/sigset.h /usr/include/bits/types.h
+skHashTable.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skHashTable.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+skHashTable.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skHashTable.c.o: /usr/include/gconv.h /usr/include/libio.h
+skHashTable.c.o: /usr/include/stdlib.h /usr/include/string.h
+skHashTable.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skHashTable.c.o: /usr/include/time.h /usr/include/wchar.h
+skHashTable.c.o: /usr/include/xlocale.h
+skHashTable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skHashTable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skInterpreter.c.o: skAlist.h skAlist.inl skBoundsException.h skExecutable.h
+skInterpreter.c.o: skGeneral.h skHashTable.h skHashTable.inl skInterpreter.h
+skInterpreter.c.o: skInterpreterp.h skLang_tab.h skNull.h skParseException.h
+skInterpreter.c.o: skParseNode.h skRuntimeException.h skRValueArray.h
+skInterpreter.c.o: skRValue.h skString.h skString.inl skStringList.h
+skInterpreter.c.o: skTracer.h skValist.h /usr/include/alloca.h
+skInterpreter.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
+skInterpreter.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skInterpreter.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
+skInterpreter.c.o: /usr/include/ctype.h /usr/include/endian.h
+skInterpreter.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+skInterpreter.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skInterpreter.c.o: /usr/include/gconv.h /usr/include/libio.h
+skInterpreter.c.o: /usr/include/stdio.h /usr/include/stdlib.h
+skInterpreter.c.o: /usr/include/string.h /usr/include/sys/select.h
+skInterpreter.c.o: /usr/include/sys/types.h /usr/include/time.h
+skInterpreter.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skInterpreter.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skInterpreter.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skLang_tab.c.o: skAlist.h skAlist.inl skBoundsException.h skGeneral.h
+skLang_tab.c.o:  skLang.y skosfcn.h skParseNode.h skString.h
+skLang_tab.c.o: skString.inl skStringList.h skValist.h /usr/include/alloca.h
+skLang_tab.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
+skLang_tab.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skLang_tab.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
+skLang_tab.c.o: /usr/include/endian.h /usr/include/features.h
+skLang_tab.c.o: /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h
+skLang_tab.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skLang_tab.c.o: /usr/include/libio.h /usr/include/stdlib.h
+skLang_tab.c.o: /usr/include/string.h /usr/include/sys/select.h
+skLang_tab.c.o: /usr/include/sys/types.h /usr/include/time.h
+skLang_tab.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skLang_tab.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skLang_tab.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skRValue.c.o: skExecutable.h skGeneral.h skRValue.h skString.h skString.inl
+skRValue.c.o: /usr/include/alloca.h /usr/include/assert.h
+skRValue.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
+skRValue.c.o: /usr/include/bits/sigset.h /usr/include/bits/types.h
+skRValue.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skRValue.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+skRValue.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skRValue.c.o: /usr/include/gconv.h /usr/include/libio.h /usr/include/stdio.h
+skRValue.c.o: /usr/include/stdlib.h /usr/include/string.h
+skRValue.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skRValue.c.o: /usr/include/time.h /usr/include/wchar.h /usr/include/xlocale.h
+skRValue.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skRValue.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skScriptedExecutable.c.o: skExecutable.h skGeneral.h skScriptedExecutable.h
+skScriptedExecutable.c.o: skString.h skString.inl skTreeNode.h
+skScriptedExecutable.c.o: skTreeNodeObject.h /usr/include/alloca.h
+skScriptedExecutable.c.o: /usr/include/assert.h
+skScriptedExecutable.c.o: /usr/include/bits/pthreadtypes.h
+skScriptedExecutable.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skScriptedExecutable.c.o: /usr/include/bits/types.h
+skScriptedExecutable.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skScriptedExecutable.c.o: /usr/include/features.h
+skScriptedExecutable.c.o: /usr/include/g++-3/iostream.h
+skScriptedExecutable.c.o: /usr/include/g++-3/streambuf.h
+skScriptedExecutable.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skScriptedExecutable.c.o: /usr/include/libio.h /usr/include/stdlib.h
+skScriptedExecutable.c.o: /usr/include/string.h /usr/include/sys/select.h
+skScriptedExecutable.c.o: /usr/include/sys/types.h /usr/include/time.h
+skScriptedExecutable.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skScriptedExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skScriptedExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skString.c.o: skGeneral.h skString.h skString.inl /usr/include/alloca.h
+skString.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
+skString.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skString.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
+skString.c.o: /usr/include/endian.h /usr/include/features.h
+skString.c.o: /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h
+skString.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skString.c.o: /usr/include/libio.h /usr/include/stdio.h /usr/include/stdlib.h
+skString.c.o: /usr/include/string.h /usr/include/sys/select.h
+skString.c.o: /usr/include/sys/types.h /usr/include/time.h
+skString.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skString.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skString.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skStringTokenizer.c.o: skGeneral.h skString.h skString.inl skStringTokenizer.h
+skStringTokenizer.c.o: /usr/include/alloca.h /usr/include/assert.h
+skStringTokenizer.c.o: /usr/include/bits/pthreadtypes.h
+skStringTokenizer.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skStringTokenizer.c.o: /usr/include/bits/types.h
+skStringTokenizer.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skStringTokenizer.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+skStringTokenizer.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skStringTokenizer.c.o: /usr/include/gconv.h /usr/include/libio.h
+skStringTokenizer.c.o: /usr/include/stdlib.h /usr/include/string.h
+skStringTokenizer.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skStringTokenizer.c.o: /usr/include/time.h /usr/include/wchar.h
+skStringTokenizer.c.o: /usr/include/xlocale.h
+skStringTokenizer.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skStringTokenizer.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skTracer.c.o: skTracer.h /usr/include/bits/pthreadtypes.h
+skTracer.c.o: /usr/include/bits/sched.h /usr/include/bits/types.h
+skTracer.c.o: /usr/include/features.h /usr/include/_G_config.h
+skTracer.c.o: /usr/include/gconv.h /usr/include/libio.h /usr/include/stdio.h
+skTracer.c.o: /usr/include/wchar.h
+skTracer.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skTracer.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skTreeNode.c.o: skAlist.h skAlist.inl skBoundsException.h skGeneral.h
+skTreeNode.c.o: skString.h skString.inl skTreeNode.h skTreeNodp.h
+skTreeNode.c.o: /usr/include/alloca.h /usr/include/assert.h
+skTreeNode.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
+skTreeNode.c.o: /usr/include/bits/sigset.h /usr/include/bits/types.h
+skTreeNode.c.o: /usr/include/bits/waitstatus.h /usr/include/ctype.h
+skTreeNode.c.o: /usr/include/endian.h /usr/include/features.h
+skTreeNode.c.o: /usr/include/g++-3/fstream.h /usr/include/g++-3/iostream.h
+skTreeNode.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skTreeNode.c.o: /usr/include/gconv.h /usr/include/libio.h /usr/include/stdio.h
+skTreeNode.c.o: /usr/include/stdlib.h /usr/include/string.h
+skTreeNode.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skTreeNode.c.o: /usr/include/time.h /usr/include/wchar.h
+skTreeNode.c.o: /usr/include/xlocale.h
+skTreeNode.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skTreeNode.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skTreeNodeEnumerator.c.o: skExecutable.h skGeneral.h skString.h skString.inl
+skTreeNodeEnumerator.c.o: skTreeNode.h skTreeNodeObjectEnumerator.h
+skTreeNodeEnumerator.c.o: /usr/include/alloca.h /usr/include/assert.h
+skTreeNodeEnumerator.c.o: /usr/include/bits/pthreadtypes.h
+skTreeNodeEnumerator.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skTreeNodeEnumerator.c.o: /usr/include/bits/types.h
+skTreeNodeEnumerator.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skTreeNodeEnumerator.c.o: /usr/include/features.h
+skTreeNodeEnumerator.c.o: /usr/include/g++-3/iostream.h
+skTreeNodeEnumerator.c.o: /usr/include/g++-3/streambuf.h
+skTreeNodeEnumerator.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skTreeNodeEnumerator.c.o: /usr/include/libio.h /usr/include/stdlib.h
+skTreeNodeEnumerator.c.o: /usr/include/string.h /usr/include/sys/select.h
+skTreeNodeEnumerator.c.o: /usr/include/sys/types.h /usr/include/time.h
+skTreeNodeEnumerator.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skTreeNodeEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skTreeNodeEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skTreeNodeObject.c.o: skAlist.h skAlist.inl skBoundsException.h skExecutable.h
+skTreeNodeObject.c.o: skGeneral.h skHashTable.h skHashTable.inl
+skTreeNodeObject.c.o: skInterpreter.h skMethodTable.h skNull.h skParseNode.h
+skTreeNodeObject.c.o: skRValueArray.h skRValue.h skString.h skString.inl
+skTreeNodeObject.c.o: skStringList.h skTreeNode.h skTreeNodeObjectEnumerator.h
+skTreeNodeObject.c.o: skTreeNodeObject.h skValist.h /usr/include/alloca.h
+skTreeNodeObject.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
+skTreeNodeObject.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skTreeNodeObject.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
+skTreeNodeObject.c.o: /usr/include/endian.h /usr/include/features.h
+skTreeNodeObject.c.o: /usr/include/g++-3/iostream.h
+skTreeNodeObject.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skTreeNodeObject.c.o: /usr/include/gconv.h /usr/include/libio.h
+skTreeNodeObject.c.o: /usr/include/stdlib.h /usr/include/string.h
+skTreeNodeObject.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skTreeNodeObject.c.o: /usr/include/time.h /usr/include/wchar.h
+skTreeNodeObject.c.o: /usr/include/xlocale.h
+skTreeNodeObject.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skTreeNodeObject.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skTreeNodeObjectEnumerator.c.o: skExecutable.h skGeneral.h skInterpreter.h
+skTreeNodeObjectEnumerator.c.o: skNull.h skRValue.h skString.h skString.inl
+skTreeNodeObjectEnumerator.c.o: skTreeNode.h skTreeNodeObjectEnumerator.h
+skTreeNodeObjectEnumerator.c.o: skTreeNodeObject.h /usr/include/alloca.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/assert.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/bits/pthreadtypes.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/bits/sched.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/bits/sigset.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/bits/types.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/bits/waitstatus.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/endian.h /usr/include/features.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/g++-3/iostream.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/g++-3/streambuf.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/libio.h /usr/include/stdlib.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/string.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/sys/select.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/sys/types.h /usr/include/time.h
+skTreeNodeObjectEnumerator.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skTreeNodeObjectEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skTreeNodeObjectEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skXMLElementObject.c.o: skAlist.h skAlist.inl skBoundsException.h
+skXMLElementObject.c.o: skExecutable.h skGeneral.h skHashTable.h
+skXMLElementObject.c.o: skHashTable.inl skInterpreter.h skMethodTable.h
+skXMLElementObject.c.o: skNull.h skParseNode.h skRValueArray.h skRValue.h
+skXMLElementObject.c.o: skString.h skString.inl skStringList.h
+skXMLElementObject.c.o: skStringTokenizer.h skValist.h skXMLElement.h
+skXMLElementObject.c.o: skXMLElementObjectEnumerator.h skXMLElementObject.h
+skXMLElementObject.c.o: /usr/include/alloca.h /usr/include/assert.h
+skXMLElementObject.c.o: /usr/include/bits/pthreadtypes.h
+skXMLElementObject.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skXMLElementObject.c.o: /usr/include/bits/types.h
+skXMLElementObject.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skXMLElementObject.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+skXMLElementObject.c.o: /usr/include/g++-3/streambuf.h
+skXMLElementObject.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skXMLElementObject.c.o: /usr/include/libio.h /usr/include/stdlib.h
+skXMLElementObject.c.o: /usr/include/string.h /usr/include/sys/select.h
+skXMLElementObject.c.o: /usr/include/sys/types.h /usr/include/time.h
+skXMLElementObject.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skXMLElementObject.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skXMLElementObject.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Attr.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CDATASection.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CharacterData.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Comment.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentFragment.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Document.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentType.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DOMImplementation.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Entity.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_EntityReference.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NamedNodeMap.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeFilter.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeIterator.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeList.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Notation.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_ProcessingInstruction.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Range.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Text.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_TreeWalker.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_XMLDecl.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
+skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
+skXMLElementObjectEnumerator.c.o: skExecutable.h skGeneral.h skInterpreter.h
+skXMLElementObjectEnumerator.c.o: skNull.h skRValue.h skString.h skString.inl
+skXMLElementObjectEnumerator.c.o: skXMLElementObjectEnumerator.h
+skXMLElementObjectEnumerator.c.o: skXMLElementObject.h /usr/include/alloca.h
+skXMLElementObjectEnumerator.c.o: /usr/include/assert.h
+skXMLElementObjectEnumerator.c.o: /usr/include/bits/pthreadtypes.h
+skXMLElementObjectEnumerator.c.o: /usr/include/bits/sched.h
+skXMLElementObjectEnumerator.c.o: /usr/include/bits/sigset.h
+skXMLElementObjectEnumerator.c.o: /usr/include/bits/types.h
+skXMLElementObjectEnumerator.c.o: /usr/include/bits/waitstatus.h
+skXMLElementObjectEnumerator.c.o: /usr/include/endian.h
+skXMLElementObjectEnumerator.c.o: /usr/include/features.h
+skXMLElementObjectEnumerator.c.o: /usr/include/g++-3/iostream.h
+skXMLElementObjectEnumerator.c.o: /usr/include/g++-3/streambuf.h
+skXMLElementObjectEnumerator.c.o: /usr/include/_G_config.h
+skXMLElementObjectEnumerator.c.o: /usr/include/gconv.h /usr/include/libio.h
+skXMLElementObjectEnumerator.c.o: /usr/include/stdlib.h /usr/include/string.h
+skXMLElementObjectEnumerator.c.o: /usr/include/sys/select.h
+skXMLElementObjectEnumerator.c.o: /usr/include/sys/types.h /usr/include/time.h
+skXMLElementObjectEnumerator.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skXMLElementObjectEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skXMLElementObjectEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
+skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
+skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeList.hpp
+skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
+skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
+skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
+skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
+skXMLErrorHandler.c.o: skExecutable.h skGeneral.h skString.h skString.inl
+skXMLErrorHandler.c.o: skXMLElementObject.h skXMLErrorHandler.h
+skXMLErrorHandler.c.o: /usr/include/alloca.h /usr/include/assert.h
+skXMLErrorHandler.c.o: /usr/include/bits/pthreadtypes.h
+skXMLErrorHandler.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skXMLErrorHandler.c.o: /usr/include/bits/types.h
+skXMLErrorHandler.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+skXMLErrorHandler.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
+skXMLErrorHandler.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skXMLErrorHandler.c.o: /usr/include/gconv.h /usr/include/libio.h
+skXMLErrorHandler.c.o: /usr/include/stdlib.h /usr/include/string.h
+skXMLErrorHandler.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skXMLErrorHandler.c.o: /usr/include/time.h /usr/include/wchar.h
+skXMLErrorHandler.c.o: /usr/include/xlocale.h
+skXMLErrorHandler.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skXMLErrorHandler.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/sax/ErrorHandler.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/sax/SAXException.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/sax/SAXParseException.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLString.hpp
+skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLUni.hpp
+skXMLExecutable.c.o: skExecutable.h skGeneral.h skString.h skString.inl
+skXMLExecutable.c.o: skXMLElementObject.h skXMLErrorHandler.h
+skXMLExecutable.c.o: skXMLExecutable.h /usr/include/alloca.h
+skXMLExecutable.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
+skXMLExecutable.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
+skXMLExecutable.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
+skXMLExecutable.c.o: /usr/include/endian.h /usr/include/features.h
+skXMLExecutable.c.o: /usr/include/g++-3/fstream.h
+skXMLExecutable.c.o: /usr/include/g++-3/iostream.h
+skXMLExecutable.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
+skXMLExecutable.c.o: /usr/include/gconv.h /usr/include/libio.h
+skXMLExecutable.c.o: /usr/include/stdlib.h /usr/include/string.h
+skXMLExecutable.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skXMLExecutable.c.o: /usr/include/time.h /usr/include/wchar.h
+skXMLExecutable.c.o: /usr/include/xlocale.h
+skXMLExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skXMLExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Attr.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CDATASection.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CharacterData.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Comment.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentFragment.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Document.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentType.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DOMImplementation.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Entity.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_EntityReference.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeFilter.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeIterator.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeList.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Notation.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_ProcessingInstruction.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Range.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Text.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_TreeWalker.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_XMLDecl.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/LocalFileInputSource.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/MemBufInputSource.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLAttDef.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLAttDefList.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLAttr.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLContentModel.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLDocumentHandler.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLElementDecl.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLEntityDecl.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLEntityHandler.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLErrorReporter.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLNotationDecl.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLRefInfo.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLValidator.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLValidityCodes.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/parsers/DOMParser.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/sax/ErrorHandler.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/sax/InputSource.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ArrayIndexOutOfBoundsException.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/EmptyStackException.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/HashBase.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/HashXMLCh.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/IllegalArgumentException.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/KeyValuePair.c
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/KeyValuePair.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/NameIdPool.c
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/NameIdPool.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/NoSuchElementException.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefHashTableOf.c
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefHashTableOf.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefVectorOf.c
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefVectorOf.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RuntimeException.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/StringPool.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueStackOf.c
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueStackOf.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueVectorOf.c
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueVectorOf.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLEnumerator.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLException.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLExceptMsgs.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLMsgLoader.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLString.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLUni.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DocTypeHandler.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDAttDef.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDElementDecl.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDEntityDecl.hpp
+skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDValidator.hpp

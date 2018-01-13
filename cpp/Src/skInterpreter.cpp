@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skInterpreter.cpp,v 1.24 2001/03/05 16:46:28 sdw Exp $
+  $Id: skInterpreter.cpp,v 1.28 2001/05/14 06:01:26 sdw Exp $
 */
 
 #include "skInterpreter.h"
@@ -184,18 +184,20 @@ void P_Interpreter::followIdList(skExecutable * obj,skRValueTable& var,skIdListN
   skString name=idNode->m_Id;
   //  skTracer::trace("followIdList: %s - %d ids\n",(const char *)name,idList->m_Ids.entries());
   if (idNode->m_Exprs==0)
-    object=findValue(obj,var,name,g_BlankString);
-  else
-    makeMethodCall(obj,skRValue(obj),var,name,idNode->m_Exprs,object);
+    object=findValue(obj,var,name,idNode->m_ArrayIndex,g_BlankString);
+  else{
+    skRValue caller(obj);
+    makeMethodCall(obj,var,caller,name,idNode->m_ArrayIndex,idNode->m_Exprs,object);
+  }
   for (unsigned int i=1;i<idList->m_Ids.entries()-1;i++){
     idNode=idList->m_Ids[i];
     name=idNode->m_Id;
     //    skTracer::trace("followIdList: %d: %s\n",i,(const char *)name);
     skRValue result;
     if (idNode->m_Exprs==0)
-      extractValue(obj,object,name,g_BlankString,result);
+      extractValue(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,result);
     else
-      makeMethodCall(obj,object,var,name,idNode->m_Exprs,result);
+      makeMethodCall(obj,var,object,name,idNode->m_ArrayIndex,idNode->m_Exprs,result);
     object=result;
   }
 }
@@ -207,17 +209,18 @@ skRValue  P_Interpreter::evalMethod(skExecutable * obj,skRValueTable& var,skIdLi
   skIdNode * idNode=ids->getLastId();
   skString method_name=idNode->m_Id;
   if (ids->numIds()==1){
-    makeMethodCall(obj,skRValue(obj),var,method_name,idNode->m_Exprs,ret);
+    skRValue caller(obj);
+    makeMethodCall(obj,var,caller,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,ret);
   }else{
     // follow the chain of Id's and then call the method
     skRValue robject;
     followIdList(obj,var,ids,robject);
-    makeMethodCall(obj,robject,var,method_name,idNode->m_Exprs,ret);
+    makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,ret);
   }
   return ret;
 }
 //---------------------------------------------------
-void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValue& robject,skRValueTable& var,const skString& method_name,skExprListNode * exprs,skRValue& ret)
+void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& method_name,skExprNode * array_index,skExprListNode * exprs,skRValue& ret)
   //---------------------------------------------------
 {
   skString checked_method_name=checkIndirectId(obj,var,method_name);
@@ -233,6 +236,14 @@ void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValue& robject,skRValu
     bool bRet=robject.obj()->method(checked_method_name,args,ret);	
     if (bRet==false)
       runtimeError("Method %s not found\n",(const char *)checked_method_name);
+    if (array_index){
+      if (ret.type()==skRValue::T_Object){
+	skRValue rExpr=evaluate(obj,var,array_index);
+	skExecutable * result_object=ret.obj();
+	bRet=result_object->getValueAt(rExpr,g_BlankString,ret);
+      }else
+	runtimeError("Cannot call array index on a non-object\n");
+    }
   }else{
     runtimeError("Cannot call Method %s on a non-object\n",(const char *)checked_method_name);
   }
@@ -296,7 +307,7 @@ bool P_Interpreter::executeSwitchStat(skExecutable * obj,skRValueTable& var,skSw
   return bRet;
 }
 //---------------------------------------------------
-skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const skString& name,const skString& attrib)
+skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attrib)
   //---------------------------------------------------
 {              
   skRValue r;
@@ -310,9 +321,10 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
     else if (valueName==s_null)
       r=skRValue(&skInterpreter::g_Null);
     else if (valueName==s_self){
-      if (attrib.length())
-	extractValue(obj,skRValue(obj),g_BlankString,attrib,r);
-      else
+      if (attrib.length()){
+	skRValue caller(obj);
+	extractValue(obj,var,caller,g_BlankString,array_index,attrib,r);
+      }else
 	r=obj;
     }else{
       // otherwise look up the scope hierarchy
@@ -322,21 +334,22 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
       if (pvalue){
 	r=*pvalue;
 	if (attrib.length()){
-	    skRValue result;
-	    extractValue(obj,r,g_BlankString,attrib,result);
-	    r=result;
+	  skRValue result;
+	  extractValue(obj,var,r,g_BlankString,array_index,attrib,result);
+	  r=result;
 	}
       }else{
 	// then in the instance fields
-	if (obj==0 || extractValue(obj,skRValue(obj),valueName,attrib,r)==false){
+	skRValue caller(obj);
+	if (obj==0 || extractValue(obj,var,caller,valueName,array_index,attrib,r)==false){
 	  // and finally in the global variables
 	  pvalue=m_GlobalVars.value(&valueName);
 	  if (pvalue){
 	    r=*pvalue;
 	    if (attrib.length()){
-		skRValue result;
-		extractValue(obj,r,g_BlankString,attrib,result);
-		r=result;
+	      skRValue result;
+	      extractValue(obj,var,r,g_BlankString,array_index,attrib,result);
+	      r=result;
 	    }
 	  }else
 	    runtimeError("Field %s not found\n",(const char *)valueName);
@@ -347,13 +360,22 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
   return r;
 }
 //---------------------------------------------------
-bool P_Interpreter:: extractValue(skExecutable * obj,skRValue& robject,const skString& name,const skString& attrib,skRValue& ret) 
+bool P_Interpreter:: extractValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name,skExprNode * array_index,const skString& attrib,skRValue& ret) 
   //---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
     //    skTracer::trace("Extracting %s:%s\n",(const char *)name,(const char *)attrib);
-    found=robject.obj()->getValue(name,attrib,ret);
+    if (array_index){
+      found=robject.obj()->getValue(name,g_BlankString,ret);
+      if (ret.type()==skRValue::T_Object){
+	skExecutable * result=ret.obj();
+	skRValue rExpr=evaluate(obj,var,array_index);
+	found=result->getValueAt(rExpr,attrib,ret);
+      }else
+	runtimeError("Cannot apply an array index to a  non-object\n");
+    }else
+      found=robject.obj()->getValue(name,attrib,ret);
   }else
     runtimeError("Cannot get field %s from a non-object\n",(const char *)name);
   return found;
@@ -369,10 +391,11 @@ void P_Interpreter::executeAssignStat(skExecutable * obj,skRValueTable& var,skAs
     // special case where there is a single id
     bool inserted=false;
     if (obj!=0){
+      skRValue caller(obj);
       if (field_name==s_self)
-	inserted=insertValue(obj,skRValue(obj),g_BlankString,n->m_Ids->m_Attribute,value);
+	inserted=insertValue(obj,var,caller,g_BlankString,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
       else
-	inserted=insertValue(obj,skRValue(obj),field_name,n->m_Ids->m_Attribute,value);
+	inserted=insertValue(obj,var,caller,field_name,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
     }
     if (inserted==false)
       // if the object doesn't want this variable, we add it as a local variable
@@ -381,16 +404,28 @@ void P_Interpreter::executeAssignStat(skExecutable * obj,skRValueTable& var,skAs
     // otherwise follow the id's to the penultimate one
     skRValue robject;
     followIdList(obj,var,n->m_Ids,robject);
-    insertValue(obj,robject,field_name,n->m_Ids->m_Attribute,value);
+    insertValue(obj,var,robject,field_name,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
   }
 }
 //---------------------------------------------------
-bool P_Interpreter::insertValue(skExecutable * obj,skRValue& robject,const skString& name,const skString& attr,const skRValue& value)
+bool P_Interpreter::insertValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name, skExprNode * array_index,const skString& attr,const skRValue& value)
   //---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
-    found=robject.obj()->setValue(name,attr,value);
+    if (array_index){
+      skRValue ret;
+      found=robject.obj()->getValue(name,g_BlankString,ret);
+      if (found){
+	if (ret.type()==skRValue::T_Object){
+	  skRValue rExpr=evaluate(obj,var,array_index);
+	  found=ret.obj()->setValueAt(rExpr,attr,value);
+	}else
+	  runtimeError("Cannot set an array member on a non-object\n");
+      }else
+	runtimeError("Cannot find field %s\n",(const char *)name);
+    }else
+      found=robject.obj()->setValue(name,attr,value);
   }else
     runtimeError("Cannot set field %s on a non-object\n",(const char *)name);
   return found;
@@ -470,7 +505,7 @@ skMethodDefNode * skInterpreter::parseExternalParams(const skString& location,sk
     else
       methNode->m_Params->m_Ids.clear();
     for (unsigned int i=0;i<paramNames.entries();i++)
-      methNode->m_Params->addId(new skIdNode(paramNames[i],0));
+      methNode->m_Params->addId(new skIdNode(paramNames[i],0,0));
   }
   return methNode;
 }
@@ -479,6 +514,8 @@ void skInterpreter::executeStringExternalParams(const skString& location,skExecu
   //---------------------------------------------------
 {      
   skMethodDefNode * parseNode=parseExternalParams(location,paramNames,code);
+  skString old_location=pimp->m_Location;
+  pimp->m_Location=location;
   if (parseNode)
     executeParseTree(location,obj,parseNode,args,r);
   // give the parse node back to the caller if they want it
@@ -486,12 +523,15 @@ void skInterpreter::executeStringExternalParams(const skString& location,skExecu
     *keepParseNode=parseNode;
   else
     delete parseNode;
+  pimp->m_Location=old_location;
 }
 //---------------------------------------------------
 void skInterpreter::executeString(const skString& location,skExecutable * obj,const skString& code,skRValueArray& args,skRValue& r,skMethodDefNode** keepParseNode)
   //---------------------------------------------------
 {      
   skMethodDefNode * parseNode=parseString(location,code);
+  skString old_location=pimp->m_Location;
+  pimp->m_Location=location;
   if (parseNode)
     executeParseTree(location,obj,parseNode,args,r);
   // give the parse node back to the caller if they want it
@@ -499,6 +539,7 @@ void skInterpreter::executeString(const skString& location,skExecutable * obj,co
     *keepParseNode=parseNode;
   else
     delete parseNode;
+  pimp->m_Location=old_location;
 }
 //---------------------------------------------------
 skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNode * n)
@@ -512,16 +553,18 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
     skString method_name=idNode->m_Id;
     if (ids->numIds()==1){
       if (idNode->m_Exprs==0)
-	r=findValue(obj,var,method_name,ids->m_Attribute);
-      else
-	makeMethodCall(obj,skRValue(obj),var,method_name,idNode->m_Exprs,r);
+	r=findValue(obj,var,method_name,idNode->m_ArrayIndex,ids->m_Attribute);
+      else{
+	skRValue caller(obj);
+	makeMethodCall(obj,var,caller,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,r);
+      }
     }else{
       skRValue robject;
       followIdList(obj,var,ids,robject);
       if (idNode->m_Exprs==0)
-	extractValue(obj,robject,method_name,ids->m_Attribute,r);
+	extractValue(obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,r);
       else
-	makeMethodCall(obj,robject,var,method_name,idNode->m_Exprs,r);
+	makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,idNode->m_Exprs,r);
     }
     break;
   }
@@ -557,9 +600,9 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
     case s_NotEquals:{
       bool equals=evaluate(obj,var,opNode->m_Expr1) == evaluate(obj,var,opNode->m_Expr2);
       if (equals)
-	  r=false;
+	r=false;
       else
-	  r=true;
+	r=true;
       break;
     }
     case s_Minus:

@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skExecutable.cpp,v 1.14 2001/03/05 16:46:28 sdw Exp $
+  $Id: skExecutable.cpp,v 1.16 2001/05/03 16:01:31 sdw Exp $
 */
 
 #include "skExecutable.h"
@@ -75,7 +75,19 @@ bool skExecutable::setValue(const skString& s,const skString& attribute,const sk
   return false;
 }
 //------------------------------------------
+bool skExecutable::setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& r)
+  //------------------------------------------
+{
+  return false;
+}
+//------------------------------------------
 bool skExecutable::getValue(const skString& s,const skString& attribute,skRValue& r)
+  //------------------------------------------
+{
+  return false;
+}
+//------------------------------------------
+bool skExecutable::getValueAt(const skRValue& array_index,const skString& attribute,skRValue& r)
   //------------------------------------------
 {
   return false;
@@ -114,3 +126,4 @@ bool skExecutable::equals(skExecutable * o) const
 {
   return (this==o);
 }
+

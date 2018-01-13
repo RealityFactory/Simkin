@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
- * $Id: skParseNode.h,v 1.14 2001/03/05 16:46:28 sdw Exp $
+ * $Id: skParseNode.h,v 1.16 2001/05/08 14:21:51 sdw Exp $
 */
 
 #ifndef PARSENODE_H
@@ -117,15 +117,18 @@ class skIdNode : public skExprNode {
  public:
   skString m_Id;
   skExprListNode * m_Exprs;
-  inline skIdNode(skString id,skExprListNode * exprList){
+  skExprNode * m_ArrayIndex;
+  inline skIdNode(skString id,skExprNode * arrayIndex,skExprListNode * exprs){
     m_Id=id;
-    m_Exprs=exprList;
+    m_Exprs=exprs;
+    m_ArrayIndex=arrayIndex;
   }
   inline ~skIdNode(){
     delete m_Exprs;
   }
   inline void clear(){
     m_Exprs=0;
+    m_ArrayIndex=0;
   }
   inline int getType(){
     return s_Id;
@@ -287,7 +290,7 @@ class skAssignNode : public skStatNode {
  public:
   skIdListNode * m_Ids;
   skExprNode * m_Expr;
-  inline skAssignNode(skIdListNode * idlist,skString * attribute,skExprNode * expr){
+  inline skAssignNode(skIdListNode * idlist, skString * attribute,skExprNode * expr){
     m_Ids=idlist;
     if (attribute)
       m_Ids->m_Attribute=*attribute;

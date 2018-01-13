@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skXMLElementObject.h,v 1.16 2001/03/05 16:46:28 sdw Exp $
+* $Id: skXMLElementObject.h,v 1.21 2001/05/14 07:40:20 sdw Exp $
 */
 
 
@@ -34,10 +34,14 @@ extern ostream& operator<< (ostream& target, const DOMString& s);
  * The methods getValue, setValue and method all search for matching element tags within the XML document. Only the first matching tag is used.  
  * The class uses the Xerces library to access XML documents
  * <p>The class supports the following fields:<ul>
- * <li>"nodename" - returns the tag name of this element</li></ul>
+ * <li>"nodename" - returns the tag name of this element</li>
+ * <li>"numChildren" - returns the number of children of this element</li></ul>
  * The class supports the following methods:<ul>
  * <li>dump - writes the whole XML Object out to the tracer (useful for debugging)</li>
  * <li>enumerate([name]) - returns an skXMLElementObjectEnumerator which enumerates over the child elements of this element. If no tag name is passed the enumerator lists all the children. A tag name can be passed to show only children with the matching tag name.</li>
+ * <li>addElement([tag name]) - adds a new empty element with the given tag name to this element</li>
+ * <li>containsElement([tag name]) - returns true if the XML element contains an element with the given tag</li>
+ * <li>tagName - returns the tag name of this element</li>
  * </ul>
  */
 class skXMLElementObject : public skExecutable {
@@ -90,6 +94,14 @@ class skXMLElementObject : public skExecutable {
    */
   bool setValue(const skString& s,const skString& attribute,const skRValue& return_value);
   /**
+   * Sets a value within the nth element of the XML element. 
+   * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
+   * @param attribute - the attribute name to set (may be blank)
+   * @param value - the value to be set
+   * @return true if the field was changed, false if the field could not be set or found
+   */
+  bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
+  /**
    * Retrieves a field from the XML. The first sub-element matching the tag is found. The value returned is an XMLElementObject, unless the attrib value is specified. It also supports the following built-in field:
    * <P> "nodename" - returns the tag name of this element
    * @param name - the tag name containing the data
@@ -98,6 +110,11 @@ class skXMLElementObject : public skExecutable {
    * @return true if the method was found, false otherwise
    */
   bool getValue(const skString& s,const skString& attribute,skRValue& return_value);
+  /**
+   * Retrieves the nth value from within the element. If the array index falls within the range of the number of children of this element, 
+   * a new XMLElementObject encapsulating the child is returned. 
+   */
+  bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
    * this method attempts to execute a method stored in the XML. It searches for an element whose tag matches the method name and if found passes the text for the tag through to the interpeter. 
    * <p>The method also supports the following methods to Simkin scripts: <ul>
@@ -145,6 +162,13 @@ class skXMLElementObject : public skExecutable {
    */
   static DOM_Element findChild(DOM_Element parent,const skString& tagname);
   /**
+   * returns the nth child element
+   * @param parent the parent element
+   * @param index the index of the element
+   * @return the matching element or null if outside the current list ot items
+   */
+  static DOM_Element findChild(DOM_Element parent,int index);
+  /**
    * returns a child element with the given attribute set to the given value
    * @param parent the parent element
    * @param tagname the tag name of the element
@@ -174,6 +198,8 @@ class skXMLElementObject : public skExecutable {
    * This function returns the location associated with this object (typically a file name)
    */
   skString getLocation() const;
+  /** this method returns the number of element children of the given element */
+  static int countChildren(DOM_Element parent);
  protected:
   /**
    * This method updates the associated element and clears the parse tree cache
