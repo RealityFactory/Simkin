@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
- * $Id: skTreeNode.h,v 1.22 2003/01/20 18:48:18 simkin_cvs Exp $
+ * $Id: skTreeNode.h,v 1.28 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 
 
@@ -215,8 +215,11 @@ class  CLASSEXPORT skTreeNode
   int	nthChildIntData(USize index) const;
   /**
    * Writes this node to an output destination with the given indentation
+   * @param out the destination to write to
+   * @param tabstops the current tab indentation level
+   * @param include_tabs set to false to exclude indentation
    */
-  void  write(skOutputDestination& out,USize tabstops) const;
+  void  write(skOutputDestination& out,USize tabstops,bool include_tabs=true) const;
   /**
    * Writes this node out to a file
    * @return true if the file could be written, or false if there was a problem
@@ -248,7 +251,7 @@ class  CLASSEXPORT skTreeNode
   /**
    * Reads a treenode from the given file
    * @param file filename of file containing TreeNode information
-   * @param context context object to receive errors
+   * @param ctxt context object to receive errors
    * @exception skTreeNodeReaderException if there was an error in the file
    */
   static skTreeNode * read(const skString& file,skExecutableContext& ctxt);
@@ -272,6 +275,9 @@ class  CLASSEXPORT skTreeNode
 /**
  * this class is used to read a {@link skTreeNode skTreeNode} from a text stream.
  */
+// switches on the optimization where a shared class buffer is used
+#define USECLASSBUFFER
+const int       MAXBUFFER=20000;
 class  CLASSEXPORT skTreeNodeReader 
 {
  public:
@@ -288,7 +294,51 @@ class  CLASSEXPORT skTreeNodeReader
    */
   skTreeNode* read(skExecutableContext& ctxt);
  private:
-  class P_TreeNodeReader* pimp;
+  enum Lexeme		{ L_IDENT, L_TEXT, L_LBRACE, L_RBRACE, L_EOF, L_ERROR };
+  /** this method sets up the LexText buffer */
+  void grabBuffer();
+  /** this method sets the error flag */
+  void error(const skString& msg);
+  /** this method returns the next lexical token from the current stream
+   */
+  Lexeme lex();
+  /** this method puts the current lexical token back */
+  void 	unLex();
+  /** this method parses an entire tree node 
+   * @param pparent - the parent of the node
+   * @return a new tree node added to the parent, or 0 if there was a parsing error
+   */
+  skTreeNode * 	parseTreeNode(skTreeNode * pparent);
+  /** This method parses a list of treenodes
+   * @param list - the list to add children to as they are parsed
+   */
+  void parseTreeNodeList(skTreeNode * list);
+  /** this method adds the given character to the lextext buffer */
+  void addToLexText(Char c);
+  /** the file name of the input stream */
+  skString m_FileName;
+  /** a flag indicating if an unlex has been performed */
+  bool m_UnLex;
+  /** this indicates the last lexical token retrieved by the lex() function */
+  Lexeme m_LastLexeme;
+  /** the buffer used to collect the text for the current lexical token */
+  Char	* m_LexText;
+  /** the line number of the current input stream position */
+  unsigned short m_LineNum;
+  /** the position within the current lex text */
+  unsigned short m_Pos;
+  /** the input source */
+  skInputSource& m_In;
+  /** a flag indicating whether there was a parse error in the input stream */
+  bool 	m_Error;
+#ifdef USECLASSBUFFER
+  /** this flag indicates whether the parser is using the class-level buffer */
+  bool	m_UsingClassLexText;
+  /** a class shared buffer which can be used as an optimization */
+  static Char g_ClassLexText[MAXBUFFER];
+  /** this flag indicates whether the class buffer is in use by a parser */
+  static bool g_LexTextUsed;
+#endif
 };
 
 /**
@@ -304,14 +354,58 @@ class CLASSEXPORT  skTreeNodeReaderException : public skException
     : m_FileName(fileName),m_Msg(msg){
   }
   /**
-   * Returns a string describing the exception
+   * Returns a string describing the exception which includes location information
+   */
+  skString getMessage() const{
+    return toString();
+  }
+  /**
+   * Returns a string describing the exception which includes location information
    */
   skString toString() const{
-            return m_FileName+skSTR(":")+m_Msg;
-            }
+    return m_FileName+skSTR(":")+m_Msg;
+  }
  private:
   skString m_FileName;
   skString m_Msg;
+};
+#include "skAlist.h"
+EXTERN_TEMPLATE template class CLASSEXPORT skTAList<skTreeNode>;
+
+/**
+ * This class represents a list of  {@link skTreeNode skTreeNodes}
+ */
+class  CLASSEXPORT skTreeNodeList :  public skTAList<skTreeNode>
+{           
+ public:
+  /** Constructs a blank list */
+  skTreeNodeList();
+  /** Creates a list which is a deep copy of another list
+   * @param list - list to copy
+   */
+  skTreeNodeList(const skTreeNodeList& list);
+  /** Destroys list and its children */
+  virtual ~skTreeNodeList();
+  /** Searches for a child item with the given label
+   * @param label - the label of the child to look for
+   * @return the first matching child - or 0 if not found
+   */
+  skTreeNode *      findItem(const skString& label) const;
+  /** Searches for a child item with the given label and data
+   * @param label - the label of the child to look for
+   * @param data - the data of the child to look for
+   * @return the first matching child - or 0 if not found
+   */
+  skTreeNode *      findItem(const skString& label,const skString& data) const;
+  /** Returns the nth child from this list
+   * @param i - the zero-based index of the item to retrieve
+   * @return the nth child
+   */
+  skTreeNode *      nthElt(USize  i) const;
+  /** This method performs a deep copy from another list
+   * @param list - the other list to copy
+   */
+  skTreeNodeList&   operator=(const skTreeNodeList& list);
 };
 
 #endif

@@ -16,9 +16,10 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObject.cpp,v 1.35 2003/01/29 10:36:37 sdw Exp $
+  $Id: skTreeNodeObject.cpp,v 1.39 2003/03/18 13:31:59 simkin_cvs Exp $
 */
 
+#include "skStringTokenizer.h"
 #include "skTreeNodeObject.h"
 #include "skTreeNode.h"
 #include "skTreeNodeObjectEnumerator.h"
@@ -34,6 +35,8 @@ static skString s_colon=skSTR(":");
 static Char c_colon=':';
 skString s_leftbracket=skSTR("[");
 skString s_rightbracket=skSTR("]");
+static Char c_leftbrace='{';
+static Char c_rightbrace='}';
 
 //------------------------------------------
 skTreeNodeObject::skTreeNodeObject()
@@ -233,12 +236,36 @@ bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& re
         func_node=m_Node->findChild(s);
         if (func_node){
 	        bRet=true;
-	        ctxt.getInterpreter()->executeString(location,this,func_node->data(),args,ret,&methNode,ctxt);
-	        if (methNode){
-	          if (m_MethodCache==0)
-	            m_MethodCache=new skMethodTable();
-	          m_MethodCache->insertKeyAndValue(new skString(s),methNode);
-	        }
+	        // extract the params etc..
+          skString code=func_node->data();
+          int first_bracket=code.indexOf('(');
+          if (first_bracket!=-1){
+            int next_bracket=code.indexOf(')');
+            if (next_bracket!=-1 && next_bracket>first_bracket){
+              int first_brace=code.indexOf('{');
+              if (first_brace!=-1 && first_brace>next_bracket){
+                // parse the parameters between the brackets
+                skString params=code.substr(first_bracket+1,next_bracket-first_bracket-1);
+                skStringList paramList;
+                if (params.length()>0){
+                  skStringTokenizer tokenizer(params,skSTR(", "));
+                  while (tokenizer.hasMoreTokens())
+                    paramList.append(tokenizer.nextToken());
+                }
+                code=code.substr(first_brace+1);
+                code=code.removeInitialBlankLines();
+                ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
+	              if (methNode){
+	                if (m_MethodCache==0)
+	                  m_MethodCache=new skMethodTable();
+	                m_MethodCache->insertKeyAndValue(new skString(s),methNode);
+	              }
+              }else
+                bRet=skExecutable::method(s,args,ret,ctxt);
+            }else
+               bRet=skExecutable::method(s,args,ret,ctxt);
+          }else
+            bRet=skExecutable::method(s,args,ret,ctxt);
         }else
           bRet=skExecutable::method(s,args,ret,ctxt);
       }else{
@@ -292,6 +319,14 @@ skString skTreeNodeObject::getSource(const skString& location)
     if (index!=-1)
       name=location.substr(index+1);
     src=m_Node->findChildData(name);
+    // strip out the parameter and opening/closing braces
+    int first_brace=src.indexOf(c_leftbrace);
+    if (first_brace!=-1)
+      src=src.substr(first_brace+1);
+    int last_brace=src.indexOfLast(c_rightbrace);
+    if (last_brace!=-1)
+      src=src.substr(0,last_brace);
+    src=src.removeInitialBlankLines();
   }
   return src;
 }

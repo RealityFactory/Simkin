@@ -106,9 +106,8 @@ bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a24">c
 <tr><td nowrap align=right valign=top><a name="a32" doxytag="skTreeNode::nthChildIntData"></a>
 int&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a32">nthChildIntData</a> (USize index) const</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Returns the data for nth child in the list of children at this node as an integer.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a33" doxytag="skTreeNode::write"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a33">write</a> (<a class="el" href="classskOutputDestination.html">skOutputDestination</a> &amp;out, USize tabstops) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Writes this node to an output destination with the given indentation.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a33">write</a> (<a class="el" href="classskOutputDestination.html">skOutputDestination</a> &amp;out, USize tabstops, bool include_tabs=true) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Writes this node to an output destination with the given indentation.</em> <a href="#a33"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a34">write</a> (const <a class="el" href="classskString.html">skString</a> &amp;file) const</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Writes this node out to a file.</em> <a href="#a34"></a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>skTreeNode *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNode.html#a35">nthChild</a> (USize i) const</td></tr>
@@ -485,7 +484,7 @@ Reads a treenode from the given file.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>file</em>&nbsp;</td><td>filename of file containing TreeNode information </td></tr>
-    <tr><td valign=top><em>context</em>&nbsp;</td><td>context object to receive errors </td></tr>
+    <tr><td valign=top><em>ctxt</em>&nbsp;</td><td>context object to receive errors </td></tr>
   </table>
 </dl>
 <dl compact><dt><b>Exceptions:</b></dt><dd>
@@ -559,9 +558,62 @@ Writes this node out to a file.
     </td>
   </tr>
 </table>
+<a name="a33" doxytag="skTreeNode::write"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> void skTreeNode::write </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="classskOutputDestination.html">skOutputDestination</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>out</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>USize&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>tabstops</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>include_tabs</em> = true</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"> const</td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Writes this node to an output destination with the given indentation.
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>out</em>&nbsp;</td><td>the destination to write to </td></tr>
+    <tr><td valign=top><em>tabstops</em>&nbsp;</td><td>the current tab indentation level </td></tr>
+    <tr><td valign=top><em>include_tabs</em>&nbsp;</td><td>set to false to exclude indentation </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skTreeNode_8h-source.html">skTreeNode.h</a><li>skTreeNode.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:05 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:19 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

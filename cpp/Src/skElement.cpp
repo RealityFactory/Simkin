@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.cpp,v 1.10 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skElement.cpp,v 1.11 2003/02/27 18:00:23 simkin_cvs Exp $
 */
 #include "skElement.h"
 #include "skStringBuffer.h"
@@ -81,6 +81,12 @@ skString skElement::getAttribute(const skString& name) const
   if (attr)
     value=attr->getValue();
   return value;
+}
+//------------------------------------------
+skAttributeList& skElement::getAttributes()
+//------------------------------------------
+{
+  return m_Attributes;
 }
 //------------------------------------------
 skNodeList& skElement::getChildNodes()

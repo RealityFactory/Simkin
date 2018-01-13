@@ -57,7 +57,7 @@ This method is called if the interpreter encounters a breakpoint command.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>frame</em>&nbsp;</td><td>the current stack frame </td></tr>
+    <tr><td valign=top><em>stack_frame</em>&nbsp;</td><td>the current stack frame </td></tr>
   </table>
 </dl>
     </td>
@@ -91,12 +91,12 @@ This method is called if the interpreter encounters a breakpoint command.
 <p>
 This method is called each time a compound statement is executed by the interpreter, just before the statement is performed.
 <p>
-<dl compact><dt><b>Returns:</b></dt><dd>false to halt the execution of the current method </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>frame</em>&nbsp;</td><td>the current stack frame </td></tr>
+    <tr><td valign=top><em>stack_frame</em>&nbsp;</td><td>the current stack frame </td></tr>
   </table>
 </dl>
+<dl compact><dt><b>Returns:</b></dt><dd>false to halt the execution of the current method </dd></dl>
     </td>
   </tr>
 </table>
@@ -139,7 +139,7 @@ This method is called if an exception is encountered while executing a script.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>frame</em>&nbsp;</td><td>the current stack frame </td></tr>
+    <tr><td valign=top><em>stack_frame</em>&nbsp;</td><td>the current stack frame </td></tr>
     <tr><td valign=top><em>e</em>&nbsp;</td><td>the exception that has occurred </td></tr>
   </table>
 </dl>
@@ -187,7 +187,7 @@ This method is called each time a statement is executed by the interpreter, just
 <dl compact><dt><b>Returns:</b></dt><dd>false to halt the execution of the current method </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>frame</em>&nbsp;</td><td>the current stack frame </td></tr>
+    <tr><td valign=top><em>stack_frame</em>&nbsp;</td><td>the current stack frame </td></tr>
     <tr><td valign=top><em>statement_type</em>&nbsp;</td><td>an integer indicating the type of statement, a constant s_ value from skParseNode.h </td></tr>
   </table>
 </dl>
@@ -196,7 +196,7 @@ This method is called each time a statement is executed by the interpreter, just
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="skStatementStepper_8h-source.html">skStatementStepper.h</a></ul>
-<hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:05 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:19 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

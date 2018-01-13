@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skXMLParseException.h,v 1.6 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skXMLParseException.h,v 1.7 2003/03/06 13:05:14 simkin_cvs Exp $
 */
 
 #ifndef sk_XMLPARSEEXCEPTION_H
@@ -38,6 +38,7 @@ class CLASSEXPORT skXMLParseException : public skException
   int getLineNum() const { return m_LineNum; }
   /** returns a string describing the error */
   skString getErrorMessage() const { return m_Error; }
+  skString getMessage() const { return m_Error; }
   skString toString() const { return m_Error; }
  private:
   int m_LineNum;

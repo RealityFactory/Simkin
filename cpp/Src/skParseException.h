@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParseException.h,v 1.12 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skParseException.h,v 1.13 2003/03/06 13:05:14 simkin_cvs Exp $
 */
 #ifndef SKPARSEEXCEPTION_H
 #define SKPARSEEXCEPTION_H
@@ -111,7 +111,17 @@ class CLASSEXPORT skParseException : public skException
     return m_Errors;
   }
   /**
-   * this method returns a string representation of the exception - concatenating all the error messages onto different lines
+   * this method returns a terse string representation of the exception - returning the just the error message of the first error
+   */
+  skString getMessage() const {
+    skString ret;
+    if (m_Errors.entries())
+      ret=m_Errors[0].msg();
+    return ret;
+  }
+  /**
+   * this method returns a verbose string representation of the exception - concatenating all the verbose error messages onto different lines
+   * it includes location and line number information
    */
   skString toString() const {
     skString ret;

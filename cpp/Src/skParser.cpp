@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.cpp,v 1.15 2003/02/24 20:23:44 simkin_cvs Exp $
+  $Id: skParser.cpp,v 1.16 2003/03/12 19:05:50 simkin_cvs Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
@@ -136,6 +136,7 @@ int skParser::lex(void * lvalp,void * llocp)
       m_LineNum++;
     // Whitespace----------------------------------------
     if (ISSPACE(c)){
+      yylloc->first_line=m_LineNum;
       continue;
     }
     // NEQ -------------------------------------------
@@ -326,12 +327,16 @@ int skParser::lex(void * lvalp,void * llocp)
       if (c1=='*'){
       do{
 	      c1=nextChar();
-	      if (c1=='*'){
+	      if (c1=='\n'){
+	        m_LineNum++;
+	        break;
+	      }else if (c1=='*'){
 	        c1=nextChar();
 	        if (c1=='/')
 	          break;
 	      }
       }while (!eof());
+      yylloc->first_line=m_LineNum;
       continue;
     }else
       if (c1=='/'){
@@ -342,6 +347,7 @@ int skParser::lex(void * lvalp,void * llocp)
 	          break;
 	        }
 	      }while (!eof());
+        yylloc->first_line=m_LineNum;
 	      continue;
       }else
         putbackchar(c1);

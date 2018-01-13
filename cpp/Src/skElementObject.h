@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementObject.h,v 1.13 2003/01/23 15:30:55 simkin_cvs Exp $
+* $Id: skElementObject.h,v 1.15 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 
 
@@ -102,7 +102,7 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param return_value - the RValue to receive the value
    * @return true if the field was found, false otherwise
    */
-  virtual bool setValue(const skString& s,const skString& attribute,const skRValue& return_value);
+  virtual bool setValue(const skString& name,const skString& attribute,const skRValue& return_value);
   /**
    * Sets a value within the nth element of the  element. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present.
    * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
@@ -116,14 +116,18 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * <P> "nodename" - returns the tag name of this element
    * <p>If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present.
    * @param name - the tag name containing the data
-   * @param attrib - the attribute name to retrieve
+   * @param attribute - the attribute name to retrieve
    * @param value -  the RValue to containing the value to be set
    * @return true if the method was found, false otherwise
    */
-  virtual bool getValue(const skString& s,const skString& attribute,skRValue& value);
+  virtual bool getValue(const skString& name,const skString& attribute,skRValue& value);
   /**
    * Retrieves the nth value from within the element. If the array index falls within the range of the number of children of this element, 
    * a new ElementObject encapsulating the child is returned. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present
+   * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
+   * @param attribute - the attribute name to retrived (may be blank)
+   * @param value - the value to be retrieved
+   * @return true if the field was found, false if the field could not found
    */
   virtual bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
@@ -135,7 +139,7 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param name the name of the method
    * @param args an array of arguments to the method
    * @param ret the object to receive the result of the method call
-   * @param context context object to receive errors
+   * @param ctxt context object to receive errors
    * @return true if the method was found, false otherwise
    */
   virtual bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
@@ -146,7 +150,7 @@ class CLASSEXPORT skElementObject : public skExecutable {
   bool equals(skExecutable * o) const;
   /**
    * Clears the other element and does a deep copy of the children of this node into that one
-   * @param child - the element into which our children will be copied
+   * @param other - the element into which our children will be copied
    */
   void copyItemsInto(skElement * other);
   /** sets the flag controlling whether new elements are created as they are accessed
@@ -234,10 +238,15 @@ class CLASSEXPORT skElementObject : public skExecutable {
   * @param table a table to filled with references to the instance variables
   */
   virtual void getInstanceVariables(skRValueTable& table);
- protected:
+  /**
+  * This method returns the attributes for this object 
+  * @param table a table to filled with the values of the attributes
+  */
+  virtual void getAttributes(skRValueTable& table);
+protected:
   /**
    * This method updates the associated element and clears the parse tree cache
-   * @param elem - the new Element
+   * @param element - the new Element
    * @param created - set to true if this object will delete the element at the end
    */
   virtual void setElement(skElement * element,bool created=false);

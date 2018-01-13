@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.16 2003/01/29 21:21:11 sdw Exp $
+# $Id: Makefile,v 1.17 2003/03/13 12:00:54 sdw Exp $
 
 CFLAGS = -c 
 CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src2_1_0/src -D_REENTRANT 
@@ -15,7 +15,7 @@ CC = gcc
 
 lib_proj=Interpreter
 
-treenode_objects = skAlist.o skTreeNodeObject.o skTreeNodeObjectEnumerator.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skParser.o skExecutableIterator.o skStringBuffer.o skOutputDestination.o skInputSource.o skStackFrame.o skExecutableContext.o skEncodingUtils.o
+treenode_objects = skAlist.o skTreeNodeObject.o skTreeNodeObjectEnumerator.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skParser.o skExecutableIterator.o skStringBuffer.o skOutputDestination.o skInputSource.o skStackFrame.o skExecutableContext.o skEncodingUtils.o skStringTokenizer.o
 
 xerces_objects = skAlist.o skHashTable.o skString.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skXMLElementObject.o skXMLElementObjectEnumerator.o  skXMLExecutable.o skStringTokenizer.o skXMLErrorHandler.o skParser.o skExecutableIterator.o skStringBuffer.o skOutputDestination.o skInputSource.o skStackFrame.o skExecutableContext.o
 

@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skString_8h-source.html,v 1.7 2003/02/24 20:05:01 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skString.h,v 1.26 2003/03/18 19:36:13 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -85,62 +85,64 @@
 00201   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> from(Char ch);
 00205   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> fromBuffer(Char * buffer);
 00209   <a class="code" href="classskString.html">skString</a> ltrim() <span class="keyword">const</span>;
-00214   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> readFromFile(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; filename);
-00219   <span class="keywordtype">void</span> writeToFile(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; filename);
-00220  <span class="keyword">protected</span>:
-00224   <a class="code" href="classskString.html">skString</a>(P_String *);
-00228   <a class="code" href="classskString.html">skString</a>(<span class="keyword">const</span> Char * s,<span class="keywordtype">int</span>);
-00232   <span class="keywordtype">void</span> assign(<span class="keyword">const</span> Char *,<span class="keywordtype">int</span> len=0);                          
-00236   <span class="keywordtype">void</span> deRef();
-<a name="l00240"></a><a class="code" href="classskString.html#n0">00240</a>   P_String * pimp;
-00241 };
-00242 <span class="comment">/*</span>
-00243 <span class="comment"> * A hashKey function for HashTables</span>
-00244 <span class="comment"> */</span>
-00245 <span class="keyword">inline</span> USize hashKey(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a> * s)
-00246 {
-00247     <span class="keywordflow">return</span> s-&gt;<a class="code" href="classskString.html#a15">hash</a>();
-00248 }
-00249 <span class="comment">/*</span>
-00250 <span class="comment"> * An operator to add strings</span>
-00251 <span class="comment"> */</span>
-00252 CLASSEXPORT <a class="code" href="classskString.html">skString</a> operator+(<span class="keyword">const</span> Char * s1,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; s2);
-00253 
-00254 <span class="preprocessor">#ifdef STREAMS_ENABLED</span>
-00255 <span class="preprocessor"></span><span class="comment">/*</span>
-00256 <span class="comment"> * A streaming operator to write a string to an output stream</span>
-00257 <span class="comment"> */</span>
-00258 CLASSEXPORT ostream&amp; operator&lt;&lt;(ostream&amp;,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp;s);
-00259 <span class="preprocessor">#endif</span>
-00260 <span class="preprocessor"></span><span class="comment">/*</span>
-00261 <span class="comment"> * Some helper macros for declaring literal strings, and references to literal strings</span>
-00262 <span class="comment"> */</span>
-00263 <span class="preprocessor">#define skLITERAL(s) skString s_##s=skString::literal(skSTR(#s))</span>
-00264 <span class="preprocessor"></span><span class="preprocessor">#define xskLITERAL(s) extern skString s_##s</span>
-00265 <span class="preprocessor"></span><span class="comment">//#define skSTR(s) skString(s)</span>
-00266 
-00267 <span class="keyword">inline</span> <span class="keywordtype">float</span> ATOF(<span class="keyword">const</span> Char * c){
-00268 <span class="preprocessor">#ifdef UNICODE_STRINGS</span>
-00269 <span class="preprocessor"></span>  <span class="keywordflow">return</span> (float) wcstod(c,0);
-00270 <span class="preprocessor">#else</span>
-00271 <span class="preprocessor"></span>  <span class="keywordflow">return</span> (float) atof(c);
-00272 <span class="preprocessor">#endif</span>
-00273 <span class="preprocessor"></span>}
-00274 <span class="keyword">inline</span> <span class="keywordtype">int</span> ATOI(<span class="keyword">const</span> Char * c){
-00275 <span class="preprocessor">#ifdef UNICODE_STRINGS</span>
-00276 <span class="preprocessor"></span>  <span class="keywordflow">return</span> _wtoi(c);
-00277 <span class="preprocessor">#else</span>
-00278 <span class="preprocessor"></span>  <span class="keywordflow">return</span> atoi(c);
-00279 <span class="preprocessor">#endif</span>
-00280 <span class="preprocessor"></span>}
-00281 
-00282 <span class="preprocessor">#include "skString.inl"</span>
-00283 
+00215   <a class="code" href="classskString.html">skString</a> removeInitialBlankLines() <span class="keyword">const</span>;
+00220   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> readFromFile(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; filename);
+00225   <span class="keywordtype">void</span> writeToFile(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; filename);
+00231   <a class="code" href="classskString.html">skString</a> replace(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; old_substr,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; new_substr) <span class="keyword">const</span>;
+00232  <span class="keyword">protected</span>:
+00236   <a class="code" href="classskString.html">skString</a>(P_String *);
+00240   <a class="code" href="classskString.html">skString</a>(<span class="keyword">const</span> Char * s,<span class="keywordtype">int</span>);
+00244   <span class="keywordtype">void</span> assign(<span class="keyword">const</span> Char *,<span class="keywordtype">int</span> len=0);                          
+00248   <span class="keywordtype">void</span> deRef();
+<a name="l00252"></a><a class="code" href="classskString.html#n0">00252</a>   P_String * pimp;
+00253 };
+00254 <span class="comment">/*</span>
+00255 <span class="comment"> * A hashKey function for HashTables</span>
+00256 <span class="comment"> */</span>
+00257 <span class="keyword">inline</span> USize hashKey(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a> * s)
+00258 {
+00259     <span class="keywordflow">return</span> s-&gt;<a class="code" href="classskString.html#a15">hash</a>();
+00260 }
+00261 <span class="comment">/*</span>
+00262 <span class="comment"> * An operator to add strings</span>
+00263 <span class="comment"> */</span>
+00264 CLASSEXPORT <a class="code" href="classskString.html">skString</a> operator+(<span class="keyword">const</span> Char * s1,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; s2);
+00265 
+00266 <span class="preprocessor">#ifdef STREAMS_ENABLED</span>
+00267 <span class="preprocessor"></span><span class="comment">/*</span>
+00268 <span class="comment"> * A streaming operator to write a string to an output stream</span>
+00269 <span class="comment"> */</span>
+00270 CLASSEXPORT ostream&amp; operator&lt;&lt;(ostream&amp;,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp;s);
+00271 <span class="preprocessor">#endif</span>
+00272 <span class="preprocessor"></span><span class="comment">/*</span>
+00273 <span class="comment"> * Some helper macros for declaring literal strings, and references to literal strings</span>
+00274 <span class="comment"> */</span>
+00275 <span class="preprocessor">#define skLITERAL(s) skString s_##s=skString::literal(skSTR(#s))</span>
+00276 <span class="preprocessor"></span><span class="preprocessor">#define xskLITERAL(s) extern skString s_##s</span>
+00277 <span class="preprocessor"></span><span class="comment">//#define skSTR(s) skString(s)</span>
+00278 
+00279 <span class="keyword">inline</span> <span class="keywordtype">float</span> ATOF(<span class="keyword">const</span> Char * c){
+00280 <span class="preprocessor">#ifdef UNICODE_STRINGS</span>
+00281 <span class="preprocessor"></span>  <span class="keywordflow">return</span> (float) wcstod(c,0);
+00282 <span class="preprocessor">#else</span>
+00283 <span class="preprocessor"></span>  <span class="keywordflow">return</span> (float) atof(c);
 00284 <span class="preprocessor">#endif</span>
-00285 <span class="preprocessor"></span>
-00286 
-00287 
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:03 2003 for Simkin by
+00285 <span class="preprocessor"></span>}
+00286 <span class="keyword">inline</span> <span class="keywordtype">int</span> ATOI(<span class="keyword">const</span> Char * c){
+00287 <span class="preprocessor">#ifdef UNICODE_STRINGS</span>
+00288 <span class="preprocessor"></span>  <span class="keywordflow">return</span> _wtoi(c);
+00289 <span class="preprocessor">#else</span>
+00290 <span class="preprocessor"></span>  <span class="keywordflow">return</span> atoi(c);
+00291 <span class="preprocessor">#endif</span>
+00292 <span class="preprocessor"></span>}
+00293 
+00294 <span class="preprocessor">#include "skString.inl"</span>
+00295 
+00296 <span class="preprocessor">#endif</span>
+00297 <span class="preprocessor"></span>
+00298 
+00299 
+</pre></div><hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:18 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

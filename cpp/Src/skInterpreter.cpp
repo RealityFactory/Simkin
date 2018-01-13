@@ -16,11 +16,10 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreter.cpp,v 1.62 2003/01/24 09:16:27 simkin_cvs Exp $
+  $Id: skInterpreter.cpp,v 1.66 2003/03/13 11:40:19 simkin_cvs Exp $
 */
 
 #include "skInterpreter.h"
-#include "skInterpreterp.h"
 #include "skParseNode.h"
 #include "skString.h"
 #include <stdio.h>
@@ -44,47 +43,25 @@ skLITERAL(debugBreak);
 skLITERAL(breakpoint);
 
 
-//skInterpreter * P_Interpreter::g_GlobalInterpreter;	//	used by client
 skString g_BlankString;
 skNull skInterpreter::g_Null;
 
 
-//------------------------------------------
-inline void P_Interpreter::trace(const skString& msg)
-  //------------------------------------------
-{
-  if (m_TraceCallback!=0)
-    m_TraceCallback->trace(msg);
-  else
-    skTracer::trace(msg);
-}
 //---------------------------------------------------
 skInterpreter::skInterpreter()
-  //---------------------------------------------------
+//---------------------------------------------------
+  : m_Tracing(false),m_TraceCallback(0),m_StatementStepper(0)
 {
-  pimp=new P_Interpreter(this);
   addGlobalVariable(s_Interpreter,this);
 }
 //---------------------------------------------------
-P_Interpreter::P_Interpreter(skInterpreter * owner)
-  //---------------------------------------------------
-  : m_Tracing(false),m_TraceCallback(0),m_StatementStepper(0),pown(owner)
-{
-}
-//---------------------------------------------------
-P_Interpreter::~P_Interpreter()
-  //---------------------------------------------------
-{
-}
-//---------------------------------------------------
 skInterpreter::~skInterpreter()
-  //---------------------------------------------------
+//---------------------------------------------------
 {
-  delete pimp;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeStat(skStackFrame& frame,skStatNode * pstat,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeStat(skStackFrame& frame,skStatNode * pstat,skRValue& r)
+//---------------------------------------------------
 {
   bool stop=false;
   frame.setLineNum(pstat->m_LineNum);
@@ -113,8 +90,8 @@ bool P_Interpreter::executeStat(skStackFrame& frame,skStatNode * pstat,skRValue&
   return stop;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeStats(skStackFrame& frame,skStatListNode * n,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeStats(skStackFrame& frame,skStatListNode * n,skRValue& r)
+//---------------------------------------------------
 {
   bool bRet=false;
   if (n){
@@ -138,8 +115,8 @@ bool P_Interpreter::executeStats(skStackFrame& frame,skStatListNode * n,skRValue
   return bRet;
 }
 //---------------------------------------------------
-void P_Interpreter::addLocalVariable(skRValueTable& var,const skString& name,skRValue value)
-  //---------------------------------------------------
+void skInterpreter::addLocalVariable(skRValueTable& var,const skString& name,skRValue value)
+//---------------------------------------------------
 {
   skRValue * pvalue=var.value(&name);
   if (pvalue)
@@ -149,10 +126,10 @@ void P_Interpreter::addLocalVariable(skRValueTable& var,const skString& name,skR
 }
 //------------------------------------------
 bool skInterpreter::findGlobalVariable(const skString& s,skRValue& r)
-  //------------------------------------------
+//------------------------------------------
 {
   bool bRet=false;
-  skRValue * pvalue=pimp->m_GlobalVars.value(&s);
+  skRValue * pvalue=m_GlobalVars.value(&s);
   if (pvalue){
     r=*pvalue;
     bRet=true;
@@ -161,29 +138,29 @@ bool skInterpreter::findGlobalVariable(const skString& s,skRValue& r)
 }
 //------------------------------------------
 void skInterpreter::addGlobalVariable(const skString& s,skRValue r)
-  //------------------------------------------
+//------------------------------------------
 {
-  skRValue * pvalue=pimp->m_GlobalVars.value(&s);
+  skRValue * pvalue=m_GlobalVars.value(&s);
   if (pvalue)
     *pvalue=r;
   else
-    pimp->m_GlobalVars.insertKeyAndValue(new skString(s),new skRValue(r));
+    m_GlobalVars.insertKeyAndValue(new skString(s),new skRValue(r));
 }
 //------------------------------------------
 void skInterpreter::removeGlobalVariable(const skString& s)
-  //------------------------------------------
+//------------------------------------------
 {
-  pimp->m_GlobalVars.del(&s);
+  m_GlobalVars.del(&s);
 }
 //------------------------------------------
 const skRValueTable& skInterpreter::getGlobalVariables() const
-  //------------------------------------------
+//------------------------------------------
 {
-  return pimp->m_GlobalVars;
+  return m_GlobalVars;
 }
 //---------------------------------------------------
-void P_Interpreter::followIdList(skStackFrame& frame,skIdListNode * idList,skRValue& object)
-  //---------------------------------------------------
+void skInterpreter::followIdList(skStackFrame& frame,skIdListNode * idList,skRValue& object)
+//---------------------------------------------------
 {
   // skip down the id.id.id list, resolving each as we go along, we exclude the final id in the list
   skIdNode * idNode=idList->m_Ids[0];
@@ -216,8 +193,8 @@ void P_Interpreter::followIdList(skStackFrame& frame,skIdListNode * idList,skRVa
   }
 }
 //---------------------------------------------------
-skRValue  P_Interpreter::evalMethod(skStackFrame& frame,skIdListNode * ids)
-  //---------------------------------------------------
+skRValue  skInterpreter::evalMethod(skStackFrame& frame,skIdListNode * ids)
+//---------------------------------------------------
 {
   skRValue ret;
   skIdNode * idNode=ids->getLastId();
@@ -234,8 +211,8 @@ skRValue  P_Interpreter::evalMethod(skStackFrame& frame,skIdListNode * ids)
   return ret;
 }
 //---------------------------------------------------
-void  P_Interpreter::makeMethodCall(skStackFrame& frame,skRValue& robject,const skString& method_name,skExprNode * array_index,const skString& attribute, skExprListNode * exprs,skRValue& ret)
-  //---------------------------------------------------
+void  skInterpreter::makeMethodCall(skStackFrame& frame,skRValue& robject,const skString& method_name,skExprNode * array_index,const skString& attribute, skExprListNode * exprs,skRValue& ret)
+//---------------------------------------------------
 {
   skString checked_method_name=checkIndirectId(frame,method_name);
   if (robject.type()==skRValue::T_Object){
@@ -253,7 +230,7 @@ void  P_Interpreter::makeMethodCall(skStackFrame& frame,skRValue& robject,const 
     if (frame.getContext().getError().getErrorCode()==skScriptError::NONE){
 #endif
       if (m_Tracing)
-        trace(frame.getLocation()+skSTR(":")+skString::from(frame.getLineNum())+skSTR(": ")+checked_method_name+skSTR("()\n"));
+        trace(frame.getLocation()+skSTR(":")+skString::from(frame.getLineNum()+1)+skSTR(": ")+checked_method_name+skSTR("()\n"));
       // call to this object
       bool bRet=robject.obj()->method(checked_method_name,args,ret,frame.getContext());
       if (bRet==false)
@@ -279,15 +256,15 @@ void  P_Interpreter::makeMethodCall(skStackFrame& frame,skRValue& robject,const 
 #endif
 }
 //---------------------------------------------------
-bool P_Interpreter::executeReturnStat(skStackFrame& frame,skReturnNode * n,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeReturnStat(skStackFrame& frame,skReturnNode * n,skRValue& r)
+//---------------------------------------------------
 {
   r=evaluate(frame,n->m_Expr);
   return true;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeWhileStat(skStackFrame& frame,skWhileNode * n,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeWhileStat(skStackFrame& frame,skWhileNode * n,skRValue& r)
+//---------------------------------------------------
 {
   bool bRet=false;
   while(bRet==false){
@@ -305,8 +282,8 @@ bool P_Interpreter::executeWhileStat(skStackFrame& frame,skWhileNode * n,skRValu
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeIfStat(skStackFrame& frame,skIfNode * n,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeIfStat(skStackFrame& frame,skIfNode * n,skRValue& r)
+//---------------------------------------------------
 {
   bool bRet=false;
   skRValue rExpr=evaluate(frame,n->m_Expr);
@@ -325,8 +302,8 @@ bool P_Interpreter::executeIfStat(skStackFrame& frame,skIfNode * n,skRValue& r)
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeSwitchStat(skStackFrame& frame,skSwitchNode * n,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeSwitchStat(skStackFrame& frame,skSwitchNode * n,skRValue& r)
+//---------------------------------------------------
 {
   bool bRet=false;
   skRValue expr=evaluate(frame,n->m_Expr);
@@ -357,8 +334,8 @@ bool P_Interpreter::executeSwitchStat(skStackFrame& frame,skSwitchNode * n,skRVa
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeForEachStat(skStackFrame& frame,skForEachNode * n,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeForEachStat(skStackFrame& frame,skForEachNode * n,skRValue& r)
+//---------------------------------------------------
 {
   bool bRet=false;
   skString checked_id=checkIndirectId(frame,n->m_Id);
@@ -389,8 +366,8 @@ bool P_Interpreter::executeForEachStat(skStackFrame& frame,skForEachNode * n,skR
   return bRet;
 }
 //---------------------------------------------------
-bool P_Interpreter::executeForStat(skStackFrame& frame,skForNode * n,skRValue& r)
-  //---------------------------------------------------
+bool skInterpreter::executeForStat(skStackFrame& frame,skForNode * n,skRValue& r)
+//---------------------------------------------------
 {
   bool bRet=false;
   skString checked_id=checkIndirectId(frame,n->m_Id);
@@ -444,8 +421,8 @@ bool P_Interpreter::executeForStat(skStackFrame& frame,skForNode * n,skRValue& r
   return bRet;
 }
 //---------------------------------------------------
-skRValue P_Interpreter::findValue(skStackFrame& frame,const skString& name,skExprNode * array_index,const skString& attrib)
-  //---------------------------------------------------
+skRValue skInterpreter::findValue(skStackFrame& frame,const skString& name,skExprNode * array_index,const skString& attrib)
+//---------------------------------------------------
 {              
   skRValue r;
   skString valueName=checkIndirectId(frame,name);
@@ -515,8 +492,8 @@ skRValue P_Interpreter::findValue(skStackFrame& frame,const skString& name,skExp
   return r;
 }
 //---------------------------------------------------
-bool P_Interpreter::extractFieldArrayValue(skStackFrame& frame,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret) 
-  //---------------------------------------------------
+bool skInterpreter::extractFieldArrayValue(skStackFrame& frame,skRValue& robject,const skString& field_name,skExprNode * array_index,const skString& attrib,skRValue& ret) 
+//---------------------------------------------------
 {
   skRValue array_field;
   bool found=extractValue(frame,robject,field_name,g_BlankString,array_field);
@@ -526,8 +503,8 @@ bool P_Interpreter::extractFieldArrayValue(skStackFrame& frame,skRValue& robject
   return found;
 }
 //---------------------------------------------------
-bool P_Interpreter::extractArrayValue(skStackFrame& frame,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) 
-  //---------------------------------------------------
+bool skInterpreter::extractArrayValue(skStackFrame& frame,skRValue& robject,skExprNode * array_index,const skString& attrib,skRValue& ret) 
+//---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
@@ -540,8 +517,8 @@ bool P_Interpreter::extractArrayValue(skStackFrame& frame,skRValue& robject,skEx
   return found;
 }
 //---------------------------------------------------
-bool P_Interpreter::extractValue(skStackFrame& frame,skRValue& obj,const skString& name,const skString& attrib,skRValue& ret) 
-  //---------------------------------------------------
+bool skInterpreter::extractValue(skStackFrame& frame,skRValue& obj,const skString& name,const skString& attrib,skRValue& ret) 
+//---------------------------------------------------
 {
   bool found=false;
   if (obj.type()==skRValue::T_Object){
@@ -551,8 +528,8 @@ bool P_Interpreter::extractValue(skStackFrame& frame,skRValue& obj,const skStrin
   return found;
 }
 //---------------------------------------------------
-void P_Interpreter::executeAssignStat(skStackFrame& frame,skAssignNode * n)
-  //---------------------------------------------------
+void skInterpreter::executeAssignStat(skStackFrame& frame,skAssignNode * n)
+//---------------------------------------------------
 {
   skRValue value=evaluate(frame,n->m_Expr);
 #ifndef EXCEPTIONS_DEFINED
@@ -608,8 +585,8 @@ void P_Interpreter::executeAssignStat(skStackFrame& frame,skAssignNode * n)
 #endif
 }
 //---------------------------------------------------
-bool P_Interpreter::insertArrayValue(skStackFrame& frame,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value)
-  //---------------------------------------------------
+bool skInterpreter::insertArrayValue(skStackFrame& frame,skRValue& robject, skExprNode * array_index,const skString& attr,const skRValue& value)
+//---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
@@ -622,8 +599,8 @@ bool P_Interpreter::insertArrayValue(skStackFrame& frame,skRValue& robject, skEx
   return found;
 }
 //---------------------------------------------------
-bool P_Interpreter::insertValue(skStackFrame& frame,skRValue& robject,const skString& name, const skString& attr,const skRValue& value)
-  //---------------------------------------------------
+bool skInterpreter::insertValue(skStackFrame& frame,skRValue& robject,const skString& name, const skString& attr,const skRValue& value)
+//---------------------------------------------------
 {
   bool found=false;
   if (robject.type()==skRValue::T_Object){
@@ -634,7 +611,7 @@ bool P_Interpreter::insertValue(skStackFrame& frame,skRValue& robject,const skSt
 }
 //---------------------------------------------------
 void  skInterpreter::executeParseTree(const skString& location,skiExecutable * obj,skMethodDefNode * pExecuteNode,skRValueArray& args,skRValue& r,skExecutableContext& ctxt)
-  //---------------------------------------------------
+//---------------------------------------------------
 {      
   skRValueTable vars;
   skStackFrame frame(location,obj,vars,ctxt);
@@ -643,23 +620,23 @@ void  skInterpreter::executeParseTree(const skString& location,skiExecutable * o
     if (pExecuteNode->m_Params){
       for (unsigned int i=0;i<pExecuteNode->m_Params->m_Ids.entries();i++)
         if (i<args.entries())
-          pimp->addLocalVariable(vars,pExecuteNode->m_Params->m_Ids[i]->m_Id,args[i]);
+          addLocalVariable(vars,pExecuteNode->m_Params->m_Ids[i]->m_Id,args[i]);
     }
-    pimp->executeStats(frame,pExecuteNode->m_Stats,r);
+    executeStats(frame,pExecuteNode->m_Stats,r);
   }
 }
 //---------------------------------------------------
 skMethodDefNode * skInterpreter::parseString(const skString& location,
                                              const skString& code,skExecutableContext& ctxt)
-  //---------------------------------------------------
+//---------------------------------------------------
 { 
   skParser parser(code,location);
   skMethodDefNode * methNode=parser.parseMethod();
   if (methNode==0){
     bool throw_exception=true;
     skParseException e(parser.getErrList());
-    if (pimp->m_StatementStepper)
-      throw_exception=pimp->m_StatementStepper->exceptionEncountered(ctxt.getTopFrame(),e);
+    if (m_StatementStepper)
+      throw_exception=m_StatementStepper->exceptionEncountered(ctxt.getTopFrame(),e);
     if (throw_exception){
   #ifdef EXCEPTIONS_DEFINED
       throw e;
@@ -673,7 +650,7 @@ skMethodDefNode * skInterpreter::parseString(const skString& location,
 }
 //---------------------------------------------------
 skMethodDefNode * skInterpreter::parseExternalParams(const skString& location,skStringList& paramNames,const skString& code,skExecutableContext& user_ctxt)
-  //---------------------------------------------------
+//---------------------------------------------------
 {                                     
   skMethodDefNode * methNode=parseString(location,code,user_ctxt);
   // fix up the parameters
@@ -689,7 +666,7 @@ skMethodDefNode * skInterpreter::parseExternalParams(const skString& location,sk
 }
 //---------------------------------------------------
 void skInterpreter::executeStringExternalParams(const skString& location,skiExecutable * obj,skStringList& paramNames,const skString& code,skRValueArray& args,skRValue& r,skMethodDefNode** keepParseNode,skExecutableContext& user_ctxt)
-  //---------------------------------------------------
+//---------------------------------------------------
 {      
   if (keepParseNode)
     *keepParseNode=0;
@@ -728,7 +705,7 @@ void skInterpreter::executeStringExternalParams(const skString& location,skiExec
 }
 //---------------------------------------------------
 void skInterpreter::executeString(const skString& location,skiExecutable * obj,const skString& code,skRValueArray& args,skRValue& r,skMethodDefNode** keepParseNode,skExecutableContext& user_ctxt)
-  //---------------------------------------------------
+//---------------------------------------------------
 {      
   if (keepParseNode)
     *keepParseNode=0;
@@ -766,8 +743,8 @@ void skInterpreter::executeString(const skString& location,skiExecutable * obj,c
 #endif
 }
 //---------------------------------------------------
-skRValue P_Interpreter::evaluate(skStackFrame& frame,skExprNode * n)
-  //---------------------------------------------------
+skRValue skInterpreter::evaluate(skStackFrame& frame,skExprNode * n)
+//---------------------------------------------------
 { 
   skRValue r;
   switch(n->getType()){
@@ -969,9 +946,28 @@ bool skInterpreter::method(const skString& method_name,skRValueArray& arguments,
   bool bRet=false;
   if (method_name==s_breakpoint){
     bRet=true;
-    if (pimp->m_StatementStepper)
-      pimp->m_StatementStepper->breakpoint(ctxt.getTopFrame());
-  }
+    if (m_StatementStepper)
+      m_StatementStepper->breakpoint(ctxt.getTopFrame());
+  }else
+    bRet=skExecutable::method(method_name,arguments,return_value,ctxt);
+  return bRet;
+}
+//------------------------------------------
+void skInterpreter::getInstanceVariables(skRValueTable& table)
+//------------------------------------------
+{
+  table.insertKeyAndValue(new skString(s_tracing),new skRValue(m_Tracing));
+}
+//------------------------------------------
+bool skInterpreter::getValue(const skString& s,const skString& attribute,skRValue& v)
+//------------------------------------------
+{
+  bool bRet=false;
+  if (s==s_tracing){
+    v=skRValue(m_Tracing);
+    bRet=true;
+  }else
+    bRet=skExecutable::getValue(s,attribute,v);
   return bRet;
 }
 //------------------------------------------
@@ -980,11 +976,13 @@ bool skInterpreter::setValue(const skString& s,const skString& attrib,const skRV
 {
   bool bRet=false;
   if (s==s_tracing){
-    pimp->m_Tracing=v.boolValue();
+    m_Tracing=v.boolValue();
     bRet=true;
   }else
 #ifdef WIN32
 #ifndef _WIN32_WCE
+    // on desktop Windows systems only, setting Interpreter.debugBreak=1 will cause
+    // a debug break interrupt trap
     if (s==s_debugBreak){
       _asm int 03h;
       bRet=true;
@@ -996,13 +994,7 @@ bool skInterpreter::setValue(const skString& s,const skString& attrib,const skRV
 }
 //------------------------------------------
 void skInterpreter::runtimeError(skStackFrame& frame,const skString& msg)
-  //------------------------------------------
-{
-  pimp->runtimeError(frame,msg);
-}
 //------------------------------------------
-void P_Interpreter::runtimeError(skStackFrame& frame,const skString& msg)
-  //------------------------------------------
 {
   bool throw_exception=true;
   skRuntimeException e(frame.getLocation(),frame.getLineNum(),msg);
@@ -1018,21 +1010,25 @@ void P_Interpreter::runtimeError(skStackFrame& frame,const skString& msg)
 }
 //------------------------------------------
 void skInterpreter::trace(const skString& msg)
-  //------------------------------------------
+//------------------------------------------
 {
-  pimp->trace(msg);
+  if (m_TraceCallback!=0)
+    m_TraceCallback->trace(msg);
+  else
+    skTracer::trace(msg);
 }
+
 //------------------------------------------
 void skInterpreter::setTraceCallback(skTraceCallback * callback)
-  //------------------------------------------
+//------------------------------------------
 {
-  pimp->m_TraceCallback=callback;
+  m_TraceCallback=callback;
 }
 //------------------------------------------
 void skInterpreter::setStatementStepper(skStatementStepper * stepper)
-  //------------------------------------------
+//------------------------------------------
 {
-  pimp->m_StatementStepper=stepper;
+  m_StatementStepper=stepper;
 }
 //------------------------------------------
 skExprNode * skInterpreter::parseExpression(const skString& location,const skString& expression,skExecutableContext& ctxt)
@@ -1043,8 +1039,8 @@ skExprNode * skInterpreter::parseExpression(const skString& location,const skStr
   if (exprNode==0){
     bool throw_exception=true;
     skParseException e(parser.getErrList());
-    if (pimp->m_StatementStepper)
-      throw_exception=pimp->m_StatementStepper->exceptionEncountered(ctxt.getTopFrame(),e);
+    if (m_StatementStepper)
+      throw_exception=m_StatementStepper->exceptionEncountered(ctxt.getTopFrame(),e);
     if (throw_exception){
   #ifdef EXCEPTIONS_DEFINED
       throw e;
@@ -1087,6 +1083,5 @@ void skInterpreter::evaluateExpression(const skString& location,skiExecutable * 
 //------------------------------------------
 {
   skStackFrame frame(location,obj,vars,ctxt);
-  return_value=pimp->evaluate(frame,expression);
+  return_value=evaluate(frame,expression);
 }
-

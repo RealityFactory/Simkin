@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.cpp,v 1.12 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skExpatParser.cpp,v 1.13 2003/03/14 16:39:44 simkin_cvs Exp $
 */
 #include "skExpatParser.h"
 #include "skXMLParseException.h"
@@ -138,10 +138,14 @@ skElement * skExpatParser::parse(skInputSource& in,skExecutableContext& context)
   unsigned int buf_len=in_string.length()*sizeof(Char);
   if (!XML_Parse(parser, (const char *)(const Char *)in_string, buf_len, true)) {
 #ifdef EXCEPTIONS_DEFINED
+    m_ElementStack.clearAndDestroy();
+    m_RootElement=0;
     skXMLParseException e(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser));
     XML_ParserFree(parser);
     throw (e,skXMLParseException_Code);
 #else
+    m_ElementStack.clearAndDestroy();
+    m_RootElement=0;
     context.getError().setError(skScriptError::XMLPARSE_ERROR,new skXMLParseException(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser)));
 #endif
   }

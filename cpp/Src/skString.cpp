@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.22 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skString.cpp,v 1.24 2003/03/18 13:31:59 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -397,4 +397,68 @@ void skString::writeToFile(const skString& fileName)
     fwrite(pimp->m_PString,sizeof(Char)*pimp->m_Length,0,out);
 	  fclose(out);
   }
+}
+//-----------------------------------------------------------------
+skString skString::replace(const skString& old_substr,const skString& new_substr) const
+//-----------------------------------------------------------------
+{
+	skString new_substring = *this;
+	//	count number of instances
+	int numInsts = 0;
+	int index = 0;
+	Char * pos = 0;
+	do{
+		pos = STRSTR(pimp->m_PString + index, old_substr.pimp->m_PString);
+		if (pos){
+			numInsts++;
+			index = pos - pimp->m_PString + old_substr.pimp->m_Length;
+		}
+	}while (pos);
+	if (numInsts){
+		int newLength = int(pimp->m_Length) + numInsts * (int(new_substr.pimp->m_Length) - int(old_substr.pimp->m_Length));
+		if (newLength > 0) {
+      Char * buffer=new Char[newLength+1];
+			index = 0;
+			pos = 0;
+			unsigned int targetIndex = 0;
+			unsigned int lenBefore = 0;
+			do{
+				pos = STRSTR(pimp->m_PString + index, old_substr.pimp->m_PString);
+				if (pos) {
+					lenBefore = pos - (pimp->m_PString + index);
+					::memcpy(buffer + targetIndex, pimp->m_PString + index, lenBefore * sizeof(Char));
+					::memcpy(buffer + targetIndex + lenBefore, new_substr.pimp->m_PString, new_substr.pimp->m_Length * sizeof(Char));
+					index = pos - pimp->m_PString + old_substr.pimp->m_Length;
+					targetIndex += new_substr.pimp->m_Length + lenBefore;
+				}else{
+					lenBefore = pimp->m_Length - index;
+					::memcpy(buffer + targetIndex, pimp->m_PString + index, lenBefore * sizeof(Char));
+					targetIndex += lenBefore;
+				}
+			}while (pos);
+			buffer[targetIndex] = 0;
+      new_substring = skString::fromBuffer(buffer);
+		}else
+			new_substring = skString();
+	}
+	return new_substring;
+}
+//-----------------------------------------------------------------
+skString skString::removeInitialBlankLines() const
+//-----------------------------------------------------------------
+{
+  skString s=*this;
+	bool loop=true;
+	while (loop){
+    int cr_pos=s.indexOf('\n');
+    if (cr_pos!=-1){
+		  skString line=s.substr(0,cr_pos);
+		  if (line.ltrim().length()==0){
+		      s=s.substr(cr_pos+1);
+		  }else
+		      loop=false;
+	  }else
+		  loop=false;
+	}
+	return s;
 }

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElementObject.cpp,v 1.41 2003/02/24 19:59:48 simkin_cvs Exp $
+  $Id: skXMLElementObject.cpp,v 1.44 2003/03/18 13:31:59 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -147,9 +147,9 @@ bool skXMLElementObject::setValueAt(const skRValue& array_index,const skString& 
       ((skXMLElementObject *)other)->copyItemsInto(child);
     else
       if (attrib.length()==0)
-	setData(child,v.str());
+        setData(child,v.str());
       else
-	child.setAttribute(DOMString((const char *)attrib),DOMString((const char *)v.str()));
+        child.setAttribute(DOMString((const char *)attrib),DOMString((const char *)v.str()));
   }
   if (bRet==false)
     bRet=skExecutable::setValueAt(array_index,attrib,v);
@@ -182,9 +182,9 @@ bool skXMLElementObject::setValue(const skString& name,const skString& attrib,co
       ((skXMLElementObject *)other)->copyItemsInto(child);
     else
       if (attrib.length()==0)
-	setData(child,v.str());
+        setData(child,v.str());
       else
-	child.setAttribute(DOMString((const char *)attrib),DOMString((const char *)v.str()));
+        child.setAttribute(DOMString((const char *)attrib),DOMString((const char *)v.str()));
   }
   if (bRet==false)
     bRet=skExecutable::setValue(name,attrib,v);
@@ -272,11 +272,11 @@ bool skXMLElementObject::getValue(const skString& name,const skString& attrib,sk
     if (name.length()>0){
       child=findChild(m_Element,name);
       if (child.isNull()){
-	if (m_AddIfNotPresent){
-	  child=m_Element.getOwnerDocument().createElement(fromString(name));
-	  m_Element.appendChild(child);
-	}else
-	  bRet=false;
+        if (m_AddIfNotPresent){
+	        child=m_Element.getOwnerDocument().createElement(fromString(name));
+	        m_Element.appendChild(child);
+        }else
+	        bRet=false;
       }
     }
     if (child.isNull()==false){
@@ -396,6 +396,7 @@ skString skXMLElementObject::getSource(const skString& location)
     DOM_Element node=findChild(m_Element,s_function,s_name,name);
     if (node.isNull()==false)
       src=getData(node);
+    src=src.removeInitialBlankLines();
   }
   return src;
 }
@@ -414,6 +415,20 @@ void skXMLElementObject::getInstanceVariables(skRValueTable& table)
         table.insertKeyAndValue(new skString(name),
                     new skRValue(new skXMLElementObject(name,element)));
       }
+    }
+  }
+}
+//------------------------------------------
+void skXMLElementObject::getAttributes(skRValueTable& table)
+//------------------------------------------
+{
+  if (m_Element.isNull()==false){
+    DOM_NamedNodeMap&  attrs=m_Element.getAttributes();
+    for (unsigned int i=0;i<attrs.getLength();i++){
+      DOM_Node attr=attrs.item(i);
+      skString name=toString(attr.getNodeName());
+      skString value=toString(attr.getNodeValue());
+      table.insertKeyAndValue(new skString(name),new skRValue(value));
     }
   }
 }
@@ -498,10 +513,14 @@ bool skXMLElementObject::method(const skString& s,skRValueArray& args,skRValue& 
 	        skString code=skXMLElementObject::getData(node);
 	        bRet=true;
 	        skString params=toString(node.getAttribute("params"));
-	        skStringList paramList;
-	        skStringTokenizer tokenizer(params,", ");
-	        while (tokenizer.hasMoreTokens())
-	          paramList.append(tokenizer.nextToken());
+          // pull out the parameters from the "params" attribute
+          skStringList paramList;
+          if (params.length()>0){
+	          skStringTokenizer tokenizer(params,", ");
+	          while (tokenizer.hasMoreTokens())
+	            paramList.append(tokenizer.nextToken());
+          }
+          code=code.removeInitialBlankLines();
 	        ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
 	        if (methNode){
 	          if (m_MethodCache==0)

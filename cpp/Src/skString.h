@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skString.h,v 1.23 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skString.h,v 1.26 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 
 
@@ -204,9 +204,15 @@ class CLASSEXPORT skString
    */
   static skString fromBuffer(Char * buffer);
   /**
-   * returns a version of this string with leading blanks removed
+   * @return returns a version of this string with leading blanks removed
    */
   skString ltrim() const;
+  /**
+   * This method removes any initial blank lines from the given string. This is useful for trimming the beginning of methods in 
+   * Simkin scripts.
+   * @return returns the trimmed string
+   */
+  skString removeInitialBlankLines() const;
   /**
   * Reads the contents of a file as a string
   * @param filename the name of the file to read from
@@ -217,6 +223,12 @@ class CLASSEXPORT skString
   * @param filename the name of the file to write to
   */
   void writeToFile(const skString& filename);
+  /**
+  * Replaces a substring with another
+  * @param old_substr the substring to be replaced
+  * @param new_substr the new substring
+  */
+  skString replace(const skString& old_substr,const skString& new_substr) const;
  protected:
   /**
    * Constructor - internal taking a P_String and not copying it

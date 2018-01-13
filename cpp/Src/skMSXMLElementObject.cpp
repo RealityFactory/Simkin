@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skMSXMLElementObject.cpp,v 1.3 2003/02/24 19:59:48 simkin_cvs Exp $
+  $Id: skMSXMLElementObject.cpp,v 1.6 2003/03/18 13:31:59 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -449,11 +449,15 @@ bool skMSXMLElementObject::method(const skString& s,skRValueArray& args,skRValue
 	        // we found some XML with the script in - now parse it
 	        skString code=skMSXMLElementObject::getData(node);
 	        bRet=true;
+          // pull out the parameters from the "params" attribute
 					skString params=getAttribute(node,skSTR("params"));
 	        skStringList paramList;
-	        skStringTokenizer tokenizer(params,skSTR(", "));
-	        while (tokenizer.hasMoreTokens())
-	          paramList.append(tokenizer.nextToken());
+          if (params.length()>0){
+	          skStringTokenizer tokenizer(params,skSTR(", "));
+	          while (tokenizer.hasMoreTokens())
+	            paramList.append(tokenizer.nextToken());
+          }
+          code=code.removeInitialBlankLines();
 	        ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
 	        if (methNode){
 	          if (m_MethodCache==0)
@@ -564,6 +568,7 @@ skString skMSXMLElementObject::getSource(const skString& location)
     XMLElement node=findChild(m_Element,s_function,s_name,name);
     if (node)
       src=getData(node);
+    src=src.removeInitialBlankLines();
   }
   return src;
 }
@@ -582,6 +587,27 @@ void skMSXMLElementObject::getInstanceVariables(skRValueTable& table)
         table.insertKeyAndValue(new skString(name),
                     new skRValue(new skMSXMLElementObject(name,element)));
       }
+    }
+  }
+}
+//------------------------------------------
+void skMSXMLElementObject::getAttributes(skRValueTable& table)
+//------------------------------------------
+{
+  if (m_Element){
+    XMLNamedNodeMap attrs=m_Element->Getattributes();
+    long num_attrs=attrs->Getlength();
+    for (long i=0;i<num_attrs;i++){
+      XMLNode attr=attrs->Getitem(i);
+      skString name=toString(attr->GetnodeName());
+      skString value="";
+    	_variant_t v = attr->GetnodeValue();
+      if (v.vt == VT_BSTR){
+      	_bstr_t b_value=v.bstrVal;
+		    value = toString(b_value);
+      }
+      table.insertKeyAndValue(new skString(name),
+                    new skRValue(value));
     }
   }
 }

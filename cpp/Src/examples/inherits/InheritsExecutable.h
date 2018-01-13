@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: InheritsExecutable.h,v 1.5 2002/12/13 17:21:54 sdw Exp $
+  $Id: InheritsExecutable.h,v 1.6 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 #ifndef INHERITSEXECUTABLE_H
 #define INHERITSEXECUTABLE_H
@@ -31,15 +31,18 @@ class InheritsExecutable : public InheritsElement {
  public:
   /**
    * Constructor - passed the name of a file to load an XML document from
+   * @param fileName - the filename of the XML document
    */
   InheritsExecutable(const skString& fileName);
   /**
    * This method causes the XML to be reloaded
+   * @param scriptLocation - the name of the XML document
    * @param in - stream containing the XML
    */
   void load(const skString& scriptLocation,InputSource& in);
   /**
    * This method causes the XML to be loaded from a file
+   * @param fileName - the filename of the XML document
    */
   void load(const skString& fileName);
  private:

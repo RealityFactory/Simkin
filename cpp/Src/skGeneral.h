@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skGeneral.h,v 1.21 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skGeneral.h,v 1.22 2003/02/26 12:10:54 simkin_cvs Exp $
 */
 #ifndef skGENERAL_H
 #define skGENERAL_H
@@ -96,6 +96,7 @@ typedef unsigned int USize;
 
 #if defined(_MSC_VER)
    #ifdef _DEBUG
+   #undef new
    #define new MYDEBUG_NEW
    #endif
 #endif

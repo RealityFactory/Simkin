@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTreeNodeObject.h,v 1.27 2003/01/27 21:29:39 simkin_cvs Exp $
+* $Id: skTreeNodeObject.h,v 1.28 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 
 
@@ -116,7 +116,7 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
    * @param name - the name of the method
    * @param args - the arguments to pass to the method
    * @param ret - the RValue to receive the results of the method call
-   * @param context context object to receive errors
+   * @param ctxt context object to receive errors
    * @return true if the method was found, otherwise false
    */
   virtual bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
@@ -167,7 +167,8 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
   /**
    * This method creates a new  TreeNode object to wrap a node. Override this for special behaviour in derived classes. In this method, the newly created object inherits this object's m_AddIfNotPresent flag
    * @param location the location of this element
-   * @param element the TreeNode to associate with the object
+   * @param node the TreeNode to associate with the object
+   * @param created indicates if the node should be deleted in the new objects' destructor. Set to true if this should happen.
    */
   virtual skTreeNodeObject * createTreeNodeObject(const skString& location,skTreeNode * node,bool created);
   /**

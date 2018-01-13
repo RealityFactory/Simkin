@@ -77,11 +77,13 @@ int&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a25">to</
 <tr><td nowrap align=right valign=top><a name="a26" doxytag="skString::toFloat"></a>
 float&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a26">toFloat</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>Converts the string to a float.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a27" doxytag="skString::ltrim"></a>
-skString&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a27">ltrim</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>returns a version of this string with leading blanks removed</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a28">writeToFile</a> (const skString &amp;filename)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Writes the string to a file.</em> <a href="#a28"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>skString&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a27">ltrim</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>skString&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a28">removeInitialBlankLines</a> () const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>This method removes any initial blank lines from the given string.</em> <a href="#a28"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a29">writeToFile</a> (const skString &amp;filename)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Writes the string to a file.</em> <a href="#a29"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>skString&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#a30">replace</a> (const skString &amp;old_substr, const skString &amp;new_substr) const</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>Replaces a substring with another.</em> <a href="#a30"></a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Static Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="d0" doxytag="skString::literal"></a>
 skString&nbsp;</td><td valign=bottom><a class="el" href="classskString.html#d0">literal</a> (const Char *)</td></tr>
@@ -444,6 +446,35 @@ Length of the string.
     </td>
   </tr>
 </table>
+<a name="a27" doxytag="skString::ltrim"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skString skString::ltrim </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap> const</td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>returns a version of this string with leading blanks removed </dd></dl>
+    </td>
+  </tr>
+</table>
 <a name="a13" doxytag="skString::operator const Char *"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -735,6 +766,83 @@ Reads the contents of a file as a string.
     </td>
   </tr>
 </table>
+<a name="a28" doxytag="skString::removeInitialBlankLines"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skString skString::removeInitialBlankLines </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap> const</td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This method removes any initial blank lines from the given string.
+<p>
+This is useful for trimming the beginning of methods in Simkin scripts. <dl compact><dt><b>Returns:</b></dt><dd>returns the trimmed string </dd></dl>
+    </td>
+  </tr>
+</table>
+<a name="a30" doxytag="skString::replace"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skString skString::replace </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const skString &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>old_substr</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>const skString &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>new_substr</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"> const</td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Replaces a substring with another.
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>old_substr</em>&nbsp;</td><td>the substring to be replaced </td></tr>
+    <tr><td valign=top><em>new_substr</em>&nbsp;</td><td>the new substring </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a name="a18" doxytag="skString::substr"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -819,7 +927,7 @@ Returns a substring of this string.
     </td>
   </tr>
 </table>
-<a name="a28" doxytag="skString::writeToFile"></a><p>
+<a name="a29" doxytag="skString::writeToFile"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -857,7 +965,7 @@ Writes the string to a file.
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skString_8h-source.html">skString.h</a><li>skString.cpp<li>skString.inl</ul>
-<hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:05 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:19 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

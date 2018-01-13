@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skScriptedExecutable.h,v 1.17 2002/12/16 16:11:46 sdw Exp $
+* $Id: skScriptedExecutable.h,v 1.18 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 
 #ifndef skSCRIPTEDEXECUTABLE_H
@@ -33,8 +33,8 @@ class CLASSEXPORT skScriptedExecutable : public skTreeNodeObject
  public:
   /**
    * Constructor - takes the name of the file from which the treenode will be loaded
-   * @param fileName filename of file containing TreeNode script
-   * @param context context object to receive errors
+   * @param filename filename of file containing TreeNode script
+   * @param ctxt context object to receive errors
    */
   skScriptedExecutable(const skString& filename,skExecutableContext& ctxt);
   /**

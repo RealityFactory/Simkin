@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skInterpreter_8h-source.html,v 1.7 2003/02/24 20:05:01 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skInterpreter.h,v 1.37 2003/03/18 19:36:13 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skINTERPRETER_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skINTERPRETER_H</span>
@@ -32,43 +32,44 @@
 00024 <span class="preprocessor">#include "skRValueTable.h"</span>
 00025 <span class="preprocessor">#include "skiExecutable.h"</span>
 00026 <span class="preprocessor">#include "skNull.h"</span>
-00027 
-00028 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskRValueArray.html">skRValueArray</a>;
-00029 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskRValueTable.html">skRValueTable</a>;
-00030 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskParseNode.html">skParseNode</a>;
-00031 <span class="keyword">class </span>CLASSEXPORT skExprNode;
-00032 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskStringList.html">skStringList</a>;
-00033 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>;
-00034 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskTraceCallback.html">skTraceCallback</a>;
-00035 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskStatementStepper.html">skStatementStepper</a>;
-00036 
-00037 <span class="preprocessor">#ifndef EXCEPTIONS_DEFINED</span>
-00038 <span class="preprocessor"></span><span class="preprocessor">#include "skScriptError.h"</span>
-00039 <span class="preprocessor">#endif</span>
-00040 <span class="preprocessor"></span>
-00041 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskStackFrame.html">skStackFrame</a>;
-00042 
-<a name="l00050"></a><a class="code" href="classskInterpreter.html">00050</a> <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskInterpreter.html">skInterpreter</a> : <span class="keyword">public</span> <a class="code" href="classskExecutable.html">skExecutable</a>
-00051 { 
-00052  <span class="keyword">public</span>:
-00053   <span class="comment">//------------------------</span>
-00054   <span class="comment">// Parsing and Executing methods</span>
-00055   <span class="comment">//------------------------</span>
-00056 
-00067   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * parseString(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);       
-00079   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * parseExternalParams(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskStringList.html">skStringList</a>&amp; paramNames,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00093   <span class="keywordtype">void</span> executeString(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp;  args,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> ** parseTree,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00094 
-00108   <span class="keywordtype">void</span> executeStringExternalParams(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,<a class="code" href="classskStringList.html">skStringList</a>&amp; paramNames,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp;  args,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> ** keepParseTree,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00109 
-00120   <span class="keywordtype">void</span> executeParseTree(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,<a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * parseTree,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp;  args,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00121 
+00027 <span class="preprocessor">#include "skParseNode.h"</span>
+00028 <span class="preprocessor">#include "skExecutableIterator.h"</span>
+00029 <span class="preprocessor">#include "skRValueTable.h"</span>
+00030 
+00031 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskRValueArray.html">skRValueArray</a>;
+00032 <span class="keyword">class </span>CLASSEXPORT skExprNode;
+00033 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskStringList.html">skStringList</a>;
+00034 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>;
+00035 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskTraceCallback.html">skTraceCallback</a>;
+00036 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskStatementStepper.html">skStatementStepper</a>;
+00037 
+00038 <span class="preprocessor">#ifndef EXCEPTIONS_DEFINED</span>
+00039 <span class="preprocessor"></span><span class="preprocessor">#include "skScriptError.h"</span>
+00040 <span class="preprocessor">#endif</span>
+00041 <span class="preprocessor"></span>
+00042 <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskStackFrame.html">skStackFrame</a>;
+00043 
+<a name="l00051"></a><a class="code" href="classskInterpreter.html">00051</a> <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskInterpreter.html">skInterpreter</a> : <span class="keyword">public</span> <a class="code" href="classskExecutable.html">skExecutable</a>
+00052 { 
+00053  <span class="keyword">public</span>:
+00054   <span class="comment">//------------------------</span>
+00055   <span class="comment">// Parsing and Executing methods</span>
+00056   <span class="comment">//------------------------</span>
+00057 
+00068   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * parseString(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);       
+00080   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * parseExternalParams(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskStringList.html">skStringList</a>&amp; paramNames,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00094   <span class="keywordtype">void</span> executeString(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp;  args,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> ** parseTree,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00095 
+00109   <span class="keywordtype">void</span> executeStringExternalParams(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,<a class="code" href="classskStringList.html">skStringList</a>&amp; paramNames,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; code,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp;  args,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> ** keepParseTree,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00110 
+00121   <span class="keywordtype">void</span> executeParseTree(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,<a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> * parseTree,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp;  args,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
 00122 
-00133   skExprNode * parseExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);  
-00145   <span class="keywordtype">void</span> evaluateExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,
-00146                       <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp;  vars,
-00147                       <a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00148 
+00123 
+00134   skExprNode * parseExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);  
+00146   <span class="keywordtype">void</span> evaluateExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,
+00147                       <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; expression,<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp;  vars,
+00148                       <a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00149 
 00161   <span class="keywordtype">void</span> evaluateExpression(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskiExecutable.html">skiExecutable</a> * obj,
 00162                       skExprNode * expression,<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp;  vars,
 00163                       <a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
@@ -87,46 +88,111 @@
 00196   <span class="comment">// Interpreter is an Executable which exposes some fields</span>
 00197   <span class="comment">//--------------------------------------------------------</span>
 00198     
-00203   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a8">setValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; s,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; v);
-00213   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; arguments,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00214     
-00215   <span class="comment">//------------------------</span>
-00216   <span class="comment">// Tracing methods</span>
-00217   <span class="comment">//------------------------</span>
-00218 
-00222   <span class="keywordtype">void</span> trace(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg);
-00226   <span class="keywordtype">void</span> setTraceCallback(<a class="code" href="classskTraceCallback.html">skTraceCallback</a> * callback);
-00227 
-00231   <span class="keywordtype">void</span> setStatementStepper(<a class="code" href="classskStatementStepper.html">skStatementStepper</a> * stepper);
-00232 
-00234   <span class="keywordtype">void</span> runtimeError(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; ctxt,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg); 
-00235 
-00236   <span class="comment">//---------------------------</span>
-00237   <span class="comment">// Constructor and Destructor</span>
-00238   <span class="comment">//---------------------------</span>
-00239     
-00243   <a class="code" href="classskInterpreter.html">skInterpreter</a>();
-00247   ~<a class="code" href="classskInterpreter.html">skInterpreter</a>();
-00248     
-<a name="l00250"></a><a class="code" href="classskInterpreter.html#m0">00250</a>   <span class="keyword">class </span><a class="code" href="classP__Interpreter.html">P_Interpreter</a> * pimp;
-00251   
-00255   <span class="keyword">static</span> <a class="code" href="classskNull.html">skNull</a> g_Null;
-00256 
-00257  <span class="keyword">private</span>:
-00258 
-00259   <span class="comment">//--------------------</span>
-00260   <span class="comment">// copying not allowed</span>
-00261   <span class="comment">//--------------------</span>
-00262 
-00266   <a class="code" href="classskInterpreter.html">skInterpreter</a>(<span class="keyword">const</span> <a class="code" href="classskInterpreter.html">skInterpreter</a>&amp;);
-00270   <a class="code" href="classskInterpreter.html">skInterpreter</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskInterpreter.html">skInterpreter</a>&amp;);
-00271 };      
+00203   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a8">setValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; s,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; v);
+00209   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a10">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; s,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; v);
+00219   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; arguments,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00220 
+00225   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00226     
+00227   <span class="comment">//------------------------</span>
+00228   <span class="comment">// Tracing methods</span>
+00229   <span class="comment">//------------------------</span>
+00230 
+00234   <span class="keywordtype">void</span> trace(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg);
+00238   <span class="keywordtype">void</span> setTraceCallback(<a class="code" href="classskTraceCallback.html">skTraceCallback</a> * callback);
+00239 
+00243   <span class="keywordtype">void</span> setStatementStepper(<a class="code" href="classskStatementStepper.html">skStatementStepper</a> * stepper);
+00244 
+00250   <span class="keywordtype">void</span> runtimeError(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; ctxt,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg); 
+00251 
+00252   <span class="comment">//---------------------------</span>
+00253   <span class="comment">// Constructor and Destructor</span>
+00254   <span class="comment">//---------------------------</span>
+00255     
+00259   <a class="code" href="classskInterpreter.html">skInterpreter</a>();
+00263   ~<a class="code" href="classskInterpreter.html">skInterpreter</a>();
+00264     
+00265  
+00269   <span class="keyword">static</span> <a class="code" href="classskNull.html">skNull</a> g_Null;
+00270 
+00271  <span class="keyword">private</span>:
 00272 
-00273 
-00274 <span class="preprocessor">#endif</span>
-00275 <span class="preprocessor"></span>
+00273   <span class="comment">//--------------------</span>
+00274   <span class="comment">// copying not allowed</span>
+00275   <span class="comment">//--------------------</span>
 00276 
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:03 2003 for Simkin by
+00280   <a class="code" href="classskInterpreter.html">skInterpreter</a>(<span class="keyword">const</span> <a class="code" href="classskInterpreter.html">skInterpreter</a>&amp;);
+00284   <a class="code" href="classskInterpreter.html">skInterpreter</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskInterpreter.html">skInterpreter</a>&amp;);
+00285 
+00286 
+00287     <span class="comment">// Expression evaluation</span>
+00288   
+00293   <a class="code" href="classskRValue.html">skRValue</a> evaluate(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skExprNode * n);
+00298   <a class="code" href="classskRValue.html">skRValue</a> evalMethod(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skIdListNode * ids);
+00308   <span class="keywordtype">void</span> makeMethodCall(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,skExprNode * array_index, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,skExprListNode * exprs,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
+00309   
+00310     <span class="comment">// Statement execution</span>
+00311 
+00316   <span class="keywordtype">void</span> executeAssignStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skAssignNode * n);
+00317   
+00318     <span class="comment">// the statements below return true to halt further processing (i.e. a return statement has been encountered)</span>
+00319 
+00326   <span class="keywordtype">bool</span> executeStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skStatNode * pstat,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00327 
+00334   <span class="keywordtype">bool</span> executeStats(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skStatListNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00335 
+00342   <span class="keywordtype">bool</span> executeReturnStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skReturnNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00343 
+00350   <span class="keywordtype">bool</span> executeIfStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skIfNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00351 
+00358   <span class="keywordtype">bool</span> executeWhileStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skWhileNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00359 
+00366   <span class="keywordtype">bool</span> executeSwitchStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skSwitchNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00367 
+00374   <span class="keywordtype">bool</span> executeForEachStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skForEachNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00375 
+00382   <span class="keywordtype">bool</span> executeForStat(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skForNode * n,<a class="code" href="classskRValue.html">skRValue</a>&amp; r);
+00383 
+00384   <span class="comment">// Misc runtime routines</span>
+00385 
+00391     <span class="keywordtype">void</span> addLocalVariable(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; var,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValue.html">skRValue</a> value); 
+00398     <a class="code" href="classskString.html">skString</a> checkIndirectId(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name); 
+00406   <a class="code" href="classskRValue.html">skRValue</a> findValue(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute); 
+00412   <span class="keywordtype">void</span> followIdList(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,skIdListNode * idList,<a class="code" href="classskRValue.html">skRValue</a>&amp; object); 
+00413 
+00414 
+00423   <span class="keywordtype">bool</span> extractFieldArrayValue(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; field_name,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret);
+00431   <span class="keywordtype">bool</span> extractArrayValue(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
+00439   <span class="keywordtype">bool</span> extractValue(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attrib,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret) ;
+00440 
+00448   <span class="keywordtype">bool</span> insertArrayValue(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject, skExprNode * array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00456   <span class="keywordtype">bool</span> insertValue(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<a class="code" href="classskRValue.html">skRValue</a>&amp; robject,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attr,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00457 
+00458   <span class="comment">// Variables</span>
+00460 <span class="comment"></span>  <a class="code" href="classskRValueTable.html">skRValueTable</a> m_GlobalVars; 
+00462   <span class="keywordtype">bool</span> m_Tracing; 
+00464   <a class="code" href="classskTraceCallback.html">skTraceCallback</a> * m_TraceCallback; 
+00466   <a class="code" href="classskStatementStepper.html">skStatementStepper</a> * m_StatementStepper; <span class="comment">// the statement stepper</span>
+00467 };      
+00468 <span class="comment">//---------------------------------------------------</span>
+00469 <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> skInterpreter::checkIndirectId(<a class="code" href="classskStackFrame.html">skStackFrame</a>&amp; frame,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name)
+00470 <span class="comment">//---------------------------------------------------</span>
+00471 {
+00472   <span class="comment">// look for an initial "@" in a field name, and de-reference it if necessary</span>
+00473   <a class="code" href="classskString.html">skString</a> ret=name;
+00474   <span class="keywordflow">if</span> (name.<a class="code" href="classskString.html#a16">at</a>(0)==<span class="charliteral">'@'</span>){
+00475     ret=name.<a class="code" href="classskString.html#a17">substr</a>(1,name.<a class="code" href="classskString.html#a21">length</a>()-1);
+00476     <a class="code" href="classskRValue.html">skRValue</a> new_name=findValue(frame,ret,0,<a class="code" href="classskString.html">skString</a>());
+00477     ret=new_name.<a class="code" href="classskRValue.html#a16">str</a>();
+00478   }
+00479   <span class="keywordflow">return</span> ret;
+00480 }       
+00481 
+00482 
+00483 <span class="preprocessor">#endif</span>
+00484 <span class="preprocessor"></span>
+00485 
+</pre></div><hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:18 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

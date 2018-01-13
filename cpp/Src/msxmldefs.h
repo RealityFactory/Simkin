@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: msxmldefs.h,v 1.2 2003/02/24 19:59:48 simkin_cvs Exp $
+  $Id: msxmldefs.h,v 1.3 2003/02/27 18:00:23 simkin_cvs Exp $
 */
 #ifndef MSXMLDEFS_H
 #define MSXMLDEFS_H
@@ -28,6 +28,6 @@ typedef IXMLDOMDocumentPtr XMLDoc;
 typedef IXMLDOMElementPtr XMLElement;
 typedef IXMLDOMNodePtr XMLNode;
 typedef IXMLDOMNodeListPtr XMLNodeList;
-
+typedef IXMLDOMNamedNodeMapPtr XMLNamedNodeMap;
 
 #endif

@@ -221,10 +221,6 @@ SOURCE=.\skInterpreter.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\skInterpreterp.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\skLang_tab.cpp
 # End Source File
 # Begin Source File

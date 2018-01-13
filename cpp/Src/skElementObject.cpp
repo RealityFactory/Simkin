@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObject.cpp,v 1.16 2003/02/24 19:59:48 simkin_cvs Exp $
+  $Id: skElementObject.cpp,v 1.19 2003/03/18 13:31:59 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -498,11 +498,15 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
             // we found some  with the script in - now parse it
             skString code=skElementObject::getData(node);
             bRet=true;
+            // pull out the parameters from the "params" attribute
             skString params=node->getAttribute(skSTR("params"));
             skStringList paramList;
-            skStringTokenizer tokenizer(params,skSTR(", "));
-            while (tokenizer.hasMoreTokens())
-              paramList.append(tokenizer.nextToken());
+            if (params.length()>0){
+              skStringTokenizer tokenizer(params,skSTR(", "));
+              while (tokenizer.hasMoreTokens())
+                paramList.append(tokenizer.nextToken());
+            }
+            code=code.removeInitialBlankLines();
             ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
             if (methNode){
               if (m_MethodCache==0)
@@ -590,6 +594,7 @@ skString skElementObject::getSource(const skString& location)
     skElement * node=skElementObject::findChild(m_Element,s_function,s_name,name);
     if (node)
       src=skElementObject::getData(node);
+    src=src.removeInitialBlankLines();
   }
   return src;
 }
@@ -608,6 +613,18 @@ void skElementObject::getInstanceVariables(skRValueTable& table)
         table.insertKeyAndValue(new skString(name),
                     new skRValue(new skElementObject(name,element,false)));
       }
+    }
+  }
+}
+//------------------------------------------
+void skElementObject::getAttributes(skRValueTable& table)
+//------------------------------------------
+{
+  if (m_Element){
+    skAttributeList& attrs=m_Element->getAttributes();
+    for (unsigned int i=0;i<attrs.entries();i++){
+      skAttribute * attr=attrs[i];
+      table.insertKeyAndValue(new skString(attr->getName()),new skRValue(attr->getValue()));
     }
   }
 }

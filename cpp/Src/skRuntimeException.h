@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skRuntimeException.h,v 1.11 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skRuntimeException.h,v 1.12 2003/03/06 13:05:14 simkin_cvs Exp $
 */
 #ifndef SKRUNTIMEEXCEPTION_H
 #define SKRUNTIMEEXCEPTION_H
@@ -37,7 +37,14 @@ class CLASSEXPORT skRuntimeException : public skException
       : m_Location(location),m_Msg(msg),m_LineNum(line_num){
   }
   /**
-   * this method returns a description of the exception
+   * this method returns the description of the exception
+   */
+  skString getMessage() const {
+    return m_Msg;
+  }
+
+  /**
+   * this method returns a verbose description of the exception
    */
   skString toString() const {
     return m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR("-")+m_Msg;

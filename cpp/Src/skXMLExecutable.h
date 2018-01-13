@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skXMLExecutable.h,v 1.13 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skXMLExecutable.h,v 1.14 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 
 #ifndef skXMLEXECUTABLE_H
@@ -42,14 +42,19 @@ class CLASSEXPORT skXMLExecutable : public skXMLElementObject {
   skXMLExecutable(const skString& fileName);
   /**
    * Constructor taking an input stream containing an XML document
+   * @param scriptLocation - the name of the XML document
+   * @param in - stream containing the XML
    */
   skXMLExecutable(const skString& scriptLocation,InputSource& in);
   /**
    * Constructor taking a String containing an XML document
+   * @param scriptLocation - the name of the XML document
+   * @param in - string containing the XML
    */
   skXMLExecutable(const skString& scriptLocation,const skString& in);
   /**
    * This method causes the XML to be reloaded
+   * @param scriptLocation - the name of the XML document
    * @param in - stream containing the XML
    */
   void load(const skString& scriptLocation,InputSource& in);

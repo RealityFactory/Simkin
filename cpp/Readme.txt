@@ -1,6 +1,19 @@
 Simkin for C++
 (c)1996-2003 Simon Whiteside
 
+Simkin Version 2.17
+Date: 19/3/2003
+-------------------
+
+* fixed bug in quoting "\" "[" "]" in TreeNode writing
+* added getAttributes function to skiExecutable - to help debugger support
+  added this function to the XML base classes
+* removed P_Interpeter class - put private functionality back into skInterpreter
+* removed P_TreeNodeReader class - put private functionality back into skTreeNodeReader
+* skTreeNodeObject now parses the parameters to methods rather than relying on the Simkin parser to do it - this improves line number mapping for TreeNode scripts when viewed in the debugger
+* added a new example, showing how Simkin can be used with CGI
+* fixed bug in skInputString::eof - was returning the wrong value
+
 Simkin Version 2.16
 Date: 24/2/2003
 -------------------

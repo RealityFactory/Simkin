@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skExecutable.cpp,v 1.32 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skExecutable.cpp,v 1.34 2003/03/13 12:00:54 sdw Exp $
 */
 #include "skExecutable.h"
 #include "skRValue.h"
@@ -163,6 +163,11 @@ skString skExecutable::getSource(const skString& location)
 }
 //------------------------------------------
 void skExecutable::getInstanceVariables(skRValueTable& table)
+//------------------------------------------
+{
+}
+//------------------------------------------
+void skExecutable::getAttributes(skRValueTable& table)
 //------------------------------------------
 {
 }

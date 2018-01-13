@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skRValue.h,v 1.17 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skRValue.h,v 1.18 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 #ifndef skRVALUE_H
 #define skRVALUE_H
@@ -50,7 +50,7 @@ class CLASSEXPORT  skRValue
    * @param object - the object to be associated with the RValue
    * @param created - set this to true if you want the object to be deleted once all references have reached zero
    */
-  skRValue(skiExecutable * obj,bool created=false);
+  skRValue(skiExecutable * object,bool created=false);
   /**
    * Constructor with a string
    */

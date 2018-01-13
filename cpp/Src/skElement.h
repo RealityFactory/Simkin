@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.h,v 1.9 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skElement.h,v 1.10 2003/02/27 18:00:23 simkin_cvs Exp $
 */
 #ifndef skELEMENT_H
 #define skELEMENT_H
@@ -61,6 +61,11 @@ class CLASSEXPORT skElement : public skNode
    * @return the value associated with the name, or a blank string.
    */
   skString getAttribute(const skString& name) const;
+  /**
+   * This method returns the list of attributes owned by this element
+   * @return the list of attributes owned by this element
+   */
+  skAttributeList& getAttributes();
   /**
    * This method returns the list of child nodes owned by this element
    * @return the list of child nodes owned by this element

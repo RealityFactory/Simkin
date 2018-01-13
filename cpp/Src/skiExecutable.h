@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skiExecutable.h,v 1.11 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skiExecutable.h,v 1.12 2003/02/27 18:00:23 simkin_cvs Exp $
 */
 
 #ifndef skiEXECUTABLE_H
@@ -149,6 +149,11 @@ class CLASSEXPORT skiExecutable
   * @param table a table to filled with references to the instance variables
   */
   virtual void getInstanceVariables(skRValueTable& table)=0;
+  /**
+  * This method returns the attributes for this object
+  * @param table a table to filled with the values of the attributes
+  */
+  virtual void getAttributes(skRValueTable& table)=0;
 };
 
 // Some help-defines for method, getValue and setValue

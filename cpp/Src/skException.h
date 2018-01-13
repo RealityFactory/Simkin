@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skException.h,v 1.3 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skException.h,v 1.4 2003/03/06 13:05:14 simkin_cvs Exp $
 */
 #ifndef SKEXCEPTION_H
 #define SKEXCEPTION_H
@@ -31,7 +31,14 @@
 class CLASSEXPORT skException
 {
 public:
+  /**
+  * Gets a verbose version of the exception including location and line number information
+  */
   virtual skString toString() const=0;
+  /**
+  * Gets just the error message, with no location information
+  */
+  virtual skString getMessage() const=0;
 };
 
 #endif

@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment"> * $Id: skTreeNode_8h-source.html,v 1.7 2003/02/24 20:05:01 simkin_cvs Exp $</span>
+00019 <span class="comment"> * $Id: skTreeNode.h,v 1.28 2003/03/18 19:36:13 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -88,57 +88,98 @@
 00207   <span class="keywordtype">float</span> findChildFloatData(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; label, <span class="keywordtype">float</span> defaultVal=0.0f) <span class="keyword">const</span>;
 00211   <a class="code" href="classskString.html">skString</a> nthChildData(USize index) <span class="keyword">const</span>;
 00215   <span class="keywordtype">int</span>   nthChildIntData(USize index) <span class="keyword">const</span>;
-00219   <span class="keywordtype">void</span>  write(<a class="code" href="classskOutputDestination.html">skOutputDestination</a>&amp; out,USize tabstops) <span class="keyword">const</span>;
-00224   <span class="keywordtype">bool</span>  write(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; file) <span class="keyword">const</span>;
-00231   skTreeNode *  nthChild(USize  i) <span class="keyword">const</span>;
-00235   USize numChildren() <span class="keyword">const</span>;
-00239   <span class="keywordtype">void</span>  copyItems(skTreeNode&amp; node);
-00243   <span class="keywordtype">void</span>  moveItemsFrom(skTreeNode&amp; node);
-00247   <span class="keywordtype">void</span>  clear();
-00254   <span class="keyword">static</span> skTreeNode * read(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; file,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00255   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>;
-00256   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeListIterator.html">skTreeNodeListIterator</a>;
-00257 
-00258  <span class="keyword">private</span>:
-00262   <a class="code" href="classskString.html">skString</a> m_Label;
-00266   <a class="code" href="classskString.html">skString</a> m_Data;
-00270   <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a> * m_Items;
-00271 };
-<a name="l00275"></a><a class="code" href="classskTreeNodeReader.html">00275</a> <span class="keyword">class  </span>CLASSEXPORT skTreeNodeReader 
-00276 {
-00277  <span class="keyword">public</span>:
-00278    skTreeNodeReader(<a class="code" href="classskInputSource.html">skInputSource</a>&amp; in, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; source_name);
-00282   ~skTreeNodeReader();
-00289   skTreeNode* read(<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00290  <span class="keyword">private</span>:
-00291   <span class="keyword">class </span>P_TreeNodeReader* pimp;
-00292 };
-00293 
-<a name="l00297"></a><a class="code" href="classskTreeNodeReaderException.html">00297</a> <span class="keyword">class </span>CLASSEXPORT  skTreeNodeReaderException : <span class="keyword">public</span> <a class="code" href="classskException.html">skException</a>
-00298 {
-00299  <span class="keyword">public</span>:
-<a name="l00303"></a><a class="code" href="classskTreeNodeReaderException.html#a0">00303</a>   skTreeNodeReaderException(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; fileName,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg)
-00304     : m_FileName(fileName),m_Msg(msg){
-00305   }
-<a name="l00309"></a><a class="code" href="classskTreeNodeReaderException.html#a1">00309</a>   <a class="code" href="classskString.html">skString</a> toString()<span class="keyword"> const</span>{
-00310             <span class="keywordflow">return</span> m_FileName+skSTR(<span class="stringliteral">":"</span>)+m_Msg;
-00311             }
-00312  <span class="keyword">private</span>:
-00313   <a class="code" href="classskString.html">skString</a> m_FileName;
-00314   <a class="code" href="classskString.html">skString</a> m_Msg;
-00315 };
-00316 
-00317 <span class="preprocessor">#endif</span>
-00318 <span class="preprocessor"></span>                        
-00319 
-00320 
-00321 
-00322 
-00323 
-00324 
-00325 
-00326 
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:03 2003 for Simkin by
+00222   <span class="keywordtype">void</span>  write(<a class="code" href="classskOutputDestination.html">skOutputDestination</a>&amp; out,USize tabstops,<span class="keywordtype">bool</span> include_tabs=<span class="keyword">true</span>) <span class="keyword">const</span>;
+00227   <span class="keywordtype">bool</span>  write(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; file) <span class="keyword">const</span>;
+00234   skTreeNode *  nthChild(USize  i) <span class="keyword">const</span>;
+00238   USize numChildren() <span class="keyword">const</span>;
+00242   <span class="keywordtype">void</span>  copyItems(skTreeNode&amp; node);
+00246   <span class="keywordtype">void</span>  moveItemsFrom(skTreeNode&amp; node);
+00250   <span class="keywordtype">void</span>  clear();
+00257   <span class="keyword">static</span> skTreeNode * read(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; file,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00258   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>;
+00259   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeListIterator.html">skTreeNodeListIterator</a>;
+00260 
+00261  <span class="keyword">private</span>:
+00265   <a class="code" href="classskString.html">skString</a> m_Label;
+00269   <a class="code" href="classskString.html">skString</a> m_Data;
+00273   <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a> * m_Items;
+00274 };
+00278 <span class="comment">// switches on the optimization where a shared class buffer is used</span>
+00279 <span class="preprocessor">#define USECLASSBUFFER</span>
+00280 <span class="preprocessor"></span><span class="keyword">const</span> <span class="keywordtype">int</span>       MAXBUFFER=20000;
+00281 <span class="keyword">class  </span>CLASSEXPORT skTreeNodeReader 
+00282 {
+00283  <span class="keyword">public</span>:
+00284    skTreeNodeReader(<a class="code" href="classskInputSource.html">skInputSource</a>&amp; in, <span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; source_name);
+00288   ~skTreeNodeReader();
+00295   skTreeNode* read(<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00296  <span class="keyword">private</span>:
+00297   <span class="keyword">enum</span> Lexeme           { L_IDENT, L_TEXT, L_LBRACE, L_RBRACE, L_EOF, L_ERROR };
+00299   <span class="keywordtype">void</span> grabBuffer();
+00301   <span class="keywordtype">void</span> error(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg);
+00304   Lexeme lex();
+00306   <span class="keywordtype">void</span>  unLex();
+00311   skTreeNode *  parseTreeNode(skTreeNode * pparent);
+00315   <span class="keywordtype">void</span> parseTreeNodeList(skTreeNode * list);
+00317   <span class="keywordtype">void</span> addToLexText(Char c);
+00319   <a class="code" href="classskString.html">skString</a> m_FileName;
+00321   <span class="keywordtype">bool</span> m_UnLex;
+00323   Lexeme m_LastLexeme;
+00325   Char  * m_LexText;
+00327   <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> m_LineNum;
+00329   <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> m_Pos;
+00331   <a class="code" href="classskInputSource.html">skInputSource</a>&amp; m_In;
+00333   <span class="keywordtype">bool</span>  m_Error;
+00334 <span class="preprocessor">#ifdef USECLASSBUFFER</span>
+00335 <span class="preprocessor"></span>
+00336   <span class="keywordtype">bool</span>  m_UsingClassLexText;
+00338   <span class="keyword">static</span> Char g_ClassLexText[MAXBUFFER];
+00340   <span class="keyword">static</span> <span class="keywordtype">bool</span> g_LexTextUsed;
+00341 <span class="preprocessor">#endif</span>
+00342 <span class="preprocessor"></span>};
+00343 
+<a name="l00347"></a><a class="code" href="classskTreeNodeReaderException.html">00347</a> <span class="keyword">class </span>CLASSEXPORT  skTreeNodeReaderException : <span class="keyword">public</span> <a class="code" href="classskException.html">skException</a>
+00348 {
+00349  <span class="keyword">public</span>:
+<a name="l00353"></a><a class="code" href="classskTreeNodeReaderException.html#a0">00353</a>   skTreeNodeReaderException(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; fileName,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; msg)
+00354     : m_FileName(fileName),m_Msg(msg){
+00355   }
+<a name="l00359"></a><a class="code" href="classskTreeNodeReaderException.html#a1">00359</a>   <a class="code" href="classskString.html">skString</a> <a class="code" href="classskException.html#a1">getMessage</a>()<span class="keyword"> const</span>{
+00360     <span class="keywordflow">return</span> <a class="code" href="classskException.html#a0">toString</a>();
+00361   }
+<a name="l00365"></a><a class="code" href="classskTreeNodeReaderException.html#a2">00365</a>   <a class="code" href="classskString.html">skString</a> <a class="code" href="classskException.html#a0">toString</a>()<span class="keyword"> const</span>{
+00366     <span class="keywordflow">return</span> m_FileName+skSTR(<span class="stringliteral">":"</span>)+m_Msg;
+00367   }
+00368  <span class="keyword">private</span>:
+00369   <a class="code" href="classskString.html">skString</a> m_FileName;
+00370   <a class="code" href="classskString.html">skString</a> m_Msg;
+00371 };
+00372 <span class="preprocessor">#include "skAlist.h"</span>
+00373 EXTERN_TEMPLATE <span class="keyword">template</span> <span class="keyword">class </span>CLASSEXPORT <a class="code" href="classskTAList.html">skTAList&lt;skTreeNode&gt;</a>;
+00374 
+<a name="l00378"></a><a class="code" href="classskTreeNodeList.html">00378</a> <span class="keyword">class  </span>CLASSEXPORT <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a> :  <span class="keyword">public</span> <a class="code" href="classskTAList.html">skTAList&lt;skTreeNode&gt;</a>
+00379 {           
+00380  <span class="keyword">public</span>:
+00382   <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>();
+00386   <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>(<span class="keyword">const</span> <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>&amp; list);
+00388   <span class="keyword">virtual</span> ~<a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>();
+00393   skTreeNode *      findItem(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; label) <span class="keyword">const</span>;
+00399   skTreeNode *      findItem(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; label,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; data) <span class="keyword">const</span>;
+00404   skTreeNode *      nthElt(USize  i) <span class="keyword">const</span>;
+00408   <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>&amp;   operator=(<span class="keyword">const</span> <a class="code" href="classskTreeNodeList.html">skTreeNodeList</a>&amp; list);
+00409 };
+00410 
+00411 <span class="preprocessor">#endif</span>
+00412 <span class="preprocessor"></span>                        
+00413 
+00414 
+00415 
+00416 
+00417 
+00418 
+00419 
+00420 
+</pre></div><hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:18 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

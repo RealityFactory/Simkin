@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExecutable.h,v 1.29 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skExecutable.h,v 1.31 2003/03/18 19:36:13 simkin_cvs Exp $
 */
 
 #ifndef skEXECUTABLE_H
@@ -102,7 +102,7 @@ class CLASSEXPORT skExecutable : public skiExecutable
    * @param method_name - the name of the method to execute
    * @param arguments - an array of RValue objects, which are the arguments to the method
    * @param return_value - an object to receive the return value of the method
-   * @param context context object to receive errors
+   * @param ctxt context object to receive errors
    * @return true if the method could be executed, or false if the method is not supported
    */
   virtual bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value,skExecutableContext& ctxt);
@@ -128,10 +128,15 @@ class CLASSEXPORT skExecutable : public skiExecutable
   */
   virtual skString getSource(const skString& location);
   /**
-  * This method returns the instance variables for this object
+  * This method returns the instance variables for this object (at this level, the table is blank)
   * @param table a table to filled with references to the instance variables
   */
   virtual void getInstanceVariables(skRValueTable& table);
+  /**
+  * This method returns the attributes for this object (at this level, the table is blank)
+  * @param table a table to filled with the values of the attributes
+  */
+  virtual void getAttributes(skRValueTable& table);
  private:
   /**
    * Executables can't be copied

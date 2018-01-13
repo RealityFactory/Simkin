@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skGeneral_8h-source.html,v 1.7 2003/02/24 20:05:01 simkin_cvs Exp $</span>
+00019 <span class="comment">  $Id: skGeneral.h,v 1.22 2003/02/26 12:10:54 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skGENERAL_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skGENERAL_H</span>
@@ -104,25 +104,26 @@
 00096 
 00097 <span class="preprocessor">#if defined(_MSC_VER)</span>
 00098 <span class="preprocessor"></span><span class="preprocessor">   #ifdef _DEBUG</span>
-00099 <span class="preprocessor"></span><span class="preprocessor">   #define new MYDEBUG_NEW</span>
-00100 <span class="preprocessor"></span><span class="preprocessor">   #endif</span>
-00101 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-00102 <span class="preprocessor"></span>
-00103 <span class="comment">// Look out for Windows CE - which doesn't support streams or exceptions or assert!</span>
-00104 
-00105 <span class="preprocessor">#ifndef _WIN32_WCE</span>
-00106 <span class="preprocessor"></span><span class="preprocessor"> #define STREAMS_ENABLED</span>
-00107 <span class="preprocessor"></span><span class="preprocessor"> #define EXCEPTIONS_DEFINED</span>
-00108 <span class="preprocessor"></span><span class="preprocessor"> #include &lt;assert.h&gt;</span>
-00109 <span class="preprocessor">#else</span>
-00110 <span class="preprocessor"></span><span class="preprocessor"> #include &lt;windows.h&gt;</span>
-00111 <span class="preprocessor"> #include &lt;dbgapi.h&gt;</span>
-00112 <span class="preprocessor"> #define assert ASSERT</span>
-00113 <span class="preprocessor"></span><span class="preprocessor"> #define UNICODE_STRINGS</span>
-00114 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-00115 <span class="preprocessor"></span>
-00116 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:03 2003 for Simkin by
+00099 <span class="preprocessor"></span><span class="preprocessor">   #undef new</span>
+00100 <span class="preprocessor"></span><span class="preprocessor">   #define new MYDEBUG_NEW</span>
+00101 <span class="preprocessor"></span><span class="preprocessor">   #endif</span>
+00102 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+00103 <span class="preprocessor"></span>
+00104 <span class="comment">// Look out for Windows CE - which doesn't support streams or exceptions or assert!</span>
+00105 
+00106 <span class="preprocessor">#ifndef _WIN32_WCE</span>
+00107 <span class="preprocessor"></span><span class="preprocessor"> #define STREAMS_ENABLED</span>
+00108 <span class="preprocessor"></span><span class="preprocessor"> #define EXCEPTIONS_DEFINED</span>
+00109 <span class="preprocessor"></span><span class="preprocessor"> #include &lt;assert.h&gt;</span>
+00110 <span class="preprocessor">#else</span>
+00111 <span class="preprocessor"></span><span class="preprocessor"> #include &lt;windows.h&gt;</span>
+00112 <span class="preprocessor"> #include &lt;dbgapi.h&gt;</span>
+00113 <span class="preprocessor"> #define assert ASSERT</span>
+00114 <span class="preprocessor"></span><span class="preprocessor"> #define UNICODE_STRINGS</span>
+00115 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+00116 <span class="preprocessor"></span>
+00117 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:18 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skTreeNodeObject_8h-source.html,v 1.7 2003/02/24 20:05:01 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skTreeNodeObject.h,v 1.28 2003/03/18 19:36:13 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -66,18 +66,18 @@
 00164   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> getAddIfNotPresent();
 00165  <span class="keyword">protected</span>:
 00166    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeObjectEnumerator.html">skTreeNodeObjectEnumerator</a>;
-00172   <span class="keyword">virtual</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a> * createTreeNodeObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskTreeNode.html">skTreeNode</a> * node,<span class="keywordtype">bool</span> created);
-<a name="l00176"></a><a class="code" href="classskTreeNodeObject.html#n0">00176</a>   <a class="code" href="classskString.html">skString</a> m_Location;
-00177  <span class="keyword">private</span>:
-00182   <span class="keywordtype">bool</span> m_AddIfNotPresent;
-00186   <a class="code" href="classskTreeNode.html">skTreeNode</a> * m_Node;
-00190   <span class="keywordtype">bool</span> m_Created;
-00194   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
-00198   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
-00202   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
-00203 };
-00204 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:03 2003 for Simkin by
+00173   <span class="keyword">virtual</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a> * createTreeNodeObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskTreeNode.html">skTreeNode</a> * node,<span class="keywordtype">bool</span> created);
+<a name="l00177"></a><a class="code" href="classskTreeNodeObject.html#n0">00177</a>   <a class="code" href="classskString.html">skString</a> m_Location;
+00178  <span class="keyword">private</span>:
+00183   <span class="keywordtype">bool</span> m_AddIfNotPresent;
+00187   <a class="code" href="classskTreeNode.html">skTreeNode</a> * m_Node;
+00191   <span class="keywordtype">bool</span> m_Created;
+00195   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
+00199   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
+00203   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
+00204 };
+00205 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Tue Mar 18 19:46:18 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

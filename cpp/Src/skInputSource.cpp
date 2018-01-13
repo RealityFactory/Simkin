@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.cpp,v 1.6 2003/02/14 10:43:21 simkin_cvs Exp $
+  $Id: skInputSource.cpp,v 1.7 2003/03/13 16:15:53 simkin_cvs Exp $
 */
 #include "skInputSource.h"
 #include "skStringBuffer.h"
@@ -191,7 +191,7 @@ skInputString::skInputString(const skString& in)
 bool skInputString::eof() const
 //-----------------------------------------------------------------
 {
-  return m_Pos<m_In.length();
+  return m_Pos>=m_In.length();
 }
 //-----------------------------------------------------------------
 int skInputString::get()
