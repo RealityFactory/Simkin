@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreterNode.cpp,v 1.5 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skInterpreterNode.cpp,v 1.6 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #include "skInterpreter.h"
 #ifdef EXECUTE_PARSENODES
@@ -292,12 +292,12 @@ bool skInterpreter::executeForEachStat(skStackFrame& frame,skForEachNode * n,skR
   expr=evaluate(frame,n->getExpr());
   if (expr.type()==skRValue::T_Object){
     skExecutableIterator * iterator=0;
-    SAVE_POINTER(iterator);
     if (n->getQualifier().length())
       iterator=expr.obj()->createIterator(n->getQualifier());
     else
       iterator=expr.obj()->createIterator();
     if (iterator){
+      SAVE_POINTER(iterator);
       skRValue value;
       SAVE_VARIABLE(value);
       while ((iterator->next(value) && bRet==false)){
@@ -310,11 +310,11 @@ bool skInterpreter::executeForEachStat(skStackFrame& frame,skForEachNode * n,skR
           bRet=executeStats(frame,n->getStats(),r);
         }
       }
-      delete iterator;
       RELEASE_VARIABLE(value);
+      RELEASE_POINTER(iterator);
+      delete iterator;
     }else
       runtimeError(frame,skSTR("Object could not create an iterator, in a foreach statement\n"));
-    RELEASE_POINTER(iterator);
   }else
     runtimeError(frame,skSTR("Cannot apply foreach to a non-executable object\n"));
   RELEASE_VARIABLE(expr);

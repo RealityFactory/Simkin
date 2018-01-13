@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skXMLElementObject_8h-source.html,v 1.11 2003/04/14 15:52:43 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skXMLElementObject_8h-source.html,v 1.13 2003/04/19 17:56:00 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -70,44 +70,44 @@
 00121   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a9">setValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value); 
 00131   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a10">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value);
 00136   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a11">getValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00149   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00154   <span class="keywordtype">void</span> copyItemsInto(DOM_Element other);
-00158   <span class="keyword">virtual</span> <span class="keywordtype">void</span> setAddIfNotPresent(<span class="keywordtype">bool</span> enable);
-00162   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> getAddIfNotPresent();
-00167   DOM_Element getElement();
-00173   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> getData(DOM_Element element);
-00179   <span class="keyword">static</span> <span class="keywordtype">void</span> setData(DOM_Element element,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; data);
-00186   <span class="keyword">static</span> DOM_Element findChild(DOM_Element parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname);
-00193   <span class="keyword">static</span> DOM_Element findChild(DOM_Element parent,<span class="keywordtype">int</span> index);
-00202   <span class="keyword">static</span> DOM_Element findChild(DOM_Element parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
-00206   <span class="keywordtype">void</span> setAttribute(<a class="code" href="classskString.html">skString</a> name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
-00211   <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name);
-00215   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> toString(DOMString str);
-00219   <span class="keyword">static</span> DOMString fromString(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; str);
-00223   <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
-00225   <span class="keyword">static</span> <span class="keywordtype">int</span> countChildren(DOM_Element parent);
-00230   <span class="keywordtype">void</span> save(ostream&amp; out);
-00234   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
-00239   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00244   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a18">getAttributes</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00245  <span class="keyword">protected</span>:
-00250   <span class="keyword">virtual</span> <span class="keywordtype">void</span> setElement(DOM_Element element);
-00256   <span class="keyword">virtual</span> skXMLElementObject * createXMLElementObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,DOM_Element element);
-<a name="l00260"></a><a class="code" href="classskXMLElementObject.html#n0">00260</a>   <a class="code" href="classskString.html">skString</a> m_ScriptLocation;
-00265   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
-00269   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
-00270  <span class="keyword">private</span>:
-00274   DOM_Element m_Element;
-00278   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
-00282   skXMLElementObject(<span class="keyword">const</span> skXMLElementObject&amp;);
-00286   skXMLElementObject&amp; operator=(<span class="keyword">const</span> skXMLElementObject&amp;);
-00288   <span class="keywordtype">void</span> save(ostream&amp; target, DOM_Node&amp; toWrite,XMLFormatter&amp; formatter,XMLCh* encoding_name);
-00293   <span class="keywordtype">bool</span> m_AddIfNotPresent;
-00294 
-00295 };
+00151   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00156   <span class="keywordtype">void</span> copyItemsInto(DOM_Element other);
+00160   <span class="keyword">virtual</span> <span class="keywordtype">void</span> setAddIfNotPresent(<span class="keywordtype">bool</span> enable);
+00164   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> getAddIfNotPresent();
+00169   DOM_Element getElement();
+00175   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> getData(DOM_Element element);
+00181   <span class="keyword">static</span> <span class="keywordtype">void</span> setData(DOM_Element element,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; data);
+00188   <span class="keyword">static</span> DOM_Element findChild(DOM_Element parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname);
+00195   <span class="keyword">static</span> DOM_Element findChild(DOM_Element parent,<span class="keywordtype">int</span> index);
+00204   <span class="keyword">static</span> DOM_Element findChild(DOM_Element parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
+00208   <span class="keywordtype">void</span> setAttribute(<a class="code" href="classskString.html">skString</a> name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
+00213   <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name);
+00217   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> toString(DOMString str);
+00221   <span class="keyword">static</span> DOMString fromString(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; str);
+00225   <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
+00227   <span class="keyword">static</span> <span class="keywordtype">int</span> countChildren(DOM_Element parent);
+00232   <span class="keywordtype">void</span> save(ostream&amp; out);
+00236   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
+00241   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00246   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a18">getAttributes</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00247  <span class="keyword">protected</span>:
+00252   <span class="keyword">virtual</span> <span class="keywordtype">void</span> setElement(DOM_Element element);
+00258   <span class="keyword">virtual</span> skXMLElementObject * createXMLElementObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,DOM_Element element);
+<a name="l00262"></a><a class="code" href="classskXMLElementObject.html#n0">00262</a>   <a class="code" href="classskString.html">skString</a> m_ScriptLocation;
+00267   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
+00271   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
+00272  <span class="keyword">private</span>:
+00276   DOM_Element m_Element;
+00280   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
+00284   skXMLElementObject(<span class="keyword">const</span> skXMLElementObject&amp;);
+00288   skXMLElementObject&amp; operator=(<span class="keyword">const</span> skXMLElementObject&amp;);
+00290   <span class="keywordtype">void</span> save(ostream&amp; target, DOM_Node&amp; toWrite,XMLFormatter&amp; formatter,XMLCh* encoding_name);
+00295   <span class="keywordtype">bool</span> m_AddIfNotPresent;
 00296 
-00297 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:32 2003 for Simkin by
+00297 };
+00298 
+00299 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

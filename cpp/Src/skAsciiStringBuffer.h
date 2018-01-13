@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAsciiStringBuffer.h,v 1.2 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skAsciiStringBuffer.h,v 1.3 2003/04/19 17:56:15 simkin_cvs Exp $
 */
 
 
@@ -35,68 +35,78 @@ class skAsciiStringBuffer
    * @param capacity - the capacity of the buffer to create. This can be zero
    * @param growth_increment - the minimum amount to grow the buffer by if it is enlarged
    */
-  skAsciiStringBuffer(USize capacity,USize growth_increment=16);
+  IMPORT_C skAsciiStringBuffer(USize capacity,USize growth_increment=16);
+#ifndef __SYMBIAN32__
   /** Constructs a buffer from the given string. The string's data will be copied. The buffer's initial capacity and length will be the length of the string.
+   * \remarks not available in Symbian version
    * @param s - the string to copy
    * @param growth_increment - the minimum amount to grow the buffer by if it is enlarged
    */
-  skAsciiStringBuffer(const skAsciiString& s,USize growth_increment=16);
+  IMPORT_C skAsciiStringBuffer(const skAsciiString& s,USize growth_increment=16);
   /** Copy constructor - it takes a copy of the underlying buffer
+   * \remarks not available in Symbian version
    * @param s - the other string buffer. A copy is taken of its underlying buffer
    */
-  skAsciiStringBuffer(const skAsciiStringBuffer& s);
+  IMPORT_C skAsciiStringBuffer(const skAsciiStringBuffer& s);
+#endif
   /**
    * Destroys the underlying character buffer
    */
-  ~skAsciiStringBuffer();
+  IMPORT_C virtual ~skAsciiStringBuffer();
   /** Assignment operator - it takes a copy of the underlying buffer
    * @param s - the other string buffer. A copy is taken of its underlying buffer
    */
-  skAsciiStringBuffer& operator=(const skAsciiStringBuffer& s);
+  IMPORT_C skAsciiStringBuffer& operator=(const skAsciiStringBuffer& s);
   /**
    * Adds a character to the buffer, growing it if necessary.
    * @param ch - the character to add
+   * @exception Symbian - a leaving function
    */
-  void append(char ch);
+  IMPORT_C void append(char ch);
   /**
    * Adds a string to the buffer, growing it if necessary
    * @param s - the string to append to the end of the current buffer
+   * @exception Symbian - a leaving function
    */
-  void append(const skAsciiString& s);
+  IMPORT_C void append(const skAsciiString& s);
   /**
    * Adds a string to the buffer, growing it if necessary
    * @param s - the string to append to the end of the current buffer
+   * @exception Symbian - a leaving function
    */
-  void append(const char * s);
+  IMPORT_C void append(const char * s);
   /**
    * Creates a new string that owns the underlying buffer. The current buffer is set to null.
    * @return a string which owns the current buffer
+   * @exception Symbian - a leaving function
    */
-  skAsciiString toString() ;
+  IMPORT_C skAsciiString toString() ;
   /**
    * Creates a new string that copies the underlying buffer. The current buffer remains the same
    * @return a string which copies the current buffer
+   * @exception Symbian - a leaving function
    */
-  skAsciiString toStringCopy() const;
+  IMPORT_C skAsciiString toStringCopy() const;
   /**
    * Returns the underlying buffer
    * @return a pointer to the underlying buffer
    */
-  operator const char * () const;
+  IMPORT_C operator const char * () const;
   /**
    * Returns the current length of the text in the buffer
    * @return the length of the text in the buffer
    */
-  USize length() const;
+  IMPORT_C USize length() const;
   /**
    * Returns the current capacity the buffer
    * @return the capacity of the buffer
    */
-  USize capacity() const;
+  IMPORT_C USize capacity() const;
  private:
   /**
    * This function ensures that there is enough room in the buffer for a string of the given length. It will grow the buffer, if necessary.
    * @param capacity - the new capacity required. If the buffer is already big enough, it will not be altered
+   * @exception Symbian - a leaving function
    */
   void ensureCapacity(USize capacity);
   /** the underlying buffer of characters */

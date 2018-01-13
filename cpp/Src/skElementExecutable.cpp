@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementExecutable.cpp,v 1.14 2003/03/24 15:51:32 simkin_cvs Exp $
+* $Id: skElementExecutable.cpp,v 1.15 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 
 #include "skElementExecutable.h"
@@ -49,10 +49,9 @@ skElementExecutable::skElementExecutable(const skString& fileName,skExecutableCo
 void skElementExecutable::load(const skString& scriptLocation,skInputSource& in,skExecutableContext& context)
 //------------------------------------------
 {
-  m_ScriptLocation=scriptLocation;
   skExpatParser parser;
   skElement * elem=parser.parse(in,context);
-  setElement(elem);
+  setElement(scriptLocation,elem,true);
 }
 //------------------------------------------
 void skElementExecutable::load(const skString& fileName,skExecutableContext& context)

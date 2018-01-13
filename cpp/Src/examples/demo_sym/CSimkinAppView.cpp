@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppView.cpp,v 1.3 2003/04/14 15:23:55 simkin_cvs Exp $
+  $Id: CSimkinAppView.cpp,v 1.5 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 
 #include "CSimkinAppView.h"
@@ -37,7 +37,6 @@ _LIT(KId,"Id");
 _LIT(KMethod,"Method");
 _LIT(KeditCode,"editCode");
 _LIT(KgetText,"getText");
-_LIT(KgetNumber,"getNumber");
 _LIT(KsetText,"setText");
 _LIT(Kuser,"user");
 _LIT(Kinit,"init");
@@ -45,6 +44,7 @@ _LIT(KStatic,"Static");
 _LIT(KEdit,"Edit");
 _LIT(KNumericEdit,"NumericEdit");
 _LIT(KButton,"Button");
+_LIT(KsetFocus,"setFocus");
 
 
 //-----------------------------------------------------------------
@@ -58,15 +58,24 @@ bool CSimkinAppViewScript::method(const skString& method_name,skRValueArray& arg
 //-----------------------------------------------------------------
 {
   bool bRet=false;
-  // handles the getText(id) method - returns the text in the named edit control
-  if (method_name==KgetText && args.entries()==1){
+  // handles the setFocus(id) method - sets focus to the given editor control
+  if (method_name==KsetFocus && args.entries()==1){
     CEikEdwin * editor=iView->FindEditor(args[0].str());
     if (editor!=0){
-      HBufC* text=editor->GetTextInHBufL();
-      CleanupStack::PushL(text);
+      iView->SetFocus(editor);
+    }
+  // handles the getText(id) method - returns the text in the named edit control
+  }else if (method_name==KgetText && args.entries()==1){
+    CEikEdwin * editor=iView->FindEditor(args[0].str());
+    if (editor!=0){
       skString s_text;
-      s_text=*text;
-      CleanupStack::PopAndDestroy(text);
+      HBufC* text=editor->GetTextInHBufL();
+      if (text){
+	CleanupStack::PushL(text);
+	// this might leave
+	s_text=*text;
+	CleanupStack::PopAndDestroy(text);
+      }
       ret=s_text;
     }
     bRet=true;
@@ -74,20 +83,17 @@ bool CSimkinAppViewScript::method(const skString& method_name,skRValueArray& arg
   }else if (method_name==KsetText && args.entries()==2){
     CEikLabel * label=iView->FindLabel(args[0].str());
     if (label!=0){
+      //      label->Invalidate();
       label->SetTextL(args[1].str().ptr());
+      //      label->DrawReferred();
       iView->DrawNow();
-    }
-    bRet=true;
-  // handles the getNumber(id) method - returns the number in the named numeric control
-  }else if (method_name==KgetNumber && args.entries()==1){
-    CQikFloatingPointEditor * editor=iView->FindNumericEditor(args[0].str());
-    if (editor!=0){
-      ret=(float)editor->Value();
+      // should be able to do this
+      //label->DrawNow();
     }
     bRet=true;
   // handles the user(text) method - shows the given text in an alert window
   }else if (method_name==Kuser && args.entries()==1){
-    CEikonEnv::Static()->AlertWin((TPtrC)(args[0].str().ptr()));
+    CEikonEnv::Static()->AlertWin(args[0].str().ptr());
     bRet=true;
   }else
     //    we pass any other method up to the base class, which in turn looks inside
@@ -124,11 +130,13 @@ void CSimkinAppView::ClearControls()
 //-----------------------------------------------------------------
 {
   if (iControls){
-    for (TInt i=0;i<iNumControls;i++)
+    for (TInt i=0;i<iNumControls;i++){
       delete iControls[i];
+      iControls[i]=0;
+    }
     delete [] iControls;
-    delete [] iControlNodes;
     iControls=0;
+    delete [] iControlNodes;
     iControlNodes=0;
   }
 }
@@ -139,7 +147,10 @@ void CSimkinAppView::ReloadL()
   ClearControls();
   iScript->setNode(iScript->getLocation(),iDocument->script(),false);
   CreateControlsL(iDocument->script());
+  ActivateL();
   DrawNow();
+  // call the init function
+  CallMethodL(Kinit);
 }
 //-----------------------------------------------------------------
 void CSimkinAppView::CreateControlsL(skTreeNode * script)
@@ -153,7 +164,12 @@ void CSimkinAppView::CreateControlsL(skTreeNode * script)
       if (num_controls){
         iControls=new (ELeave) CCoeControl*[num_controls];
         iControlNodes=new (ELeave) skTreeNode*[num_controls];
-        for (USize i=0;i<num_controls;i++){
+	USize i=0;
+        for (i=0;i<num_controls;i++){
+	  iControls[i]=0;
+	  iControlNodes[i]=0;
+	}
+        for (i=0;i<num_controls;i++){
           skTreeNode * control=controls->nthChild(i);
           skString type=control->findChildData(KType);
           int id=control->findChildIntData(KId);
@@ -185,13 +201,16 @@ void CSimkinAppView::ConstructL(const TRect& aRect,CSimkinAppUi * aUi,const TDes
   iScript=new (ELeave) CSimkinAppViewScript(this);
    
   CreateWindowL();
-  ActivateL();
-  SetRect(aRect);
   if (aDocument->script()){
     iScript->setNode(aLocation,aDocument->script(),false);
     CreateControlsL(aDocument->script());
   }
-  
+  ActivateL();
+  if (iFocusControl)
+    iFocusControl->SetFocus(ETrue);
+  SetRect(aRect);
+  // call the init function
+  CallMethodL(Kinit);
 }
 //-----------------------------------------------------------------
 CCoeControl * CSimkinAppView::AddControlL(const skString& type,int id,const skString& text,TInt x_pos,TInt y_pos,TInt width,TInt height)
@@ -225,19 +244,6 @@ CCoeControl * CSimkinAppView::AddControlL(const skString& type,int id,const skSt
     iFocusControl=edit;
     control=edit;
     CleanupStack::Pop(edit);
-  // type NumericEdit 
-  }else if (type==KNumericEdit){
-    CQikFloatingPointEditor * edit=new (ELeave)CQikFloatingPointEditor;
-    CleanupStack::PushL(edit);
-    edit->ConstructL(-9.9e99,9.9e99,20);
-    edit->SetValueL(0.0);
-    edit->SetContainerWindowL(*this);
-    edit->SetExtent(pos,edit->MinimumSize());
-    edit->SetObserver(this);
-    edit->SetFocusing(ETrue);
-    iFocusControl=edit;
-    control=edit;
-    CleanupStack::Pop(edit);
   // type Button
   }else if (type==KButton){
     CEikTextButton * button=new (ELeave)CEikTextButton;
@@ -255,6 +261,7 @@ CCoeControl * CSimkinAppView::AddControlL(const skString& type,int id,const skSt
 void CSimkinAppView::Draw(const TRect& /*aRect*/) const
 //-----------------------------------------------------------------
 {
+  // might be able to do without this
   CWindowGc& gc = SystemGc();
   gc.Clear();
 }
@@ -272,19 +279,6 @@ CEikEdwin * CSimkinAppView::FindEditor(const skString& id)
   for (TInt i=0;i<iNumControls;i++){
     if (iControlNodes[i]->findChildData(KId)==id && iControlNodes[i]->findChildData(KType)==KEdit){
       editor=reinterpret_cast<CEikEdwin *>(iControls[i]);
-      break;
-    }
-  }
-  return editor;
-}
-//-----------------------------------------------------------------
-CQikFloatingPointEditor * CSimkinAppView::FindNumericEditor(const skString& id)
-//-----------------------------------------------------------------
-{
-  CQikFloatingPointEditor * editor=0;
-  for (TInt i=0;i<iNumControls;i++){
-    if (iControlNodes[i]->findChildData(KId)==id && iControlNodes[i]->findChildData(KType)==KNumericEdit){
-      editor=reinterpret_cast<CQikFloatingPointEditor *>(iControls[i]);
       break;
     }
   }
@@ -317,6 +311,21 @@ skTreeNode * CSimkinAppView::FindControlNode(CCoeControl* aControl)
   return node;
 }
 //-----------------------------------------------------------------
+void CSimkinAppView::CallMethodL(const TDesC& method_name)
+//-----------------------------------------------------------------
+{
+  skRValueArray args;
+  skRValue aReturnValue;
+  skExecutableContext context(iDocument->interpreter());
+  // call the method
+  skString s_method_name;
+  SAVE_VARIABLE(s_method_name);
+  // make sure we have a Simkin string method name
+  s_method_name=method_name;
+  iScript->method(s_method_name,args,aReturnValue,context);
+  RELEASE_VARIABLE(s_method_name);
+}
+//-----------------------------------------------------------------
 void CSimkinAppView::HandleControlEventL(CCoeControl* aControl,TCoeEvent aEventType)
 //-----------------------------------------------------------------
 {
@@ -333,13 +342,8 @@ void CSimkinAppView::HandleControlEventL(CCoeControl* aControl,TCoeEvent aEventT
     if (node){
       // look for a method associated with this control
       skString method_name=node->findChildData(KMethod);
-      if (method_name.length()){
-        skRValueArray args;
-        skRValue aReturnValue;
-        skExecutableContext context(iDocument->interpreter());
-	// call the method
-        iScript->method(method_name,args,aReturnValue,context);
-      }
+      if (method_name.length())
+        CallMethodL(method_name.ptr());
     }
     break;
   }
@@ -365,4 +369,15 @@ CCoeControl* CSimkinAppView::ComponentControl(TInt aIndex) const
     aControl=iControls[aIndex];
   return aControl;
 }
-
+//-----------------------------------------------------------------
+void CSimkinAppView::SetFocus(CCoeControl * ctl)
+//-----------------------------------------------------------------
+{
+  if (iFocusControl!=ctl){
+    if (iFocusControl)
+      iFocusControl->SetFocus(EFalse);
+    iFocusControl=ctl;
+    if (iFocusControl)
+      iFocusControl->SetFocus(ETrue);
+  }
+}

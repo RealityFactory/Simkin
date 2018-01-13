@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTreeNodeObject.h,v 1.35 2003/04/14 15:24:57 simkin_cvs Exp $
+* $Id: skTreeNodeObject.h,v 1.36 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 
 
@@ -125,6 +125,8 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
    * @param ctxt context object to receive errors
    * @return true if the method was found, otherwise false
    * @exception a Symbian - a leaving function
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
   virtual IMPORT_C bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**

@@ -1,0 +1,8 @@
+TARGET ScriptLoaderXML.exe
+TARGETTYPE exe
+UID 0
+SOURCEPATH .
+USERINCLUDE ..\..
+SYSTEMINCLUDE \Symbian\UIQ_70\epoc32\include \Symbian\UIQ_70\epoc32\include\libc \source\expat-1.95.5\lib
+SOURCE ScriptLoaderSym.cpp
+LIBRARY estlib.lib simkinxml.lib euser.lib expat.lib

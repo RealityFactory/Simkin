@@ -49,9 +49,8 @@ void&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#a7">setPar
 virtual bool&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#a9">equals</a> (const skNode &amp;other) const=0</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Does a deep comparison against another node.</em><br><br></td></tr>
 <tr><td colspan=2><br><h2>Static Public Member Functions</h2></td></tr>
-<tr><td nowrap align=right valign=top><a name="d0" doxytag="skNode::escapeXMLDelimiters"></a>
-<a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#d0">escapeXMLDelimiters</a> (const <a class="el" href="classskString.html">skString</a> &amp;text)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This static method searches the given text for characters which must be "escaped" in an XML document.</em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#d0">escapeXMLDelimiters</a> (const <a class="el" href="classskString.html">skString</a> &amp;text, bool include_quote)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This static method searches the given text for characters which must be "escaped" in an XML document.</em> <a href="#d0"></a><em></em><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="b0" doxytag="skNode::skNode"></a>
 &nbsp;</td><td valign=bottom><a class="el" href="classskNode.html#b0">skNode</a> ()</td></tr>
@@ -95,9 +94,66 @@ It is part of the classes used in the Simkin XML DOM (Document Object Model)
 This abstract virtual function requests that the node create a copy of itself.
 <p>
 How this is done depends on the actual class of the node. <dl compact><dt><b>Returns:</b></dt><dd>a new node which is a clone of this one. A "deep" copy is performed. </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
-Implemented in <a class="el" href="classskCDataNode.html#a3">skCDataNode</a>, <a class="el" href="classskElement.html#a11">skElement</a>, and <a class="el" href="classskTextNode.html#a5">skTextNode</a>.    </td>
+Implemented in <a class="el" href="classskCDataNode.html#a3">skCDataNode</a>, <a class="el" href="classskElement.html#a12">skElement</a>, and <a class="el" href="classskTextNode.html#a5">skTextNode</a>.    </td>
+  </tr>
+</table>
+<a name="d0" doxytag="skNode::escapeXMLDelimiters"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> <a class="el" href="classskString.html">skString</a> skNode::escapeXMLDelimiters </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>text</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap> <em>include_quote</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This static method searches the given text for characters which must be "escaped" in an XML document.
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>text</em>&nbsp;</td><td>the text to search for special characters within </td></tr>
+    <tr><td valign=top><em>include_quote</em>&nbsp;</td><td>if true, the function replaces quotes with the quote escape character, otherwise it ignores quotes </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>a version of text with the special characters replaced with escaped versions </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
 <a name="a3" doxytag="skNode::getNodeType"></a><p>
@@ -130,7 +186,7 @@ This abstract virtual function returns the type of this node.
 It will be one of the NodeType values <dl compact><dt><b>Returns:</b></dt><dd>a NodeType value indicating the class to which this node belongs </dd></dl>
 
 <p>
-Implemented in <a class="el" href="classskCDataNode.html#a2">skCDataNode</a>, <a class="el" href="classskElement.html#a10">skElement</a>, and <a class="el" href="classskTextNode.html#a4">skTextNode</a>.    </td>
+Implemented in <a class="el" href="classskCDataNode.html#a2">skCDataNode</a>, <a class="el" href="classskElement.html#a11">skElement</a>, and <a class="el" href="classskTextNode.html#a4">skTextNode</a>.    </td>
   </tr>
 </table>
 <a name="a1" doxytag="skNode::getNodeValue"></a><p>
@@ -232,9 +288,14 @@ Reimplemented in <a class="el" href="classskTextNode.html#a3">skTextNode</a>.   
 This abstract virtual function writes a textual representation of this node and its children to a string.
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>the string containing the node </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
-Implemented in <a class="el" href="classskElement.html#a12">skElement</a>, and <a class="el" href="classskTextNode.html#a7">skTextNode</a>.    </td>
+Implemented in <a class="el" href="classskElement.html#a13">skElement</a>, and <a class="el" href="classskTextNode.html#a7">skTextNode</a>.    </td>
   </tr>
 </table>
 <a name="a6" doxytag="skNode::write"></a><p>
@@ -270,14 +331,19 @@ This abstract virtual function writes a textual representation of this node and 
     <tr><td valign=top><em>out</em>&nbsp;</td><td>- the destination to write to </td></tr>
   </table>
 </dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
-Implemented in <a class="el" href="classskCDataNode.html#a4">skCDataNode</a>, <a class="el" href="classskElement.html#a13">skElement</a>, and <a class="el" href="classskTextNode.html#a6">skTextNode</a>.    </td>
+Implemented in <a class="el" href="classskCDataNode.html#a4">skCDataNode</a>, <a class="el" href="classskElement.html#a14">skElement</a>, and <a class="el" href="classskTextNode.html#a6">skTextNode</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skNode_8h-source.html">skNode.h</a><li>skNode.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:33 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:39 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skGeneral.h,v 1.32 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skGeneral.h,v 1.33 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #ifndef skGENERAL_H
 #define skGENERAL_H
@@ -111,10 +111,12 @@ typedef unsigned int USize;
 
 
 #if defined(_MSC_VER)
+#ifndef __SYMBIAN32__
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #define _INC_MALLOC
 #include <crtdbg.h>
+#endif
 #endif
 #endif
 

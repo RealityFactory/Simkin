@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skTreeNodeObject_8h-source.html,v 1.11 2003/04/14 15:52:43 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skTreeNodeObject_8h-source.html,v 1.13 2003/04/19 17:56:00 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -57,36 +57,36 @@
 00105   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a9">setValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value); 
 00112   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a10">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; v);
 00119   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a11">getValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00129   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00133   IMPORT_C skTreeNode * getNode();
-00137   IMPORT_C <span class="keywordtype">void</span> setNode(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,skTreeNode * node,<span class="keywordtype">bool</span> created);
-00138 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
-00139 <span class="preprocessor"></span>
-00144   IMPORT_C <span class="keywordtype">void</span> setNode(<span class="keyword">const</span> TDesC&amp; location,skTreeNode * node,<span class="keywordtype">bool</span> created);
-00145 <span class="preprocessor">#endif</span>
-00146 <span class="preprocessor"></span>
-00149   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a13">equals</a>(<span class="keyword">const</span> <a class="code" href="classskiExecutable.html">skiExecutable</a> * o) <span class="keyword">const</span>;
-00153   IMPORT_C <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
-00159   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
-00164   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
-00169   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
-00175   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00179   IMPORT_C <span class="keywordtype">void</span> setAddIfNotPresent(<span class="keywordtype">bool</span> enable);
-00183   IMPORT_C <span class="keywordtype">bool</span> getAddIfNotPresent();
-00184  <span class="keyword">protected</span>:
-00185    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeObjectEnumerator.html">skTreeNodeObjectEnumerator</a>;
-00193   <span class="keyword">virtual</span> IMPORT_C skTreeNodeObject * createTreeNodeObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,skTreeNode * node,<span class="keywordtype">bool</span> created);
-<a name="l00197"></a><a class="code" href="classskTreeNodeObject.html#n0">00197</a>   <a class="code" href="classskString.html">skString</a> m_Location;
-00198  <span class="keyword">private</span>:
-00202   skTreeNode * m_Node;
-00206   <span class="keywordtype">bool</span> m_Created;
-00210   skMethodTable * m_MethodCache;
-00215   <span class="keywordtype">bool</span> m_AddIfNotPresent;
-00219   skTreeNodeObject(<span class="keyword">const</span> skTreeNodeObject&amp;);
-00223   skTreeNodeObject&amp; operator=(<span class="keyword">const</span> skTreeNodeObject&amp;);
-00224 };
-00225 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:32 2003 for Simkin by
+00131   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00135   IMPORT_C skTreeNode * getNode();
+00139   IMPORT_C <span class="keywordtype">void</span> setNode(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,skTreeNode * node,<span class="keywordtype">bool</span> created);
+00140 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00141 <span class="preprocessor"></span>
+00146   IMPORT_C <span class="keywordtype">void</span> setNode(<span class="keyword">const</span> TDesC&amp; location,skTreeNode * node,<span class="keywordtype">bool</span> created);
+00147 <span class="preprocessor">#endif</span>
+00148 <span class="preprocessor"></span>
+00151   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a13">equals</a>(<span class="keyword">const</span> <a class="code" href="classskiExecutable.html">skiExecutable</a> * o) <span class="keyword">const</span>;
+00155   IMPORT_C <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
+00161   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
+00166   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
+00171   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
+00177   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00181   IMPORT_C <span class="keywordtype">void</span> setAddIfNotPresent(<span class="keywordtype">bool</span> enable);
+00185   IMPORT_C <span class="keywordtype">bool</span> getAddIfNotPresent();
+00186  <span class="keyword">protected</span>:
+00187    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeObjectEnumerator.html">skTreeNodeObjectEnumerator</a>;
+00195   <span class="keyword">virtual</span> IMPORT_C skTreeNodeObject * createTreeNodeObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,skTreeNode * node,<span class="keywordtype">bool</span> created);
+<a name="l00199"></a><a class="code" href="classskTreeNodeObject.html#n0">00199</a>   <a class="code" href="classskString.html">skString</a> m_Location;
+00200  <span class="keyword">private</span>:
+00204   skTreeNode * m_Node;
+00208   <span class="keywordtype">bool</span> m_Created;
+00212   skMethodTable * m_MethodCache;
+00217   <span class="keywordtype">bool</span> m_AddIfNotPresent;
+00221   skTreeNodeObject(<span class="keyword">const</span> skTreeNodeObject&amp;);
+00225   skTreeNodeObject&amp; operator=(<span class="keyword">const</span> skTreeNodeObject&amp;);
+00226 };
+00227 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

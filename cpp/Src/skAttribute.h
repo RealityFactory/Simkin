@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAttribute.h,v 1.9 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skAttribute.h,v 1.11 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #ifndef skATTRIBUTE_H
 #define skATTRIBUTE_H
@@ -28,43 +28,81 @@ class CLASSEXPORT skOutputDestination;
  * This class represents an attribute of an element in an XML document. The class forms part of the Simkin DOM class library.
  */
 class CLASSEXPORT skAttribute 
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
  public:
   /** Constructs a new attribute with the given name and value
    * @param name - the name of the attribute
    * @param value - the value of the attribute
    */
-  skAttribute(const skString& name,const skString& value)
+  inline skAttribute(const skString& name,const skString& value)
     : m_Name(name),m_Value(value){
   }
   /** this returns the name of the attribute
    * @return the name of the attribute
    */
-  skString getName() const {
+  inline skString getName() const {
     return m_Name;
   }
   /** this returns the value of the attribute
    * @return the value of the attribute
    */
-  skString getValue() const {
+  inline skString getValue() const {
     return m_Value;
   }
   /** this method sets the value of the attribute */
-  void setValue(const skString& name){
+  inline void setValue(const skString& name){
     m_Value=name;
   }
-  skString toString() const;
-  void write(skOutputDestination& out);
+  /**
+   * This method returns a string representation of the attribute, in the form <name>="<value>"
+   * @exception Symbian - a leaving function
+   */
+  IMPORT_C skString toString() const;
+  /**
+   * This method writes the arribute out to the given destination, in the form <name>="<value>"
+   * @exception Symbian - a leaving function
+   */
+  IMPORT_C void write(skOutputDestination& out);
  private:
   skString m_Name;
   skString m_Value;
 };
 
+#ifdef INSTANTIATE_TEMPLATES
 EXTERN_TEMPLATE template class CLASSEXPORT skTAList<skAttribute>;
+#endif
 
 /**
  * This class holds a list of attributes - it is used by the Element class.
  */
-class CLASSEXPORT skAttributeList : public skTAList<skAttribute>{
+class CLASSEXPORT skAttributeList : public skTAList<skAttribute>
+{
+ public:
+  /**
+   * This sets an attribute in this list. The attribute is added, if not already present.
+   * @param name - the name of the attribute. If one already exists with this name, its value is overwritten.
+   * @param value - the value for the attribute
+   * @exception Symbian - a leaving function
+   */
+  IMPORT_C void setAttribute(const skString& name,const skString& value);
+  /**
+   * This returns the value of an attribute. If the attribute does not exist, a blank string is returned.
+   * @param name - the name of the attribute being accessed
+   * @return the value associated with the name, or a blank string.
+   */
+  IMPORT_C skString getAttribute(const skString& name) const;
+  /**
+   * This removes an attribute from the list. 
+   * @param name - the name of the attribute being accessed
+   * @return true if the attribute was removed, false if it was not in the list
+   */
+  IMPORT_C bool removeAttribute(const skString& name);
+  /** this method finds a named attribute 
+   * @return the attribute, or 0 if there was no attribute with that name
+   */
+  IMPORT_C skAttribute * findAttribute(const skString& name) const;
 };
 #endif

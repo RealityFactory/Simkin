@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skMSXMLElementObjectEnumerator_8h-source.html,v 1.8 2003/04/14 15:52:43 simkin_cvs Exp $</span>
+00019 <span class="comment">  $Id: skMSXMLElementObjectEnumerator_8h-source.html,v 1.10 2003/04/19 17:55:59 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skMSXMLELEMENTOBJECTENUMERATOR_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skMSXMLELEMENTOBJECTENUMERATOR_H</span>
@@ -39,19 +39,19 @@
 00034  <span class="keyword">public</span>:
 00040   skMSXMLElementObjectEnumerator(XMLElement&amp; element,<span class="keywordtype">bool</span> add_if_not_present,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
 00047   skMSXMLElementObjectEnumerator(XMLElement&amp; element,<span class="keywordtype">bool</span> add_if_not_present,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tag);
-00057   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; s,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00061   <span class="keywordtype">bool</span> <a class="code" href="classskExecutableIterator.html#a1">next</a>(<a class="code" href="classskRValue.html">skRValue</a>&amp;);
-00062  <span class="keyword">private</span>:
-00063   <span class="keywordtype">void</span> findNextNode();
-00064 
-00065   XMLElement m_Element;
-00066   <a class="code" href="classskString.html">skString</a>  m_Location;
-00067   <span class="keywordtype">bool</span> m_AddIfNotPresent;
-00068   <span class="keywordtype">int</span> m_NodeNum;
-00069   <a class="code" href="classskString.html">skString</a> m_Tag;
-00070 };
-00071 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:32 2003 for Simkin by
+00059   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; s,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; r,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00063   <span class="keywordtype">bool</span> <a class="code" href="classskExecutableIterator.html#a1">next</a>(<a class="code" href="classskRValue.html">skRValue</a>&amp;);
+00064  <span class="keyword">private</span>:
+00065   <span class="keywordtype">void</span> findNextNode();
+00066 
+00067   XMLElement m_Element;
+00068   <a class="code" href="classskString.html">skString</a>  m_Location;
+00069   <span class="keywordtype">bool</span> m_AddIfNotPresent;
+00070   <span class="keywordtype">int</span> m_NodeNum;
+00071   <a class="code" href="classskString.html">skString</a> m_Tag;
+00072 };
+00073 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

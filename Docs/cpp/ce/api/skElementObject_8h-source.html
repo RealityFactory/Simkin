@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skElementObject_8h-source.html,v 1.1 2003/04/14 15:53:25 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skElementObject_8h-source.html,v 1.3 2003/04/19 17:56:00 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -47,59 +47,79 @@
 00039 
 <a name="l00056"></a><a class="code" href="classskElementObject.html">00056</a> <span class="keyword">class </span>CLASSEXPORT skElementObject : <span class="keyword">public</span> <a class="code" href="classskExecutable.html">skExecutable</a> {
 00057  <span class="keyword">public</span>:
-00061   skElementObject();
-00068   skElementObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskElement.html">skElement</a> * elem,<span class="keywordtype">bool</span> created);
-00072   ~skElementObject();
-00077   <span class="keywordtype">int</span> <a class="code" href="classskExecutable.html#a2">executableType</a>() <span class="keyword">const</span>;                   
-00081   <span class="keywordtype">int</span> <a class="code" href="classskExecutable.html#a3">intValue</a>() <span class="keyword">const</span>;
+00061   IMPORT_C skElementObject();
+00068   IMPORT_C skElementObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskElement.html">skElement</a> * elem,<span class="keywordtype">bool</span> created);
+00072   IMPORT_C <span class="keyword">virtual</span> ~skElementObject();
+00077   IMPORT_C <span class="keywordtype">int</span> <a class="code" href="classskExecutable.html#a2">executableType</a>() <span class="keyword">const</span>;                  
+00081   IMPORT_C <span class="keywordtype">int</span> <a class="code" href="classskExecutable.html#a3">intValue</a>() <span class="keyword">const</span>;
 00082 <span class="preprocessor">#ifdef USE_FLOATING_POINT</span>
 00083 <span class="preprocessor"></span>
-00086   <span class="keywordtype">float</span> <a class="code" href="classskExecutable.html#a7">floatValue</a>() <span class="keyword">const</span>;
+00086   IMPORT_C <span class="keywordtype">float</span> <a class="code" href="classskExecutable.html#a7">floatValue</a>() <span class="keyword">const</span>;
 00087 <span class="preprocessor">#endif</span>
 00088 <span class="preprocessor"></span>
-00091   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a4">boolValue</a>() <span class="keyword">const</span>;
-00095   Char <a class="code" href="classskExecutable.html#a5">charValue</a>() <span class="keyword">const</span>;
-00099   <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a6">strValue</a>() <span class="keyword">const</span>;
-00107   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a8">setValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; return_value);
-00115   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a9">setValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value); 
-00125   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a10">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00134   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a11">getValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00147   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00152   <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a13">equals</a>(<span class="keyword">const</span> <a class="code" href="classskiExecutable.html">skiExecutable</a> * o) <span class="keyword">const</span>;
-00157   <span class="keywordtype">void</span> copyItemsInto(<a class="code" href="classskElement.html">skElement</a> * other);
-00161   <span class="keyword">virtual</span> <span class="keywordtype">void</span> setAddIfNotPresent(<span class="keywordtype">bool</span> enable);
-00165   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> getAddIfNotPresent();
-00170   <a class="code" href="classskElement.html">skElement</a> * getElement();
-00176   <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> getData(<a class="code" href="classskElement.html">skElement</a> * element);
-00182   <span class="keyword">static</span> <span class="keywordtype">void</span> setData(<a class="code" href="classskElement.html">skElement</a> * element,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; data);
-00189   <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname);
-00196   <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keywordtype">int</span> index);
-00205   <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
-00209   <span class="keywordtype">void</span> setAttribute(<a class="code" href="classskString.html">skString</a> name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
-00214   <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
-00218   <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
-00222   <span class="keywordtype">void</span> setLocation(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location) ;
-00224   <span class="keyword">static</span> <span class="keywordtype">int</span> countChildren(<a class="code" href="classskElement.html">skElement</a> * parent);
-00229   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
-00233   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
-00237   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
-00242   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00247   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a18">getAttributes</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00248 <span class="keyword">protected</span>:
-00254   <span class="keyword">virtual</span> <span class="keywordtype">void</span> setElement(<a class="code" href="classskElement.html">skElement</a> * element,<span class="keywordtype">bool</span> created=<span class="keyword">false</span>);
-00260   <span class="keyword">virtual</span> skElementObject * createElementObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskElement.html">skElement</a> * element,<span class="keywordtype">bool</span> created);
-<a name="l00264"></a><a class="code" href="classskElementObject.html#n0">00264</a>   <a class="code" href="classskString.html">skString</a> m_ScriptLocation;
-00265  <span class="keyword">protected</span>:
-<a name="l00269"></a><a class="code" href="classskElementObject.html#n1">00269</a>   <a class="code" href="classskElement.html">skElement</a> * m_Element;
-<a name="l00273"></a><a class="code" href="classskElementObject.html#n2">00273</a>   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
-00277   skElementObject(<span class="keyword">const</span> skElementObject&amp;);
-00281   skElementObject&amp; operator=(<span class="keyword">const</span> skElementObject&amp;);
-<a name="l00286"></a><a class="code" href="classskElementObject.html#n3">00286</a>   <span class="keywordtype">bool</span> m_AddIfNotPresent;
-<a name="l00288"></a><a class="code" href="classskElementObject.html#n4">00288</a>   <span class="keywordtype">bool</span> m_Created;
-00289 };
-00290 
-00291 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:49:22 2003 for Simkin C++ for Windows CE by
+00091   IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a4">boolValue</a>() <span class="keyword">const</span>;
+00095   IMPORT_C Char <a class="code" href="classskExecutable.html#a5">charValue</a>() <span class="keyword">const</span>;
+00099   IMPORT_C <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a6">strValue</a>() <span class="keyword">const</span>;
+00108   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a8">setValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; return_value);
+00117   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a9">setValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value); 
+00128   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a10">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00138   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a11">getValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00154   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00159   IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a13">equals</a>(<span class="keyword">const</span> <a class="code" href="classskiExecutable.html">skiExecutable</a> * o) <span class="keyword">const</span>;
+00165   IMPORT_C <span class="keywordtype">void</span> copyItemsInto(<a class="code" href="classskElement.html">skElement</a> * other);
+00169   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">void</span> setAddIfNotPresent(<span class="keywordtype">bool</span> enable);
+00173   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">bool</span> getAddIfNotPresent();
+00178   IMPORT_C <a class="code" href="classskElement.html">skElement</a> * getElement();
+00183   IMPORT_C <span class="keyword">const</span> <a class="code" href="classskElement.html">skElement</a> * getElement() <span class="keyword">const</span>;
+00190   IMPORT_C <span class="keyword">static</span> <a class="code" href="classskString.html">skString</a> getData(<a class="code" href="classskElement.html">skElement</a> * element);
+00197   IMPORT_C <span class="keyword">static</span> <span class="keywordtype">void</span> setData(<a class="code" href="classskElement.html">skElement</a> * element,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; data);
+00204   IMPORT_C <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname);
+00205 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00206 <span class="preprocessor"></span>
+00213   IMPORT_C <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keyword">const</span> TDesC&amp; tagname);
+00214 <span class="preprocessor">#endif</span>
+00215 <span class="preprocessor"></span>
+00221   IMPORT_C <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keywordtype">int</span> index);
+00230   IMPORT_C <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
+00231 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00232 <span class="preprocessor"></span>
+00241   IMPORT_C <span class="keyword">static</span> <a class="code" href="classskElement.html">skElement</a> * findChild(<a class="code" href="classskElement.html">skElement</a> * parent,<span class="keyword">const</span> TDesC&amp; tagname,<span class="keyword">const</span> TDesC&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
+00242 <span class="preprocessor">#endif</span>
+00243 <span class="preprocessor"></span>
+00246   IMPORT_C <span class="keywordtype">void</span> setAttribute(<a class="code" href="classskString.html">skString</a> name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
+00252   IMPORT_C <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
+00253 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00254 <span class="preprocessor"></span>
+00259   IMPORT_C <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> TDesC&amp; name) <span class="keyword">const</span>;
+00260 <span class="preprocessor">#endif</span>
+00261 <span class="preprocessor"></span>
+00264   IMPORT_C <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
+00268   IMPORT_C <span class="keywordtype">void</span> setLocation(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location) ;
+00270   IMPORT_C <span class="keyword">static</span> <span class="keywordtype">int</span> countChildren(<a class="code" href="classskElement.html">skElement</a> * parent);
+00276   IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
+00281   IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
+00286   IMPORT_C <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
+00292   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00298   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a18">getAttributes</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00305   IMPORT_C <span class="keyword">virtual</span> <span class="keywordtype">void</span> setElement(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskElement.html">skElement</a> * element,<span class="keywordtype">bool</span> created=<span class="keyword">false</span>);
+00306 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00307 <span class="preprocessor"></span>
+00314   IMPORT_C <span class="keywordtype">void</span> setElement(<span class="keyword">const</span> TDesC&amp; location,<a class="code" href="classskElement.html">skElement</a> * element,<span class="keywordtype">bool</span> created=<span class="keyword">false</span>);
+00315 <span class="preprocessor">#endif</span>
+00316 <span class="preprocessor"></span>
+00323   IMPORT_C <span class="keyword">virtual</span> skElementObject * createElementObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskElement.html">skElement</a> * element,<span class="keywordtype">bool</span> created);
+00324  <span class="keyword">private</span>:
+00328   <a class="code" href="classskString.html">skString</a> m_ScriptLocation;
+00332   <a class="code" href="classskElement.html">skElement</a> * m_Element;
+00336   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
+00340   skElementObject(<span class="keyword">const</span> skElementObject&amp;);
+00344   skElementObject&amp; operator=(<span class="keyword">const</span> skElementObject&amp;);
+00349   <span class="keywordtype">bool</span> m_AddIfNotPresent;
+00351   <span class="keywordtype">bool</span> m_Created;
+00352 };
+00353 
+00354 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:43 2003 for Simkin C++ for Windows CE by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

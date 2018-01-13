@@ -1,6 +1,14 @@
 Simkin for C++
 (c)1996-2003 Simon Whiteside
 
+Simkin Version 2.19
+Date: 19/4/2003
+-------------------
+
+* added some extra functions to skAttributeList
+* fixed some bugs in the new byte code representation
+* ported Simkin DOM classes to Symbian, along with the Expat parser
+
 Simkin Version 2.18
 Date: 14/4/2003
 -------------------

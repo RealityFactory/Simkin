@@ -1,0 +1,228 @@
+<test>
+This file tests the statements and expressions in Simkin
+<a_member_variable>a member variable's value<a_field attr="Attribute Value">a field's value<b_field attr="Sub Field Attribute Value">a sub field's value</b_field>
+</a_field>
+</a_member_variable>
+<a_member_variable_reference>a_member_variable</a_member_variable_reference>
+
+<function name="test_switch" params="test">
+trace("Testing switch("#test#")");
+i=1;
+switch(test){
+case i
+{
+ trace("test is 1");
+}
+case i+4
+{
+ trace("test is 5");
+}
+default
+{
+ trace("Test is not matched");
+}
+}
+</function>
+<function name="test_while">
+i=4;
+j=0;
+while (i gt 0){
+ i=i-1;
+ j=j+1;
+}
+trace("==  Looped through while loop " # j # " times");
+</function>
+
+<function name="test_if" params="f">
+if (f=1){
+ trace("== Went into if section");
+}else{
+ trace("== Went into else section");
+}
+</function>	
+<function name="test_assignment">
+a=0;
+trace("== before assignment a=" # a);
+a=4;
+trace("== after assignment a=" # a);
+</function>
+<function name="test_literals"> 
+trace("== Here are some literals: " # 4 # "," # "Simon" );
+</function>
+<function name="test_identifier">
+trace("== Here is a_member_variable: " # a_member_variable # "==" );
+</function>
+<function name="test_indirect_identifier">
+trace("== Here is @a_member_variable_reference: " # @a_member_variable_reference # "==" );
+</function>
+<function name="test_field">
+trace("== Here is a sub-field's attribute: " # a_member_variable.a_field.b_field:attr # "==" );
+trace("== Here is a field: " # a_member_variable.a_field # "==" );
+trace("== Here is a field's attribute: " # a_member_variable.a_field:attr # "==" );
+trace("== Here is a sub-field: " # a_member_variable.a_field.b_field # "==" );
+trace("== Here is a sub-field's attribute: " # a_member_variable.a_field.b_field:attr # "==" );
+</function>
+<function name="test_not">
+trace("== Here is not 1: " # not 1 );
+</function>
+<function name="test_and" params="a,b">
+trace("== Here is " # a # " and " # b # ": " # (a and b));
+</function>
+<function name="test_or" params="a,b">
+trace("== Here is " # a # " or " # b # ": " # (a or b));
+</function>
+<function name="test_equality" params="a,b">
+trace("== Here is " # a # " equals " # b # ": " # (a=b));
+</function>
+<function name="test_add" params="a,b">
+trace("== Here is " # a # " plus " # b # ": " # (a+b));
+</function>
+<function name="test_subtract" params="a,b">
+trace("== Here is " # a # " minus " # b # ": " # (a-b));
+</function>
+<function name="test_mult" params="a,b">
+trace("== Here is " # a # " times " # b # ": " # (a*b));
+</function>
+<function name="test_divide" params="a,b">
+trace("== Here is " # a # " divided by " # b # ": " # (a/b));
+</function>
+<function name="test_mod" params="a,b">
+trace("== Here is " # a # " modulus " # b # ": " # (a%b));
+</function>
+<function name="test_enumerate">
+trace("Enumerating all the function tags:");
+enumerator=enumerate("function");
+node=enumerator.next();
+while (node != null){
+	trace("---------------");
+	trace(node.nodename);
+	trace(node:name);
+	node=enumerator.next();
+}
+</function>
+<sub>
+<function name="bub">
+ return lub;
+</function>
+<lub>
+<foo name="Simon"/>
+<function name="gub">
+ trace("sub.bub().gub() called!");
+</function>
+</lub>
+</sub>
+<array1>
+<person name="simon"/>
+<person name="lee"/>
+<person name="larts"/>
+<person name="function">
+<function name="arrayFunc">
+trace("array function called");
+</function>
+</person>
+</array1>
+<function name="get_array">
+ return array1;
+</function>
+<function name="test_array">
+trace("test_array called");
+count=array1.numChildren;
+trace("There are " # count # " elements in the array");
+i=0;
+while (i lt count){
+	trace(i # " = " # array1[i]:name);
+	i=i+1;
+} 
+trace("Setting all elements to foo");
+i=0;
+while (i lt count){
+	array1[i]:name="foo";
+	trace(i # " = " # array1[i]:name);
+	i=i+1;
+} 
+array1[count-1].arrayFunc();
+self.get_array()[count-1].arrayFunc();
+</function>
+<function name="test_foreach">
+trace("Testing for each...");
+for each child in self {
+trace(child:name);
+}
+</function>
+<function name="test_for">
+trace("Testing for");
+trace("numbers from 0 to 10 step 2");
+for i=0 to 10 step 2 {
+trace(i);
+}
+trace("numbers from 10 to 0 step -2");
+for i=10 to 0 step -2 {
+trace(i);
+}
+</function>
+<function name="test_comparators">
+trace("Testing lt");
+trace("4 &lt; 4 " # (4 lt 4));
+trace("4 &lt;= 4 " # (4 le 4));
+trace("4 &gt; 4 " # (4 gt 4));
+trace("4 &gt;= 4 " # (4 ge 4));
+</function>
+<function name="main">
+sub.bub().gub();
+sub.bub().foo:name="Fred";
+trace(sub.bub().foo:name # " - should be Fred");
+trace("Testing Simkin statements...");
+test_field();
+test_switch(1);
+test_switch(5);
+test_switch(9);
+test_while();
+test_if(1);
+test_if(0);
+test_assignment();
+trace("Testing Simkin expressions...");
+test_identifier();
+test_indirect_identifier();
+test_not();
+test_and(0,0);
+test_and(0,1);
+test_and(1,0);
+test_and(1,1);
+test_or(0,0);
+test_or(0,1);
+test_or(1,0);
+test_or(1,1);
+test_equality(1,1);
+test_equality(1,0);
+test_add(1,1);
+test_add(1,-1);
+test_subtract(1,1);
+test_subtract(1,-1);
+test_mult(1,1);
+test_mult(1,-1);
+test_divide(1,1);
+test_divide(1,-1);
+test_mod(12,5);
+test_add(1.1,1.2);
+test_add(1.1,-1.2);
+test_subtract(1.2,1.1);
+test_subtract(1.2,-1.1);
+test_mult(5,5.2);
+test_mult(5,-5.2);
+test_divide(10.5,2.3);
+test_divide(10.5,-2.3);
+test_mod(12.6,5.2);
+test_enumerate();
+test_array();
+test_foreach();
+test_for();
+test_comparators();
+
+</function>
+</test>
+
+
+
+
+
+

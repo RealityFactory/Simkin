@@ -1,0 +1,271 @@
+EXPORTS
+	??0skAsciiString@@IAE@PBDH@Z @ 1 NONAME ; skAsciiString::skAsciiString(char const *, int)
+	??0skAsciiStringBuffer@@QAE@II@Z @ 2 NONAME ; skAsciiStringBuffer::skAsciiStringBuffer(unsigned int, unsigned int)
+	??0skCDataNode@@QAE@ABVskString@@@Z @ 3 NONAME ; skCDataNode::skCDataNode(class skString const &)
+	??0skElement@@QAE@ABVskString@@@Z @ 4 NONAME ; skElement::skElement(class skString const &)
+	??0skElementObject@@QAE@ABVskString@@PAVskElement@@_N@Z @ 5 NONAME ; skElementObject::skElementObject(class skString const &, class skElement *, bool)
+	??0skElementObject@@QAE@XZ @ 6 NONAME ; skElementObject::skElementObject(void)
+	??0skElementObjectEnumerator@@QAE@PAVskElementObject@@ABVskString@@1@Z @ 7 NONAME ; skElementObjectEnumerator::skElementObjectEnumerator(class skElementObject *, class skString const &, class skString const &)
+	??0skElementObjectEnumerator@@QAE@PAVskElementObject@@ABVskString@@@Z @ 8 NONAME ; skElementObjectEnumerator::skElementObjectEnumerator(class skElementObject *, class skString const &)
+	??0skExecutable@@QAE@XZ @ 9 NONAME ; skExecutable::skExecutable(void)
+	??0skExpatParser@@AAE@ABV0@@Z @ 10 NONAME ; skExpatParser::skExpatParser(class skExpatParser const &)
+	??0skExpatParser@@QAE@XZ @ 11 NONAME ; skExpatParser::skExpatParser(void)
+	??0skInputFile@@QAE@ABVskString@@@Z @ 12 NONAME ; skInputFile::skInputFile(class skString const &)
+	??0skInputFile@@QAE@XZ @ 13 NONAME ; skInputFile::skInputFile(void)
+	??0skInputString@@QAE@ABVskString@@@Z @ 14 NONAME ; skInputString::skInputString(class skString const &)
+	??0skInterpreter@@QAE@XZ @ 15 NONAME ; skInterpreter::skInterpreter(void)
+	??0skNode@@AAE@ABV0@@Z @ 16 NONAME ; skNode::skNode(class skNode const &)
+	??0skNode@@IAE@XZ @ 17 NONAME ; skNode::skNode(void)
+	??0skOutputFile@@QAE@ABVskString@@@Z @ 18 NONAME ; skOutputFile::skOutputFile(class skString const &)
+	??0skOutputString@@QAE@AAVskStringBuffer@@@Z @ 19 NONAME ; skOutputString::skOutputString(class skStringBuffer &)
+	??0skRValue@@QAE@ABV0@@Z @ 20 NONAME ; skRValue::skRValue(class skRValue const &)
+	??0skTextNode@@QAE@ABVskString@@@Z @ 21 NONAME ; skTextNode::skTextNode(class skString const &)
+	??1skAsciiStringBuffer@@UAE@XZ @ 22 NONAME ; skAsciiStringBuffer::~skAsciiStringBuffer(void)
+	??1skCDataNode@@UAE@XZ @ 23 NONAME ; skCDataNode::~skCDataNode(void)
+	??1skElement@@UAE@XZ @ 24 NONAME ; skElement::~skElement(void)
+	??1skElementObject@@UAE@XZ @ 25 NONAME ; skElementObject::~skElementObject(void)
+	??1skElementObjectEnumerator@@UAE@XZ @ 26 NONAME ; skElementObjectEnumerator::~skElementObjectEnumerator(void)
+	??1skExecutable@@UAE@XZ @ 27 NONAME ; skExecutable::~skExecutable(void)
+	??1skExpatParser@@UAE@XZ @ 28 NONAME ; skExpatParser::~skExpatParser(void)
+	??1skInputString@@UAE@XZ @ 29 NONAME ; skInputString::~skInputString(void)
+	??1skInterpreter@@UAE@XZ @ 30 NONAME ; skInterpreter::~skInterpreter(void)
+	??1skNode@@UAE@XZ @ 31 NONAME ; skNode::~skNode(void)
+	??1skOutputFile@@UAE@XZ @ 32 NONAME ; skOutputFile::~skOutputFile(void)
+	??1skOutputString@@UAE@XZ @ 33 NONAME ; skOutputString::~skOutputString(void)
+	??1skStringBuffer@@UAE@XZ @ 34 NONAME ; skStringBuffer::~skStringBuffer(void)
+	??1skTextNode@@UAE@XZ @ 35 NONAME ; skTextNode::~skTextNode(void)
+	??4skAsciiString@@QAEAAV0@PBD@Z @ 36 NONAME ; class skAsciiString & skAsciiString::operator=(char const *)
+	??4skAsciiStringBuffer@@QAEAAV0@ABV0@@Z @ 37 NONAME ; class skAsciiStringBuffer & skAsciiStringBuffer::operator=(class skAsciiStringBuffer const &)
+	??4skRValue@@QAEAAV0@ABV0@@Z @ 38 NONAME ; class skRValue & skRValue::operator=(class skRValue const &)
+	??4skRValue@@QAEAAV0@ABVskString@@@Z @ 39 NONAME ; class skRValue & skRValue::operator=(class skString const &)
+	??4skRValue@@QAEAAV0@G@Z @ 40 NONAME ; class skRValue & skRValue::operator=(unsigned short)
+	??4skRValue@@QAEAAV0@H@Z @ 41 NONAME ; class skRValue & skRValue::operator=(int)
+	??4skRValue@@QAEAAV0@M@Z @ 42 NONAME ; class skRValue & skRValue::operator=(float)
+	??4skRValue@@QAEAAV0@_N@Z @ 43 NONAME ; class skRValue & skRValue::operator=(bool)
+	??4skString@@QAEAAV0@G@Z @ 44 NONAME ; class skString & skString::operator=(unsigned short)
+	??4skString@@QAEAAV0@PBG@Z @ 45 NONAME ; class skString & skString::operator=(unsigned short const *)
+	??4skStringBuffer@@QAEAAV0@ABV0@@Z @ 46 NONAME ; class skStringBuffer & skStringBuffer::operator=(class skStringBuffer const &)
+	??8skElement@@QBE_NABV0@@Z @ 47 NONAME ; bool skElement::operator==(class skElement const &) const
+	??8skRValue@@QAE_NABV0@@Z @ 48 NONAME ; bool skRValue::operator==(class skRValue const &)
+	??9skAsciiString@@QBE_NABV0@@Z @ 49 NONAME ; bool skAsciiString::operator!=(class skAsciiString const &) const
+	??9skAsciiString@@QBE_NPBD@Z @ 50 NONAME ; bool skAsciiString::operator!=(char const *) const
+	??9skString@@QBE_NABV0@@Z @ 51 NONAME ; bool skString::operator!=(class skString const &) const
+	??9skString@@QBE_NPBG@Z @ 52 NONAME ; bool skString::operator!=(unsigned short const *) const
+	??BskAsciiStringBuffer@@QBEPBDXZ @ 53 NONAME ; skAsciiStringBuffer::operator char const *(void) const
+	??BskStringBuffer@@QBEPBGXZ @ 54 NONAME ; skStringBuffer::operator unsigned short const *(void) const
+	??H@YA?AVskAsciiString@@PBDABV0@@Z @ 55 NONAME ; class skAsciiString operator+(char const *, class skAsciiString const &)
+	??H@YA?AVskString@@ABVTDesC16@@ABV0@@Z @ 56 NONAME ; class skString operator+(class TDesC16 const &, class skString const &)
+	??H@YA?AVskString@@PBGABV0@@Z @ 57 NONAME ; class skString operator+(unsigned short const *, class skString const &)
+	??HskAsciiString@@QBE?AV0@ABV0@@Z @ 58 NONAME ; class skAsciiString skAsciiString::operator+(class skAsciiString const &) const
+	??HskString@@QBE?AV0@ABV0@@Z @ 59 NONAME ; class skString skString::operator+(class skString const &) const
+	??RskSHashTableIterator@@QAEHXZ @ 60 NONAME ; int skSHashTableIterator::operator()(void)
+	??YskAsciiString@@QAEAAV0@ABV0@@Z @ 61 NONAME ; class skAsciiString & skAsciiString::operator+=(class skAsciiString const &)
+	??YskString@@QAEAAV0@ABV0@@Z @ 62 NONAME ; class skString & skString::operator+=(class skString const &)
+	?addGlobalVariable@skInterpreter@@QAEXABVTDesC16@@ABVskRValue@@@Z @ 63 NONAME ; void skInterpreter::addGlobalVariable(class TDesC16 const &, class skRValue const &)
+	?addGlobalVariable@skInterpreter@@QAEXABVskString@@ABVskRValue@@@Z @ 64 NONAME ; void skInterpreter::addGlobalVariable(class skString const &, class skRValue const &)
+	?addStrings@skString@@SA?AV1@ABV1@0000000@Z @ 65 NONAME ; class skString skString::addStrings(class skString const &, class skString const &, class skString const &, class skString const &, class skString const &, class skString const &, class skString const &, class skString const &)
+	?addStrings@skString@@SA?AV1@ABV1@000000@Z @ 66 NONAME ; class skString skString::addStrings(class skString const &, class skString const &, class skString const &, class skString const &, class skString const &, class skString const &, class skString const &)
+	?addStrings@skString@@SA?AV1@ABV1@00000@Z @ 67 NONAME ; class skString skString::addStrings(class skString const &, class skString const &, class skString const &, class skString const &, class skString const &, class skString const &)
+	?addStrings@skString@@SA?AV1@ABV1@0000@Z @ 68 NONAME ; class skString skString::addStrings(class skString const &, class skString const &, class skString const &, class skString const &, class skString const &)
+	?addStrings@skString@@SA?AV1@ABV1@000@Z @ 69 NONAME ; class skString skString::addStrings(class skString const &, class skString const &, class skString const &, class skString const &)
+	?addStrings@skString@@SA?AV1@ABV1@00@Z @ 70 NONAME ; class skString skString::addStrings(class skString const &, class skString const &, class skString const &)
+	?addStrings@skString@@SA?AV1@ABV1@0@Z @ 71 NONAME ; class skString skString::addStrings(class skString const &, class skString const &)
+	?addStrings@skString@@SA?AV1@ABVTDesC16@@0000000@Z @ 72 NONAME ; class skString skString::addStrings(class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &)
+	?addStrings@skString@@SA?AV1@ABVTDesC16@@000000@Z @ 73 NONAME ; class skString skString::addStrings(class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &)
+	?addStrings@skString@@SA?AV1@ABVTDesC16@@00000@Z @ 74 NONAME ; class skString skString::addStrings(class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &)
+	?addStrings@skString@@SA?AV1@ABVTDesC16@@0000@Z @ 75 NONAME ; class skString skString::addStrings(class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &)
+	?addStrings@skString@@SA?AV1@ABVTDesC16@@000@Z @ 76 NONAME ; class skString skString::addStrings(class TDesC16 const &, class TDesC16 const &, class TDesC16 const &, class TDesC16 const &)
+	?addStrings@skString@@SA?AV1@ABVTDesC16@@00@Z @ 77 NONAME ; class skString skString::addStrings(class TDesC16 const &, class TDesC16 const &, class TDesC16 const &)
+	?addStrings@skString@@SA?AV1@ABVTDesC16@@0@Z @ 78 NONAME ; class skString skString::addStrings(class TDesC16 const &, class TDesC16 const &)
+	?append@skAsciiStringBuffer@@QAEXABVskAsciiString@@@Z @ 79 NONAME ; void skAsciiStringBuffer::append(class skAsciiString const &)
+	?append@skAsciiStringBuffer@@QAEXD@Z @ 80 NONAME ; void skAsciiStringBuffer::append(char)
+	?append@skAsciiStringBuffer@@QAEXPBD@Z @ 81 NONAME ; void skAsciiStringBuffer::append(char const *)
+	?append@skStringBuffer@@QAEXABVTDesC16@@@Z @ 82 NONAME ; void skStringBuffer::append(class TDesC16 const &)
+	?append@skStringBuffer@@QAEXABVskString@@@Z @ 83 NONAME ; void skStringBuffer::append(class skString const &)
+	?append@skStringBuffer@@QAEXG@Z @ 84 NONAME ; void skStringBuffer::append(unsigned short)
+	?append@skStringBuffer@@QAEXPBG@Z @ 85 NONAME ; void skStringBuffer::append(unsigned short const *)
+	?appendChild@skElement@@QAEXPAVskNode@@@Z @ 86 NONAME ; void skElement::appendChild(class skNode *)
+	?assign@skString@@IAEXPBGH@Z @ 87 NONAME ; void skString::assign(unsigned short const *, int)
+	?boolValue@skElementObject@@UBE_NXZ @ 88 NONAME ; bool skElementObject::boolValue(void) const
+	?boolValue@skExecutable@@UBE_NXZ @ 89 NONAME ; bool skExecutable::boolValue(void) const
+	?boolValue@skRValue@@QBE_NXZ @ 90 NONAME ; bool skRValue::boolValue(void) const
+	?capacity@skAsciiStringBuffer@@QBEIXZ @ 91 NONAME ; unsigned int skAsciiStringBuffer::capacity(void) const
+	?charValue@skElementObject@@UBEGXZ @ 92 NONAME ; unsigned short skElementObject::charValue(void) const
+	?charValue@skExecutable@@UBEGXZ @ 93 NONAME ; unsigned short skExecutable::charValue(void) const
+	?charValue@skRValue@@QBEGXZ @ 94 NONAME ; unsigned short skRValue::charValue(void) const
+	?clear@skSHashTable@@QAEXXZ @ 95 NONAME ; void skSHashTable::clear(void)
+	?clearAndDestroy@skSHashTable@@QAEXXZ @ 96 NONAME ; void skSHashTable::clearAndDestroy(void)
+	?clearAndDestroyValues@skSHashTable@@QAEXXZ @ 97 NONAME ; void skSHashTable::clearAndDestroyValues(void)
+	?clone@skCDataNode@@UAEPAVskNode@@XZ @ 98 NONAME ; class skNode * skCDataNode::clone(void)
+	?clone@skElement@@UAEPAVskNode@@XZ @ 99 NONAME ; class skNode * skElement::clone(void)
+	?clone@skTextNode@@UAEPAVskNode@@XZ @ 100 NONAME ; class skNode * skTextNode::clone(void)
+	?copyFromBuffer@skString@@SA?AV1@PBGI@Z @ 101 NONAME ; class skString skString::copyFromBuffer(unsigned short const *, unsigned int)
+	?copyItemsInto@skElementObject@@QAEXPAVskElement@@@Z @ 102 NONAME ; void skElementObject::copyItemsInto(class skElement *)
+	?countChildren@skElementObject@@SAHPAVskElement@@@Z @ 103 NONAME ; int skElementObject::countChildren(class skElement *)
+	?countTokens@skStringTokenizer@@QAEHXZ @ 104 NONAME ; int skStringTokenizer::countTokens(void)
+	?createElementObject@skElementObject@@UAEPAV1@ABVskString@@PAVskElement@@_N@Z @ 105 NONAME ; class skElementObject * skElementObject::createElementObject(class skString const &, class skElement *, bool)
+	?createIterator@skElementObject@@UAEPAVskExecutableIterator@@ABVskString@@@Z @ 106 NONAME ; class skExecutableIterator * skElementObject::createIterator(class skString const &)
+	?createIterator@skElementObject@@UAEPAVskExecutableIterator@@XZ @ 107 NONAME ; class skExecutableIterator * skElementObject::createIterator(void)
+	?createIterator@skExecutable@@UAEPAVskExecutableIterator@@ABVskString@@@Z @ 108 NONAME ; class skExecutableIterator * skExecutable::createIterator(class skString const &)
+	?createIterator@skExecutable@@UAEPAVskExecutableIterator@@XZ @ 109 NONAME ; class skExecutableIterator * skExecutable::createIterator(void)
+	?deepCompare@skElement@@QBE_NABV1@_N@Z @ 110 NONAME ; bool skElement::deepCompare(class skElement const &, bool) const
+	?del@skSHashTable@@QAEXABVskString@@@Z @ 111 NONAME ; void skSHashTable::del(class skString const &)
+	?ensureCapacity@skAsciiStringBuffer@@AAEXI@Z @ 112 NONAME ; void skAsciiStringBuffer::ensureCapacity(unsigned int)
+	?ensureCapacity@skStringBuffer@@AAEXI@Z @ 113 NONAME ; void skStringBuffer::ensureCapacity(unsigned int)
+	?equals@skElement@@UBE_NABVskNode@@@Z @ 114 NONAME ; bool skElement::equals(class skNode const &) const
+	?equals@skElementObject@@UBE_NPBVskiExecutable@@@Z @ 115 NONAME ; bool skElementObject::equals(class skiExecutable const *) const
+	?equals@skExecutable@@UBE_NPBVskiExecutable@@@Z @ 116 NONAME ; bool skExecutable::equals(class skiExecutable const *) const
+	?equals@skTextNode@@UBE_NABVskNode@@@Z @ 117 NONAME ; bool skTextNode::equals(class skNode const &) const
+	?equalsIgnoreCase@skString@@QBE_NABV1@@Z @ 118 NONAME ; bool skString::equalsIgnoreCase(class skString const &) const
+	?escapeXMLDelimiters@skNode@@SA?AVskString@@ABV2@_N@Z @ 119 NONAME ; class skString skNode::escapeXMLDelimiters(class skString const &, bool)
+	?evaluateExpression@skInterpreter@@QAEXABVskString@@PAVskiExecutable@@0AAVskRValueTable@@AAVskRValue@@AAVskExecutableContext@@@Z @ 120 NONAME ; void skInterpreter::evaluateExpression(class skString const &, class skiExecutable *, class skString const &, class skRValueTable &, class skRValue &, class skExecutableContext &)
+	?evaluateExpression@skInterpreter@@QAEXABVskString@@PAVskiExecutable@@PAVskExprNode@@AAVskRValueTable@@AAVskRValue@@AAVskExecutableContext@@@Z @ 121 NONAME ; void skInterpreter::evaluateExpression(class skString const &, class skiExecutable *, class skExprNode *, class skRValueTable &, class skRValue &, class skExecutableContext &)
+	?executableType@skElementObject@@UBEHXZ @ 122 NONAME ; int skElementObject::executableType(void) const
+	?executableType@skExecutable@@UBEHXZ @ 123 NONAME ; int skExecutable::executableType(void) const
+	?executeParseTree@skInterpreter@@QAEXABVskString@@PAVskiExecutable@@PAVskMethodDefNode@@AAVskRValueArray@@AAVskRValue@@AAVskExecutableContext@@@Z @ 124 NONAME ; void skInterpreter::executeParseTree(class skString const &, class skiExecutable *, class skMethodDefNode *, class skRValueArray &, class skRValue &, class skExecutableContext &)
+	?executeString@skInterpreter@@QAEXABVskString@@PAVskiExecutable@@0AAVskRValueArray@@AAVskRValue@@PAPAVskMethodDefNode@@AAVskExecutableContext@@@Z @ 125 NONAME ; void skInterpreter::executeString(class skString const &, class skiExecutable *, class skString const &, class skRValueArray &, class skRValue &, class skMethodDefNode * *, class skExecutableContext &)
+	?executeStringExternalParams@skInterpreter@@QAEXABVskString@@PAVskiExecutable@@AAVskStringList@@0AAVskRValueArray@@AAVskRValue@@PAPAVskMethodDefNode@@AAVskExecutableContext@@@Z @ 126 NONAME ; void skInterpreter::executeStringExternalParams(class skString const &, class skiExecutable *, class skStringList &, class skString const &, class skRValueArray &, class skRValue &, class skMethodDefNode * *, class skExecutableContext &)
+	?findAttribute@skAttributeList@@QBEPAVskAttribute@@ABVskString@@@Z @ 127 NONAME ; class skAttribute * skAttributeList::findAttribute(class skString const &) const
+	?findChild@skElementObject@@SAPAVskElement@@PAV2@ABVTDesC16@@1ABVskString@@@Z @ 128 NONAME ; class skElement * skElementObject::findChild(class skElement *, class TDesC16 const &, class TDesC16 const &, class skString const &)
+	?findChild@skElementObject@@SAPAVskElement@@PAV2@ABVTDesC16@@@Z @ 129 NONAME ; class skElement * skElementObject::findChild(class skElement *, class TDesC16 const &)
+	?findChild@skElementObject@@SAPAVskElement@@PAV2@ABVskString@@11@Z @ 130 NONAME ; class skElement * skElementObject::findChild(class skElement *, class skString const &, class skString const &, class skString const &)
+	?findChild@skElementObject@@SAPAVskElement@@PAV2@ABVskString@@@Z @ 131 NONAME ; class skElement * skElementObject::findChild(class skElement *, class skString const &)
+	?findChild@skElementObject@@SAPAVskElement@@PAV2@H@Z @ 132 NONAME ; class skElement * skElementObject::findChild(class skElement *, int)
+	?findGlobalVariable@skInterpreter@@QAE_NABVskString@@AAVskRValue@@@Z @ 133 NONAME ; bool skInterpreter::findGlobalVariable(class skString const &, class skRValue &)
+	?floatValue@skElementObject@@UBEMXZ @ 134 NONAME ; float skElementObject::floatValue(void) const
+	?floatValue@skExecutable@@UBEMXZ @ 135 NONAME ; float skExecutable::floatValue(void) const
+	?floatValue@skRValue@@QBEMXZ @ 136 NONAME ; float skRValue::floatValue(void) const
+	?from@skAsciiString@@SA?AV1@D@Z @ 137 NONAME ; class skAsciiString skAsciiString::from(char)
+	?from@skAsciiString@@SA?AV1@H@Z @ 138 NONAME ; class skAsciiString skAsciiString::from(int)
+	?from@skAsciiString@@SA?AV1@I@Z @ 139 NONAME ; class skAsciiString skAsciiString::from(unsigned int)
+	?from@skAsciiString@@SA?AV1@M@Z @ 140 NONAME ; class skAsciiString skAsciiString::from(float)
+	?from@skString@@SA?AV1@G@Z @ 141 NONAME ; class skString skString::from(unsigned short)
+	?from@skString@@SA?AV1@H@Z @ 142 NONAME ; class skString skString::from(int)
+	?from@skString@@SA?AV1@I@Z @ 143 NONAME ; class skString skString::from(unsigned int)
+	?from@skString@@SA?AV1@M@Z @ 144 NONAME ; class skString skString::from(float)
+	?fromBuffer@skAsciiString@@SA?AV1@PAD@Z @ 145 NONAME ; class skAsciiString skAsciiString::fromBuffer(char *)
+	?fromBuffer@skString@@SA?AV1@PAG@Z @ 146 NONAME ; class skString skString::fromBuffer(unsigned short *)
+	?getAddIfNotPresent@skElementObject@@UAE_NXZ @ 147 NONAME ; bool skElementObject::getAddIfNotPresent(void)
+	?getAttribute@skAttributeList@@QBE?AVskString@@ABV2@@Z @ 148 NONAME ; class skString skAttributeList::getAttribute(class skString const &) const
+	?getAttribute@skElement@@QBE?AVskString@@ABV2@@Z @ 149 NONAME ; class skString skElement::getAttribute(class skString const &) const
+	?getAttribute@skElement@@QBE?AVskString@@ABVTDesC16@@@Z @ 150 NONAME ; class skString skElement::getAttribute(class TDesC16 const &) const
+	?getAttribute@skElementObject@@QBE?AVskString@@ABV2@@Z @ 151 NONAME ; class skString skElementObject::getAttribute(class skString const &) const
+	?getAttribute@skElementObject@@QBE?AVskString@@ABVTDesC16@@@Z @ 152 NONAME ; class skString skElementObject::getAttribute(class TDesC16 const &) const
+	?getAttributes@skElement@@QAEAAVskAttributeList@@XZ @ 153 NONAME ; class skAttributeList & skElement::getAttributes(void)
+	?getAttributes@skElementObject@@UAEXAAVskRValueTable@@@Z @ 154 NONAME ; void skElementObject::getAttributes(class skRValueTable &)
+	?getAttributes@skExecutable@@UAEXAAVskRValueTable@@@Z @ 155 NONAME ; void skExecutable::getAttributes(class skRValueTable &)
+	?getChildNodes@skElement@@QAEAAVskNodeList@@XZ @ 156 NONAME ; class skNodeList & skElement::getChildNodes(void)
+	?getData@skElementObject@@SA?AVskString@@PAVskElement@@@Z @ 157 NONAME ; class skString skElementObject::getData(class skElement *)
+	?getElement@skElementObject@@QAEPAVskElement@@XZ @ 158 NONAME ; class skElement * skElementObject::getElement(void)
+	?getElement@skElementObject@@QBEPBVskElement@@XZ @ 159 NONAME ; class skElement const * skElementObject::getElement(void) const
+	?getGlobalVariables@skInterpreter@@QBEABVskRValueTable@@XZ @ 160 NONAME ; class skRValueTable const & skInterpreter::getGlobalVariables(void) const
+	?getInstanceVariables@skElementObject@@UAEXAAVskRValueTable@@@Z @ 161 NONAME ; void skElementObject::getInstanceVariables(class skRValueTable &)
+	?getInstanceVariables@skExecutable@@UAEXAAVskRValueTable@@@Z @ 162 NONAME ; void skExecutable::getInstanceVariables(class skRValueTable &)
+	?getLocation@skElementObject@@QBE?AVskString@@XZ @ 163 NONAME ; class skString skElementObject::getLocation(void) const
+	?getNodeType@skCDataNode@@UBE?AW4NodeType@skNode@@XZ @ 164 NONAME ; enum skNode::NodeType skCDataNode::getNodeType(void) const
+	?getNodeType@skElement@@UBE?AW4NodeType@skNode@@XZ @ 165 NONAME ; enum skNode::NodeType skElement::getNodeType(void) const
+	?getNodeType@skTextNode@@UBE?AW4NodeType@skNode@@XZ @ 166 NONAME ; enum skNode::NodeType skTextNode::getNodeType(void) const
+	?getNodeValue@skNode@@UBE?AVskString@@XZ @ 167 NONAME ; class skString skNode::getNodeValue(void) const
+	?getNodeValue@skTextNode@@UBE?AVskString@@XZ @ 168 NONAME ; class skString skTextNode::getNodeValue(void) const
+	?getParent@skNode@@QAEPAVskElement@@XZ @ 169 NONAME ; class skElement * skNode::getParent(void)
+	?getSource@skElementObject@@UAE?AVskString@@ABV2@@Z @ 170 NONAME ; class skString skElementObject::getSource(class skString const &)
+	?getSource@skExecutable@@UAE?AVskString@@ABV2@@Z @ 171 NONAME ; class skString skExecutable::getSource(class skString const &)
+	?getTagName@skElement@@QBE?AVskString@@XZ @ 172 NONAME ; class skString skElement::getTagName(void) const
+	?getValue@skElementObject@@UAE_NABVskString@@0AAVskRValue@@@Z @ 173 NONAME ; bool skElementObject::getValue(class skString const &, class skString const &, class skRValue &)
+	?getValue@skExecutable@@UAE_NABVskString@@0AAVskRValue@@@Z @ 174 NONAME ; bool skExecutable::getValue(class skString const &, class skString const &, class skRValue &)
+	?getValue@skInterpreter@@UAE_NABVskString@@0AAVskRValue@@@Z @ 175 NONAME ; bool skInterpreter::getValue(class skString const &, class skString const &, class skRValue &)
+	?getValueAt@skElementObject@@UAE_NABVskRValue@@ABVskString@@AAV2@@Z @ 176 NONAME ; bool skElementObject::getValueAt(class skRValue const &, class skString const &, class skRValue &)
+	?getValueAt@skExecutable@@UAE_NABVskRValue@@ABVskString@@AAV2@@Z @ 177 NONAME ; bool skExecutable::getValueAt(class skRValue const &, class skString const &, class skRValue &)
+	?hasMoreTokens@skStringTokenizer@@QAE_NXZ @ 178 NONAME ; bool skStringTokenizer::hasMoreTokens(void)
+	?indexOf@skAsciiString@@QBEHABV1@@Z @ 179 NONAME ; int skAsciiString::indexOf(class skAsciiString const &) const
+	?indexOf@skAsciiString@@QBEHD@Z @ 180 NONAME ; int skAsciiString::indexOf(char) const
+	?indexOf@skString@@QBEHABV1@@Z @ 181 NONAME ; int skString::indexOf(class skString const &) const
+	?indexOf@skString@@QBEHG@Z @ 182 NONAME ; int skString::indexOf(unsigned short) const
+	?indexOfLast@skAsciiString@@QBEHD@Z @ 183 NONAME ; int skAsciiString::indexOfLast(char) const
+	?indexOfLast@skString@@QBEHG@Z @ 184 NONAME ; int skString::indexOfLast(unsigned short) const
+	?init@skInterpreter@@QAEXXZ @ 185 NONAME ; void skInterpreter::init(void)
+	?init@skStringTokenizer@@QAEXABVskString@@0_N@Z @ 186 NONAME ; void skStringTokenizer::init(class skString const &, class skString const &, bool)
+	?insertKeyAndValue@skSHashTable@@IAEXABVskString@@PAX@Z @ 187 NONAME ; void skSHashTable::insertKeyAndValue(class skString const &, void *)
+	?intValue@skElementObject@@UBEHXZ @ 188 NONAME ; int skElementObject::intValue(void) const
+	?intValue@skExecutable@@UBEHXZ @ 189 NONAME ; int skExecutable::intValue(void) const
+	?intValue@skRValue@@QBEHXZ @ 190 NONAME ; int skRValue::intValue(void) const
+	?length@skAsciiStringBuffer@@QBEIXZ @ 191 NONAME ; unsigned int skAsciiStringBuffer::length(void) const
+	?literal@skAsciiString@@SA?AV1@PBD@Z @ 192 NONAME ; class skAsciiString skAsciiString::literal(char const *)
+	?literal@skString@@SA?AV1@PBG@Z @ 193 NONAME ; class skString skString::literal(unsigned short const *)
+	?ltrim@skAsciiString@@QBE?AV1@XZ @ 194 NONAME ; class skAsciiString skAsciiString::ltrim(void) const
+	?ltrim@skString@@QBE?AV1@XZ @ 195 NONAME ; class skString skString::ltrim(void) const
+	?method@skElementObject@@UAE_NABVskString@@AAVskRValueArray@@AAVskRValue@@AAVskExecutableContext@@@Z @ 196 NONAME ; bool skElementObject::method(class skString const &, class skRValueArray &, class skRValue &, class skExecutableContext &)
+	?method@skElementObjectEnumerator@@UAE_NABVskString@@AAVskRValueArray@@AAVskRValue@@AAVskExecutableContext@@@Z @ 197 NONAME ; bool skElementObjectEnumerator::method(class skString const &, class skRValueArray &, class skRValue &, class skExecutableContext &)
+	?method@skExecutable@@UAE_NABVskString@@AAVskRValueArray@@AAVskRValue@@AAVskExecutableContext@@@Z @ 198 NONAME ; bool skExecutable::method(class skString const &, class skRValueArray &, class skRValue &, class skExecutableContext &)
+	?method@skInterpreter@@UAE_NABVskString@@AAVskRValueArray@@AAVskRValue@@AAVskExecutableContext@@@Z @ 199 NONAME ; bool skInterpreter::method(class skString const &, class skRValueArray &, class skRValue &, class skExecutableContext &)
+	?next@skElementObjectEnumerator@@UAE_NAAVskRValue@@@Z @ 200 NONAME ; bool skElementObjectEnumerator::next(class skRValue &)
+	?nextToken@skStringTokenizer@@QAE?AVskString@@ABV2@@Z @ 201 NONAME ; class skString skStringTokenizer::nextToken(class skString const &)
+	?nextToken@skStringTokenizer@@QAE?AVskString@@XZ @ 202 NONAME ; class skString skStringTokenizer::nextToken(void)
+	?open@skInputFile@@QAEXABVTDesC16@@@Z @ 203 NONAME ; void skInputFile::open(class TDesC16 const &)
+	?open@skInputFile@@QAEXABVskString@@@Z @ 204 NONAME ; void skInputFile::open(class skString const &)
+	?parse@skExpatParser@@QAEPAVskElement@@AAVskInputSource@@AAVskExecutableContext@@@Z @ 205 NONAME ; class skElement * skExpatParser::parse(class skInputSource &, class skExecutableContext &)
+	?parseExternalParams@skInterpreter@@QAEPAVskMethodDefNode@@ABVskString@@AAVskStringList@@0AAVskExecutableContext@@@Z @ 206 NONAME ; class skMethodDefNode * skInterpreter::parseExternalParams(class skString const &, class skStringList &, class skString const &, class skExecutableContext &)
+	?parseString@skInterpreter@@QAEPAVskMethodDefNode@@ABVskString@@0AAVskExecutableContext@@@Z @ 207 NONAME ; class skMethodDefNode * skInterpreter::parseString(class skString const &, class skString const &, class skExecutableContext &)
+	?remove@skSHashTable@@QAEXABVskString@@@Z @ 208 NONAME ; void skSHashTable::remove(class skString const &)
+	?removeAndDestroyChild@skElement@@QAEXPAVskNode@@@Z @ 209 NONAME ; void skElement::removeAndDestroyChild(class skNode *)
+	?removeAttribute@skAttributeList@@QAE_NABVskString@@@Z @ 210 NONAME ; bool skAttributeList::removeAttribute(class skString const &)
+	?removeAttribute@skElement@@QAE_NABVskString@@@Z @ 211 NONAME ; bool skElement::removeAttribute(class skString const &)
+	?removeChild@skElement@@QAEXPAVskNode@@@Z @ 212 NONAME ; void skElement::removeChild(class skNode *)
+	?removeGlobalVariable@skInterpreter@@QAEXABVTDesC16@@@Z @ 213 NONAME ; void skInterpreter::removeGlobalVariable(class TDesC16 const &)
+	?removeGlobalVariable@skInterpreter@@QAEXABVskString@@@Z @ 214 NONAME ; void skInterpreter::removeGlobalVariable(class skString const &)
+	?removeInitialBlankLines@skString@@QBE?AV1@XZ @ 215 NONAME ; class skString skString::removeInitialBlankLines(void) const
+	?replace@skString@@QBE?AV1@ABV1@0@Z @ 216 NONAME ; class skString skString::replace(class skString const &, class skString const &) const
+	?replace@skString@@QBE?AV1@ABVTDesC16@@0@Z @ 217 NONAME ; class skString skString::replace(class TDesC16 const &, class TDesC16 const &) const
+	?replace@skString@@QBE?AV1@PBG0@Z @ 218 NONAME ; class skString skString::replace(unsigned short const *, unsigned short const *) const
+	?replaceInPlace@skString@@QAEXGG@Z @ 219 NONAME ; void skString::replaceInPlace(unsigned short, unsigned short)
+	?runtimeError@skInterpreter@@QAEXAAVskStackFrame@@ABVskString@@@Z @ 220 NONAME ; void skInterpreter::runtimeError(class skStackFrame &, class skString const &)
+	?runtimeError@skInterpreter@@QAEXAAVskStackFrame@@PBG@Z @ 221 NONAME ; void skInterpreter::runtimeError(class skStackFrame &, unsigned short const *)
+	?setAddIfNotPresent@skElementObject@@UAEX_N@Z @ 222 NONAME ; void skElementObject::setAddIfNotPresent(bool)
+	?setAttribute@skAttributeList@@QAEXABVskString@@0@Z @ 223 NONAME ; void skAttributeList::setAttribute(class skString const &, class skString const &)
+	?setAttribute@skElement@@QAEXABVskString@@0@Z @ 224 NONAME ; void skElement::setAttribute(class skString const &, class skString const &)
+	?setAttribute@skElementObject@@QAEXVskString@@ABV2@@Z @ 225 NONAME ; void skElementObject::setAttribute(class skString, class skString const &)
+	?setData@skElementObject@@SAXPAVskElement@@ABVskString@@@Z @ 226 NONAME ; void skElementObject::setData(class skElement *, class skString const &)
+	?setElement@skElementObject@@QAEXABVTDesC16@@PAVskElement@@_N@Z @ 227 NONAME ; void skElementObject::setElement(class TDesC16 const &, class skElement *, bool)
+	?setElement@skElementObject@@UAEXABVskString@@PAVskElement@@_N@Z @ 228 NONAME ; void skElementObject::setElement(class skString const &, class skElement *, bool)
+	?setLocation@skElementObject@@QAEXABVskString@@@Z @ 229 NONAME ; void skElementObject::setLocation(class skString const &)
+	?setNodeValue@skNode@@UAEXABVskString@@@Z @ 230 NONAME ; void skNode::setNodeValue(class skString const &)
+	?setNodeValue@skTextNode@@UAEXABVskString@@@Z @ 231 NONAME ; void skTextNode::setNodeValue(class skString const &)
+	?setParent@skNode@@QAEXPAVskElement@@@Z @ 232 NONAME ; void skNode::setParent(class skElement *)
+	?setStatementStepper@skInterpreter@@QAEXPAVskStatementStepper@@@Z @ 233 NONAME ; void skInterpreter::setStatementStepper(class skStatementStepper *)
+	?setTraceCallback@skInterpreter@@QAEXPAVskTraceCallback@@@Z @ 234 NONAME ; void skInterpreter::setTraceCallback(class skTraceCallback *)
+	?setValue@skElementObject@@UAE_NABVskString@@0ABVskRValue@@@Z @ 235 NONAME ; bool skElementObject::setValue(class skString const &, class skString const &, class skRValue const &)
+	?setValue@skExecutable@@UAE_NABVskString@@0ABVskRValue@@@Z @ 236 NONAME ; bool skExecutable::setValue(class skString const &, class skString const &, class skRValue const &)
+	?setValue@skInterpreter@@UAE_NABVskString@@0ABVskRValue@@@Z @ 237 NONAME ; bool skInterpreter::setValue(class skString const &, class skString const &, class skRValue const &)
+	?setValueAt@skElementObject@@UAE_NABVskRValue@@ABVskString@@0@Z @ 238 NONAME ; bool skElementObject::setValueAt(class skRValue const &, class skString const &, class skRValue const &)
+	?setValueAt@skExecutable@@UAE_NABVskRValue@@ABVskString@@0@Z @ 239 NONAME ; bool skExecutable::setValueAt(class skRValue const &, class skString const &, class skRValue const &)
+	?str@skRValue@@QBE?AVskString@@XZ @ 240 NONAME ; class skString skRValue::str(void) const
+	?strValue@skElementObject@@UBE?AVskString@@XZ @ 241 NONAME ; class skString skElementObject::strValue(void) const
+	?strValue@skExecutable@@UBE?AVskString@@XZ @ 242 NONAME ; class skString skExecutable::strValue(void) const
+	?substr@skAsciiString@@QBE?AV1@I@Z @ 243 NONAME ; class skAsciiString skAsciiString::substr(unsigned int) const
+	?substr@skAsciiString@@QBE?AV1@II@Z @ 244 NONAME ; class skAsciiString skAsciiString::substr(unsigned int, unsigned int) const
+	?substr@skString@@QBE?AV1@I@Z @ 245 NONAME ; class skString skString::substr(unsigned int) const
+	?substr@skString@@QBE?AV1@II@Z @ 246 NONAME ; class skString skString::substr(unsigned int, unsigned int) const
+	?to@skAsciiString@@QBEHXZ @ 247 NONAME ; int skAsciiString::to(void) const
+	?to@skString@@QBEHXZ @ 248 NONAME ; int skString::to(void) const
+	?toFloat@skAsciiString@@QBEMXZ @ 249 NONAME ; float skAsciiString::toFloat(void) const
+	?toFloat@skString@@QBEMXZ @ 250 NONAME ; float skString::toFloat(void) const
+	?toString@skAsciiStringBuffer@@QAE?AVskAsciiString@@XZ @ 251 NONAME ; class skAsciiString skAsciiStringBuffer::toString(void)
+	?toString@skAttribute@@QBE?AVskString@@XZ @ 252 NONAME ; class skString skAttribute::toString(void) const
+	?toString@skElement@@UBE?AVskString@@XZ @ 253 NONAME ; class skString skElement::toString(void) const
+	?toString@skStringBuffer@@QAE?AVskString@@XZ @ 254 NONAME ; class skString skStringBuffer::toString(void)
+	?toString@skTextNode@@UBE?AVskString@@XZ @ 255 NONAME ; class skString skTextNode::toString(void) const
+	?toStringCopy@skAsciiStringBuffer@@QBE?AVskAsciiString@@XZ @ 256 NONAME ; class skAsciiString skAsciiStringBuffer::toStringCopy(void) const
+	?toStringCopy@skStringBuffer@@QBE?AVskString@@XZ @ 257 NONAME ; class skString skStringBuffer::toStringCopy(void) const
+	?trace@skInterpreter@@QAEXABVskString@@@Z @ 258 NONAME ; void skInterpreter::trace(class skString const &)
+	?trace@skInterpreter@@QAEXPBG@Z @ 259 NONAME ; void skInterpreter::trace(unsigned short const *)
+	?trace@skTracer@@SAXABVskString@@@Z @ 260 NONAME ; void skTracer::trace(class skString const &)
+	?trace@skTracer@@SAXPBG@Z @ 261 NONAME ; void skTracer::trace(unsigned short const *)
+	?write@skAttribute@@QAEXAAVskOutputDestination@@@Z @ 262 NONAME ; void skAttribute::write(class skOutputDestination &)
+	?write@skCDataNode@@UBEXAAVskOutputDestination@@@Z @ 263 NONAME ; void skCDataNode::write(class skOutputDestination &) const
+	?write@skElement@@UBEXAAVskOutputDestination@@@Z @ 264 NONAME ; void skElement::write(class skOutputDestination &) const
+	?write@skOutputFile@@UAEXABVTDesC16@@@Z @ 265 NONAME ; void skOutputFile::write(class TDesC16 const &)
+	?write@skOutputFile@@UAEXABVskString@@@Z @ 266 NONAME ; void skOutputFile::write(class skString const &)
+	?write@skOutputString@@UAEXABVTDesC16@@@Z @ 267 NONAME ; void skOutputString::write(class TDesC16 const &)
+	?write@skOutputString@@UAEXABVskString@@@Z @ 268 NONAME ; void skOutputString::write(class skString const &)
+	?write@skTextNode@@UBEXAAVskOutputDestination@@@Z @ 269 NONAME ; void skTextNode::write(class skOutputDestination &) const
+

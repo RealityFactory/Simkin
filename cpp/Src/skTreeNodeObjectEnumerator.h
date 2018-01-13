@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObjectEnumerator.h,v 1.17 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skTreeNodeObjectEnumerator.h,v 1.18 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 #ifndef TREENODEOBJECTENUMERATOR_H
 #define TREENODEOBJECTENUMERATOR_H
@@ -54,6 +54,8 @@ class CLASSEXPORT skTreeNodeObjectEnumerator : public skExecutable, public skExe
    * @param r return value
    * @param ctxt context object to receive errors
    * @exception a Symbian - a leaving function
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
   virtual bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
   /**

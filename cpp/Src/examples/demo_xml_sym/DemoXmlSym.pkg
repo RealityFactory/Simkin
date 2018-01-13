@@ -1,0 +1,14 @@
+;
+; Basic install file for the Simkin Demo
+;
+
+; Languages
+; none -  English only by default
+
+#{"Simkin XML Demo"},(0x10008ad0),1,0,0
+(0x101F80BE), 1, 0, 0, {"SonyEricssonP80xPlatformProductID"}
+"\Symbian\UIQ_70\epoc32\release\thumb\urel\SimkinXmlDemo.app"-"!:\system\apps\SimkinXmlDemo\SimkinXmlDemo.app"
+"\Symbian\UIQ_70\epoc32\release\thumb\urel\SimkinXml.dll"-"!:\system\apps\SimkinXmlDemo\SimkinXml.dll"
+"\Symbian\UIQ_70\epoc32\release\thumb\urel\Expat.dll"-"!:\system\apps\SimkinXmlDemo\Expat.dll"
+"\Symbian\UIQ_70\epoc32\data\z\system\apps\SimkinXmlDemo\SimkinXmlDemo.rsc"-"!:\system\apps\SimkinXmlDemo\SimkinXmlDemo.rsc"
+"SimkinDemo.xml"-"c:\documents\simkin\SimkinDemo.xml"

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTextNode.h,v 1.9 2003/04/04 17:04:25 simkin_cvs Exp $
+* $Id: skTextNode.h,v 1.11 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 #ifndef skTEXTNODE_H
 #define skTEXTNODE_H
@@ -32,45 +32,48 @@ class CLASSEXPORT skTextNode : public skNode
   /** Contructs a new text node with the given text 
    * @param text - the text to use as the node's value
    */
-  skTextNode(const skString& text);
+  IMPORT_C skTextNode(const skString& text);
   /**
   * Virtual destructor 
   */
-  virtual ~skTextNode();
+  IMPORT_C virtual ~skTextNode();
   /**
    * returns the text within the text node
    *@return the text for this node 
    */
-  virtual skString getNodeValue() const;
+  IMPORT_C virtual skString getNodeValue() const;
   /**
    * sets the text in this node
    *@param s - the new text for this node
    */
-  virtual void setNodeValue(const skString& s);
+  IMPORT_C virtual void setNodeValue(const skString& s);
   /**
    * this returns the type of this node
    * @return returns TEXT_NODE
    */
-  virtual NodeType getNodeType() const;
+  IMPORT_C virtual NodeType getNodeType() const;
   /**
    * this method returns a new skTextNode that has the same text value as this one
    * @return a new copy of this node
+   * @exception Symbian - a leaving function
    */
-  virtual skNode * clone();
+  IMPORT_C virtual skNode * clone();
   /**
    * writes the text in this node to the given destination
    * @param out - the destination to write to
+   * @exception Symbian - a leaving function
    */
-  virtual void write(skOutputDestination& out) const;
+  IMPORT_C virtual void write(skOutputDestination& out) const;
   /**
    * writes the text in this node to a string
    * @return the string containing the text
+   * @exception Symbian - a leaving function
    */
-  virtual skString toString() const;
+  IMPORT_C virtual skString toString() const;
   /**
    * Does a deep comparison against another node
    */
-  virtual bool equals(const skNode& other) const;
+  IMPORT_C virtual bool equals(const skNode& other) const;
  protected:
   /** this member variable holds the text for this node */
   skString m_Text;

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExecutable.h,v 1.37 2003/04/14 15:24:57 simkin_cvs Exp $
+* $Id: skExecutable.h,v 1.38 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 
 #ifndef skEXECUTABLE_H
@@ -111,6 +111,8 @@ public skiExecutable
    * @param ctxt context object to receive errors
    * @return true if the method could be executed, or false if the method is not supported
    * @exception Symbian - a leaving function
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
   virtual IMPORT_C bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value,skExecutableContext& ctxt);
   /**

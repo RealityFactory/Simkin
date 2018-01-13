@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skExpatParser_8h-source.html,v 1.11 2003/04/14 15:52:43 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skExpatParser_8h-source.html,v 1.13 2003/04/19 17:55:59 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 <span class="preprocessor">#ifndef skEXPATPARSER_H</span>
@@ -38,38 +38,40 @@
 00030 <span class="keyword">class </span>CLASSEXPORT skInputSource;
 00031 
 00036 <span class="keyword">class </span>CLASSEXPORT skExpatParser 
-00037 {
-00038  <span class="keyword">public</span>:
-00040   skExpatParser();
-00041   ~skExpatParser();
-00042 
-00043   <a class="code" href="classskElement.html">skElement</a> * parse(skInputSource&amp; in,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; context);
-00044  <span class="keyword">private</span>:
-00046   skExpatParser(<span class="keyword">const</span> skExpatParser&amp;);
-00047   skExpatParser&amp; operator=(<span class="keyword">const</span> skExpatParser&amp;);
-00048 
-00049   <span class="keyword">static</span> <span class="keywordtype">void</span> startElementHandler(<span class="keywordtype">void</span> * userData,<span class="keyword">const</span> Char *name, <span class="keyword">const</span> Char **atts);
-00050   <span class="keywordtype">void</span> startElement(<span class="keyword">const</span> Char *name, <span class="keyword">const</span> Char **atts);
-00051 
-00052   <span class="keyword">static</span> <span class="keywordtype">void</span> endElementHandler(<span class="keywordtype">void</span> * userData,<span class="keyword">const</span> Char *name);
-00053   <span class="keywordtype">void</span> endElement(<span class="keyword">const</span> Char *name);
-00054 
-00055   <span class="keyword">static</span> <span class="keywordtype">void</span> characterDataHandler(<span class="keywordtype">void</span> *userData, <span class="keyword">const</span> XML_Char *s,<span class="keywordtype">int</span> len);
-00056   <span class="keywordtype">void</span> characterData(<span class="keyword">const</span> XML_Char *s,<span class="keywordtype">int</span> len);
-00057 
-00058   <span class="keyword">static</span>  <span class="keywordtype">void</span> startCDataHandler(<span class="keywordtype">void</span> *userData);
-00059   <span class="keywordtype">void</span> startCData();
-00060 
-00061   <span class="keyword">static</span> <span class="keywordtype">void</span> endCDataHandler(<span class="keywordtype">void</span> *userData);
-00062   <span class="keywordtype">void</span> endCData ();
-00063 
-00064   <a class="code" href="classskNodeList.html">skNodeList</a> m_ElementStack;
-00065   <span class="keywordtype">bool</span> m_InCData;
-00066   <a class="code" href="classskElement.html">skElement</a> * m_RootElement;
-00067 };
-00068 <span class="preprocessor">#endif</span>
-00069 <span class="preprocessor"></span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:32 2003 for Simkin by
+00037 #ifdef __SYMBIAN32__
+00038 : <span class="keyword">public</span> CBase
+00039 #endif
+00040 {
+00041  <span class="keyword">public</span>:
+00043   IMPORT_C skExpatParser();
+00045   IMPORT_C <span class="keyword">virtual</span> ~skExpatParser();
+00053   IMPORT_C <a class="code" href="classskElement.html">skElement</a> * parse(skInputSource&amp; in,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; context);
+00054  <span class="keyword">private</span>:
+00056   skExpatParser(<span class="keyword">const</span> skExpatParser&amp;);
+00057   skExpatParser&amp; operator=(<span class="keyword">const</span> skExpatParser&amp;);
+00058 
+00059   <span class="keyword">static</span> <span class="keywordtype">void</span> startElementHandler(<span class="keywordtype">void</span> * userData,<span class="keyword">const</span> Char *name, <span class="keyword">const</span> Char **atts);
+00060   <span class="keywordtype">void</span> startElement(<span class="keyword">const</span> Char *name, <span class="keyword">const</span> Char **atts);
+00061 
+00062   <span class="keyword">static</span> <span class="keywordtype">void</span> endElementHandler(<span class="keywordtype">void</span> * userData,<span class="keyword">const</span> Char *name);
+00063   <span class="keywordtype">void</span> endElement(<span class="keyword">const</span> Char *name);
+00064 
+00065   <span class="keyword">static</span> <span class="keywordtype">void</span> characterDataHandler(<span class="keywordtype">void</span> *userData, <span class="keyword">const</span> XML_Char *s,<span class="keywordtype">int</span> len);
+00066   <span class="keywordtype">void</span> characterData(<span class="keyword">const</span> XML_Char *s,<span class="keywordtype">int</span> len);
+00067 
+00068   <span class="keyword">static</span>  <span class="keywordtype">void</span> startCDataHandler(<span class="keywordtype">void</span> *userData);
+00069   <span class="keywordtype">void</span> startCData();
+00070 
+00071   <span class="keyword">static</span> <span class="keywordtype">void</span> endCDataHandler(<span class="keywordtype">void</span> *userData);
+00072   <span class="keywordtype">void</span> endCData ();
+00073 
+00074   <a class="code" href="classskNodeList.html">skNodeList</a> m_ElementStack;
+00075   <span class="keywordtype">bool</span> m_InCData;
+00076   <a class="code" href="classskElement.html">skElement</a> * m_RootElement;
+00077 };
+00078 <span class="preprocessor">#endif</span>
+00079 <span class="preprocessor"></span>
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

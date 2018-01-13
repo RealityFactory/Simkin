@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementObject.h,v 1.16 2003/04/04 17:04:25 simkin_cvs Exp $
+* $Id: skElementObject.h,v 1.18 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 
 
@@ -58,61 +58,63 @@ class CLASSEXPORT skElementObject : public skExecutable {
   /**
    * Default Constructor
    */
-  skElementObject();
+  IMPORT_C skElementObject();
   /**
    * Constructor which takes an Element
    * @param location - used to identify the source of the document in error messages
    * @param elem - the element to be stored
    * @param created - if true, this object will destroy the associated skElement object in its destructor
    */
-  skElementObject(const skString& location,skElement * elem,bool created);
+  IMPORT_C skElementObject(const skString& location,skElement * elem,bool created);
   /**
    * Destructor
    */
-  ~skElementObject();
+  IMPORT_C virtual ~skElementObject();
   /**
    * Returns ELEMENT_TYPE indicating the element is an ElementObject
    * @return the type as  element
    */
-  int executableType() const;			
+  IMPORT_C int executableType() const;			
   /**
    * @return the value of the element text data as an integer
    */
-  int intValue() const;
+  IMPORT_C int intValue() const;
 #ifdef USE_FLOATING_POINT
   /**
    * @return the value of the element text data as a float
    */
-  float floatValue() const;
+  IMPORT_C float floatValue() const;
 #endif
   /**
    * @return the value of the element text data as a boolean
    */
-  bool boolValue() const;
+  IMPORT_C bool boolValue() const;
   /**
    * @return the first character of the element text data 
    */
-  Char charValue() const;
+  IMPORT_C Char charValue() const;
   /**
    * @return the value of the element text data as a string
    */
-  skString strValue() const;
+  IMPORT_C skString strValue() const;
   /**
    * sets the value of an item in the element. The first sub-element matching the tag is found. If the value passed is an element, it is first copied. If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present
    * @param name - the name of the element tag to set (null if it's the overall element)
    * @param attribute - the name of the attribute to set (null to set text for the element)
    * @param return_value - the RValue to receive the value
    * @return true if the field was found, false otherwise
+   * @exception Symbian - a leaving function
    */
-  virtual bool setValue(const skString& name,const skString& attribute,const skRValue& return_value);
+  IMPORT_C virtual bool setValue(const skString& name,const skString& attribute,const skRValue& return_value);
   /**
    * Sets a value within the nth element of the  element. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present.
    * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
    * @param attribute - the attribute name to set (may be blank)
    * @param value - the value to be set
    * @return true if the field was changed, false if the field could not be set or found
+   * @exception Symbian - a leaving function
    */
-  virtual bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
+  IMPORT_C virtual bool setValueAt(const skRValue& array_index,const skString& attribute,const skRValue& value); 
   /**
    * Retrieves a field from the . The first sub-element matching the tag is found. The value returned is an ElementObject, unless the attrib value is specified. It also supports the following built-in field:
    * <P> "nodename" - returns the tag name of this element
@@ -121,8 +123,9 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param attribute - the attribute name to retrieve
    * @param value -  the RValue to containing the value to be set
    * @return true if the method was found, false otherwise
+   * @exception Symbian - a leaving function
    */
-  virtual bool getValue(const skString& name,const skString& attribute,skRValue& value);
+  IMPORT_C virtual bool getValue(const skString& name,const skString& attribute,skRValue& value);
   /**
    * Retrieves the nth value from within the element. If the array index falls within the range of the number of children of this element, 
    * a new ElementObject encapsulating the child is returned. If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item" will be added if one is not already present
@@ -130,8 +133,9 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param attribute - the attribute name to retrived (may be blank)
    * @param value - the value to be retrieved
    * @return true if the field was found, false if the field could not found
+   * @exception Symbian - a leaving function
    */
-  virtual bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
+  IMPORT_C virtual bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
    * this method attempts to execute a method stored in the . It searches for an element whose tag matches the method name and if found passes the text for the tag through to the interpeter. 
    * <p>The method also supports the following methods to Simkin scripts: <ul>
@@ -143,57 +147,78 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param ret the object to receive the result of the method call
    * @param ctxt context object to receive errors
    * @return true if the method was found, false otherwise
+   * @exception Symbian - a leaving function
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
-  virtual bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
+  IMPORT_C virtual bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**
    * tests for equality with another object, using a deep comparison if the other object is an ElementObject, otherwise comparing string values
    * @return true if the data in both elements is the same
    */
-  bool equals(const skiExecutable * o) const;
+  IMPORT_C bool equals(const skiExecutable * o) const;
   /**
    * Clears the other element and does a deep copy of the children of this node into that one
    * @param other - the element into which our children will be copied
+   * @exception Symbian - a leaving function
    */
-  void copyItemsInto(skElement * other);
+  IMPORT_C void copyItemsInto(skElement * other);
   /** sets the flag controlling whether new elements are created as they are accessed
    * @param enable enables this feature (which by default is disabled)
    */
-  virtual void setAddIfNotPresent(bool enable);
+  IMPORT_C virtual void setAddIfNotPresent(bool enable);
   /** this returns the value of the flag controlling whether new elements are created as they are accessed 
    * @return true if the feature is enabled, otherwise false (the default)
    */
-  virtual bool getAddIfNotPresent();
-  /**
+  IMPORT_C virtual bool getAddIfNotPresent();
+   /**
    * This method returns the  Element being held by the object.
    * @return the underlying Element
    */
-  skElement * getElement();
+  IMPORT_C skElement * getElement();
+   /**
+   * This method returns the  Element being held by the object.
+   * @return the underlying Element
+   */
+  IMPORT_C const skElement * getElement() const;
   /**
    * retrieves the text data from an element
    * @param element
    * @return the text from a child node of type CDATA or TEXT
+   * @exception Symbian - a leaving function
    */
-  static skString getData(skElement * element);
+  IMPORT_C static skString getData(skElement * element);
   /**
    * sets the text data for a node by looking for the first CDATA and TEXT child node
    * @param element the element to be changed
    * @param data the data to be set
+   * @exception Symbian - a leaving function
    */
-  static void setData(skElement * element,const skString& data);
+  IMPORT_C static void setData(skElement * element,const skString& data);
   /**
    * returns a child element
    * @param parent the parent element
    * @param tagname the tag name of the element
    * @return the first element child of the parent with the matching tag name, or null if not found
    */
-  static skElement * findChild(skElement * parent,const skString& tagname);
+  IMPORT_C static skElement * findChild(skElement * parent,const skString& tagname);
+#ifdef __SYMBIAN32__
+  /**
+   * returns a child element
+   * \remarks only available in Symbian version
+   * @param parent the parent element
+   * @param tagname the tag name of the element
+   * @return the first element child of the parent with the matching tag name, or null if not found
+   */
+  IMPORT_C static skElement * findChild(skElement * parent,const TDesC& tagname);
+#endif
   /**
    * returns the nth child element
    * @param parent the parent element
    * @param index the index of the element
    * @return the matching element or null if outside the current list ot items
    */
-  static skElement * findChild(skElement * parent,int index);
+  IMPORT_C static skElement * findChild(skElement * parent,int index);
   /**
    * returns a child element with the given attribute set to the given value
    * @param parent the parent element
@@ -202,67 +227,105 @@ class CLASSEXPORT skElementObject : public skExecutable {
    * @param value value of the named attribute
    * @return the first element child of the parent with the matching tag name and attribute value, or null if not found
    */
-  static skElement * findChild(skElement * parent,const skString& tagname,const skString& attribute,const skString& value);
+  IMPORT_C static skElement * findChild(skElement * parent,const skString& tagname,const skString& attribute,const skString& value);
+#ifdef __SYMBIAN32__
+  /**
+   * returns a child element with the given attribute set to the given value
+   * \remarks only available in Symbian version
+   * @param parent the parent element
+   * @param tagname the tag name of the element
+   * @param attribute name of the attribute
+   * @param value value of the named attribute
+   * @return the first element child of the parent with the matching tag name and attribute value, or null if not found
+   */
+  IMPORT_C static skElement * findChild(skElement * parent,const TDesC& tagname,const TDesC& attribute,const skString& value);
+#endif
   /**
    * Sets an attribute on this node
    */
-  void setAttribute(skString name,const skString& value);
+  IMPORT_C void setAttribute(skString name,const skString& value);
   /**
    * This method returns the value of an attribute attached to this element.
    * @return the value of the given attribute
+   * @exception Symbian - a leaving function
    */
-  skString getAttribute(const skString& name) const;
+  IMPORT_C skString getAttribute(const skString& name) const;
+#ifdef __SYMBIAN32__
+  /**
+   * This method returns the value of an attribute attached to this element.
+   * \remarks only available in Symbian version
+   * @return the value of the given attribute
+   */
+  IMPORT_C skString getAttribute(const TDesC& name) const;
+#endif
   /**
    * This function returns the location associated with this object (typically a file name)
    */
-  skString getLocation() const;
+  IMPORT_C skString getLocation() const;
   /**
    * This function sets the location associated with this object (typically a file name)
    */
-  void setLocation(const skString& location) ;
+  IMPORT_C void setLocation(const skString& location) ;
   /** this method returns the number of element children of the given element */
-  static int countChildren(skElement * parent);
+  IMPORT_C static int countChildren(skElement * parent);
   /**
    * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over elements with the given tag.
    * @param qualifier tag - only elements with this tag will appear in the iteration
+   * @exception Symbian - a leaving function
    */
-  skExecutableIterator * createIterator(const skString& qualifier);
+  IMPORT_C skExecutableIterator * createIterator(const skString& qualifier);
   /**
    * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over *all* children of this element
+   * @exception Symbian - a leaving function
    */
-  skExecutableIterator * createIterator();
+  IMPORT_C skExecutableIterator * createIterator();
   /**
   * Returns the source code for the given method
+   * @exception Symbian - a leaving function
   */
-  virtual skString getSource(const skString& location);
+  IMPORT_C virtual skString getSource(const skString& location);
   /**
   * This method returns the instance variables for this object
   * @param table a table to filled with references to the instance variables
+   * @exception Symbian - a leaving function
   */
-  virtual void getInstanceVariables(skRValueTable& table);
+  IMPORT_C virtual void getInstanceVariables(skRValueTable& table);
   /**
   * This method returns the attributes for this object 
   * @param table a table to filled with the values of the attributes
+   * @exception Symbian - a leaving function
   */
-  virtual void getAttributes(skRValueTable& table);
-protected:
+  IMPORT_C virtual void getAttributes(skRValueTable& table);
   /**
    * This method updates the associated element and clears the parse tree cache
+   * @param location the location of this element
    * @param element - the new Element
    * @param created - set to true if this object will delete the element at the end
    */
-  virtual void setElement(skElement * element,bool created=false);
+  IMPORT_C virtual void setElement(const skString& location,skElement * element,bool created=false);
+#ifdef __SYMBIAN32__
+  /**
+   * This method updates the associated element and clears the parse tree cache
+   * \remarks only available in Symbian version
+   * @param location the location of this element
+   * @param element - the new Element
+   * @param created - set to true if this object will delete the element at the end
+   */
+  IMPORT_C void setElement(const TDesC& location,skElement * element,bool created=false);
+#endif
   /**
    * This method creates a new  Element object to wrap an element. Override this for special behaviour in derived classes. In this method, the newly created object inherits this object's m_AddIfNotPresent flag
    * @param location the location of this element
    * @param element the DOM element to associate with the object
+   * @param created set this to true if the new skElementObject should delete the element in its destructor
+   * @exception Symbian - a leaving function
    */
-  virtual skElementObject * createElementObject(const skString& location,skElement * element,bool created);
+  IMPORT_C virtual skElementObject * createElementObject(const skString& location,skElement * element,bool created);
+ private:
   /**
    * the location that the  document came from
    */
   skString m_ScriptLocation;
- protected:
   /**
    * the underlying document
    */

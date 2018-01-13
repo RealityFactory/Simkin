@@ -16,104 +16,103 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElement.cpp,v 1.15 2003/04/04 17:13:13 simkin_cvs Exp $
+* $Id: skElement.cpp,v 1.17 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #include "skElement.h"
 #include "skStringBuffer.h"
 #include "skOutputDestination.h"
+skNAMED_LITERAL(tag_start,skSTR("<"));
+skNAMED_LITERAL(close_tag_start,skSTR("</"));
+skNAMED_LITERAL(tag_end,skSTR(">"));
+skNAMED_LITERAL(close_tag_end,skSTR("/>"));
+skNAMED_LITERAL(space,skSTR(" "));
 //------------------------------------------
-skElement::skElement(const skString& tagname)
-//------------------------------------------
-:m_TagName(tagname)
+EXPORT_C skElement::skElement(const skString& tagname)
+  //------------------------------------------
+  :m_TagName(tagname)
 {
 }
 //------------------------------------------
-skElement::~skElement()
-//------------------------------------------
+EXPORT_C skElement::~skElement()
+  //------------------------------------------
 {
 }
 //------------------------------------------
-void skElement::appendChild(skNode * child)
-//------------------------------------------
+EXPORT_C void skElement::appendChild(skNode * child)
+  //------------------------------------------
 {
   m_ChildNodes.append(child);
   child->setParent(this);
 }
 //------------------------------------------
-void skElement::removeAndDestroyChild(skNode * child)
-//------------------------------------------
+EXPORT_C void skElement::removeAndDestroyChild(skNode * child)
+  //------------------------------------------
 {
   child->setParent(0);
   m_ChildNodes.removeAndDestroy(child);
 }
 //------------------------------------------
-void skElement::removeChild(skNode * child)
-//------------------------------------------
+EXPORT_C void skElement::removeChild(skNode * child)
+  //------------------------------------------
 {
   child->setParent(0);
   m_ChildNodes.remove(child);
 }
 //------------------------------------------
-void skElement::setAttribute(const skString& name,const skString& value)
-//------------------------------------------
+EXPORT_C void skElement::setAttribute(const skString& name,const skString& value)
+  //------------------------------------------
 {
-  skAttribute * attr=findAttribute(name);
-  if (attr)
-    attr->setValue(value);
-  else
-    m_Attributes.append(new skAttribute(name,value));
+  m_Attributes.setAttribute(name,value);
 }
 //------------------------------------------
-skAttribute * skElement::findAttribute(const skString& name) const
-//------------------------------------------
+EXPORT_C bool skElement::removeAttribute(const skString& name)
+  //------------------------------------------
 {
-  skAttribute * ret=0;
-  for (USize i=0;i<m_Attributes.entries();i++){
-    skAttribute * attr=m_Attributes[i];
-    if (attr->getName()==name){
-      ret=attr;
-      break;
-    }
-  }
-  return ret;
+  return m_Attributes.removeAttribute(name);
+}
+#ifdef __SYMBIAN32__
+//------------------------------------------
+EXPORT_C skString skElement::getAttribute(const TDesC& name) const
+  //------------------------------------------
+{
+  skString attr_name;
+  attr_name=name;
+  return m_Attributes.getAttribute(attr_name);
+}
+#endif
+//------------------------------------------
+EXPORT_C skString skElement::getAttribute(const skString& name) const
+  //------------------------------------------
+{
+  return m_Attributes.getAttribute(name);
 }
 //------------------------------------------
-skString skElement::getAttribute(const skString& name) const
-//------------------------------------------
-{
-  skString value;
-  skAttribute * attr=findAttribute(name);
-  if (attr)
-    value=attr->getValue();
-  return value;
-}
-//------------------------------------------
-skAttributeList& skElement::getAttributes()
-//------------------------------------------
+EXPORT_C skAttributeList& skElement::getAttributes()
+  //------------------------------------------
 {
   return m_Attributes;
 }
 //------------------------------------------
-skNodeList& skElement::getChildNodes()
-//------------------------------------------
+EXPORT_C skNodeList& skElement::getChildNodes()
+  //------------------------------------------
 {
   return m_ChildNodes;
 }
 //------------------------------------------
-skString skElement::getTagName() const
-//------------------------------------------
+EXPORT_C skString skElement::getTagName() const
+  //------------------------------------------
 {
   return m_TagName;
 }
 //------------------------------------------
- skNode::NodeType skElement::getNodeType() const
-//------------------------------------------
+EXPORT_C  skNode::NodeType skElement::getNodeType() const
+  //------------------------------------------
 {
   return ELEMENT_NODE;
 }
 //------------------------------------------
- skNode * skElement::clone()
-//------------------------------------------
+EXPORT_C  skNode * skElement::clone()
+  //------------------------------------------
 {
   skElement * element=new skElement(m_TagName);
   for (USize i=0;i<m_Attributes.entries();i++){
@@ -127,44 +126,48 @@ skString skElement::getTagName() const
   return element;
 }
 //------------------------------------------
-void skElement::write(skOutputDestination& out) const
-//------------------------------------------
+EXPORT_C void skElement::write(skOutputDestination& out) const
+  //------------------------------------------
 {
-  out.write(skSTR("<"));
+  out.write(s_tag_start);
   out.write(m_TagName);
   for (USize i=0;i<m_Attributes.entries();i++){
-    out.write(skSTR(" ")); 
+    out.write(s_space); 
     m_Attributes[i]->write(out);
   }
-  out.write(skSTR(">"));
-  for (USize j=0;j<m_ChildNodes.entries();j++)
-    m_ChildNodes[j]->write(out);
-  out.write(skSTR("</"));
-  out.write(m_TagName);
-  out.write(skSTR(">"));
+  if (m_ChildNodes.entries()){
+    out.write(s_tag_end);
+    for (USize j=0;j<m_ChildNodes.entries();j++)
+      m_ChildNodes[j]->write(out);
+    out.write(s_close_tag_start);
+    out.write(m_TagName);
+    out.write(s_tag_end);
+  }else{
+    out.write(s_close_tag_end);
+  }
 }
 //------------------------------------------
-skString skElement::toString() const
-//------------------------------------------
+EXPORT_C skString skElement::toString() const
+  //------------------------------------------
 {
   skStringBuffer buffer(100);
-  buffer.append(skSTR("<"));
+  buffer.append(s_tag_start);
   buffer.append(m_TagName);
   for (USize i=0;i<m_Attributes.entries();i++){
-    buffer.append(skSTR(" "));
+    buffer.append(s_space);
     buffer.append(m_Attributes[i]->toString());
   }
-  buffer.append(skSTR(">"));
+  buffer.append(s_tag_end);
   for (USize j=0;j<m_ChildNodes.entries();j++)
     buffer.append(m_ChildNodes[j]->toString());
-  buffer.append(skSTR("</"));
+  buffer.append(s_close_tag_start);
   buffer.append(m_TagName);
-  buffer.append(skSTR(">"));
+  buffer.append(s_tag_end);
   return buffer.toString();
 }
 //------------------------------------------
-bool skElement::equals(const skNode& other) const
-//------------------------------------------
+EXPORT_C bool skElement::equals(const skNode& other) const
+  //------------------------------------------
 {
   bool equals=false;
   if (getNodeType()==other.getNodeType())
@@ -172,15 +175,15 @@ bool skElement::equals(const skNode& other) const
   return equals;
 }
 //------------------------------------------
-bool skElement::operator==(const skElement& other) const
-//------------------------------------------
+EXPORT_C bool skElement::operator==(const skElement& other) const
+  //------------------------------------------
 {
   // at this level, *do not* check tag name
   return deepCompare(other,false);
 }
 //------------------------------------------
-bool skElement::deepCompare(const skElement& other,bool check_tagname) const
-//------------------------------------------
+EXPORT_C bool skElement::deepCompare(const skElement& other,bool check_tagname) const
+  //------------------------------------------
 {
   bool equals=false;
   // check tag name
@@ -189,51 +192,31 @@ bool skElement::deepCompare(const skElement& other,bool check_tagname) const
     if (m_Attributes.entries()==other.m_Attributes.entries()){
       equals=true;
       for (USize i=0;i<m_Attributes.entries();i++){
-              skAttribute * attr=m_Attributes[i];
-              if (other.getAttribute(attr->getName())!=attr->getValue()){
-                equals=false;
-                break;
-              }
-            }
-            if (equals){
-              // check children match
-              if (m_ChildNodes.entries()==other.m_ChildNodes.entries()){
-                for (USize i=0;i<m_ChildNodes.entries();i++){
-                  skNode * this_node=m_ChildNodes[i];
-                  skNode * other_node=other.m_ChildNodes[i];
-                  if (this_node->getNodeType()==other_node->getNodeType()){
-                    if (this_node->equals(*other_node)==false){
-                      equals=false;
-                      break;
-                    }
-                  }else{
-                    equals=false;
-                    break;
-                  }
-                }
-              }
+	skAttribute * attr=m_Attributes[i];
+	if (other.getAttribute(attr->getName())!=attr->getValue()){
+	  equals=false;
+	  break;
+	}
+      }
+      if (equals){
+	// check children match
+	if (m_ChildNodes.entries()==other.m_ChildNodes.entries()){
+	  for (USize i=0;i<m_ChildNodes.entries();i++){
+	    skNode * this_node=m_ChildNodes[i];
+	    skNode * other_node=other.m_ChildNodes[i];
+	    if (this_node->getNodeType()==other_node->getNodeType()){
+	      if (this_node->equals(*other_node)==false){
+		equals=false;
+		break;
+	      }
+	    }else{
+	      equals=false;
+	      break;
+	    }
+	  }
+	}
       }
     }
   }
   return equals;
-}
-//------------------------------------------
-skString skAttribute::toString() const
-//------------------------------------------
-{
-  skStringBuffer buffer(100);
-  buffer.append(getName());
-  buffer.append(skSTR("=\""));
-  buffer.append(skNode::escapeXMLDelimiters(getValue()));
-  buffer.append(skSTR("\""));
-  return buffer.toString();
-}
-//------------------------------------------
-void skAttribute::write(skOutputDestination& out)
-//------------------------------------------
-{
-  out.write(m_Name);
-  out.write(skSTR("=\""));
-  out.write(skNode::escapeXMLDelimiters(m_Value));
-  out.write(skSTR("\""));
 }

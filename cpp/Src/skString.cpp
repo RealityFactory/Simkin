@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skString.cpp,v 1.38 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skString.cpp,v 1.39 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 
 #include <stdio.h>
@@ -229,6 +229,14 @@ EXPORT_C skString skString::fromBuffer(Char * buffer)
   pimp->init();
   skString str=skString(pimp);
   return str;
+}
+//---------------------------------------------------
+EXPORT_C skString skString::copyFromBuffer(const Char * buffer,USize len)
+  //---------------------------------------------------
+{
+  skString s;
+  s.assign(buffer,len);
+  return s;
 }
 //---------------------------------------------------
 EXPORT_C skString skString::from(int i)

@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skParseNode.h,v 1.39 2003/04/14 15:24:57 simkin_cvs Exp $
+  * $Id: skParseNode.h,v 1.40 2003/04/19 13:22:24 simkin_cvs Exp $
   */
 
 #ifndef PARSENODE_H
@@ -107,7 +107,7 @@ enum skInstruction{
   b_Return,          // param1 = has return expr   param2 = line
   b_While,           // param1 = 0                 param2 = line
   b_ForEach,         // param1 = id index          param2 = line
-  b_QualifierIndex,  // param1 = qualifier index
+  b_QualifierIndex,  // param1 = qualifier index   param2 = number of bytes in stat list
   b_For,             // param1 = has step expr     param2 = line
   b_Assign,          // param1 = 0                 param2 = line
   b_Method,          // param1 = 0                 param2 = line
@@ -123,7 +123,8 @@ enum skInstruction{
   b_Float,           // param1 = float index
 #endif
   b_Op,              // param1 = op type           param2 = has 2nd expression
-  b_CaseList,         // param1 = number of cases   param2 = number of byte codes in case list
+  b_CaseList,        // param1 = number of cases   param2 = number of byte codes in case list
+  b_StatsSize,       // param1 = 0                 param2 = number of bytes in stat list
   b_NUMCODES
 };
 

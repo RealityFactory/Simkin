@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAsciiString.h,v 1.3 2003/04/04 17:04:25 simkin_cvs Exp $
+* $Id: skAsciiString.h,v 1.5 2003/04/19 17:56:15 simkin_cvs Exp $
 */
 
 
@@ -38,172 +38,191 @@ class P_AsciiString;
  * It uses a pointer to a string plus a reference count to save copying when passed by value
 */
 class CLASSEXPORT skAsciiString 
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
  public:
   /**
    * Default Constructor - constructs a blank string
    */
   skAsciiString();
+#ifndef __SYMBIAN32__
   /**
    * Constructor - from a null-terminated c-string
+   * \remarks not available in Symbian version
    */
   skAsciiString(const char *);
+#endif
   /**
    * Copy Constructor
    */
-  skAsciiString(const skAsciiString&);
+  inline skAsciiString(const skAsciiString&);
+#ifndef __SYMBIAN32__
   /**
    * Constructor - from a non null-terminated buffer
+   * \remarks not available in Symbian version
    * @param buffer - the buffer to be copied from
    * @param len - the length of the data to be copied
    */
   skAsciiString(const char * buffer, USize len);
   /**
    * Constructor - a repeated list of characters
+   * \remarks not available in Symbian version
    * @param repeatchar - the character to be repeated
    * @param len - the number of times the character is repeated
    */
   skAsciiString(const char repeatchar, USize len);
+#endif
   /**
    * Destructor
    */
-  virtual ~skAsciiString();
+  virtual inline ~skAsciiString();
   /**
    * Assignment operator - increments reference count of underlying P_String object
+   * @exception Symbian - a leaving function
    */
-  skAsciiString& operator=(const skAsciiString&);
+  inline skAsciiString& operator=(const skAsciiString&);
   /**
    * Assignment operator - dereferences the P_String object and makes a new one by copying the given buffer
+   * @exception Symbian - a leaving function
    */
-  skAsciiString& operator=(const char *);
+  IMPORT_C skAsciiString& operator=(const char *);
   /**
    * Comparison operator
    * @return true if the current string is alphabetically before the other string
    */
-  bool operator<(const skAsciiString&) const;
+  inline bool operator<(const skAsciiString&) const;
   /**
    * Equality operator
    * @return true if the other string is the same as the current one
    */
-  bool operator==(const skAsciiString&) const;
+  inline bool operator==(const skAsciiString&) const;
   /**
    * Equality operator 
    * @return true if the other c-string is the same as the current one
    */
-  bool operator==(const char *) const;
+  inline bool operator==(const char *) const;
   /**
    * Inequality operator
    * @return true if the other string is different to the current one
    */
-  bool operator!=(const skAsciiString&) const;
+  IMPORT_C bool operator!=(const skAsciiString&) const;
   /**
    * Inequality operator
    * @return true if the other c-string is different to the current one
    */
-  bool operator!=(const char *) const;
+  IMPORT_C bool operator!=(const char *) const;
+#ifndef __SYMBIAN32__
   /**
    * Conversion operator
+   * \remarks not available in Symbian version
    * @return a pointer to the buffer contained within the P_String object
    */
   operator const char * () const;
+#endif
   /**
-   * Case-insensitive equality
-   * @return true if the other string is the same as the current one, ignoring case
+   * Accesses underlying buffer
+   * @return a pointer to the buffer contained within the P_String object
    */
-  bool equalsIgnoreCase(const skAsciiString&) const;
+  inline const char * c_str() const;
   /**
    * Returns a hash value for this string
    */
-  USize hash() const;
+  inline USize hash() const;
   /**
    * Returns a character within the string
    * @param index - the index of the character, starting at 0
    * @return the character, or 0 if the index does not lie within the length of the string
    */
-  char at(USize index) const;
+  inline char at(USize index) const;
   /**
    * Returns a substring of this string
    * @param start - the 0-based start of the substring
    * @param length - the length of the substring
    * @return a new String for the substring, or a blank string if the start and length do not lie within the current string
+   * @exception Symbian - a leaving function
    */
-  skAsciiString substr(USize start,USize length) const;
+  IMPORT_C skAsciiString substr(USize start,USize length) const;
   /**
    * Returns the substring from the start up to the end of the current string
    * @param start - the 0-based start of the substring
    * @return a new String for the substring, or a blank string if the start does not lie within the current string
+   * @exception Symbian - a leaving function
    */
-  skAsciiString substr(USize start) const;
+  IMPORT_C skAsciiString substr(USize start) const;
   /**
    * Addition operator
    * @return a String that contains this string followed by the other string
+   * @exception Symbian - a leaving function
    */
-  skAsciiString operator+(const skAsciiString&) const ;
+  IMPORT_C skAsciiString operator+(const skAsciiString&) const ;
   /**
    * Increment operator - dereferences the P_String object, and replaces it with the concatenation of this string and the other one
    * @return this string
+   * @exception Symbian - a leaving function
    */
-  skAsciiString& operator+=(const skAsciiString&);
+  IMPORT_C skAsciiString& operator+=(const skAsciiString&);
   /**
    * Length of the string
    * @return the length of the buffer in the P_String object
    */
-  USize length() const;
+  inline USize length() const;
   /**
    * returns the index of the first occurrence of the given string within the string
    * @return an index, or -1 if not found
    */
-  int indexOf(const skAsciiString& s) const;
+  IMPORT_C int indexOf(const skAsciiString& s) const;
   /**
    * returns the index of the first occurrence of the given character within the string
    * @return an index, or -1 if not found
    */
-  int indexOf(char c) const;
+  IMPORT_C int indexOf(char c) const;
   /**
    * returns the index of the last occurrence of the given character within the string
    * @return an index, or -1 if not found
    */
-  int indexOfLast(char c) const;
+  EXPORT_C int indexOfLast(char c) const;
   /**
    * Converts the string to an integer
    */
-  int to() const;
+  IMPORT_C int to() const;
 #ifdef USE_FLOATING_POINT
   /**
    * Converts the string to a float
    */
-  float toFloat() const;
+  IMPORT_C float toFloat() const;
 #endif
   /**
    * Constructs a string from static string - the static string is *not* copied
    */
-  static skAsciiString literal(const char *);
+  static IMPORT_C skAsciiString literal(const char *);
   /**
    * Constructs a string from a signed integer
    */
-  static skAsciiString from(int);
+  static IMPORT_C skAsciiString from(int);
   /**
    * Constructs a string from an unsigned integer
    */
-  static skAsciiString from(USize);
+  static IMPORT_C skAsciiString from(USize);
 #ifdef USE_FLOATING_POINT
   /**
    * Constructs a string from a float
    */
-  static skAsciiString from(float);
+  static IMPORT_C skAsciiString from(float);
 #endif
   /**
    * Constructs a string from a character
    */
-  static skAsciiString from(char ch);
+  static IMPORT_C skAsciiString from(char ch);
   /**
    * Constructs a string from a buffer, which is *not* copied. The string will delete the buffer when the reference count reaches zero
    */
-  static skAsciiString fromBuffer(char * buffer);
+  static IMPORT_C skAsciiString fromBuffer(char * buffer);
   /**
    * returns a version of this string with leading blanks removed
    */
-  skAsciiString ltrim() const;
+  skAsciiString IMPORT_C ltrim() const;
  protected:
   /**
    * Constructor - internal taking a P_String and not copying it
@@ -236,7 +255,7 @@ inline USize hashKey(const skAsciiString * s)
 /*
  * An operator to add strings
  */
-CLASSEXPORT skAsciiString operator+(const char * s1,const skAsciiString& s2);
+CLASSEXPORT IMPORT_C skAsciiString operator+(const char * s1,const skAsciiString& s2);
 
 #ifdef STREAMS_ENABLED
 /*

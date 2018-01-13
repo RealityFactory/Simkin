@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObjectEnumerator.h,v 1.9 2003/03/18 19:36:13 simkin_cvs Exp $
+  $Id: skElementObjectEnumerator.h,v 1.11 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #ifndef ELEMENTOBJECTENUMERATOR_H
 #define ELEMENTOBJECTENUMERATOR_H
@@ -34,17 +34,19 @@ class CLASSEXPORT skElementObjectEnumerator : public skExecutable, public skExec
  public:
   /** This contructs an skElementObject enumerator over all the children
    * @param element - the element to enumerate the children of
-   * @param add_if_not_present - value of the flag to be passed when skElementObject's are created
    * @param location - the owning XML element name
    */
-  skElementObjectEnumerator(skElement * element,bool add_if_not_present,const skString& location);
+  IMPORT_C skElementObjectEnumerator(skElementObject * element,const skString& location);
   /** This contructs an skElementObject enumerator over children with a particular tag name
    * @param element - the element to enumerate the children of
-   * @param add_if_not_present - value of the flag to be passed when skElementObject's are created
    * @param location - the owning XML element name
    * @param tag - the tag name to look for
    */
-  skElementObjectEnumerator(skElement * element,bool add_if_not_present,const skString& location,const skString& tag);
+  IMPORT_C skElementObjectEnumerator(skElementObject * element,const skString& location,const skString& tag);
+  /**
+   * Destructor
+   */
+  IMPORT_C virtual ~skElementObjectEnumerator();
   /**
    * This method exposes the following methods to Simkin scripts:
    * "next" - returns the next element in the enumeration - or null if there are no more
@@ -53,18 +55,21 @@ class CLASSEXPORT skElementObjectEnumerator : public skExecutable, public skExec
    * @param args arguments to the function
    * @param r return value
    * @param ctxt context object to receive errors
+   * @exception Symbian - a leaving function
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
-  bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
+  IMPORT_C bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
   /**
    * This method implements the method in skExecutableIterator
+   * @exception Symbian - a leaving function
    */
-  bool next(skRValue&);
+  IMPORT_C bool next(skRValue&);
  private:
   void findNextNode();
 
-  skElement * m_Element;
+  skElementObject * m_Object;
   skString m_Location;
-  bool m_AddIfNotPresent;
   int m_NodeNum;
   skString m_Tag;
 };

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.cpp,v 1.13 2003/03/14 16:39:44 simkin_cvs Exp $
+* $Id: skExpatParser.cpp,v 1.15 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #include "skExpatParser.h"
 #include "skXMLParseException.h"
@@ -24,19 +24,19 @@
 #include "skInputSource.h"
 #include <stdio.h>
 //-----------------------------------------------------------------
-skExpatParser::skExpatParser()
+EXPORT_C skExpatParser::skExpatParser()
 //-----------------------------------------------------------------
   : m_InCData(false),m_RootElement(0)
 {
 }
 //-----------------------------------------------------------------
-skExpatParser::~skExpatParser()
+EXPORT_C skExpatParser::~skExpatParser()
 //-----------------------------------------------------------------
 {
   delete m_RootElement;
 }
 //-----------------------------------------------------------------
-skExpatParser::skExpatParser(const skExpatParser&)
+EXPORT_C skExpatParser::skExpatParser(const skExpatParser&)
 //-----------------------------------------------------------------
 {
 }
@@ -56,15 +56,27 @@ void skExpatParser::startElementHandler(void *userData, const Char *name, const 
 void skExpatParser::startElement(const Char *name, const Char **attr)
 //-----------------------------------------------------------------
 {
-  skElement * elem=new skElement(name);
+  skString s_name;
+  SAVE_VARIABLE(s_name);
+  s_name=name;
+  skElement * elem=skNEW(skElement(s_name));
   if (m_RootElement==0)
     m_RootElement=elem;
   for (int i = 0; attr[i]; i += 2) {
-    elem->setAttribute(attr[i],attr[i+1]);
+    skString attr_name;
+    SAVE_VARIABLE(attr_name);
+    attr_name=attr[i];
+    skString attr_value;
+    SAVE_VARIABLE(attr_value);
+    attr_value=attr[i+1];
+    elem->setAttribute(attr_name,attr_value);
+    RELEASE_VARIABLE(attr_value);
+    RELEASE_VARIABLE(attr_name);
   }
   if (m_ElementStack.entries())
     ((skElement *)m_ElementStack[m_ElementStack.entries()-1])->appendChild(elem);
   m_ElementStack.append(elem);
+  RELEASE_VARIABLE(s_name);
 }
 //-----------------------------------------------------------------
 void skExpatParser::endElementHandler(void *userData, const Char *name)
@@ -92,10 +104,14 @@ void skExpatParser::characterData(const XML_Char *s,int len)
 {
   if (m_ElementStack.entries()){
     skElement * element=(skElement * )m_ElementStack[m_ElementStack.entries()-1];
+    skString text;
+    SAVE_VARIABLE(text);
+    text=skString::copyFromBuffer(s,(USize)len);
     if (m_InCData)
-      element->appendChild(new skCDataNode(skString(s,(USize)len)));
+      element->appendChild(skNEW(skCDataNode(text)));
     else
-      element->appendChild(new skTextNode(skString(s,(USize)len)));
+      element->appendChild(skNEW(skTextNode(text)));
+    RELEASE_VARIABLE(text);
   }
 }
 //-----------------------------------------------------------------
@@ -123,7 +139,7 @@ void skExpatParser::endCData ()
   m_InCData=false;
 }
 //-----------------------------------------------------------------
-skElement * skExpatParser::parse(skInputSource& in,skExecutableContext& context)
+EXPORT_C skElement * skExpatParser::parse(skInputSource& in,skExecutableContext& context)
 //-----------------------------------------------------------------
 {
   m_InCData=false;
@@ -136,7 +152,7 @@ skElement * skExpatParser::parse(skInputSource& in,skExecutableContext& context)
   XML_SetCdataSectionHandler(parser, startCDataHandler, endCDataHandler);
   skString in_string=in.readAllToString();
   unsigned int buf_len=in_string.length()*sizeof(Char);
-  if (!XML_Parse(parser, (const char *)(const Char *)in_string, buf_len, true)) {
+  if (!XML_Parse(parser, (const char *)in_string.c_str(), buf_len, true)) {
 #ifdef EXCEPTIONS_DEFINED
     m_ElementStack.clearAndDestroy();
     m_RootElement=0;
@@ -146,7 +162,12 @@ skElement * skExpatParser::parse(skInputSource& in,skExecutableContext& context)
 #else
     m_ElementStack.clearAndDestroy();
     m_RootElement=0;
-    context.getError().setError(skScriptError::XMLPARSE_ERROR,new skXMLParseException(XML_ErrorString(XML_GetErrorCode(parser)),XML_GetCurrentLineNumber(parser)));
+    skString error;
+    SAVE_VARIABLE(error);
+    error=XML_ErrorString(XML_GetErrorCode(parser));
+    skXMLParseException * e=skNEW(skXMLParseException(error,XML_GetCurrentLineNumber(parser)));
+    context.getError().setError(skScriptError::XMLPARSE_ERROR,e);
+    RELEASE_VARIABLE(error);
 #endif
   }
   XML_ParserFree(parser);

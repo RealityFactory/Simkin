@@ -14,11 +14,13 @@
 <p>Inheritance diagram for skExecutable:
 <p><center><img src="classskExecutable.png" usemap="#skExecutable_map" border="0" alt=""></center>
 <map name="skExecutable_map">
-<area href="classskiExecutable.html" alt="skiExecutable" shape="rect" coords="384,0,566,24">
-<area href="classskInterpreter.html" alt="skInterpreter" shape="rect" coords="0,112,182,136">
-<area href="classskNull.html" alt="skNull" shape="rect" coords="192,112,374,136">
-<area href="classskTreeNodeObject.html" alt="skTreeNodeObject" shape="rect" coords="384,112,566,136">
-<area href="classskTreeNodeObjectEnumerator.html" alt="skTreeNodeObjectEnumerator" shape="rect" coords="576,112,758,136">
+<area href="classskiExecutable.html" alt="skiExecutable" shape="rect" coords="576,0,758,24">
+<area href="classskElementObject.html" alt="skElementObject" shape="rect" coords="0,112,182,136">
+<area href="classskElementObjectEnumerator.html" alt="skElementObjectEnumerator" shape="rect" coords="192,112,374,136">
+<area href="classskInterpreter.html" alt="skInterpreter" shape="rect" coords="384,112,566,136">
+<area href="classskNull.html" alt="skNull" shape="rect" coords="576,112,758,136">
+<area href="classskTreeNodeObject.html" alt="skTreeNodeObject" shape="rect" coords="768,112,950,136">
+<area href="classskTreeNodeObjectEnumerator.html" alt="skTreeNodeObjectEnumerator" shape="rect" coords="960,112,1142,136">
 </map>
 <a href="classskExecutable-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td></td></tr>
@@ -105,7 +107,7 @@ This method returns an executable iterator used in foreach statements.
 <p>
 Implements <a class="el" href="classskiExecutable.html#a14">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskTreeNodeObject.html#a20">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskTreeNodeObject.html#a20">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a26">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a14" doxytag="skExecutable::createIterator"></a><p>
@@ -146,7 +148,7 @@ This method returns an executable iterator used in foreach statements.
 <p>
 Implements <a class="el" href="classskiExecutable.html#a13">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskTreeNodeObject.html#a19">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskTreeNodeObject.html#a19">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a25">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a13" doxytag="skExecutable::equals"></a><p>
@@ -181,7 +183,7 @@ This implementation checks object pointers.
 <p>
 Implements <a class="el" href="classskiExecutable.html#a12">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskTreeNodeObject.html#a17">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskTreeNodeObject.html#a17">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a14">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a2" doxytag="skExecutable::executableType"></a><p>
@@ -215,7 +217,7 @@ Define your own value if you want to check the type of your object at run-time
 <p>
 Implements <a class="el" href="classskiExecutable.html#a1">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskTreeNodeObject.html#a3">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskTreeNodeObject.html#a3">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a3">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a18" doxytag="skExecutable::getAttributes"></a><p>
@@ -253,7 +255,9 @@ This method returns the attributes for this object (at this level, the table is 
 </dl>
 
 <p>
-Implements <a class="el" href="classskiExecutable.html#a17">skiExecutable</a>.    </td>
+Implements <a class="el" href="classskiExecutable.html#a17">skiExecutable</a>.
+<p>
+Reimplemented in <a class="el" href="classskElementObject.html#a29">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a17" doxytag="skExecutable::getInstanceVariables"></a><p>
@@ -293,7 +297,7 @@ This method returns the instance variables for this object (at this level, the t
 <p>
 Implements <a class="el" href="classskiExecutable.html#a16">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskInterpreter.html#a16">skInterpreter</a>, and <a class="el" href="classskTreeNodeObject.html#a22">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskInterpreter.html#a16">skInterpreter</a>, <a class="el" href="classskTreeNodeObject.html#a22">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a28">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a16" doxytag="skExecutable::getSource"></a><p>
@@ -334,7 +338,7 @@ This method returns the source for a scripted method described by the location.
 <p>
 Implements <a class="el" href="classskiExecutable.html#a15">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskTreeNodeObject.html#a21">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskTreeNodeObject.html#a21">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a27">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a10" doxytag="skExecutable::getValue"></a><p>
@@ -392,7 +396,7 @@ requests the object to return a field's value
 <p>
 Implements <a class="el" href="classskiExecutable.html#a9">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskInterpreter.html#a14">skInterpreter</a>, and <a class="el" href="classskTreeNodeObject.html#a11">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskInterpreter.html#a14">skInterpreter</a>, <a class="el" href="classskTreeNodeObject.html#a11">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a11">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a11" doxytag="skExecutable::getValueAt"></a><p>
@@ -450,7 +454,7 @@ requests the object to return an object from its collection
 <p>
 Implements <a class="el" href="classskiExecutable.html#a10">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskTreeNodeObject.html#a12">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskTreeNodeObject.html#a12">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a12">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a12" doxytag="skExecutable::method"></a><p>
@@ -514,13 +518,15 @@ Requests that the object execute the given method.
 <dl compact><dt><b>Exceptions:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+    <tr><td valign=top><em>skParseException</em>&nbsp;</td><td>- if a syntax error is encountered while the script is running </td></tr>
+    <tr><td valign=top><em>skRuntimeException</em>&nbsp;</td><td>- if an error occurs while the script is running </td></tr>
   </table>
 </dl>
 
 <p>
 Implements <a class="el" href="classskiExecutable.html#a11">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskInterpreter.html#a15">skInterpreter</a>, <a class="el" href="classskTreeNodeObject.html#a13">skTreeNodeObject</a>, and <a class="el" href="classskTreeNodeObjectEnumerator.html#a3">skTreeNodeObjectEnumerator</a>.    </td>
+Reimplemented in <a class="el" href="classskInterpreter.html#a15">skInterpreter</a>, <a class="el" href="classskTreeNodeObject.html#a13">skTreeNodeObject</a>, <a class="el" href="classskTreeNodeObjectEnumerator.html#a3">skTreeNodeObjectEnumerator</a>, <a class="el" href="classskElementObject.html#a13">skElementObject</a>, and <a class="el" href="classskElementObjectEnumerator.html#a3">skElementObjectEnumerator</a>.    </td>
   </tr>
 </table>
 <a name="a8" doxytag="skExecutable::setValue"></a><p>
@@ -578,7 +584,7 @@ requests the object to set a field to the given value
 <p>
 Implements <a class="el" href="classskiExecutable.html#a7">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskInterpreter.html#a13">skInterpreter</a>, and <a class="el" href="classskTreeNodeObject.html#a9">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskInterpreter.html#a13">skInterpreter</a>, <a class="el" href="classskTreeNodeObject.html#a9">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a9">skElementObject</a>.    </td>
   </tr>
 </table>
 <a name="a9" doxytag="skExecutable::setValueAt"></a><p>
@@ -636,12 +642,12 @@ requests the object to set an item in its collection to a certain value
 <p>
 Implements <a class="el" href="classskiExecutable.html#a8">skiExecutable</a>.
 <p>
-Reimplemented in <a class="el" href="classskTreeNodeObject.html#a10">skTreeNodeObject</a>.    </td>
+Reimplemented in <a class="el" href="classskTreeNodeObject.html#a10">skTreeNodeObject</a>, and <a class="el" href="classskElementObject.html#a10">skElementObject</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="skExecutable_8h-source.html">skExecutable.h</a></ul>
-<hr><address style="align: right;"><small>Generated on Mon Apr 14 16:49:00 2003 for Simkin C++ for Symbian by
+<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:55:13 2003 for Simkin C++ for Symbian by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

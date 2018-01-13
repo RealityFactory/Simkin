@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skAsciiString.cpp,v 1.3 2003/04/04 17:04:25 simkin_cvs Exp $
+  $Id: skAsciiString.cpp,v 1.5 2003/04/19 17:56:15 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -24,33 +24,20 @@
 #include <stdio.h>
 #include "skAsciiString.h"
 
-const char * blank_ascii="";
-
-class skBlankAsciiString : public P_AsciiString
-{
-public:
-  skBlankAsciiString()
-  {
-    m_RefCount++;
-  }
-};
-skBlankAsciiString g_blank_ascii_string;
-P_AsciiString * blank_ascii_string=&g_blank_ascii_string;
-
 //---------------------------------------------------
 void P_AsciiString::init()
   //---------------------------------------------------
 {
   const char * buffer=m_PString;
-  m_Hash=0;
+  s.m_Hash=0;
   while (*buffer){
-    m_Hash^=*buffer;
+    s.m_Hash^=*buffer;
     buffer++;
   }
   m_Length=(USize)strlen(m_PString);
 }
 //---------------------------------------------------
-skAsciiString::skAsciiString(const char * s,int /* i */)
+EXPORT_C skAsciiString::skAsciiString(const char * s,int /* i */)
   //---------------------------------------------------
 {                          
   //	create literal string
@@ -58,13 +45,15 @@ skAsciiString::skAsciiString(const char * s,int /* i */)
   pimp->m_PString=(char *)s;
   pimp->init();
 }
+#ifndef __SYMBIAN32__
+// This can leave, so not available in Symbian
 //---------------------------------------------------
 skAsciiString::skAsciiString(const char repeatchar, USize len)
   //---------------------------------------------------
 {
   // create skAsciiString of length len with repeated unsigned char
   pimp=new P_AsciiString;
-  pimp->m_Const=false;
+  pimp->s.m_Const=false;
   char * str = new char[(len+1)];
   USize i;
   for (i = 0; i < len; i++)
@@ -73,6 +62,7 @@ skAsciiString::skAsciiString(const char repeatchar, USize len)
   pimp->m_PString=str;
   pimp->init();
 }
+#endif
 //---------------------------------------------------
 skAsciiString::skAsciiString(P_AsciiString * p)
   //---------------------------------------------------
@@ -81,178 +71,197 @@ skAsciiString::skAsciiString(P_AsciiString * p)
   pimp->init();
 }
 //---------------------------------------------------
-int skAsciiString::indexOf(char c) const
+EXPORT_C int skAsciiString::indexOf(char c) const
   //---------------------------------------------------
 {
   int pos=-1;
-  char * ppos=strchr(pimp->m_PString,c);
-  if (ppos!=0)
-    pos=ppos-pimp->m_PString;
+  if (pimp){
+    char * ppos=strchr(pimp->m_PString,c);
+    if (ppos!=0)
+      pos=ppos-pimp->m_PString;
+  }
   return pos;
 }
 //---------------------------------------------------
-int skAsciiString::indexOfLast(char c) const
+EXPORT_C int skAsciiString::indexOfLast(char c) const
   //---------------------------------------------------
 {
   int pos=-1;
-  char * ppos=strrchr(pimp->m_PString,c);
-  if (ppos!=0)
-    pos=ppos-pimp->m_PString;
+  if (pimp){
+    char * ppos=strrchr(pimp->m_PString,c);
+    if (ppos!=0)
+      pos=ppos-pimp->m_PString;
+  }
   return pos;
 }
 //---------------------------------------------------
-int skAsciiString::indexOf(const skAsciiString& s) const
+EXPORT_C int skAsciiString::indexOf(const skAsciiString& s) const
   //---------------------------------------------------
 {
   int pos=-1;
-  char * ppos=strstr(pimp->m_PString,s.pimp->m_PString);
-  if (ppos!=0)
-    pos=ppos-pimp->m_PString;
+  if (pimp){
+    char * ppos=strstr(pimp->m_PString,s.pimp->m_PString);
+    if (ppos!=0)
+      pos=ppos-pimp->m_PString;
+  }
   return pos;
 }
 //---------------------------------------------------
-skAsciiString skAsciiString::substr(USize start) const
+EXPORT_C skAsciiString skAsciiString::substr(USize start) const
   //---------------------------------------------------
 {
-  if (start <= pimp->m_Length)
-    return substr(start,pimp->m_Length-start);
-  else
-    return blank_ascii;
+  skAsciiString str;
+  if (pimp){
+    if (start <= pimp->m_Length)
+      str=substr(start,pimp->m_Length-start);
+  }
+  return str;
 }
 //---------------------------------------------------
-skAsciiString skAsciiString::substr(USize start,USize length) const
+EXPORT_C skAsciiString skAsciiString::substr(USize start,USize length) const
   //---------------------------------------------------
 {
-  if (start <= pimp->m_Length){
-    char * buffer=new char[length+1];
-    strncpy(buffer,pimp->m_PString+start,length);
-    buffer[length]=0;
-    P_AsciiString * pnew=new P_AsciiString;
-    pnew->m_Const=false;
-    pnew->m_PString=buffer;
-    // call internal non-copying constructor
-    return skAsciiString(pnew);
-  }else
-    return blank_ascii;
+  skAsciiString str;
+  if (pimp){
+    if (start <= pimp->m_Length){
+      char * buffer=new char[length+1];
+      strncpy(buffer,pimp->m_PString+start,length);
+      buffer[length]=0;
+      P_AsciiString * pnew=new P_AsciiString;
+      pnew->s.m_Const=false;
+      pnew->m_PString=buffer;
+      // call internal non-copying constructor
+      str=skAsciiString(pnew);
+    }
+  }
+  return str;
 }
 //---------------------------------------------------
-skAsciiString& skAsciiString::operator+=(const skAsciiString& s)
+EXPORT_C skAsciiString& skAsciiString::operator+=(const skAsciiString& s)
   //---------------------------------------------------
 {
   operator=(operator+(s));
   return *this;
 }
 //---------------------------------------------------
-skAsciiString operator+(const char * s1,const skAsciiString& s2)
+EXPORT_C skAsciiString operator+(const char * s1,const skAsciiString& s2)
 //---------------------------------------------------
 {
   USize len=strlen(s1)+s2.length()+1;
   char * buffer=new char[len];
   strcpy(buffer,s1);
-  strcat(buffer,(const char *)s2);
+  strcat(buffer,s2.c_str());
   return skAsciiString::fromBuffer(buffer);
 }
 //---------------------------------------------------
-skAsciiString skAsciiString::operator+(const skAsciiString& s)  const
+EXPORT_C skAsciiString skAsciiString::operator+(const skAsciiString& s)  const
   //---------------------------------------------------
 {
-  USize len=pimp->m_Length+s.pimp->m_Length+1;
+  USize len=length()+s.length()+1;
   char * buffer=new char[len];
   strcpy(buffer,pimp->m_PString);
   strcat(buffer,s.pimp->m_PString);
   P_AsciiString * pnew=new P_AsciiString;
-  pnew->m_Const=false;
+  pnew->s.m_Const=false;
   pnew->m_PString=buffer;
   // call internal non-copying constructor
   return skAsciiString(pnew);
 }
 //---------------------------------------------------
-skAsciiString& skAsciiString::operator=(const char * s) 
+EXPORT_C skAsciiString& skAsciiString::operator=(const char * s) 
   //---------------------------------------------------
 {
-  if (s!=pimp->m_PString){
+  if (pimp==0 || s!=pimp->m_PString){
     deRef();
     assign(s);
   }	
   return *this;
 }
 //---------------------------------------------------
-bool skAsciiString::operator!=(const skAsciiString& s) const
+EXPORT_C bool skAsciiString::operator!=(const skAsciiString& s) const
   //---------------------------------------------------
 {
-  if (pimp==s.pimp)
-    return false;
-  else
-    if (pimp->m_Hash==s.pimp->m_Hash)
-      return (strcmp(pimp->m_PString,s.pimp->m_PString)!=0);
-    else
-      return true;
+  return (*this==(s))==false;
 }
 //---------------------------------------------------
-bool skAsciiString::operator!=(const char * s) const
+EXPORT_C bool skAsciiString::operator!=(const char * s) const
   //---------------------------------------------------
 {
-  if (s)
-    return (strcmp(pimp->m_PString,s)!=0);
-  else
-    return true;
+  return (*this==(s))==false;
 }
 //---------------------------------------------------
-P_AsciiString::P_AsciiString():m_Length(0),m_Hash(0),m_RefCount(1), m_PString((char *)blank_ascii),m_Const(true)
+P_AsciiString::P_AsciiString()
   //---------------------------------------------------
+: m_Length(0),m_PString("")
 {
+  s.m_Hash=0;
+  s.m_RefCount=1;
+  s.m_Const=true;
 }
 //---------------------------------------------------
-skAsciiString skAsciiString::fromBuffer(char * buffer)
+EXPORT_C skAsciiString skAsciiString::fromBuffer(char * buffer)
   //---------------------------------------------------
 {
   //	create literal string
   P_AsciiString * pimp=new P_AsciiString;
   pimp->m_PString=buffer;
-  pimp->m_Const=false;
+  pimp->s.m_Const=false;
   pimp->init();
   return skAsciiString(pimp);
 }
 //---------------------------------------------------
-skAsciiString skAsciiString::from(int i)
+EXPORT_C skAsciiString skAsciiString::from(int i)
   //---------------------------------------------------
 {
+  skAsciiString s;
   char buffer[100];
   sprintf(buffer,"%d",i);
-  return skAsciiString(buffer);
+  s=buffer;
+  return s;
 }
 #ifdef USE_FLOATING_POINT
 //---------------------------------------------------
-skAsciiString skAsciiString::from(float i)
+EXPORT_C skAsciiString skAsciiString::from(float i)
   //---------------------------------------------------
 {
+  skAsciiString s;
   char buffer[100];
   sprintf(buffer,"%f",i);
-  return skAsciiString(buffer);
+  s=buffer;
+  return s;
 }
 #endif
 //---------------------------------------------------
-skAsciiString skAsciiString::from(USize i)
+EXPORT_C skAsciiString skAsciiString::from(USize i)
   //---------------------------------------------------
 {
+  skAsciiString s;
   char buffer[100];
   sprintf(buffer,"%u",i);
-  return skAsciiString(buffer);
+  s=buffer;
+  return s;
 }
 //---------------------------------------------------
-int skAsciiString::to(void) const
+EXPORT_C int skAsciiString::to(void) const
   //---------------------------------------------------
 {
-  return atoi(pimp->m_PString);
+  int i=0;
+  if (pimp)
+    i=atoi(pimp->m_PString);
+  return i;
 }
 #ifdef USE_FLOATING_POINT
 //---------------------------------------------------
-float skAsciiString::toFloat(void) const
+EXPORT_C float skAsciiString::toFloat(void) const
   //---------------------------------------------------
 {
-  return (float)atof(pimp->m_PString);
+  float f=0;
+  if (pimp)
+    f=atof(pimp->m_PString);
+  return f;
 }
 #endif
+#ifndef __SYMBIAN32__
 //---------------------------------------------------
 skAsciiString::skAsciiString(const char * s, USize len)
   //---------------------------------------------------
@@ -265,31 +274,38 @@ skAsciiString::skAsciiString(const char * s)
 {   
   assign(s);
 }
+#endif
 //---------------------------------------------------
-skAsciiString skAsciiString::from(char ch)
+EXPORT_C skAsciiString skAsciiString::from(char ch)
   //---------------------------------------------------
 {
+  skAsciiString str;
   char	s[2];
 
   s[0] = ch;
   s[1] = '\0';
+  str=s;
 
-  return skAsciiString(s);
+  return str;
 }
 //---------------------------------------------------
-skAsciiString skAsciiString::literal(const char * s)
+EXPORT_C skAsciiString skAsciiString::literal(const char * s)
   //---------------------------------------------------
 {
   return skAsciiString(s,1);
 }
 //---------------------------------------------------
-skAsciiString skAsciiString::ltrim() const
+EXPORT_C skAsciiString skAsciiString::ltrim() const
   //---------------------------------------------------
 {
-  char * p=pimp->m_PString;
-  while (*p && isspace(*p))
-    p++;
-  return skAsciiString(p);
+  skAsciiString s;
+  if (pimp){
+    char * p=pimp->m_PString;
+    while (*p && isspace(*p))
+      p++;
+    s=p;
+  }
+  return s;
 }
 //---------------------------------------------------
 void skAsciiString::assign(const char * s,int len)
@@ -299,7 +315,7 @@ void skAsciiString::assign(const char * s,int len)
     if (len){
       pimp=new P_AsciiString;
       pimp->m_PString=new char[len+1];
-      pimp->m_Const=false;
+      pimp->s.m_Const=false;
       memcpy(pimp->m_PString,s,sizeof(char)*len);
       pimp->m_PString[len]=0;
       pimp->init();
@@ -308,24 +324,16 @@ void skAsciiString::assign(const char * s,int len)
       if (s_len){
         pimp=new P_AsciiString;
         pimp->m_PString=new char[s_len+1];
-        pimp->m_Const=false;
+        pimp->s.m_Const=false;
         strcpy((char *)pimp->m_PString,s);
         pimp->init();
       }else{
-        pimp=blank_ascii_string;	
-        pimp->m_RefCount++;
+        pimp=0;
       }
     }
   }else{
-    pimp=blank_ascii_string;	
-    pimp->m_RefCount++;
+    pimp=0;
   }
-}
-//-----------------------------------------------------------------
-bool skAsciiString::equalsIgnoreCase(const skAsciiString& s) const
-//-----------------------------------------------------------------
-{
-  return (_stricmp(pimp->m_PString,s.pimp->m_PString)==0);
 }
 #ifdef STREAMS_ENABLED
 //-----------------------------------------------------------------

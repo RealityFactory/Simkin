@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skParseNode.inl,v 1.5 2003/04/10 16:20:15 simkin_cvs Exp $
+  * $Id: skParseNode.inl,v 1.6 2003/04/19 13:22:24 simkin_cvs Exp $
   */
 #include "skParseNode.h"
 #ifndef EXECUTE_PARSENODES
@@ -49,6 +49,7 @@ inline void skCompiledCode::moveIdentifiers(skStringList& identifiers)
 inline void skCompiledCode::getInstruction(USize pc,skInstruction& instruction,int& parameter1,bool& parameter2)
 //---------------------------------------------------
 {
+
   USize inst=m_Instructions[pc];
   instruction=(skInstruction)(inst>>24);
   parameter1=(int)(((inst & PARAM1_MASK))>>12);
@@ -285,8 +286,13 @@ inline void skWhileNode::compile(skCompiledCode& compiled_code)
 {
   // store the line number as parameter
   compiled_code.addInstruction(skCompiledCode::b_While,0,m_LineNum);
+  USize size_pc=compiled_code.getPC();
+  compiled_code.addInstruction(skCompiledCode::b_StatsSize,0,0);
   m_Expr->compile(compiled_code);
+  USize start_pc=compiled_code.getPC();
   m_Stats->compile(compiled_code);
+  // update the stat size instruction with the number of bytes in the stats list
+  compiled_code.setInstruction(size_pc,skCompiledCode::b_StatsSize,0,compiled_code.getPC()-start_pc);
 }
 //---------------------------------------------------
 inline void skForEachNode::compile(skCompiledCode& compiled_code)
@@ -295,9 +301,13 @@ inline void skForEachNode::compile(skCompiledCode& compiled_code)
   // this instruction includes the id and qualifier. n.b. this means there is a restriction of 4k different identifiers within a script
   compiled_code.addInstruction(skCompiledCode::b_ForEach,m_Id,m_LineNum);
   // now store qualifier index
+  USize qualifier_pc=compiled_code.getPC();
   compiled_code.addInstruction(skCompiledCode::b_QualifierIndex,m_Qualifier,0);
   m_Expr->compile(compiled_code);
+  USize start_pc=compiled_code.getPC();
   m_Stats->compile(compiled_code);
+  // update the qualifier instruction with the number of bytes in the stats list
+  compiled_code.setInstruction(qualifier_pc,skCompiledCode::b_QualifierIndex,m_Qualifier,compiled_code.getPC()-start_pc);
 }
 //---------------------------------------------------
 inline void skForNode::compile(skCompiledCode& compiled_code)
@@ -305,11 +315,18 @@ inline void skForNode::compile(skCompiledCode& compiled_code)
 {
   // store as a parameter whether or not there is a step expression and the line number
   compiled_code.addInstruction(skCompiledCode::b_For,(m_StepExpr!=0),m_LineNum);
+  USize size_pc=compiled_code.getPC();
+  compiled_code.addInstruction(skCompiledCode::b_StatsSize,0,0);
   // store the loop variable as an id
   compiled_code.addInstruction(skCompiledCode::b_Id,m_Id,false);
   m_StartExpr->compile(compiled_code);
   m_EndExpr->compile(compiled_code);
+  if (m_StepExpr!=0)
+    m_StepExpr->compile(compiled_code);
+  USize start_pc=compiled_code.getPC();
   m_Stats->compile(compiled_code);
+  // update the stat size instruction with the number of bytes in the stats list
+  compiled_code.setInstruction(size_pc,skCompiledCode::b_StatsSize,0,compiled_code.getPC()-start_pc);
 }
 //---------------------------------------------------
 inline void skAssignNode::compile(skCompiledCode& compiled_code)

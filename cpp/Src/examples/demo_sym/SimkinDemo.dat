@@ -43,6 +43,10 @@
 				Method [calculate]
 			}
 		}
+init [ () 
+{
+setFocus("a");
+}]
 calculate [ () 
 { 
 setText("c",getText("a")+getText("b"));

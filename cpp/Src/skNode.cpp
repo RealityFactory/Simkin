@@ -16,25 +16,25 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skNode.cpp,v 1.11 2003/03/24 15:51:32 simkin_cvs Exp $
+* $Id: skNode.cpp,v 1.13 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 #include "skNode.h"
 #include "skStringBuffer.h"
 
 //------------------------------------------
-skNode::skNode()
+EXPORT_C skNode::skNode()
 //------------------------------------------
 :m_Parent(0)
 {
 }
 //------------------------------------------
-skNode::skNode(const skNode& other)
+EXPORT_C skNode::skNode(const skNode& other)
 //------------------------------------------
 :m_Parent(0)
 {
 }
 //------------------------------------------
-skNode::~skNode()
+EXPORT_C skNode::~skNode()
 //------------------------------------------
 {
 }
@@ -45,27 +45,31 @@ skNode& skNode::operator=(const skNode& other)
   return *this;
 }
 //------------------------------------------
-skString skNode::getNodeValue() const
+EXPORT_C skString skNode::getNodeValue() const
 //------------------------------------------
 {
   return skString();
 }
 //------------------------------------------
-void skNode::setNodeValue(const skString& )
+EXPORT_C void skNode::setNodeValue(const skString& )
 //------------------------------------------
 {
 }
-static Char g_SpecialChars[]={'&','<','>','"'};
-static Char * g_SpecialCharEscapes[]={skSTR("&amp;"),skSTR("&lt;"),skSTR("&gt;"),skSTR("&quot;")};
-static USize g_NumSpecialChars=sizeof(g_SpecialChars)/sizeof(Char);
+static const Char g_SpecialChars[]={'&','<','>','"'};
+static const Char * const g_SpecialCharEscapes[]={skSTR("&amp;"),skSTR("&lt;"),skSTR("&gt;"),skSTR("&quot;")};
+static const USize g_NumSpecialChars=sizeof(g_SpecialChars)/sizeof(Char);
 //------------------------------------------
-skString skNode::escapeXMLDelimiters(const skString& text)
+EXPORT_C skString skNode::escapeXMLDelimiters(const skString& text,bool include_quote)
 //------------------------------------------
 {
   skString out=text;
   bool need_to_scan=false;
+  USize num_to_scan=g_NumSpecialChars;
+  // don't replace the quote sign - so ignore the final special character
+  if (include_quote==false)
+    num_to_scan--;
   // first check if the text has any special characters in it
-  for (USize i=0;i<g_NumSpecialChars;i++)
+  for (USize i=0;i<num_to_scan;i++)
     if (text.indexOf(g_SpecialChars[i])!=-1){
       need_to_scan=true;
       break;
@@ -74,9 +78,9 @@ skString skNode::escapeXMLDelimiters(const skString& text)
   if (need_to_scan){
     skStringBuffer buffer(text.length());
     for (USize i=0;i<text.length();i++){
-      Char c=out[i];
+      Char c=out.at(i);
       bool char_replaced=false;
-      for (USize i=0;i<g_NumSpecialChars;i++)
+      for (USize i=0;i<num_to_scan;i++)
         if (c==g_SpecialChars[i]){
           char_replaced=true;
           buffer.append(g_SpecialCharEscapes[i]);
@@ -90,13 +94,13 @@ skString skNode::escapeXMLDelimiters(const skString& text)
   return out;
 }
 //------------------------------------------
-void skNode::setParent(skElement * parent)
+EXPORT_C void skNode::setParent(skElement * parent)
 //------------------------------------------
 {
   m_Parent=parent;
 }
 //------------------------------------------
-skElement * skNode::getParent()
+EXPORT_C skElement * skNode::getParent()
 //------------------------------------------
 {
   return m_Parent;

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObjectEnumerator.cpp,v 1.8 2003/04/11 18:05:39 simkin_cvs Exp $
+  $Id: skElementObjectEnumerator.cpp,v 1.10 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 
 #include "skElementObjectEnumerator.h"
@@ -25,31 +25,36 @@
 #include "skInterpreter.h"
 
 //-----------------------------------------------------------------
-skElementObjectEnumerator::skElementObjectEnumerator(skElement * element,bool add_if_not_present,const skString& location)
+EXPORT_C skElementObjectEnumerator::skElementObjectEnumerator(skElementObject * element,const skString& location)
 //-----------------------------------------------------------------
-  : m_Element(element),m_NodeNum(0),m_AddIfNotPresent(add_if_not_present),m_Location(location)
+  : m_Object(element),m_NodeNum(0),m_Location(location)
 {
   // first wind forward to the first occurrence of the tag
   findNextNode();
 }
 //-----------------------------------------------------------------
-skElementObjectEnumerator::skElementObjectEnumerator(skElement * element,bool add_if_not_present,const skString& location,const skString& tag)
+EXPORT_C skElementObjectEnumerator::skElementObjectEnumerator(skElementObject * element,const skString& location,const skString& tag)
 //-----------------------------------------------------------------
-    : m_Element(element),m_NodeNum(0),m_Tag(tag),m_AddIfNotPresent(add_if_not_present),m_Location(location)
+    : m_Object(element),m_NodeNum(0),m_Tag(tag),m_Location(location)
 {
   // first wind forward to the first occurrence of the tag
   findNextNode();
+}
+//-----------------------------------------------------------------
+EXPORT_C skElementObjectEnumerator::~skElementObjectEnumerator()
+//-----------------------------------------------------------------
+{
 }
 //------------------------------------------
-bool skElementObjectEnumerator::method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& context)
+EXPORT_C bool skElementObjectEnumerator::method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& context)
   //------------------------------------------
 {
   bool bRet=false;
-  if (s==skSTR("next")){
+  if (s==s_next){
     if (next(r)==false)
-      r=skRValue(&context.getInterpreter()->getNull());
+      r.assignObject(&context.getInterpreter()->getNull(),false);
     bRet=true;
-  }else if (s==skSTR("reset")){
+  }else if (s==s_reset){
     m_NodeNum=0;
     findNextNode();
     bRet=true;
@@ -64,7 +69,7 @@ bool skElementObjectEnumerator::method(const skString& s,skRValueArray& args,skR
 void skElementObjectEnumerator::findNextNode()
 //------------------------------------------
 {
-  skNodeList& nodes=m_Element->getChildNodes();
+  skNodeList& nodes=m_Object->getElement()->getChildNodes();
   for (;m_NodeNum<nodes.entries();m_NodeNum++){
     skNode * node=nodes[m_NodeNum];
     if (node->getNodeType()==skNode::ELEMENT_NODE && (m_Tag.length()==0 || ((skElement *)node)->getTagName()==m_Tag)){
@@ -73,15 +78,15 @@ void skElementObjectEnumerator::findNextNode()
   }
 }
 //------------------------------------------
-bool skElementObjectEnumerator::next(skRValue& r)
+EXPORT_C bool skElementObjectEnumerator::next(skRValue& r)
   //------------------------------------------
 {
   bool ret=false;
-  skNodeList& nodes=m_Element->getChildNodes();
+  skNodeList& nodes=m_Object->getElement()->getChildNodes();
   if (m_NodeNum<nodes.entries()){
-    skElementObject * obj=new skElementObject(m_Location,(skElement * )nodes[m_NodeNum],false);
-    r=skRValue(obj,true);
-    obj->setAddIfNotPresent(m_AddIfNotPresent);
+    skElement * element=reinterpret_cast<skElement *>(nodes[m_NodeNum]);
+    skElementObject * obj=m_Object->createElementObject(m_Location,element,false);
+    r.assignObject(obj,true);
     m_NodeNum++;
     findNextNode();
     ret=true;

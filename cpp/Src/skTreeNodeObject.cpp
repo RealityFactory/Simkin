@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObject.cpp,v 1.54 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skTreeNodeObject.cpp,v 1.55 2003/04/16 13:23:06 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -364,7 +364,7 @@ EXPORT_C void skTreeNodeObject::getInstanceVariables(skRValueTable& table)
       skTreeNode * var=m_Node->nthChild(i);
       skRValue * value=skNEW(skRValue());
       SAVE_POINTER(value);
-      value->assignObject(new skTreeNodeObject(var->label(),var,false));
+      value->assignObject(new skTreeNodeObject(var->label(),var,false),true);
       table.insertKeyAndValue(var->label(),value);
       RELEASE_POINTER(value);
     }

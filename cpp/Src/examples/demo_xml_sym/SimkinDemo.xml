@@ -1,0 +1,16 @@
+<view>
+<controls>
+<control type="Edit" x="10" y="10" width="20" id="a"/>
+<control type="Static" text="+" x="10" y="30"/>
+<control type="Edit" x="10" y="50" width="20" id="b"/>
+<control type="Static" text="=" x="10" y="80"/>
+<control type="Static" x="10" y="100" width="80" id="c"/>
+<control type="Button" text="Calculate" x="10" y="120" method="calculate"/>
+</controls>
+<function name="init">
+setFocus("a");
+</function>
+<function name="calculate">
+setText("c",getText("a")+getText("b"));
+</function>
+</view>

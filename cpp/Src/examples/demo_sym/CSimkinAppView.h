@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   
-  $Id: CSimkinAppView.h,v 1.2 2003/04/14 15:06:19 simkin_cvs Exp $
+  $Id: CSimkinAppView.h,v 1.3 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 #ifndef CSIMKINAPPVIEW_H
 #define CSIMKINAPPVIEW_H
@@ -26,7 +26,6 @@
 #include <coecobs.h>
 #include <eikedwin.h>
 #include <eiklabel.h>
-#include <qikfloatingpointeditor.h>
 
 class CSimkinAppView;
 class CSimkinAppUi;
@@ -84,15 +83,15 @@ class CSimkinAppView : public CCoeControl ,public MCoeControlObserver
    * @return the editor, or 0 if none was found
    */
   CEikEdwin * FindEditor(const skString& id);
-  /** Finds the numeric editor control with the given id 
-   * @return the editor, or 0 if none was found
-   */
-  CQikFloatingPointEditor * FindNumericEditor(const skString& id);
   /** Finds the label control with the given id 
    * @return the label, or 0 if none was found
    */
   CEikLabel * FindLabel(const skString& id);
  private:
+  /** Sets focus on a control */
+  void SetFocus(CCoeControl * ctl);
+  /** Calls a method within the script*/
+  void CallMethodL(const TDesC& method_name);
   /** An array of controls on the view */
   CCoeControl** iControls;
   /** An array of references to the corresponding script entries */

@@ -29,7 +29,10 @@ Simkin is composed of a core interpreter, plus support for XML and our own "Tree
 <p>
 Simkin supports three XML libraries:
 <ul>
-<li>Expat - this is used in conjunction with Simkin's own XML Document Object Model classes. You need to obtain Expat separately from <a href="http://expat.sourceforge.net" target="_blank">http://expat.sourceforge.net</a>. The version currently integrated with Simkin is <b>1.95.5</b><p></li>
+<li>Expat - this is used in conjunction with Simkin's own XML Document Object Model classes. You need to obtain Expat separately from <a href="http://expat.sourceforge.net" target="_blank">http://expat.sourceforge.net</a>. The version currently integrated with Simkin is <b>1.95.5</b><p>
+<b>Note:</b> if you are building for Windows CE or Symbian, you'll currently need our special ports of the Expat library, which you can download <a href="http://www.simkin.co.uk/download/Expat-1.95.5-ce-sym.zip">from the Simkin site</a>
+<p>
+</li>
 <li>Xerces-C from the Apache Foundation. This library is also *not* included in the Simkin distribution, it can be obtained from <a href="http://xml.apache.org/xerces-c">http://xml.apache.org/xerces-c</a><br>The version currently integrated with Simkin is <b>2.1.0</b><br><small>Note for Visual C++ for Windows: you need to build your applications with Code Generation set to "Multithreaded DLL" when using the Xerces-c library</small></li>
 <p>
 <li>Microsoft MSXML - from Microsoft Corporation. The library uses the COM classes from msxml.dll.

@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skExecutable_8h-source.html,v 1.1 2003/04/14 15:56:13 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skExecutable_8h-source.html,v 1.3 2003/04/19 17:56:01 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 <span class="preprocessor">#ifndef skEXECUTABLE_H</span>
@@ -57,22 +57,22 @@
 00089   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskiExecutable.html#a8">setValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value); 
 00097   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskiExecutable.html#a9">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; field_name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
 00105   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskiExecutable.html#a10">getValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00115   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskiExecutable.html#a11">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; arguments,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00119   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskiExecutable.html#a12">equals</a>(<span class="keyword">const</span> <a class="code" href="classskiExecutable.html">skiExecutable</a> * other_object) <span class="keyword">const</span>;
-00125   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskiExecutable.html#a14">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
-00130   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskiExecutable.html#a14">createIterator</a>();
-00136   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskString.html">skString</a> <a class="code" href="classskiExecutable.html#a15">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
-00141   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskiExecutable.html#a16">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00146   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskiExecutable.html#a17">getAttributes</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00147  <span class="keyword">private</span>:
-00151   skExecutable(<span class="keyword">const</span> skExecutable&amp; other);
-00155   skExecutable&amp; operator=(<span class="keyword">const</span> skExecutable&amp; other);
-00156 };
-00157 
-00158 
+00117   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskiExecutable.html#a11">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; method_name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; arguments,<a class="code" href="classskRValue.html">skRValue</a>&amp; return_value,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00121   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">bool</span> <a class="code" href="classskiExecutable.html#a12">equals</a>(<span class="keyword">const</span> <a class="code" href="classskiExecutable.html">skiExecutable</a> * other_object) <span class="keyword">const</span>;
+00127   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskiExecutable.html#a14">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
+00132   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskiExecutable.html#a14">createIterator</a>();
+00138   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskString.html">skString</a> <a class="code" href="classskiExecutable.html#a15">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
+00143   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskiExecutable.html#a16">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00148   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskiExecutable.html#a17">getAttributes</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00149  <span class="keyword">private</span>:
+00153   skExecutable(<span class="keyword">const</span> skExecutable&amp; other);
+00157   skExecutable&amp; operator=(<span class="keyword">const</span> skExecutable&amp; other);
+00158 };
 00159 
-00160 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:49:00 2003 for Simkin C++ for Symbian by
+00160 
+00161 
+00162 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:55:12 2003 for Simkin C++ for Symbian by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

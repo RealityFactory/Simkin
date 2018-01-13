@@ -17,9 +17,8 @@
 <tr><td nowrap align=right valign=top><a name="a0" doxytag="skAsciiString::skAsciiString"></a>
 &nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a0">skAsciiString</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Default Constructor - constructs a blank string.</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a1" doxytag="skAsciiString::skAsciiString"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a1">skAsciiString</a> (const char *)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Constructor - from a null-terminated c-string.</em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a1">skAsciiString</a> (const char *)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Constructor - from a null-terminated c-string.</em> <a href="#a1"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a name="a2" doxytag="skAsciiString::skAsciiString"></a>
 &nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a2">skAsciiString</a> (const skAsciiString &amp;)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Copy Constructor.</em><br><br></td></tr>
@@ -30,12 +29,10 @@
 <tr><td nowrap align=right valign=top><a name="a5" doxytag="skAsciiString::~skAsciiString"></a>
 virtual&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a5">~skAsciiString</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Destructor.</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a6" doxytag="skAsciiString::operator="></a>
-skAsciiString &amp;&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a6">operator=</a> (const skAsciiString &amp;)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Assignment operator - increments reference count of underlying P_String object.</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a7" doxytag="skAsciiString::operator="></a>
-skAsciiString &amp;&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a7">operator=</a> (const char *)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Assignment operator - dereferences the P_String object and makes a new one by copying the given buffer.</em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>skAsciiString &amp;&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a6">operator=</a> (const skAsciiString &amp;)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Assignment operator - increments reference count of underlying P_String object.</em> <a href="#a6"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>skAsciiString &amp;&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a7">operator=</a> (const char *)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Assignment operator - dereferences the P_String object and makes a new one by copying the given buffer.</em> <a href="#a7"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a8">operator&lt;</a> (const skAsciiString &amp;) const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Comparison operator.</em> <a href="#a8"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a9">operator==</a> (const skAsciiString &amp;) const</td></tr>
@@ -48,8 +45,8 @@ skAsciiString &amp;&nbsp;</td><td valign=bottom><a class="el" href="classskAscii
 <tr><td>&nbsp;</td><td><em class="mdesc">Inequality operator.</em> <a href="#a12"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a13">operator const char *</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Conversion operator.</em> <a href="#a13"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a14">equalsIgnoreCase</a> (const skAsciiString &amp;) const</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Case-insensitive equality.</em> <a href="#a14"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>const char *&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a14">c_str</a> () const</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Accesses underlying buffer.</em> <a href="#a14"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a name="a15" doxytag="skAsciiString::hash"></a>
 USize&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiString.html#a15">hash</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Returns a hash value for this string.</em><br><br></td></tr>
@@ -120,6 +117,38 @@ P_AsciiString *&nbsp;</td><td valign=bottom><a class="el" href="classskAsciiStri
 This class encapsulates a null-terminated 8-bit c-string It uses a pointer to a string plus a reference count to save copying when passed by value.
 <p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
+<a name="a1" doxytag="skAsciiString::skAsciiString"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skAsciiString::skAsciiString </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Constructor - from a null-terminated c-string.
+<p>
+<dl compact><dt><b>Remarks:</b></dt><dd>not available in Symbian version </dd></dl>
+    </td>
+  </tr>
+</table>
 <a name="a3" doxytag="skAsciiString::skAsciiString"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -157,6 +186,7 @@ This class encapsulates a null-terminated 8-bit c-string It uses a pointer to a 
 <p>
 Constructor - from a non null-terminated buffer.
 <p>
+<dl compact><dt><b>Remarks:</b></dt><dd>not available in Symbian version </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>buffer</em>&nbsp;</td><td>- the buffer to be copied from </td></tr>
@@ -203,6 +233,7 @@ Constructor - from a non null-terminated buffer.
 <p>
 Constructor - a repeated list of characters.
 <p>
+<dl compact><dt><b>Remarks:</b></dt><dd>not available in Symbian version </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>repeatchar</em>&nbsp;</td><td>- the character to be repeated </td></tr>
@@ -250,18 +281,17 @@ Returns a character within the string.
     </td>
   </tr>
 </table>
-<a name="a14" doxytag="skAsciiString::equalsIgnoreCase"></a><p>
+<a name="a14" doxytag="skAsciiString::c_str"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"> bool skAsciiString::equalsIgnoreCase </td>
+          <td class="md" nowrap valign="top"> const char * skAsciiString::c_str </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const skAsciiString &amp;&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const</td>
+          <td class="md" nowrap> const<code> [inline]</code></td>
         </tr>
 
       </table>
@@ -276,9 +306,9 @@ Returns a character within the string.
     <td>
 
 <p>
-Case-insensitive equality.
+Accesses underlying buffer.
 <p>
-<dl compact><dt><b>Returns:</b></dt><dd>true if the other string is the same as the current one, ignoring case </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>a pointer to the buffer contained within the P_String object </dd></dl>
     </td>
   </tr>
 </table>
@@ -467,6 +497,7 @@ Length of the string.
 <p>
 Conversion operator.
 <p>
+<dl compact><dt><b>Remarks:</b></dt><dd>not available in Symbian version </dd></dl>
 <dl compact><dt><b>Returns:</b></dt><dd>a pointer to the buffer contained within the P_String object </dd></dl>
     </td>
   </tr>
@@ -564,6 +595,11 @@ Inequality operator.
 Addition operator.
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>a String that contains this string followed by the other string </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -596,6 +632,11 @@ Addition operator.
 Increment operator - dereferences the P_String object, and replaces it with the concatenation of this string and the other one.
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>this string </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -628,6 +669,78 @@ Increment operator - dereferences the P_String object, and replaces it with the 
 Comparison operator.
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the current string is alphabetically before the other string </dd></dl>
+    </td>
+  </tr>
+</table>
+<a name="a7" doxytag="skAsciiString::operator="></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skAsciiString &amp; skAsciiString::operator= </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Assignment operator - dereferences the P_String object and makes a new one by copying the given buffer.
+<p>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a name="a6" doxytag="skAsciiString::operator="></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skAsciiString &amp; skAsciiString::operator= </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const skAsciiString &amp;&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [inline]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Assignment operator - increments reference count of underlying P_String object.
+<p>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -729,6 +842,11 @@ Returns the substring from the start up to the end of the current string.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>a new String for the substring, or a blank string if the start does not lie within the current string </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -776,12 +894,17 @@ Returns a substring of this string.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>a new String for the substring, or a blank string if the start and length do not lie within the current string </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skAsciiString_8h-source.html">skAsciiString.h</a><li>skAsciiString.cpp<li>skAsciiString.inl</ul>
-<hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:32 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:39 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

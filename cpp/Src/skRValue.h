@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skRValue.h,v 1.26 2003/04/14 15:24:57 simkin_cvs Exp $
+* $Id: skRValue.h,v 1.27 2003/04/16 21:48:06 simkin_cvs Exp $
 */
 #ifndef skRVALUE_H
 #define skRVALUE_H
@@ -156,7 +156,7 @@ class CLASSEXPORT  skRValue
   /**
    * returns the object associated with this RValue, or 0 if there is none
    */
-  IMPORT_C skiExecutable * obj()  const;
+  inline skiExecutable * obj()  const;
   /**
    * returns the type of the value held in this RValue - one of the enumerated RType
    */

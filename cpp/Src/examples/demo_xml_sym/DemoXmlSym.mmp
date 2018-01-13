@@ -1,0 +1,15 @@
+TARGET SimkinXmlDemo.app
+TARGETTYPE app
+UID 0x100039CE 0x101FB030
+TARGETPATH \system\apps\SimkinXmlDemo
+SOURCEPATH .
+SOURCE CSimkinApp.cpp
+SOURCE CSimkinAppCodeDialog.cpp
+SOURCE CSimkinApplication.cpp
+SOURCE CSimkinAppUi.cpp
+SOURCE CSimkinAppView.cpp
+SOURCE CSimkinDocument.cpp
+RESOURCE SimkinXmlDemo.rss
+USERINCLUDE ..\..
+SYSTEMINCLUDE \Symbian\UIQ_70\epoc32\include \Symbian\UIQ_70\epoc32\include\libc \source\expat-1.95.5\lib
+LIBRARY simkinxml.lib expat.lib euser.lib qikctl.lib eikcore.lib eikcoctl.lib apparc.lib cone.lib estlib.lib eikdlg.lib

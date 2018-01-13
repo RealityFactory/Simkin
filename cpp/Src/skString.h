@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skString.h,v 1.37 2003/04/14 15:24:57 simkin_cvs Exp $
+  * $Id: skString.h,v 1.38 2003/04/19 13:22:24 simkin_cvs Exp $
   */
 
 
@@ -270,6 +270,11 @@ class CLASSEXPORT skString
    * @exception Symbian - a leaving function
    */
   static IMPORT_C skString fromBuffer(Char * buffer);
+  /**
+   * Constructs a string from the subset of a buffer, the contents are copied
+   * @exception Symbian - a leaving function
+   */
+  static IMPORT_C skString copyFromBuffer(const Char * buffer,USize length);
   /**
    * @return returns a version of this string with leading blanks removed
    * @exception Symbian - a leaving function

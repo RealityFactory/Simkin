@@ -16,15 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.cpp,v 1.15 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skInputSource.cpp,v 1.17 2003/04/16 21:48:06 simkin_cvs Exp $
 */
 #include "skInputSource.h"
 #include "skStringBuffer.h"
 #ifdef UNICODE_STRINGS
-#ifndef __SYMBIAN32__
 #include "skAsciiStringBuffer.h"
 #include "skEncodingUtils.h"
-#endif
 #endif
 //-----------------------------------------------------------------
 skInputSource::~skInputSource()
@@ -215,12 +213,7 @@ skString skInputFile::readAllToString()
          s_buffer.append(buffer);
        }
        str=s_buffer.toString();
-     }
-  }else{
-#ifdef __SYMBIAN32__
-// not yet supported - reading a whole string from an Ascii file
-#else
-  if (m_In){
+     }else{
        // reading an ASCII file
        // reset file pointer
        fseek(m_In,0,SEEK_SET);
@@ -232,10 +225,9 @@ skString skInputFile::readAllToString()
          s_buffer.append(buffer);
        }
        str=skEncodingUtils::fromAscii(s_buffer.toString());
-   }
+     }
 #endif
   }
-#endif
 #endif
   return str;
 }

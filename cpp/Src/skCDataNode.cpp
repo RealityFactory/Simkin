@@ -16,38 +16,41 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skCDataNode.cpp,v 1.7 2003/03/24 15:51:32 simkin_cvs Exp $
+* $Id: skCDataNode.cpp,v 1.8 2003/04/17 16:00:59 simkin_cvs Exp $
 */
 #include "skCDataNode.h"
 #include "skOutputDestination.h"
+skNAMED_LITERAL(cdata_start,skSTR("![CDATA["));
+skNAMED_LITERAL(cdata_end,skSTR("!]]"));
+
 //------------------------------------------
-skCDataNode::skCDataNode(const skString& text)
+EXPORT_C skCDataNode::skCDataNode(const skString& text)
 //------------------------------------------
   : skTextNode(text)
 {
 }
 //------------------------------------------
-skCDataNode::~skCDataNode()
+EXPORT_C skCDataNode::~skCDataNode()
 //------------------------------------------
 {
 }
 //------------------------------------------
-skNode::NodeType skCDataNode::getNodeType() const
+EXPORT_C skNode::NodeType skCDataNode::getNodeType() const
 //------------------------------------------
 {
   return CDATA_SECTION_NODE;
 }
 //------------------------------------------
-skNode * skCDataNode::clone()
+EXPORT_C skNode * skCDataNode::clone()
 //------------------------------------------
 {
   return new skCDataNode(m_Text);
 }
 //------------------------------------------
-void skCDataNode::write(skOutputDestination& out) const
+EXPORT_C void skCDataNode::write(skOutputDestination& out) const
 //------------------------------------------
 {
-  out.write(skSTR("![CDATA["));
+  out.write(s_cdata_start);
   out.write(m_Text);
-  out.write(skSTR("!]]"));
+  out.write(s_cdata_end);
 }

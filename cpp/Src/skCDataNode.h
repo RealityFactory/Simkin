@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skCDataNode.h,v 1.7 2003/03/24 15:51:32 simkin_cvs Exp $
+* $Id: skCDataNode.h,v 1.9 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #ifndef skCDATANODE_H
 #define skCDATANODE_H
@@ -33,25 +33,27 @@ class CLASSEXPORT skCDataNode : public skTextNode
    * Constructs a new CData node with the given text
    * @param text - the text for the CData node 
    */
-  skCDataNode(const skString& text);
+  IMPORT_C skCDataNode(const skString& text);
   /**
   * Virtual destructor
   */
-  virtual ~skCDataNode();
+  IMPORT_C virtual ~skCDataNode();
   /**
    * Returns the type of this node
    * @return returns CDATA_NODE
    */
-  virtual NodeType getNodeType() const;
+  IMPORT_C virtual NodeType getNodeType() const;
   /**
    * Returns a new CData node with the same text
    * @return a new CData node that's a copy of this one
+   * @exception Symbian - a leaving function
    */
-  virtual skNode * clone();
+  IMPORT_C virtual skNode * clone();
   /**
    * writes the CData text in this node to the given destination
    * @param out - the destination to write to
+   * @exception Symbian - a leaving function
    */
-  virtual void write(skOutputDestination& out) const;
+  IMPORT_C virtual void write(skOutputDestination& out) const;
 };
 #endif

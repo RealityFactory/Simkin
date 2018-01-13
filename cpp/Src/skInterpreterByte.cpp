@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreterByte.cpp,v 1.9 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skInterpreterByte.cpp,v 1.10 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 #include "skInterpreter.h"
 #include "skRValueArray.h"
@@ -82,9 +82,17 @@ skRValue skInterpreter::evaluate(skStackFrame& frame,skCompiledCode& code,USize&
       bool has_array_index;
       bool is_method;
       getIdNode(code,pc,method_name,has_array_index,is_method);
-      if (is_method==false)
-        r=findValue(frame,method_name,0,attribute);
-      else{
+      if (is_method==false){
+        if (has_array_index){
+          skRValue array_index;
+          SAVE_VARIABLE(array_index);
+          array_index=evaluate(frame,code,pc);
+          r=findValue(frame,method_name,&array_index,attribute);
+          RELEASE_VARIABLE(array_index);
+        }else{
+          r=findValue(frame,method_name,0,attribute);
+        }
+      }else{
         skRValue caller;
         caller.assignObject(frame.getObject());
         makeMethodCall(frame,code,pc,caller,method_name,has_array_index,attribute,r);
@@ -565,8 +573,12 @@ bool skInterpreter::executeWhileStat(skStackFrame& frame,skCompiledCode& code,US
   //---------------------------------------------------
 {
   bool bRet=false;
+  int num_bytes=0;
+  int dummy;
+  skCompiledCode::skInstruction ins;
+  code.getInstruction(pc++,ins,dummy,num_bytes);
+  assert(ins==skCompiledCode::b_StatsSize);
   USize start_pc=pc;
-  int num_bytes;
   while(bRet==false){
     // reset the PC
     pc=start_pc;
@@ -621,8 +633,8 @@ bool skInterpreter::executeSwitchStat(skStackFrame& frame,skCompiledCode& code,U
   SAVE_VARIABLE(expr);
   expr=evaluate(frame,code,pc);
   USize start_pc=pc;
-  int num_cases;
-  int num_bytes;
+  int num_cases=0;
+  int num_bytes=0;
   skCompiledCode::skInstruction ins;
   code.getInstruction(pc++,ins,num_cases,num_bytes);
   assert(ins==skCompiledCode::b_CaseList);
@@ -667,14 +679,13 @@ bool skInterpreter::executeForEachStat(skStackFrame& frame,skCompiledCode& code,
   //---------------------------------------------------
 {
   bool bRet=false;
-  int num_bytes;
+  int num_bytes=0;
   skString checked_id;
   SAVE_VARIABLE(checked_id);
   checked_id=checkIndirectId(frame,code.getId(id_index));
   int qualifier_index;
-  int dummy;
   skCompiledCode::skInstruction ins;
-  code.getInstruction(pc++,ins,qualifier_index,dummy);
+  code.getInstruction(pc++,ins,qualifier_index,num_bytes);
   assert(ins==skCompiledCode::b_QualifierIndex);
   skString qualifier;
   SAVE_VARIABLE(qualifier);
@@ -684,12 +695,12 @@ bool skInterpreter::executeForEachStat(skStackFrame& frame,skCompiledCode& code,
   expr=evaluate(frame,code,pc);
   if (expr.type()==skRValue::T_Object){
     skExecutableIterator * iterator=0;
-    SAVE_POINTER(iterator);
     if (qualifier.length())
       iterator=expr.obj()->createIterator(qualifier);
     else
       iterator=expr.obj()->createIterator();
     if (iterator){
+      SAVE_POINTER(iterator);
       skRValue value;
       SAVE_VARIABLE(value);
       USize loop_pc=pc;
@@ -705,15 +716,15 @@ bool skInterpreter::executeForEachStat(skStackFrame& frame,skCompiledCode& code,
       }
       // advance beyond the statements
       pc=loop_pc+num_bytes;
-      delete iterator;
       RELEASE_VARIABLE(value);
+      RELEASE_POINTER(iterator);
+      delete iterator;
     }else
       runtimeError(frame,skSTR("Object could not create an iterator, in a foreach statement\n"));
-    RELEASE_POINTER(iterator);
   }else
     runtimeError(frame,skSTR("Cannot apply foreach to a non-executable object\n"));
-  RELEASE_VARIABLE(qualifier);
   RELEASE_VARIABLE(expr);
+  RELEASE_VARIABLE(qualifier);
   RELEASE_VARIABLE(checked_id);
   return bRet;
 }
@@ -722,7 +733,11 @@ bool skInterpreter::executeForEachStat(skStackFrame& frame,skCompiledCode& code,
   //---------------------------------------------------
 {
   bool bRet=false;
-  int num_bytes;
+  int num_bytes=0;
+  int dummy;
+  skCompiledCode::skInstruction ins;
+  code.getInstruction(pc++,ins,dummy,num_bytes);
+  assert(ins==skCompiledCode::b_StatsSize);
   skString checked_id;
   SAVE_VARIABLE(checked_id);
   bool has_array_index;

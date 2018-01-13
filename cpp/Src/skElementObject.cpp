@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObject.cpp,v 1.25 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skElementObject.cpp,v 1.28 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -30,8 +30,17 @@
 #include "skStringBuffer.h"
 #include "skConstants.h"
 
+skLITERAL(ArrayElement);
+skLITERAL(containsElement);
+skLITERAL(addElement);
+skLITERAL(tagName);
+skLITERAL(params);
+skLITERAL(nodename);
+skNAMED_LITERAL(comma_space,skSTR(", "));
+skLITERAL(dump);
+
 //------------------------------------------
-skElementObject::skElementObject(const skString& scriptLocation,skElement * elem,bool created)
+EXPORT_C skElementObject::skElementObject(const skString& scriptLocation,skElement * elem,bool created)
   //------------------------------------------
   : m_Element(0)
 {
@@ -43,7 +52,7 @@ skElementObject::skElementObject(const skString& scriptLocation,skElement * elem
   m_Created=created;
 }
 //------------------------------------------
-skElementObject::skElementObject()
+EXPORT_C skElementObject::skElementObject()
   //------------------------------------------
 {
   m_Element=0;
@@ -52,15 +61,25 @@ skElementObject::skElementObject()
   m_Created=false;
 }
 //------------------------------------------
-skElementObject::~skElementObject()
+EXPORT_C skElementObject::~skElementObject()
   //------------------------------------------
 {
   delete m_MethodCache;
   if (m_Created)
     delete m_Element;
 }
+#ifdef __SYMBIAN32__
 //------------------------------------------
-void skElementObject::setElement(skElement * elem,bool created)
+EXPORT_C void skElementObject::setElement(const TDesC& location,skElement * elem,bool created)
+  //------------------------------------------
+{
+  skString s_location;
+  s_location=location;
+  setElement(s_location,elem,created);
+}
+#endif
+//------------------------------------------
+EXPORT_C void skElementObject::setElement(const skString& location,skElement * elem,bool created)
   //------------------------------------------
 {
   if (m_Created)
@@ -69,15 +88,16 @@ void skElementObject::setElement(skElement * elem,bool created)
   m_MethodCache=0;
   m_Element=elem;
   m_Created=created;
+  m_ScriptLocation=location;
 }
 //------------------------------------------
-int skElementObject::executableType() const
+EXPORT_C int skElementObject::executableType() const
   //------------------------------------------
 {
   return ELEMENT_TYPE;
 }
 //------------------------------------------
-int skElementObject::intValue() const
+EXPORT_C int skElementObject::intValue() const
   //------------------------------------------
 {
   int i=0;
@@ -87,7 +107,7 @@ int skElementObject::intValue() const
 }
 #ifdef USE_FLOATING_POINT
 //------------------------------------------
-float skElementObject::floatValue() const
+EXPORT_C float skElementObject::floatValue() const
   //------------------------------------------
 {
   float f=0;
@@ -97,7 +117,7 @@ float skElementObject::floatValue() const
 }
 #endif
 //------------------------------------------
-bool skElementObject::boolValue() const
+EXPORT_C bool skElementObject::boolValue() const
   //------------------------------------------
 {
   bool ret=false;
@@ -109,7 +129,7 @@ bool skElementObject::boolValue() const
   return ret;
 }
 //------------------------------------------
-Char skElementObject::charValue() const
+EXPORT_C Char skElementObject::charValue() const
   //------------------------------------------
 {
   Char c=0;
@@ -120,7 +140,7 @@ Char skElementObject::charValue() const
   return c;
 }
 //------------------------------------------
-skString skElementObject::strValue() const
+EXPORT_C skString skElementObject::strValue() const
   //------------------------------------------
 {
   skString data;
@@ -129,7 +149,7 @@ skString skElementObject::strValue() const
   return data;
 }
 //------------------------------------------
-bool skElementObject::setValueAt(const skRValue& array_index,const skString& attrib,const skRValue& v)
+EXPORT_C bool skElementObject::setValueAt(const skRValue& array_index,const skString& attrib,const skRValue& v)
   //------------------------------------------
 {
   bool bRet=true;
@@ -149,10 +169,14 @@ bool skElementObject::setValueAt(const skRValue& array_index,const skString& att
         unsigned int num_children=countChildren(m_Element);
         if (index>=num_children){
           int num_to_add=index-num_children+1;
+	  skString tagname;
+	  SAVE_VARIABLE(tagname);
+	  tagname=s_ArrayElement;
           for (int i=0;i<num_to_add;i++){
-            child=new skElement(skSTR("array_element"));
+            child=skNEW(skElement(tagname));
             m_Element->appendChild(child);
           }
+	  RELEASE_VARIABLE(tagname);
         }
       }else
         bRet=false;
@@ -173,7 +197,7 @@ bool skElementObject::setValueAt(const skRValue& array_index,const skString& att
   return bRet;
 }
 //------------------------------------------
-bool skElementObject::setValue(const skString& name,const skString& attrib,const skRValue& v)
+EXPORT_C bool skElementObject::setValue(const skString& name,const skString& attrib,const skRValue& v)
   //------------------------------------------
 {
   bool bRet=true;
@@ -190,7 +214,7 @@ bool skElementObject::setValue(const skString& name,const skString& attrib,const
       child=findChild(m_Element,name);
     if (child==0){
       if (m_AddIfNotPresent){
-	      child=new skElement(name);
+	      child=skNEW(skElement(name));
 	      m_Element->appendChild(child);
       }else
 	      bRet=false;
@@ -211,7 +235,7 @@ bool skElementObject::setValue(const skString& name,const skString& attrib,const
   return bRet;
 }
 //------------------------------------------
-void skElementObject::copyItemsInto(skElement * other)
+EXPORT_C void skElementObject::copyItemsInto(skElement * other)
   //------------------------------------------
 {
   // first clear the other node
@@ -219,7 +243,7 @@ void skElementObject::copyItemsInto(skElement * other)
   while (nodes.entries() > 0)
     other->removeAndDestroyChild(nodes[0]);  
   if (m_Element==0)
-    m_Element=new skElement(other->getTagName());
+    m_Element=skNEW(skElement(other->getTagName()));
   // now copy our nodes in
   skNodeList& our_nodes=m_Element->getChildNodes();
   if (our_nodes.entries()>0){
@@ -229,13 +253,19 @@ void skElementObject::copyItemsInto(skElement * other)
   }
 }
 //------------------------------------------
-skElement * skElementObject::getElement()
-  //------------------------------------------
+EXPORT_C skElement * skElementObject::getElement()
+//------------------------------------------
 {
   return m_Element;
 }
 //------------------------------------------
-bool skElementObject::getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value)
+EXPORT_C const skElement * skElementObject::getElement() const
+//------------------------------------------
+{
+  return m_Element;
+}
+//------------------------------------------
+EXPORT_C bool skElementObject::getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value)
   //------------------------------------------
 {
   bool bRet=true;
@@ -247,19 +277,23 @@ bool skElementObject::getValueAt(const skRValue& array_index,const skString& att
         unsigned int num_children=countChildren(m_Element);
         if (index>=num_children){
           int num_to_add=index-num_children+1;
+	  skString tagname;
+	  SAVE_VARIABLE(tagname);
+	  tagname=s_ArrayElement;
           for (int i=0;i<num_to_add;i++){
-            child=new skElement(skSTR("array_element"));
+            child=skNEW(skElement(tagname));
             m_Element->appendChild(child);
           }
+	  RELEASE_VARIABLE(tagname);
         }
       }else
         bRet=false;
     }
     if (child){
       if (attribute.length()==0)
-        value=skRValue(createElementObject(skString::addStrings(m_ScriptLocation,skSTR("["),skString::from(index),skSTR("]")),child,false),true);
+        value.assignObject(createElementObject(skString::addStrings(m_ScriptLocation.ptr(),s_leftbracket,skString::from(index).ptr(),s_rightbracket),child,false),true);
       else{
-        value=skRValue(child->getAttribute(attribute));
+	value=skRValue(child->getAttribute(attribute));
       }
     }
   }else
@@ -269,30 +303,30 @@ bool skElementObject::getValueAt(const skRValue& array_index,const skString& att
   return bRet;
 }
 //------------------------------------------
-skElementObject * skElementObject::createElementObject(const skString& location,skElement * element,bool created)
+EXPORT_C skElementObject * skElementObject::createElementObject(const skString& location,skElement * element,bool created)
 //------------------------------------------
 {
-  skElementObject * obj= new skElementObject(location,element,created);
+  skElementObject * obj= skNEW(skElementObject(location,element,created));
   obj->setAddIfNotPresent(getAddIfNotPresent());
   return obj;
 }
 //------------------------------------------
-bool skElementObject::getValue(const skString& name,const skString& attrib,skRValue& v) 
+EXPORT_C bool skElementObject::getValue(const skString& name,const skString& attrib,skRValue& v) 
   //------------------------------------------
 {
   bool bRet=true;
   if (m_Element){
     skElement * child=m_Element;
-    if (name == skSTR("nodename")){
+    if (name == s_nodename){
       v=m_Element->getTagName();
-    }else if (name == skSTR("numChildren")){
+    }else if (name == s_numChildren){
       v=countChildren(m_Element);
     }else{
       if (name.length()>0){
         child=findChild(m_Element,name);
         if (child==0){
 	        if (m_AddIfNotPresent){
-	          child=new skElement(name);
+	          child=skNEW(skElement(name));
 	          m_Element->appendChild(child);
 	        }else
 	          bRet=false;
@@ -300,7 +334,7 @@ bool skElementObject::getValue(const skString& name,const skString& attrib,skRVa
       }
       if (child){
         if (attrib.length()==0)
-          v=skRValue(createElementObject(skString::addStrings(m_ScriptLocation,s_colon,name),child,false),true);
+          v.assignObject(createElementObject(skString::addStrings(m_ScriptLocation.ptr(),s_colon,name.ptr()),child,false),true);
         else{
           v=skRValue(child->getAttribute(attrib));
         }
@@ -313,7 +347,7 @@ bool skElementObject::getValue(const skString& name,const skString& attrib,skRVa
   return bRet;
 }
 //------------------------------------------
-skString skElementObject::getData(skElement * element)
+EXPORT_C skString skElementObject::getData(skElement * element)
   //------------------------------------------
 {
   skStringBuffer str(50);
@@ -327,7 +361,7 @@ skString skElementObject::getData(skElement * element)
   return str.toString();
 }
 //------------------------------------------
-void skElementObject::setData(skElement * element,const skString& data)
+EXPORT_C void skElementObject::setData(skElement * element,const skString& data)
   //------------------------------------------
 {
   // This needs to be adjusted - the element may have multiple
@@ -351,14 +385,14 @@ void skElementObject::setData(skElement * element,const skString& data)
     }
   }
   if (found==false){
-    element->appendChild(new skTextNode(data));
+    element->appendChild(skNEW(skTextNode(data)));
   } else {
     for (unsigned int j = 0; j < nodesToRemove.entries(); j++)
       element->removeChild(nodesToRemove[i]);
   }
 }
 //------------------------------------------
-skElement * skElementObject::findChild(skElement * parent,int index)
+EXPORT_C skElement * skElementObject::findChild(skElement * parent,int index)
   //------------------------------------------
 {
   skElement * ret=0;
@@ -370,7 +404,7 @@ skElement * skElementObject::findChild(skElement * parent,int index)
         skNode * node=nodes[i];
         if (node->getNodeType()==skNode::ELEMENT_NODE){
           if (element_count==index){
-            ret=(skElement *)node;
+            ret=reinterpret_cast<skElement *>(node);
             break;
           }else
             element_count++;
@@ -381,7 +415,7 @@ skElement * skElementObject::findChild(skElement * parent,int index)
   return ret;
 }
 //------------------------------------------
-int skElementObject::countChildren(skElement * parent)
+EXPORT_C int skElementObject::countChildren(skElement * parent)
   //------------------------------------------
 {
   int count=0;
@@ -396,8 +430,18 @@ int skElementObject::countChildren(skElement * parent)
   }
   return count;
 }
+#ifdef __SYMBIAN32__
 //------------------------------------------
-skElement * skElementObject::findChild(skElement * parent,const skString& tagname)
+EXPORT_C skElement * skElementObject::findChild(skElement * parent,const TDesC& tagname)
+//------------------------------------------
+{
+  skString s_tagname;
+  s_tagname=tagname;
+  return findChild(parent,s_tagname);
+}
+#endif
+//------------------------------------------
+EXPORT_C skElement * skElementObject::findChild(skElement * parent,const skString& tagname)
   //------------------------------------------
 {
   skElement * ret=0;
@@ -405,16 +449,33 @@ skElement * skElementObject::findChild(skElement * parent,const skString& tagnam
     skNodeList& nodes=parent->getChildNodes();
     for (unsigned int i=0;i<nodes.entries();i++){
       skNode * node=nodes[i];
-      if (node->getNodeType()==skNode::ELEMENT_NODE && ((skElement * )node)->getTagName()==tagname){
-        ret=(skElement *)node;
+      if (node->getNodeType()==skNode::ELEMENT_NODE && reinterpret_cast<skElement *>(node)->getTagName()==tagname){
+        ret=reinterpret_cast<skElement *>(node);
         break;
       }
     }
   }
   return ret;
 }
+#ifdef __SYMBIAN32__
 //------------------------------------------
-skElement * skElementObject::findChild(skElement * parent,const skString& tagname,const skString& attribute,const skString& value)
+EXPORT_C skElement * skElementObject::findChild(skElement * parent,const TDesC& tagname,const TDesC& attribute,const skString& value)
+  //------------------------------------------
+{
+  skString tag_name;
+  SAVE_VARIABLE(tag_name);
+  tag_name=tagname;
+  skString attr_name;
+  SAVE_VARIABLE(attr_name);
+  attr_name=attribute;
+  skElement * ret=findChild(parent,tag_name,attr_name,value);
+  RELEASE_VARIABLE(attr_name);
+  RELEASE_VARIABLE(tag_name);
+  return ret;
+}
+#endif
+//------------------------------------------
+EXPORT_C skElement * skElementObject::findChild(skElement * parent,const skString& tagname,const skString& attribute,const skString& value)
   //------------------------------------------
 {
   skElement * ret=0;
@@ -423,27 +484,36 @@ skElement * skElementObject::findChild(skElement * parent,const skString& tagnam
     for (unsigned int i=0;i<nodes.entries();i++){
       skNode * node=nodes[i];
       skNode::NodeType type=node->getNodeType();
-      if (type==skNode::ELEMENT_NODE)
-        if (((skElement *) node)->getTagName()==tagname){
-	        skElement * thisElement=(skElement *)node;
-	        if (thisElement->getAttribute(attribute)==value){
-	          ret=thisElement;
-	          break;
-	        }
+      if (type==skNode::ELEMENT_NODE){
+	skElement * thisElement=reinterpret_cast<skElement *>(node);
+        if (thisElement->getTagName()==tagname){
+	  if (thisElement->getAttribute(attribute)==value){
+	    ret=thisElement;
+	    break;
+	  }
         }
+      }
     }
   }
   return ret;
 }
 //------------------------------------------
-void skElementObject::setAttribute(skString name,const skString& value)
+EXPORT_C void skElementObject::setAttribute(skString name,const skString& value)
   //------------------------------------------
 {
   if (m_Element)
     m_Element->setAttribute(name,value);
 }
+#ifdef __SYMBIAN32__
 //------------------------------------------
-skString skElementObject::getAttribute(const skString& name) const
+EXPORT_C skString skElementObject::getAttribute(const TDesC& name) const
+  //------------------------------------------
+{
+  return m_Element->getAttribute(name);
+}
+#endif
+//------------------------------------------
+EXPORT_C skString skElementObject::getAttribute(const skString& name) const
   //------------------------------------------
 {
   skString a;
@@ -452,38 +522,38 @@ skString skElementObject::getAttribute(const skString& name) const
   return a;
 }
 //------------------------------------------
-bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt)  
+EXPORT_C bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt)  
   //------------------------------------------
 {
   bool bRet=false;
   if (m_Element){
-    if (s==skSTR("containsElement")){
+    if (s==s_containsElement){
       bRet=true;
       skElement * child=findChild(m_Element,args[0].str());
       if (child)
         ret=true;
       else
         ret=false;
-    }else if (s==skSTR("addElement")){
+    }else if (s==s_addElement){
       bRet=true;
-      m_Element->appendChild(new skElement(args[0].str()));
-    }else if (s==skSTR("tagName")){
+      m_Element->appendChild(skNEW(skElement(args[0].str())));
+    }else if (s==s_tagName){
       bRet=true;
       ret=m_Element->getTagName();
 #ifdef STREAMS_ENABLED
-    }else if (s==skSTR("dump")){
+    }else if (s==s_dump){
       bRet=true;
       cout << m_Element;
 #endif
-    }else if (s==skSTR("enumerate") && (args.entries()==0 || args.entries()==1)){
+    }else if (s==s_enumerate && (args.entries()==0 || args.entries()==1)){
       // return an enumeration object for this element
       bRet=true;
       if (args.entries()==0)
-        ret=skRValue(new skElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation()),true);
+        ret.assignObject(skNEW(skElementObjectEnumerator(this,getLocation())),true);
       else
-        ret=skRValue(new skElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),args[0].str()),true);
+        ret.assignObject(skNEW(skElementObjectEnumerator(this,getLocation(),args[0].str())),true);
     }else{
-      skString location=skString::addStrings(m_ScriptLocation,s_colon,s);
+      skString location=skString::addStrings(m_ScriptLocation.ptr(),s_colon,s.ptr());
       if (m_Element){
         skMethodDefNode * methNode=0;
         if (m_MethodCache!=0)
@@ -496,18 +566,23 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
             skString code=skElementObject::getData(node);
             bRet=true;
             // pull out the parameters from the "params" attribute
-            skString params=node->getAttribute(skSTR("params"));
+            skString params=node->getAttribute(s_params);
             skStringList paramList;
             if (params.length()>0){
-              skStringTokenizer tokenizer(params,skSTR(", "));
+              skStringTokenizer tokenizer;
+	      skString delims;
+	      SAVE_VARIABLE(delims);
+	      delims=s_comma_space;
+	      tokenizer.init(params,delims,false);
               while (tokenizer.hasMoreTokens())
                 paramList.append(tokenizer.nextToken());
+	      RELEASE_VARIABLE(delims);
             }
             code=code.removeInitialBlankLines();
             ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
             if (methNode){
               if (m_MethodCache==0)
-                m_MethodCache=new skMethodTable();
+                m_MethodCache=skNEW(skMethodTable);
               m_MethodCache->insertKeyAndValue(s,methNode);
             }
           }else
@@ -525,60 +600,60 @@ bool skElementObject::method(const skString& s,skRValueArray& args,skRValue& ret
   return bRet;
 }
 //------------------------------------------
-skElementObject::skElementObject(const skElementObject& other)
+skElementObject::skElementObject(const skElementObject& /*other*/)
   //------------------------------------------
 {
 }
 //------------------------------------------
-skElementObject& skElementObject::operator=(const skElementObject& other)
+skElementObject& skElementObject::operator=(const skElementObject& /*other*/)
   //------------------------------------------
 {
   return *this;
 }
 //------------------------------------------
-skString skElementObject::getLocation() const
+EXPORT_C skString skElementObject::getLocation() const
   //------------------------------------------
 {
   return m_ScriptLocation;
 }
 //------------------------------------------
-void skElementObject::setLocation(const skString& loc) 
+EXPORT_C void skElementObject::setLocation(const skString& loc) 
   //------------------------------------------
 {
   m_ScriptLocation=loc;
 }
 //------------------------------------------
-void skElementObject::setAddIfNotPresent(bool enable)
+EXPORT_C void skElementObject::setAddIfNotPresent(bool enable)
 //------------------------------------------
 {
   m_AddIfNotPresent=enable;
 }
 //------------------------------------------
-bool skElementObject::getAddIfNotPresent()
+EXPORT_C bool skElementObject::getAddIfNotPresent()
 //------------------------------------------
 {
   return m_AddIfNotPresent;
 }
 //------------------------------------------
-skExecutableIterator * skElementObject::createIterator(const skString& qualifier)
+EXPORT_C skExecutableIterator * skElementObject::createIterator(const skString& qualifier)
 //------------------------------------------
 {
   skExecutableIterator * iter=0;
   if (m_Element)
-    iter=new skElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),qualifier);
+    iter=skNEW(skElementObjectEnumerator(this,getLocation(),qualifier));
   return iter;
 }
 //------------------------------------------
-skExecutableIterator * skElementObject::createIterator()
+EXPORT_C skExecutableIterator * skElementObject::createIterator()
 //------------------------------------------
 {
   skExecutableIterator * iter=0;
   if (m_Element)
-    iter=new skElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation());
+    iter=skNEW(skElementObjectEnumerator(this,getLocation()));
   return iter;
 }
 //------------------------------------------
-skString skElementObject::getSource(const skString& location)
+EXPORT_C skString skElementObject::getSource(const skString& location)
 //------------------------------------------
 {
   skString src;
@@ -596,7 +671,7 @@ skString skElementObject::getSource(const skString& location)
   return src;
 }
 //------------------------------------------
-void skElementObject::getInstanceVariables(skRValueTable& table)
+EXPORT_C void skElementObject::getInstanceVariables(skRValueTable& table)
 //------------------------------------------
 {
   if (m_Element){
@@ -605,34 +680,40 @@ void skElementObject::getInstanceVariables(skRValueTable& table)
       skNode * node=nodes[i];
       skNode::NodeType type=node->getNodeType();
       if (type==skNode::ELEMENT_NODE){
-        skElement * element=(skElement *)node;
+        skElement * element=reinterpret_cast<skElement *>(node);
         skString name=element->getTagName();
-        table.insertKeyAndValue(name,
-                    new skRValue(new skElementObject(name,element,false)));
+	skRValue * value=skNEW(skRValue);
+	SAVE_POINTER(value);
+	value->assignObject(skNEW(skElementObject(name,element,false)),true);
+        table.insertKeyAndValue(name,value);
+	RELEASE_POINTER(value);
       }
     }
   }
 }
 //------------------------------------------
-void skElementObject::getAttributes(skRValueTable& table)
+EXPORT_C void skElementObject::getAttributes(skRValueTable& table)
 //------------------------------------------
 {
   if (m_Element){
     skAttributeList& attrs=m_Element->getAttributes();
     for (unsigned int i=0;i<attrs.entries();i++){
       skAttribute * attr=attrs[i];
-      table.insertKeyAndValue(attr->getName(),new skRValue(attr->getValue()));
+      skRValue * value=skNEW(skRValue(attr->getValue()));
+      SAVE_POINTER(value);
+      table.insertKeyAndValue(attr->getName(),value);
+      RELEASE_POINTER(value);
     }
   }
 }
 //------------------------------------------
-bool skElementObject::equals(const skiExecutable * o) const
+EXPORT_C bool skElementObject::equals(const skiExecutable * o) const
 //------------------------------------------
 {
   bool equals=false;
   // is the other an ElementObject?
   if (o->executableType()==executableType() && m_Element){
-    skElement * other=((skElementObject *)o)->getElement();
+    const skElement * other=reinterpret_cast<const skElementObject *>(o)->getElement();
     if (other)
       // do a deep comparison on the elements
       equals=(*m_Element==*other);

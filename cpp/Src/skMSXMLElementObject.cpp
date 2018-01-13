@@ -2,21 +2,21 @@
   Copyright 1996-2003
   Simon Whiteside
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skMSXMLElementObject.cpp,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skMSXMLElementObject.cpp,v 1.11 2003/04/16 13:23:06 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -196,12 +196,12 @@ void skMSXMLElementObject::copyItemsInto(XMLElement& other)
       int numNodes=nodes->length;
       for (int i=0;i<numNodes;i++)
         if (bSameOwner){
-					XMLNode childNode = nodes->Getitem(i);
-					childNode = childNode->cloneNode(true);
-					other->appendChild(childNode);
-				}
-				else
-					other->appendChild(other);	
+          XMLNode childNode = nodes->Getitem(i);
+          childNode = childNode->cloneNode(true);
+          other->appendChild(childNode);
+        }
+        else
+          other->appendChild(other);    
     }
   }
 }
@@ -234,7 +234,7 @@ bool skMSXMLElementObject::getValueAt(const skRValue& array_index,const skString
   if (child!=0){
     if (attribute.length()==0)
       value=skRValue(createXMLElementObject(skString::addStrings(m_ScriptLocation,skSTR("["),
-                                                                  skString::from(index),skSTR("]")),child),true);
+                                                                 skString::from(index),skSTR("]")),child),true);
     else{
       skString attrValue=getAttribute(child,attribute);
       value=skRValue(attrValue);
@@ -245,7 +245,7 @@ bool skMSXMLElementObject::getValueAt(const skRValue& array_index,const skString
 }
 //------------------------------------------
 skMSXMLElementObject * skMSXMLElementObject::createXMLElementObject(const skString& location,XMLElement& element)
-//------------------------------------------
+  //------------------------------------------
 {
   skMSXMLElementObject * obj= new skMSXMLElementObject(location,element);
   obj->setAddIfNotPresent(getAddIfNotPresent());
@@ -265,11 +265,11 @@ bool skMSXMLElementObject::getValue(const skString& name,const skString& attrib,
     if (name.length()>0){
       child=findChild(m_Element,name);
       if (child==0){
-	      if (m_AddIfNotPresent){
-	        child=m_Element->ownerDocument->createElement(fromString(name));
-	        m_Element->appendChild(child);
-	      }else
-	        bRet=false;
+        if (m_AddIfNotPresent){
+          child=m_Element->ownerDocument->createElement(fromString(name));
+          m_Element->appendChild(child);
+        }else
+          bRet=false;
       }
     }
     if (child!=0){
@@ -296,7 +296,7 @@ skString skMSXMLElementObject::getData(const XMLElement& element)
     if (type==MSXML2::NODE_CDATA_SECTION || type == MSXML2::NODE_TEXT){
       _variant_t v = node->nodeValue;
       if (v.vt == VT_BSTR)
-	      str += _bstr_t(v);
+        str += _bstr_t(v);
     }
   }
   return toString(str);
@@ -311,7 +311,7 @@ void skMSXMLElementObject::setData(XMLElement& element,const skString& data)
     XMLNode node=nodes->Getitem(i);
     int type=node->nodeType;
     if (type==MSXML2::NODE_CDATA_SECTION || type == MSXML2::NODE_TEXT){
-			node->nodeValue = _variant_t( fromString(data) );
+      node->nodeValue = _variant_t( fromString(data) );
       found=true;
       break;
     }
@@ -332,11 +332,11 @@ XMLElement skMSXMLElementObject::findChild(XMLElement& parent,int index)
       for (int i=0;i<nodes->length;i++){
         XMLNode node=nodes->Getitem(i);
         if (node->nodeType==MSXML2::NODE_ELEMENT){
-	        if (element_count==index){
-	          ret=node;
-	          break;
-	        }else
-	          element_count++;
+          if (element_count==index){
+            ret=node;
+            break;
+          }else
+            element_count++;
         }
       }
     }
@@ -381,15 +381,15 @@ XMLElement skMSXMLElementObject::findChild(XMLElement& parent,const skString& ta
 XMLElement skMSXMLElementObject::findChild(XMLElement& parent,const skString& tagname,const skString& attribute,const skString& value)
   //------------------------------------------
 {
-	XMLElement ret = 0;
+  XMLElement ret = 0;
   if (parent!=0){
-	  _bstr_t sTagName	(fromString(tagname));
-	  _bstr_t sValue		(fromString(value));
-	  _bstr_t sAttribute	(fromString(attribute));
+    _bstr_t sTagName    (fromString(tagname));
+    _bstr_t sValue              (fromString(value));
+    _bstr_t sAttribute  (fromString(attribute));
 
-	  // queryString = "sTagName[@sAttribute="sValue"]
-	  _bstr_t queryString = sTagName + "[@" + sAttribute + "=" + "\"" + sValue + "\"]";
-	  ret=(parent->selectSingleNode(queryString));
+    // queryString = "sTagName[@sAttribute="sValue"]
+    _bstr_t queryString = sTagName + "[@" + sAttribute + "=" + "\"" + sValue + "\"]";
+    ret=(parent->selectSingleNode(queryString));
   }
   return ret;
 }
@@ -443,27 +443,27 @@ bool skMSXMLElementObject::method(const skString& s,skRValueArray& args,skRValue
         // no parse tree found in the cache - try and construct a new one
         XMLElement node=skMSXMLElementObject::findChild(m_Element,s_function,s_name,s);
         if (node!=0){
-	        // we found some XML with the script in - now parse it
-	        skString code=skMSXMLElementObject::getData(node);
-	        bRet=true;
+          // we found some XML with the script in - now parse it
+          skString code=skMSXMLElementObject::getData(node);
+          bRet=true;
           // pull out the parameters from the "params" attribute
-					skString params=getAttribute(node,skSTR("params"));
-	        skStringList paramList;
+          skString params=getAttribute(node,skSTR("params"));
+          skStringList paramList;
           if (params.length()>0){
-	          skStringTokenizer tokenizer(params,skSTR(", "));
-	          while (tokenizer.hasMoreTokens())
-	            paramList.append(tokenizer.nextToken());
+            skStringTokenizer tokenizer(params,skSTR(", "));
+            while (tokenizer.hasMoreTokens())
+              paramList.append(tokenizer.nextToken());
           }
           code=code.removeInitialBlankLines();
-	        ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
-	        if (methNode){
-	          if (m_MethodCache==0)
-	            m_MethodCache=new skMethodTable();
-	          m_MethodCache->insertKeyAndValue(s,methNode);
-	        }
+          ctxt.getInterpreter()->executeStringExternalParams(location,this,paramList,code,args,ret,&methNode,ctxt);
+          if (methNode){
+            if (m_MethodCache==0)
+              m_MethodCache=new skMethodTable();
+            m_MethodCache->insertKeyAndValue(s,methNode);
+          }
         }else
-	        bRet=skExecutable::method(s,args,ret,ctxt);
-      }else{	
+          bRet=skExecutable::method(s,args,ret,ctxt);
+      }else{    
         ctxt.getInterpreter()->executeParseTree(location,this,methNode,args,ret,ctxt);
         bRet=true;
       }
@@ -474,13 +474,13 @@ bool skMSXMLElementObject::method(const skString& s,skRValueArray& args,skRValue
 }
 // ---------------------------------------------------------------------------
 skString skMSXMLElementObject::getAttribute(XMLElement& elem,const skString& name)
-// ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 {
-	_bstr_t attrib("");
-	_variant_t v = elem->getAttribute(fromString(name));
-	if (v.vt == VT_BSTR)
-		attrib = v.bstrVal;
-	return toString(attrib);
+  _bstr_t attrib("");
+  _variant_t v = elem->getAttribute(fromString(name));
+  if (v.vt == VT_BSTR)
+    attrib = v.bstrVal;
+  return toString(attrib);
 }
 // ---------------------------------------------------------------------------
 skString skMSXMLElementObject::toString(_bstr_t& str)
@@ -514,46 +514,46 @@ skString skMSXMLElementObject::getLocation() const
 }
 //------------------------------------------
 void skMSXMLElementObject::setAddIfNotPresent(bool enable)
-//------------------------------------------
+  //------------------------------------------
 {
   m_AddIfNotPresent=enable;
 }
 //------------------------------------------
 bool skMSXMLElementObject::getAddIfNotPresent()
-//------------------------------------------
+  //------------------------------------------
 {
   return m_AddIfNotPresent;
 }
 //------------------------------------------
 skExecutableIterator * skMSXMLElementObject::createIterator(const skString& qualifier)
-//------------------------------------------
+  //------------------------------------------
 {
   return new skMSXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation(),qualifier);
 }
 //------------------------------------------
 skExecutableIterator * skMSXMLElementObject::createIterator()
-//------------------------------------------
+  //------------------------------------------
 {
   return new skMSXMLElementObjectEnumerator(m_Element,m_AddIfNotPresent,getLocation());
 }
 //------------------------------------------
 void skMSXMLElementObject::save(ostream& out)
-//------------------------------------------
+  //------------------------------------------
 {
-	XMLElement elem = getElement();
-	out << (char *)elem->xml;
+  XMLElement elem = getElement();
+  out << (char *)elem->xml;
 
 }
 // ---------------------------------------------------------------------------
 ostream& operator<< (ostream& target, const _bstr_t& s)
-// ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 {
   target << (char *)s;
   return target;
 }
 //------------------------------------------
 skString skMSXMLElementObject::getSource(const skString& location)
-//------------------------------------------
+  //------------------------------------------
 {
   skString src;
   if (m_Element){
@@ -571,7 +571,7 @@ skString skMSXMLElementObject::getSource(const skString& location)
 }
 //------------------------------------------
 void skMSXMLElementObject::getInstanceVariables(skRValueTable& table)
-//------------------------------------------
+  //------------------------------------------
 {
   if (m_Element){
     XMLNodeList nodes=m_Element->childNodes;
@@ -581,15 +581,14 @@ void skMSXMLElementObject::getInstanceVariables(skRValueTable& table)
       if (type==MSXML2::NODE_ELEMENT){
         XMLElement element=node;
         skString name=toString(element->tagName);
-        table.insertKeyAndValue(name,
-                    new skRValue(new skMSXMLElementObject(name,element)));
+        table.insertKeyAndValue(name,new skRValue(new skMSXMLElementObject(name,element),true));
       }
     }
   }
 }
 //------------------------------------------
 void skMSXMLElementObject::getAttributes(skRValueTable& table)
-//------------------------------------------
+  //------------------------------------------
 {
   if (m_Element){
     XMLNamedNodeMap attrs=m_Element->Getattributes();
@@ -598,10 +597,10 @@ void skMSXMLElementObject::getAttributes(skRValueTable& table)
       XMLNode attr=attrs->Getitem(i);
       skString name=toString(attr->GetnodeName());
       skString value="";
-    	_variant_t v = attr->GetnodeValue();
+      _variant_t v = attr->GetnodeValue();
       if (v.vt == VT_BSTR){
-      	_bstr_t b_value=v.bstrVal;
-		    value = toString(b_value);
+        _bstr_t b_value=v.bstrVal;
+        value = toString(b_value);
       }
       table.insertKeyAndValue(name,new skRValue(value));
     }

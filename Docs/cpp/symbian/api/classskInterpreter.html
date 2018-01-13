@@ -903,6 +903,12 @@ Methods supported: breakpoint - breaks to the debugger (if present) <dl compact>
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the method could be executed, or false if the method is not supported </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>skParseException</em>&nbsp;</td><td>- if a syntax error is encountered while the script is running </td></tr>
+    <tr><td valign=top><em>skRuntimeException</em>&nbsp;</td><td>- if an error occurs while the script is running </td></tr>
+  </table>
+</dl>
 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a12">skExecutable</a>.    </td>
@@ -1404,7 +1410,7 @@ output a message to the current trace output
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="skInterpreter_8h-source.html">skInterpreter.h</a></ul>
-<hr><address style="align: right;"><small>Generated on Mon Apr 14 16:49:00 2003 for Simkin C++ for Symbian by
+<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:55:13 2003 for Simkin C++ for Symbian by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

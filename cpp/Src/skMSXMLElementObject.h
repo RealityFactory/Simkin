@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skMSXMLElementObject.h,v 1.5 2003/04/04 17:04:25 simkin_cvs Exp $
+* $Id: skMSXMLElementObject.h,v 1.6 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 
 
@@ -140,6 +140,8 @@ class CLASSEXPORT skMSXMLElementObject : public skExecutable {
    * @param ret the object to receive the result of the method call
    * @param ctxt context object to receive errors
    * @return true if the method was found, false otherwise
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
   bool method(const skString& name,skRValueArray& args,skRValue& ret,skExecutableContext& ctxt);
   /**

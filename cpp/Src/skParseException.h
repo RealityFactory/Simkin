@@ -16,14 +16,14 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParseException.h,v 1.19 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skParseException.h,v 1.20 2003/04/15 07:02:00 simkin_cvs Exp $
 */
 #ifndef SKPARSEEXCEPTION_H
 #define SKPARSEEXCEPTION_H
 
 #include "skException.h"
 #include "skString.h"
-#include "skVAlist.h"
+#include "skValist.h"
 #include "skStringBuffer.h"
 xskNAMED_LITERAL(QuoteStart,skSTR(" near \""));
 xskNAMED_LITERAL(QuoteEnd,skSTR("\""));

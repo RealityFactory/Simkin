@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skMSXMLElementObjectEnumerator.h,v 1.2 2003/03/18 19:36:13 simkin_cvs Exp $
+  $Id: skMSXMLElementObjectEnumerator.h,v 1.3 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 #ifndef skMSXMLELEMENTOBJECTENUMERATOR_H
 #define skMSXMLELEMENTOBJECTENUMERATOR_H
@@ -53,6 +53,8 @@ class CLASSEXPORT skMSXMLElementObjectEnumerator : public skExecutable, public s
    * @param args arguments to the function
    * @param r return value
    * @param ctxt context object to receive errors
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
   bool method(const skString& s,skRValueArray& args,skRValue& r,skExecutableContext& ctxt);
   /**

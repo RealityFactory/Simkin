@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.h,v 1.14 2003/01/24 09:16:27 simkin_cvs Exp $
+* $Id: skExpatParser.h,v 1.16 2003/04/19 13:22:23 simkin_cvs Exp $
 */
 
 #ifndef skEXPATPARSER_H
@@ -34,13 +34,23 @@ class CLASSEXPORT skInputSource;
  * <p>(Note: Expat is an Open Source XML parser library. You can obtain it from <a href="http://expat.sourceforge.net/">http://expat.sourceforge.net/</a>)
  */
 class CLASSEXPORT skExpatParser 
+#ifdef __SYMBIAN32__
+: public CBase
+#endif
 {
  public:
   /** Construct a parser */
-  skExpatParser();
-  ~skExpatParser();
-
-  skElement * parse(skInputSource& in,skExecutableContext& context);
+  IMPORT_C skExpatParser();
+  /** Destructor */
+  IMPORT_C virtual ~skExpatParser();
+  /** Parse an input stream and construct an element from it
+   * @param in the input stream containing the XML document
+   * @param context a context object - this can be used to pass back exceptions where exception handling is disabled
+   * @return the root of the document in the stream, or 0 if a parse error occurred
+   * @exception XMLParseException thrown if there was an error and exceptions are enabled. Otherwise this is returned in the context object
+   * @exception Symbian - a leaving function
+   */
+  IMPORT_C skElement * parse(skInputSource& in,skExecutableContext& context);
  private:
   /** prevent C++ from making copies of the parser */
   skExpatParser(const skExpatParser&);

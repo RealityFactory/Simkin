@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skiExecutable.h,v 1.13 2003/04/04 17:04:25 simkin_cvs Exp $
+* $Id: skiExecutable.h,v 1.14 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 
 #ifndef skiEXECUTABLE_H
@@ -122,6 +122,10 @@ class CLASSEXPORT skiExecutable
    * @param return_value - an object to receive the return value of the method
    * @param context context object to receive errors
    * @return true if the method could be executed, or false if the method is not supported
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
+   * @exception skParseException - if a syntax error is encountered while the script is running
+   * @exception skRuntimeException - if an error occurs while the script is running
    */
   virtual bool method(const skString& method_name,skRValueArray& arguments,skRValue& return_value,skExecutableContext& context)=0;
   /**

@@ -16,59 +16,59 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTextNode.cpp,v 1.9 2003/04/04 17:04:25 simkin_cvs Exp $
+* $Id: skTextNode.cpp,v 1.11 2003/04/19 13:22:24 simkin_cvs Exp $
 */
 #include "skTextNode.h"
 #include "skOutputDestination.h"
 //------------------------------------------
-skTextNode::skTextNode(const skString& text)
+EXPORT_C skTextNode::skTextNode(const skString& text)
 //------------------------------------------
   :m_Text(text)
 {
 }
 //------------------------------------------
-skTextNode::~skTextNode()
+EXPORT_C skTextNode::~skTextNode()
 //------------------------------------------
 {
 }
 //------------------------------------------
-skString skTextNode::getNodeValue() const
+EXPORT_C skString skTextNode::getNodeValue() const
 //------------------------------------------
 {
   return m_Text;
 }
 //------------------------------------------
-void skTextNode::setNodeValue(const skString& text)
+EXPORT_C void skTextNode::setNodeValue(const skString& text)
 //------------------------------------------
 {
   m_Text=text;
 }
 //------------------------------------------
-skNode::NodeType skTextNode::getNodeType() const
+EXPORT_C skNode::NodeType skTextNode::getNodeType() const
 //------------------------------------------
 {
   return TEXT_NODE;
 }
 //------------------------------------------
-skNode * skTextNode::clone()
+EXPORT_C skNode * skTextNode::clone()
 //------------------------------------------
 {
   return new skTextNode(m_Text);
 }
 //------------------------------------------
-void skTextNode::write(skOutputDestination& out) const
+EXPORT_C void skTextNode::write(skOutputDestination& out) const
 //------------------------------------------
 {
-  out.write(escapeXMLDelimiters(m_Text));
+  out.write(escapeXMLDelimiters(m_Text,false));
 }
 //------------------------------------------
-skString skTextNode::toString() const
+EXPORT_C skString skTextNode::toString() const
 //------------------------------------------
 {
-  return escapeXMLDelimiters(m_Text);
+  return escapeXMLDelimiters(m_Text,false);
 }
 //------------------------------------------
-bool skTextNode::equals(const skNode& other) const
+EXPORT_C bool skTextNode::equals(const skNode& other) const
 //------------------------------------------
 {
   bool equals=false;

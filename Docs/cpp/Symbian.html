@@ -43,18 +43,26 @@ Simkin contains preprocessor directives to provide a special version of the libr
 <p>
 <h3>Building Simkin/C++ for Symbian</h3>
 <p>
-Simkin should be built as a static DLL on the Symbian platform.
+Simkin should be built as a static DLL on the Symbian platform.  You can do this using the <code>bld.inf</code>.
 <p>
-You can do this using the <code>bld.inf</code> <code>SimkinSym.mmp</code> files in the Simkin source directory, in conjunction with the Symbian command line tools.
+<h4>XML version</h4>
+The <code>SimkinSym_XML.mmp</code> project builds generates a DLL called <code>SimkinXML.dll</code> and a library called <code>SimkinXML.lib</code>. 
+The XML support is provided by a special version of the <a href="http://expat.sourceforge.net" target="_blank">Expat XML parser</a>, and the <a href="CppClasses.html#SimkinDOM">Simkin DOM classes</a>.
+<p>You can download the special version of Expat <a href="http://www.simkin.co.uk/download/Expat-1.95.5-ce-sym.zip">from the Simkin site</a>. You will need to use the <code>bld.inf</code> file in the <code>Symbian</code> subdirectory to build <code>expat.dll</code> and <code>expat.lib</code>.
 <p>
-This generates a DLL called Simkin.dll and a library called Simkin.lib
-<p>
-The current version only supports the <b>TreeNode</b> format. We are investigating XML support and hope to release this soon.
-<h3>Examples</h3>
-We have provided two specific examples for the Symbian platform:
+We have provided two specific examples for the XML version:
 <ol>
-<li><b>ScriptLoader</b> - this is a command line application which loads a script called "test.dat" from the root of the C: drive.</li>
-<li><b>SimkinDemo</b> - this GUI app shows a simple calculator whose layout and behaviour is defined in a script called "SimkinDemo.dat". The application uses the Quartz SDK, but could be modified to use earlier versions. 
+<li><b>ScriptLoaderXML</b> (directory <code>scriptloader_xml_sym</code>) - this is a command line application which loads a script called "test.xml" from the root of the C: drive.</li>
+<li><b>SimkinDemoXML</b> (directory <code>demo_xml_sym</code>)- this GUI app shows a simple calculator whose layout and behaviour is defined in a script called "SimkinDemo.xml". The application uses the Quartz SDK, but could be modified to use earlier versions. 
+</li>
+</ol>
+<h4>TreeNode version</h4>
+The <code>SimkinSym.mmp</code> project builds generates a DLL called <code>Simkin.dll</code> and a library called <code>Simkin.lib</code>. This includes the <code>skTreeNode</code> classes for storing scripts. 
+<p>
+We have provided two specific examples for the Treenode version:
+<ol>
+<li><b>ScriptLoader</b> (directory <code>scriptloader_sym</code>) - this is a command line application which loads a script called "test.dat" from the root of the C: drive.</li>
+<li><b>SimkinDemo</b> (directory <code>demo_sym</code>)- this GUI app shows a simple calculator whose layout and behaviour is defined in a script called "SimkinDemo.dat". The application uses the Quartz SDK, but could be modified to use earlier versions. 
 </li>
 </ol>
 </body>

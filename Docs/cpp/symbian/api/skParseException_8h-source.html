@@ -24,14 +24,14 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  $Id: skParseException_8h-source.html,v 1.1 2003/04/14 15:56:13 simkin_cvs Exp $</span>
+00019 <span class="comment">  $Id: skParseException_8h-source.html,v 1.3 2003/04/19 17:56:02 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef SKPARSEEXCEPTION_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define SKPARSEEXCEPTION_H</span>
 00023 <span class="preprocessor"></span>
 00024 <span class="preprocessor">#include "skException.h"</span>
 00025 <span class="preprocessor">#include "skString.h"</span>
-00026 <span class="preprocessor">#include "skVAlist.h"</span>
+00026 <span class="preprocessor">#include "skValist.h"</span>
 00027 <span class="preprocessor">#include "skStringBuffer.h"</span>
 00028 xskNAMED_LITERAL(QuoteStart,skSTR(<span class="stringliteral">" near \""</span>));
 00029 xskNAMED_LITERAL(QuoteEnd,skSTR(<span class="stringliteral">"\""</span>));
@@ -66,7 +66,7 @@
 00085     <span class="keywordflow">return</span> m_LexBuffer;
 00086   }
 <a name="l00090"></a><a class="code" href="classskCompileError.html#a8">00090</a>   <a class="code" href="classskString.html">skString</a> toString()<span class="keyword"> const </span>{
-00091     <span class="keywordflow">return</span> <a class="code" href="classskString.html#d6">skString::addStrings</a>(m_Location.ptr(),s_colon,<a class="code" href="classskString.html#d1">skString::from</a>(m_LineNum).<a class="code" href="classskString.html#a13">ptr</a>(),s_colon,m_Msg.ptr(),s_QuoteStart,m_LexBuffer.ptr(),s_QuoteEnd);
+00091     <span class="keywordflow">return</span> <a class="code" href="classskString.html#d7">skString::addStrings</a>(m_Location.ptr(),s_colon,<a class="code" href="classskString.html#d1">skString::from</a>(m_LineNum).<a class="code" href="classskString.html#a13">ptr</a>(),s_colon,m_Msg.ptr(),s_QuoteStart,m_LexBuffer.ptr(),s_QuoteEnd);
 00092   }
 <a name="l00096"></a><a class="code" href="classskCompileError.html#a9">00096</a>   <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> skCompileError&amp; err)<span class="keyword"> const </span>{
 00097     <span class="keywordflow">return</span> m_Msg==err.<a class="code" href="classskCompileError.html#o3">m_Msg</a>;
@@ -114,7 +114,7 @@
 00160 };
 00161 
 00162 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:49:00 2003 for Simkin C++ for Symbian by
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:55:12 2003 for Simkin C++ for Symbian by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

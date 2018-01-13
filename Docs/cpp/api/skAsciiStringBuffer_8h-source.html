@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skAsciiStringBuffer_8h-source.html,v 1.8 2003/04/14 15:52:43 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skAsciiStringBuffer_8h-source.html,v 1.10 2003/04/19 17:55:59 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -36,29 +36,33 @@
 <a name="l00031"></a><a class="code" href="classskAsciiStringBuffer.html">00031</a> <span class="keyword">class </span><a class="code" href="classskAsciiStringBuffer.html">skAsciiStringBuffer</a> 
 00032 {
 00033  <span class="keyword">public</span>:
-00038   <a class="code" href="classskAsciiStringBuffer.html#a0">skAsciiStringBuffer</a>(USize <a class="code" href="classskAsciiStringBuffer.html#a12">capacity</a>,USize growth_increment=16);
-00043   <a class="code" href="classskAsciiStringBuffer.html#a0">skAsciiStringBuffer</a>(<span class="keyword">const</span> <a class="code" href="classskAsciiString.html">skAsciiString</a>&amp; s,USize growth_increment=16);
-00047   <a class="code" href="classskAsciiStringBuffer.html#a0">skAsciiStringBuffer</a>(<span class="keyword">const</span> <a class="code" href="classskAsciiStringBuffer.html">skAsciiStringBuffer</a>&amp; s);
-00051   <a class="code" href="classskAsciiStringBuffer.html#a3">~skAsciiStringBuffer</a>();
-00055   <a class="code" href="classskAsciiStringBuffer.html">skAsciiStringBuffer</a>&amp; <a class="code" href="classskAsciiStringBuffer.html#a4">operator=</a>(<span class="keyword">const</span> <a class="code" href="classskAsciiStringBuffer.html">skAsciiStringBuffer</a>&amp; s);
-00060   <span class="keywordtype">void</span> <a class="code" href="classskAsciiStringBuffer.html#a5">append</a>(<span class="keywordtype">char</span> ch);
-00065   <span class="keywordtype">void</span> <a class="code" href="classskAsciiStringBuffer.html#a5">append</a>(<span class="keyword">const</span> <a class="code" href="classskAsciiString.html">skAsciiString</a>&amp; s);
-00070   <span class="keywordtype">void</span> <a class="code" href="classskAsciiStringBuffer.html#a5">append</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * s);
-00075   <a class="code" href="classskAsciiString.html">skAsciiString</a> <a class="code" href="classskAsciiStringBuffer.html#a8">toString</a>() ;
-00080   <a class="code" href="classskAsciiString.html">skAsciiString</a> <a class="code" href="classskAsciiStringBuffer.html#a9">toStringCopy</a>() <span class="keyword">const</span>;
-00085   <a class="code" href="classskAsciiStringBuffer.html#a10">operator const char * </a>() <span class="keyword">const</span>;
-00090   USize <a class="code" href="classskAsciiStringBuffer.html#a11">length</a>() <span class="keyword">const</span>;
-00095   USize <a class="code" href="classskAsciiStringBuffer.html#a12">capacity</a>() <span class="keyword">const</span>;
-00096  <span class="keyword">private</span>:
-00101   <span class="keywordtype">void</span> ensureCapacity(USize capacity);
-00103   <span class="keywordtype">char</span> * m_Buffer;
-00105   USize m_Length;
-00107   USize m_Capacity;
-00109   USize m_GrowthIncrement;
-00110 };
-00111 
-00112 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:32 2003 for Simkin by
+00038   IMPORT_C <a class="code" href="classskAsciiStringBuffer.html#a0">skAsciiStringBuffer</a>(USize <a class="code" href="classskAsciiStringBuffer.html#a12">capacity</a>,USize growth_increment=16);
+00039 <span class="preprocessor">#ifndef __SYMBIAN32__</span>
+00040 <span class="preprocessor"></span>
+00045   IMPORT_C <a class="code" href="classskAsciiStringBuffer.html#a0">skAsciiStringBuffer</a>(<span class="keyword">const</span> <a class="code" href="classskAsciiString.html">skAsciiString</a>&amp; s,USize growth_increment=16);
+00050   IMPORT_C <a class="code" href="classskAsciiStringBuffer.html#a0">skAsciiStringBuffer</a>(<span class="keyword">const</span> skAsciiStringBuffer&amp; s);
+00051 <span class="preprocessor">#endif</span>
+00052 <span class="preprocessor"></span>
+00055   IMPORT_C <span class="keyword">virtual</span> <a class="code" href="classskAsciiStringBuffer.html#a3">~skAsciiStringBuffer</a>();
+00059   IMPORT_C skAsciiStringBuffer&amp; <a class="code" href="classskAsciiStringBuffer.html#a4">operator=</a>(<span class="keyword">const</span> skAsciiStringBuffer&amp; s);
+00065   IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskAsciiStringBuffer.html#a5">append</a>(<span class="keywordtype">char</span> ch);
+00071   IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskAsciiStringBuffer.html#a5">append</a>(<span class="keyword">const</span> <a class="code" href="classskAsciiString.html">skAsciiString</a>&amp; s);
+00077   IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskAsciiStringBuffer.html#a5">append</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * s);
+00083   IMPORT_C <a class="code" href="classskAsciiString.html">skAsciiString</a> <a class="code" href="classskAsciiStringBuffer.html#a8">toString</a>() ;
+00089   IMPORT_C <a class="code" href="classskAsciiString.html">skAsciiString</a> <a class="code" href="classskAsciiStringBuffer.html#a9">toStringCopy</a>() <span class="keyword">const</span>;
+00094   IMPORT_C <a class="code" href="classskAsciiStringBuffer.html#a10">operator const char * </a>() <span class="keyword">const</span>;
+00099   IMPORT_C USize <a class="code" href="classskAsciiStringBuffer.html#a11">length</a>() <span class="keyword">const</span>;
+00104   IMPORT_C USize <a class="code" href="classskAsciiStringBuffer.html#a12">capacity</a>() <span class="keyword">const</span>;
+00105  <span class="keyword">private</span>:
+00111   <span class="keywordtype">void</span> ensureCapacity(USize capacity);
+00113   <span class="keywordtype">char</span> * m_Buffer;
+00115   USize m_Length;
+00117   USize m_Capacity;
+00119   USize m_GrowthIncrement;
+00120 };
+00121 
+00122 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

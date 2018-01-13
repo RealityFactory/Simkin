@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElementObject.cpp,v 1.48 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skXMLElementObject.cpp,v 1.50 2003/04/16 13:23:06 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -410,7 +410,7 @@ void skXMLElementObject::getInstanceVariables(skRValueTable& table)
 	      DOM_Element element=*(DOM_Element *)&node;
         skString name=toString(element.getNodeName());
         table.insertKeyAndValue(name,
-                    new skRValue(new skXMLElementObject(name,element)));
+                    new skRValue(new skXMLElementObject(name,element),true));
       }
     }
   }
@@ -420,7 +420,7 @@ void skXMLElementObject::getAttributes(skRValueTable& table)
 //------------------------------------------
 {
   if (m_Element.isNull()==false){
-    DOM_NamedNodeMap&  attrs=m_Element.getAttributes();
+    const DOM_NamedNodeMap&  attrs=m_Element.getAttributes();
     for (unsigned int i=0;i<attrs.getLength();i++){
       DOM_Node attr=attrs.item(i);
       skString name=toString(attr.getNodeName());

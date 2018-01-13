@@ -101,6 +101,10 @@ SOURCE=.\skAlist.inl
 # End Source File
 # Begin Source File
 
+SOURCE=.\skAttribute.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skAttribute.h
 # End Source File
 # Begin Source File
@@ -270,6 +274,10 @@ SOURCE=.\skParseNode.cpp
 # Begin Source File
 
 SOURCE=.\skParseNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\skParseNode.inl
 # End Source File
 # Begin Source File
 

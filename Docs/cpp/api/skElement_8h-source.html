@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skElement_8h-source.html,v 1.11 2003/04/14 15:52:43 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skElement_8h-source.html,v 1.13 2003/04/19 17:55:59 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 <span class="preprocessor">#ifndef skELEMENT_H</span>
 00022 <span class="preprocessor"></span><span class="preprocessor">#define skELEMENT_H</span>
@@ -35,33 +35,38 @@
 <a name="l00030"></a><a class="code" href="classskElement.html">00030</a> <span class="keyword">class </span>CLASSEXPORT skElement : <span class="keyword">public</span> <a class="code" href="classskNode.html">skNode</a>
 00031 {
 00032  <span class="keyword">public</span>:
-00036   skElement(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname);
-00039   ~skElement();
-00044   <span class="keywordtype">void</span> appendChild(<a class="code" href="classskNode.html">skNode</a> * child);
-00049   <span class="keywordtype">void</span> removeAndDestroyChild(<a class="code" href="classskNode.html">skNode</a> * child);
-00054   <span class="keywordtype">void</span> removeChild(<a class="code" href="classskNode.html">skNode</a> * child);
-00060   <span class="keywordtype">void</span> setAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
-00066   <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
-00071   <a class="code" href="classskAttributeList.html">skAttributeList</a>&amp; getAttributes();
-00076   <a class="code" href="classskNodeList.html">skNodeList</a>&amp; getChildNodes();
-00081   <a class="code" href="classskString.html">skString</a> getTagName() <span class="keyword">const</span>;
-00086   <span class="keyword">virtual</span> NodeType <a class="code" href="classskNode.html#a3">getNodeType</a>() <span class="keyword">const</span>;
-00091   <span class="keyword">virtual</span> <a class="code" href="classskNode.html">skNode</a> * <a class="code" href="classskNode.html#a4">clone</a>();
-00096   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskNode.html#a5">toString</a>() <span class="keyword">const</span>;
-00101   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskNode.html#a6">write</a>(<a class="code" href="classskOutputDestination.html">skOutputDestination</a>&amp; out) <span class="keyword">const</span>;
-00105   <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> skElement&amp; other) <span class="keyword">const</span>;
-00109   <span class="keywordtype">bool</span> <a class="code" href="classskNode.html#a9">equals</a>(<span class="keyword">const</span> <a class="code" href="classskNode.html">skNode</a>&amp; other) <span class="keyword">const</span>;
-00113   <span class="keywordtype">bool</span> deepCompare(<span class="keyword">const</span> skElement&amp; other,<span class="keywordtype">bool</span> check_tagname) <span class="keyword">const</span>;
-00114  <span class="keyword">protected</span>:
-00116   <a class="code" href="classskAttribute.html">skAttribute</a> * findAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
-<a name="l00118"></a><a class="code" href="classskElement.html#n0">00118</a>   <a class="code" href="classskString.html">skString</a> m_TagName;
-<a name="l00120"></a><a class="code" href="classskElement.html#n1">00120</a>   <a class="code" href="classskAttributeList.html">skAttributeList</a> m_Attributes;
-<a name="l00122"></a><a class="code" href="classskElement.html#n2">00122</a>   <a class="code" href="classskNodeList.html">skNodeList</a> m_ChildNodes;
-00123 };
-00124 <span class="preprocessor">#endif</span>
-00125 <span class="preprocessor"></span>
-00126 
-</pre></div><hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:32 2003 for Simkin by
+00036   IMPORT_C skElement(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; tagname);
+00039   IMPORT_C <span class="keyword">virtual</span> ~skElement();
+00045   IMPORT_C <span class="keywordtype">void</span> appendChild(<a class="code" href="classskNode.html">skNode</a> * child);
+00050   IMPORT_C <span class="keywordtype">void</span> removeAndDestroyChild(<a class="code" href="classskNode.html">skNode</a> * child);
+00055   IMPORT_C <span class="keywordtype">void</span> removeChild(<a class="code" href="classskNode.html">skNode</a> * child);
+00062   IMPORT_C <span class="keywordtype">void</span> setAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; value);
+00068   IMPORT_C <span class="keywordtype">bool</span> removeAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name);
+00074   IMPORT_C <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name) <span class="keyword">const</span>;
+00075 <span class="preprocessor">#ifdef __SYMBIAN32__</span>
+00076 <span class="preprocessor"></span>
+00082   IMPORT_C <a class="code" href="classskString.html">skString</a> getAttribute(<span class="keyword">const</span> TDesC&amp; name) <span class="keyword">const</span>;
+00083 <span class="preprocessor">#endif</span>
+00084 <span class="preprocessor"></span>
+00088   IMPORT_C <a class="code" href="classskAttributeList.html">skAttributeList</a>&amp; getAttributes();
+00093   IMPORT_C <a class="code" href="classskNodeList.html">skNodeList</a>&amp; getChildNodes();
+00098   IMPORT_C <a class="code" href="classskString.html">skString</a> getTagName() <span class="keyword">const</span>;
+00103   <span class="keyword">virtual</span> IMPORT_C NodeType <a class="code" href="classskNode.html#a3">getNodeType</a>() <span class="keyword">const</span>;
+00109   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskNode.html">skNode</a> * <a class="code" href="classskNode.html#a4">clone</a>();
+00115   <span class="keyword">virtual</span> IMPORT_C <a class="code" href="classskString.html">skString</a> <a class="code" href="classskNode.html#a5">toString</a>() <span class="keyword">const</span>;
+00121   <span class="keyword">virtual</span> IMPORT_C <span class="keywordtype">void</span> <a class="code" href="classskNode.html#a6">write</a>(<a class="code" href="classskOutputDestination.html">skOutputDestination</a>&amp; out) <span class="keyword">const</span>;
+00125   <span class="keywordtype">bool</span> IMPORT_C operator==(<span class="keyword">const</span> skElement&amp; other) <span class="keyword">const</span>;
+00129   <span class="keywordtype">bool</span> IMPORT_C <a class="code" href="classskNode.html#a9">equals</a>(<span class="keyword">const</span> <a class="code" href="classskNode.html">skNode</a>&amp; other) <span class="keyword">const</span>;
+00133   <span class="keywordtype">bool</span> IMPORT_C deepCompare(<span class="keyword">const</span> skElement&amp; other,<span class="keywordtype">bool</span> check_tagname) <span class="keyword">const</span>;
+00134  <span class="keyword">protected</span>:
+<a name="l00136"></a><a class="code" href="classskElement.html#n0">00136</a>   <a class="code" href="classskString.html">skString</a> m_TagName;
+<a name="l00138"></a><a class="code" href="classskElement.html#n1">00138</a>   <a class="code" href="classskAttributeList.html">skAttributeList</a> m_Attributes;
+<a name="l00140"></a><a class="code" href="classskElement.html#n2">00140</a>   <a class="code" href="classskNodeList.html">skNodeList</a> m_ChildNodes;
+00141 };
+00142 <span class="preprocessor">#endif</span>
+00143 <span class="preprocessor"></span>
+00144 
+</pre></div><hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:38 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

@@ -27,7 +27,7 @@
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a1">skElementObject</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskElement.html">skElement</a> *elem, bool created)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Constructor which takes an Element.</em> <a href="#a1"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a name="a2" doxytag="skElementObject::~skElementObject"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a2">~skElementObject</a> ()</td></tr>
+virtual&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a2">~skElementObject</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Destructor.</em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a3">executableType</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Returns ELEMENT_TYPE indicating the element is an ElementObject.</em> <a href="#a3"></a><em></em><br><br></td></tr>
@@ -56,28 +56,33 @@
 <tr><td>&nbsp;</td><td><em class="mdesc">this returns the value of the flag controlling whether new elements are created as they are accessed</em> <a href="#a17"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="classskElement.html">skElement</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a18">getElement</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">This method returns the Element being held by the object.</em> <a href="#a18"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a19" doxytag="skElementObject::setAttribute"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a19">setAttribute</a> (<a class="el" href="classskString.html">skString</a> name, const <a class="el" href="classskString.html">skString</a> &amp;value)</td></tr>
+<tr><td nowrap align=right valign=top>const <a class="el" href="classskElement.html">skElement</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a19">getElement</a> () const</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This method returns the Element being held by the object.</em> <a href="#a19"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a20" doxytag="skElementObject::setAttribute"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a20">setAttribute</a> (<a class="el" href="classskString.html">skString</a> name, const <a class="el" href="classskString.html">skString</a> &amp;value)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Sets an attribute on this node.</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a20">getAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name) const</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This method returns the value of an attribute attached to this element.</em> <a href="#a20"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a21" doxytag="skElementObject::getLocation"></a>
-<a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a21">getLocation</a> () const</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a21">getAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name) const</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This method returns the value of an attribute attached to this element.</em> <a href="#a21"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a22" doxytag="skElementObject::getLocation"></a>
+<a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a22">getLocation</a> () const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">This function returns the location associated with this object (typically a file name).</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a22" doxytag="skElementObject::setLocation"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a22">setLocation</a> (const <a class="el" href="classskString.html">skString</a> &amp;location)</td></tr>
+<tr><td nowrap align=right valign=top><a name="a23" doxytag="skElementObject::setLocation"></a>
+void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a23">setLocation</a> (const <a class="el" href="classskString.html">skString</a> &amp;location)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">This function sets the location associated with this object (typically a file name).</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a23">createIterator</a> (const <a class="el" href="classskString.html">skString</a> &amp;qualifier)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This function returns an <a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> object which is used in the for each statement.</em> <a href="#a23"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a24">createIterator</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a24">createIterator</a> (const <a class="el" href="classskString.html">skString</a> &amp;qualifier)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">This function returns an <a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> object which is used in the for each statement.</em> <a href="#a24"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a25" doxytag="skElementObject::getSource"></a>
-virtual <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a25">getSource</a> (const <a class="el" href="classskString.html">skString</a> &amp;location)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Returns the source code for the given method.</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a26">getInstanceVariables</a> (<a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;table)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This method returns the instance variables for this object.</em> <a href="#a26"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a27">getAttributes</a> (<a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;table)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This method returns the attributes for this object.</em> <a href="#a27"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a25">createIterator</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This function returns an <a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> object which is used in the for each statement.</em> <a href="#a25"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a26">getSource</a> (const <a class="el" href="classskString.html">skString</a> &amp;location)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Returns the source code for the given method.</em> <a href="#a26"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a27">getInstanceVariables</a> (<a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;table)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This method returns the instance variables for this object.</em> <a href="#a27"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a28">getAttributes</a> (<a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;table)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This method returns the attributes for this object.</em> <a href="#a28"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a29">setElement</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskElement.html">skElement</a> *element, bool created=false)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This method updates the associated element and clears the parse tree cache.</em> <a href="#a29"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual skElementObject *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#a30">createElementObject</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskElement.html">skElement</a> *element, bool created)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This method creates a new Element object to wrap an element.</em> <a href="#a30"></a><em></em><br><br></td></tr>
 <tr><td colspan=2><br><h2>Static Public Member Functions</h2></td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#d0">getData</a> (<a class="el" href="classskElement.html">skElement</a> *element)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">retrieves the text data from an element</em> <a href="#d0"></a><em></em><br><br></td></tr>
@@ -92,32 +97,6 @@ virtual <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valig
 <tr><td nowrap align=right valign=top><a name="d5" doxytag="skElementObject::countChildren"></a>
 int&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#d5">countChildren</a> (<a class="el" href="classskElement.html">skElement</a> *parent)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">this method returns the number of element children of the given element</em><br><br></td></tr>
-<tr><td colspan=2><br><h2>Protected Member Functions</h2></td></tr>
-<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#b0">setElement</a> (<a class="el" href="classskElement.html">skElement</a> *element, bool created=false)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This method updates the associated element and clears the parse tree cache.</em> <a href="#b0"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual skElementObject *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#b1">createElementObject</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskElement.html">skElement</a> *element, bool created)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This method creates a new Element object to wrap an element.</em> <a href="#b1"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b2" doxytag="skElementObject::skElementObject"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#b2">skElementObject</a> (const skElementObject &amp;)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Executables can't be copied.</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b3" doxytag="skElementObject::operator="></a>
-skElementObject &amp;&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#b3">operator=</a> (const skElementObject &amp;)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Executables can't be copied.</em><br><br></td></tr>
-<tr><td colspan=2><br><h2>Protected Attributes</h2></td></tr>
-<tr><td nowrap align=right valign=top><a name="n0" doxytag="skElementObject::m_ScriptLocation"></a>
-<a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#n0">m_ScriptLocation</a></td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">the location that the document came from</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="n1" doxytag="skElementObject::m_Element"></a>
-<a class="el" href="classskElement.html">skElement</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#n1">m_Element</a></td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">the underlying document</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="n2" doxytag="skElementObject::m_MethodCache"></a>
-<a class="el" href="classskMethodTable.html">skMethodTable</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#n2">m_MethodCache</a></td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">a cache used to hold onto parse trees for methods that have already been executed</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="n3" doxytag="skElementObject::m_AddIfNotPresent"></a>
-bool&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#n3">m_AddIfNotPresent</a></td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">this variable controls whether new items are added to this element if they are not found, by default it is false, but can be modified using the <a class="el" href="classskElementObject.html#a16">setAddIfNotPresent()</a> method</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskElementObject.html#n4">m_Created</a></td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This value indicates whether or not the Element is "owned" by this object.</em> <a href="#n4"></a><em></em><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This object is a container for an element, and exposes an interface to it to Simkin The class implements methods from the Executable interface.
@@ -293,10 +272,15 @@ Clears the other element and does a deep copy of the children of this node into 
     <tr><td valign=top><em>other</em>&nbsp;</td><td>- the element into which our children will be copied </td></tr>
   </table>
 </dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
-<a name="b1" doxytag="skElementObject::createElementObject"></a><p>
+<a name="a30" doxytag="skElementObject::createElementObject"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -322,7 +306,7 @@ Clears the other element and does a deep copy of the children of this node into 
         <tr>
           <td></td>
           <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [protected, virtual]</code></td>
+          <td class="md" colspan="2"><code> [virtual]</code></td>
         </tr>
 
       </table>
@@ -343,12 +327,18 @@ Override this for special behaviour in derived classes. In this method, the newl
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>location</em>&nbsp;</td><td>the location of this element </td></tr>
     <tr><td valign=top><em>element</em>&nbsp;</td><td>the DOM element to associate with the object </td></tr>
+    <tr><td valign=top><em>created</em>&nbsp;</td><td>set this to true if the new skElementObject should delete the element in its destructor </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
   </table>
 </dl>
     </td>
   </tr>
 </table>
-<a name="a24" doxytag="skElementObject::createIterator"></a><p>
+<a name="a25" doxytag="skElementObject::createIterator"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -375,12 +365,17 @@ Override this for special behaviour in derived classes. In this method, the newl
 <p>
 This function returns an <a class="el" href="classskExecutableIterator.html">skExecutableIterator</a> object which is used in the for each statement.
 <p>
-It will iterate over *all* children of this element 
+It will iterate over *all* children of this element <dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
+
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a15">skExecutable</a>.    </td>
   </tr>
 </table>
-<a name="a23" doxytag="skElementObject::createIterator"></a><p>
+<a name="a24" doxytag="skElementObject::createIterator"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -411,6 +406,11 @@ This function returns an <a class="el" href="classskExecutableIterator.html">skE
 It will iterate over elements with the given tag. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>qualifier</em>&nbsp;</td><td>tag - only elements with this tag will appear in the iteration </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
   </table>
 </dl>
 
@@ -702,7 +702,7 @@ this returns the value of the flag controlling whether new elements are created 
     </td>
   </tr>
 </table>
-<a name="a20" doxytag="skElementObject::getAttribute"></a><p>
+<a name="a21" doxytag="skElementObject::getAttribute"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -731,10 +731,15 @@ this returns the value of the flag controlling whether new elements are created 
 This method returns the value of an attribute attached to this element.
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>the value of the given attribute </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
-<a name="a27" doxytag="skElementObject::getAttributes"></a><p>
+<a name="a28" doxytag="skElementObject::getAttributes"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -765,6 +770,11 @@ This method returns the attributes for this object.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>table</em>&nbsp;</td><td>a table to filled with the values of the attributes </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
   </table>
 </dl>
 
@@ -806,6 +816,42 @@ retrieves the text data from an element
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>the text from a child node of type CDATA or TEXT </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a name="a19" doxytag="skElementObject::getElement"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> const <a class="el" href="classskElement.html">skElement</a> * skElementObject::getElement </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const</td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This method returns the Element being held by the object.
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>the underlying Element </dd></dl>
     </td>
   </tr>
 </table>
@@ -840,7 +886,7 @@ This method returns the Element being held by the object.
     </td>
   </tr>
 </table>
-<a name="a26" doxytag="skElementObject::getInstanceVariables"></a><p>
+<a name="a27" doxytag="skElementObject::getInstanceVariables"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -873,9 +919,52 @@ This method returns the instance variables for this object.
     <tr><td valign=top><em>table</em>&nbsp;</td><td>a table to filled with references to the instance variables </td></tr>
   </table>
 </dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a17">skExecutable</a>.    </td>
+  </tr>
+</table>
+<a name="a26" doxytag="skElementObject::getSource"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> <a class="el" href="classskString.html">skString</a> skElementObject::getSource </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>location</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [virtual]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the source code for the given method.
+<p>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
+
+<p>
+Reimplemented from <a class="el" href="classskExecutable.html#a16">skExecutable</a>.    </td>
   </tr>
 </table>
 <a name="a11" doxytag="skElementObject::getValue"></a><p>
@@ -931,6 +1020,11 @@ If the m_AddIfNotPresent flag is true, a new item will be added if one is not al
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the method was found, false otherwise </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a10">skExecutable</a>.    </td>
@@ -987,6 +1081,11 @@ If the array index falls within the range of the number of children of this elem
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the field was found, false if the field could not found </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a11">skExecutable</a>.    </td>
@@ -1088,6 +1187,13 @@ enumerate([name]) - returns an <a class="el" href="classskElementObjectEnumerato
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the method was found, false otherwise </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+    <tr><td valign=top><em>skParseException</em>&nbsp;</td><td>- if a syntax error is encountered while the script is running </td></tr>
+    <tr><td valign=top><em>skRuntimeException</em>&nbsp;</td><td>- if an error occurs while the script is running </td></tr>
+  </table>
+</dl>
 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a12">skExecutable</a>.    </td>
@@ -1172,10 +1278,15 @@ sets the text data for a node by looking for the first CDATA and TEXT child node
     <tr><td valign=top><em>data</em>&nbsp;</td><td>the data to be set </td></tr>
   </table>
 </dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
-<a name="b0" doxytag="skElementObject::setElement"></a><p>
+<a name="a29" doxytag="skElementObject::setElement"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1183,7 +1294,13 @@ sets the text data for a node by looking for the first CDATA and TEXT child node
         <tr>
           <td class="md" nowrap valign="top"> void skElementObject::setElement </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="classskElement.html">skElement</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>location</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskElement.html">skElement</a> *&nbsp;</td>
           <td class="mdname" nowrap> <em>element</em>, </td>
         </tr>
         <tr>
@@ -1195,7 +1312,7 @@ sets the text data for a node by looking for the first CDATA and TEXT child node
         <tr>
           <td></td>
           <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [protected, virtual]</code></td>
+          <td class="md" colspan="2"><code> [virtual]</code></td>
         </tr>
 
       </table>
@@ -1214,6 +1331,7 @@ This method updates the associated element and clears the parse tree cache.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>location</em>&nbsp;</td><td>the location of this element </td></tr>
     <tr><td valign=top><em>element</em>&nbsp;</td><td>- the new Element </td></tr>
     <tr><td valign=top><em>created</em>&nbsp;</td><td>- set to true if this object will delete the element at the end </td></tr>
   </table>
@@ -1272,6 +1390,11 @@ The first sub-element matching the tag is found. If the value passed is an eleme
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the field was found, false otherwise </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a8">skExecutable</a>.    </td>
@@ -1328,6 +1451,11 @@ If the m_AddIfNotPresent flag is true, a new item with the tag name "array_item"
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>true if the field was changed, false if the field could not be set or found </dd></dl>
+<dl compact><dt><b>Exceptions:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>Symbian</em>&nbsp;</td><td>- a leaving function </td></tr>
+  </table>
+</dl>
 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a9">skExecutable</a>.    </td>
@@ -1364,34 +1492,9 @@ Reimplemented from <a class="el" href="classskExecutable.html#a9">skExecutable</
 Reimplemented from <a class="el" href="classskExecutable.html#a6">skExecutable</a>.    </td>
   </tr>
 </table>
-<hr><h2>Member Data Documentation</h2>
-<a name="n4" doxytag="skElementObject::m_Created"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top"> bool skElementObject::m_Created<code> [protected]</code>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-This value indicates whether or not the Element is "owned" by this object.
-<p>
-If it is, then the element will be deleted when the object is deleted     </td>
-  </tr>
-</table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skElementObject_8h-source.html">skElementObject.h</a><li>skElementObject.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Mon Apr 14 16:52:33 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:39 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>
