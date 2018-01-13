@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skTreeNodeObject_8h-source.html,v 1.5 2003/01/23 15:31:03 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skTreeNodeObject_8h-source.html,v 1.7 2003/02/24 20:05:01 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 
@@ -49,30 +49,35 @@
 00075   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a4">boolValue</a>() <span class="keyword">const</span>;
 00079   <span class="keyword">virtual</span> Char <a class="code" href="classskExecutable.html#a5">charValue</a>() <span class="keyword">const</span>;
 00083   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a6">strValue</a>() <span class="keyword">const</span>;
-00091   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a8">setValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00099   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a9">setValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value); 
-00104   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a10">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; v);
-00109   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a11">getValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
-00118   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
-00122   <a class="code" href="classskTreeNode.html">skTreeNode</a> * getNode();
-00126   <span class="keywordtype">void</span> setNode(<a class="code" href="classskTreeNode.html">skTreeNode</a> * node);
-00130   <span class="comment">//  bool equals(skExecutable * o) const;</span>
-00134 <span class="comment"></span>  <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
-00139   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
-00143   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
-00147   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
-00152   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
-00153  <span class="keyword">protected</span>:
-<a name="l00157"></a><a class="code" href="classskTreeNodeObject.html#n0">00157</a>   <a class="code" href="classskString.html">skString</a> m_Location;
-00158  <span class="keyword">private</span>:
-00162   <a class="code" href="classskTreeNode.html">skTreeNode</a> * m_Node;
-00166   <span class="keywordtype">bool</span> m_Created;
-00170   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
-00174   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
-00178   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
-00179 };
-00180 <span class="preprocessor">#endif</span>
-</pre></div><hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:39 2003 for Simkin by
+00092   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a8">setValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00101   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a9">setValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; value); 
+00107   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a10">getValue</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; v);
+00113   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a11">getValueAt</a>(<span class="keyword">const</span> <a class="code" href="classskRValue.html">skRValue</a>&amp; array_index,<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; attribute,<a class="code" href="classskRValue.html">skRValue</a>&amp; value);
+00122   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classskExecutable.html#a12">method</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; name,<a class="code" href="classskRValueArray.html">skRValueArray</a>&amp; args,<a class="code" href="classskRValue.html">skRValue</a>&amp; ret,<a class="code" href="classskExecutableContext.html">skExecutableContext</a>&amp; ctxt);
+00126   <a class="code" href="classskTreeNode.html">skTreeNode</a> * getNode();
+00130   <span class="keywordtype">void</span> setNode(<a class="code" href="classskTreeNode.html">skTreeNode</a> * node);
+00134   <span class="comment">//  bool equals(skExecutable * o) const;</span>
+00138 <span class="comment"></span>  <a class="code" href="classskString.html">skString</a> getLocation() <span class="keyword">const</span>;
+00143   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; qualifier);
+00147   <a class="code" href="classskExecutableIterator.html">skExecutableIterator</a> * <a class="code" href="classskExecutable.html#a15">createIterator</a>();
+00151   <span class="keyword">virtual</span> <a class="code" href="classskString.html">skString</a> <a class="code" href="classskExecutable.html#a16">getSource</a>(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location);
+00156   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classskExecutable.html#a17">getInstanceVariables</a>(<a class="code" href="classskRValueTable.html">skRValueTable</a>&amp; table);
+00160   <span class="keyword">virtual</span> <span class="keywordtype">void</span> setAddIfNotPresent(<span class="keywordtype">bool</span> enable);
+00164   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> getAddIfNotPresent();
+00165  <span class="keyword">protected</span>:
+00166    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskTreeNodeObjectEnumerator.html">skTreeNodeObjectEnumerator</a>;
+00172   <span class="keyword">virtual</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a> * createTreeNodeObject(<span class="keyword">const</span> <a class="code" href="classskString.html">skString</a>&amp; location,<a class="code" href="classskTreeNode.html">skTreeNode</a> * node,<span class="keywordtype">bool</span> created);
+<a name="l00176"></a><a class="code" href="classskTreeNodeObject.html#n0">00176</a>   <a class="code" href="classskString.html">skString</a> m_Location;
+00177  <span class="keyword">private</span>:
+00182   <span class="keywordtype">bool</span> m_AddIfNotPresent;
+00186   <a class="code" href="classskTreeNode.html">skTreeNode</a> * m_Node;
+00190   <span class="keywordtype">bool</span> m_Created;
+00194   <a class="code" href="classskMethodTable.html">skMethodTable</a> * m_MethodCache;
+00198   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
+00202   <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskTreeNodeObject.html">skTreeNodeObject</a>&amp;);
+00203 };
+00204 <span class="preprocessor">#endif</span>
+</pre></div><hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:03 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

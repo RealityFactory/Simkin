@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.cpp,v 1.4 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skInputSource.cpp,v 1.6 2003/02/14 10:43:21 simkin_cvs Exp $
 */
 #include "skInputSource.h"
 #include "skStringBuffer.h"
@@ -45,14 +45,20 @@ m_In(0),m_Peeked(false),m_PeekedChar(0)
 #endif
 #endif
 #ifdef UNICODE_STRINGS
-  // check what the encoding of the file is
-  int first_word=peek();
-  int first_byte=first_word & 0xff;
-  int second_byte=(first_word & 0xff00) >> 8;
-  if (first_byte==0xFF && second_byte==0xFE)
-    m_FileIsUnicode=true;
-  else
-    m_FileIsUnicode=false;
+  if(m_In){
+    // check what the encoding of the file is
+    int first_word=peek();
+    int first_byte=first_word & 0xff;
+    int second_byte=(first_word & 0xff00) >> 8;
+    if (first_byte==0xFF && second_byte==0xFE)
+      m_FileIsUnicode=true;
+    else{
+      m_FileIsUnicode=false;
+      // Make last peek invalid and re-seek. 
+      fseek(m_In, 0, SEEK_SET);
+      m_Peeked=false;    
+    }
+  }
 #endif
 }
 //-----------------------------------------------------------------
@@ -71,7 +77,10 @@ bool skInputFile::eof() const
 #ifdef STREAMS_ENABLED
   return m_In.eof()==1;
 #else
-  return feof(m_In)!=0;
+  bool eof=true;
+  if (m_In)
+    eof=feof(m_In)!=0;
+  return eof;
 #endif
 }
 //-----------------------------------------------------------------

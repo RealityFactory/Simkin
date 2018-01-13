@@ -46,7 +46,11 @@ int
 __cdecl
 #endif
 main(int argc,Char * argv[]){
+#ifdef _WIN32_WCE
+  if (argc>0){
+#else
   if (argc>1){
+#endif
     
     // Set up global interpreter
     skInterpreter interpreter;
@@ -55,7 +59,11 @@ main(int argc,Char * argv[]){
     // create global variable of class "Test" - we can use this in scripts to create instances of test,
     // using the "createObject" method
     interpreter.addGlobalVariable(s_Test,new skTest());
+#ifdef _WIN32_WCE
+    for (int i=0;i<argc;i++){
+#else
     for (int i=1;i<argc;i++){
+#endif
 #ifdef EXCEPTIONS_DEFINED
       try{
 #endif

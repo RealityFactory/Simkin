@@ -16,13 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElement.h,v 1.7 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: msxmldefs.h,v 1.2 2003/02/24 19:59:48 simkin_cvs Exp $
 */
 #ifndef MSXMLDEFS_H
 #define MSXMLDEFS_H
 
-#import <msxml.dll>
-using namespace MSXML;
+#import <msxml2.dll>
+using namespace MSXML2;
 
 typedef IXMLDOMDocumentPtr XMLDoc;
 typedef IXMLDOMElementPtr XMLElement;

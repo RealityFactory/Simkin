@@ -19,7 +19,6 @@ Simkin Data Types</H1>
 <tr><td>float</td><td>a signed floating point number<td><code><b>32.33</b></code></td></tr>
 <tr><td>character</td><td>a single character.Use "\" to quote characters<td><code>'m'</code>, <code>'\''</code></td></tr>
 <tr><td>string</td><td>an arbitrary length piece of text.You can embed any text except ".To use " put a slash and then a quote \".<td><code><b>"He said \"Goodbye\" and left."</b></code></td></tr>
-<tr><td>boolean</td><td>a true or false object represented<td><b>false</b> or <b>true</b>, 0 or 1</td></tr>
 <tr><td>object</td><td>another Simkin object with methods and fields<td><code><b>MyObject</b></code></td></tr>
 <tr><td>XML element</td><td>an XML element object<td><code><b>&lt;element&gt;&lt;subelement&gt;Value1&lt;/subelement&gt;&lt;/element&gt;</b></code></td></tr>
 <tr><td>TreeNode</td><td>a TreeNode Object</td><td>
@@ -39,7 +38,22 @@ There are some built-in functions which are used with these types:
 <li>charAt(&lt;variable&gt;,&lt;index&gt;) - returns nth character in a string (the first character is index 0)
 </ul>
 <p>
-Variables are used without declarations. The type of a variable is implied by its value, and Simkin will convert to different types as required.
+Variables are used without declarations. 
+<p>
+The type of a variable is implied by its value, and Simkin will convert to different types as required.
+<p>The chart below indicates how this happens:
+<p>
+<h2>Type Conversions</h2>
+<table border="1">
+<tr><th>From/To</th><th>integer</th><th>float</th><th>boolean</th><th>string</th><th>character</th></tr>
+<tr><th>integer</th><td>n/a</td><td>1 becomes 1.0</td><td>0 becomes <b>false</b><br>all other values are <b>true</b></td><td>1 becomes "1"</td><td>converts to character code</td></tr>
+<tr><th>float</th><td>rounded down</td><td>n/a</td><td>0.0 becomes <b>false</b><br>all other values are <b>true</b></td><td>1.0 becomes "1.0"</td><td>converts to character code</td></tr>
+<tr><th>boolean</th><td><b>true</b> becomes 1<br><b>false</b> becomes 0</td><td><b>true</b> becomes 1.0<br><b>false</b> becomes 0.0</td><td>n/a</td><td><b>true</b> becomes "true"<br><b>false</b> becomes "false"</td><td><b>true</b> becomes 't', <b>false</b> becomes 'f'</td></tr>
+<tr><th>string</th><td>"1" becomes 1, "abc" becomes 0</td><td>"1" becomes 1.0, "abc" becomes 0.0</td><td>"true" becomes <b>true</b><br>"false" or other values becomes <b>false</b></td><td>n/a</td><td>first character is taken "abc" becomes 'a'</td></tr>
+<tr><th>character</th><td>converts to character code</td><td>converts to character code</td><td>'t' becomes <b>true</b> 'f' or other values <b>false</b></td><td>'a' becomes "a"</td><td>n/a</td></tr>
+<tr><th>XML Element</th><td><code>&lt;foo&gt;4&lt;/foo&gt;</code> becomes 4</td><td><code>&lt;foo&gt;4&lt;/foo&gt;</code> becomes 4.0</td><td><code>&lt;foo&gt;true&lt;/foo&gt;</code> becomes <b>true</b><td><code>&lt;foo&gt;hello&lt;/foo&gt;</code> becomes "hello"</td><td><code>&lt;foo&gt;h&lt;/foo&gt;</code> becomes 'h'</td></tr>
+<tr><th>TreeNode</th><td><code>label [4]</code> becomes 4</td><td><code>label [4]</code> becomes 4.0</td><td><code>label [true]</code> becomes <b>true</b></td><td><code>label [hello]</code> becomes "hello"</td><td><code>label [h]</code> becomes 'h'</td></tr>
+</table>
 <p>For example:
 <pre>
 name="Simon";

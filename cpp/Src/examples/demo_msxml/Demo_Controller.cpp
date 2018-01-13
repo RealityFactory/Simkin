@@ -21,7 +21,7 @@
   This file implements the class which controls the behaviour of the
   view in the demo.
 
-  $Id: Demo_Controller.cpp,v 1.1 2003/01/23 14:22:09 simkin_cvs Exp $
+  $Id: Demo_Controller.cpp,v 1.2 2003/02/24 20:23:44 simkin_cvs Exp $
 */
 #include "Demo_Controller.h"
 #include "skRValueArray.h"
@@ -93,7 +93,7 @@ void Controller::init()
       for (int i=0;i<controlsList->length;i++){
         XMLNode node=controlsList->Getitem(i);
         int nodeType=node->nodeType;
-        if (nodeType==MSXML::NODE_ELEMENT){
+        if (nodeType==MSXML2::NODE_ELEMENT){
 	        XMLElement control=node;
 	        skString type=getStringAttribute(control,s_Type);
 	        int id=getIntegerAttribute(control,s_Id);
@@ -128,7 +128,7 @@ void Controller::buttonPressed(int id)
       for (int i=0;i<controlsList->length;i++){
         XMLNode node=controlsList->Getitem(i);
         int nodeType=node->nodeType;
-        if (nodeType==MSXML::NODE_ELEMENT){
+        if (nodeType==MSXML2::NODE_ELEMENT){
 	        XMLElement control=controlsList->Getitem(i);
 	        int this_id=getIntegerAttribute(control,s_Id);
 	        if (this_id==id){

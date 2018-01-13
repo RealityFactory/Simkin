@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObject.cpp,v 1.33 2003/01/24 00:35:27 simkin_cvs Exp $
+  $Id: skTreeNodeObject.cpp,v 1.35 2003/01/29 10:36:37 sdw Exp $
 */
 
 #include "skTreeNodeObject.h"
@@ -38,13 +38,14 @@ skString s_rightbracket=skSTR("]");
 //------------------------------------------
 skTreeNodeObject::skTreeNodeObject()
 //------------------------------------------
-  : m_Node(0),m_Created(false),m_MethodCache(0)
+  : m_Node(0),m_Created(false),m_MethodCache(0),m_AddIfNotPresent(false)
+
 {
 }
 //------------------------------------------
 skTreeNodeObject::skTreeNodeObject(const skString& location,skTreeNode * node,bool created)
 //------------------------------------------
-  : m_Node(node),m_Created(created),m_Location(location),m_MethodCache(0)
+  : m_Node(node),m_Created(created),m_Location(location),m_MethodCache(0),m_AddIfNotPresent(false)
 {
 }
 //------------------------------------------
@@ -97,7 +98,19 @@ bool skTreeNodeObject::setValueAt(const skRValue& array_index,const skString& at
 {
   bool bRet=false;
   int index=array_index.intValue();
-  skTreeNode * child=m_Node->nthChild(index);
+  skTreeNode * child=0;
+  if (index<m_Node->numChildren())
+    child=m_Node->nthChild(index);
+  if (child==0 && m_AddIfNotPresent){
+    // add some nodes if necessary
+    if (index>=m_Node->numChildren()){
+      int num_to_add=index-m_Node->numChildren()+1;
+      for (int i=0;i<num_to_add;i++){
+        child=new skTreeNode;
+        m_Node->addChild(child);
+      }
+    }
+  }
   if (child){
     bRet=true;
     skiExecutable * other=v.obj();
@@ -115,6 +128,10 @@ bool skTreeNodeObject::setValue(const skString& s,const skString& attrib,const s
 {
   bool bRet=false;
   skTreeNode * child=m_Node->findChild(s);
+  if (child==0 && m_AddIfNotPresent){
+    child=new skTreeNode(s);
+    m_Node->addChild(child);
+  }
   if (child){
     bRet=true;
     skiExecutable * other=v.obj();
@@ -146,10 +163,22 @@ bool skTreeNodeObject::getValueAt(const skRValue& array_index,const skString& at
 {
   bool bRet=false;
   int index=array_index.intValue();
-  skTreeNode * child=m_Node->nthChild(index);
+  skTreeNode * child=0;
+  if (index<m_Node->numChildren())
+    child=m_Node->nthChild(index);
+  if (child==0 && m_AddIfNotPresent){
+    // add some nodes if necessary
+    if (index>=m_Node->numChildren()){
+      int num_to_add=index-m_Node->numChildren()+1;
+      for (int i=0;i<num_to_add;i++){
+        child=new skTreeNode;
+        m_Node->addChild(child);
+      }
+    }
+  }
   if (child){
     bRet=true;
-    value=skRValue(new skTreeNodeObject(m_Location+s_leftbracket+skString::from(index)+s_rightbracket,child,false),true);
+    value=skRValue(createTreeNodeObject(m_Location+s_leftbracket+skString::from(index)+s_rightbracket,child,false),true);
   }else
     bRet=skExecutable::getValueAt(array_index,attribute,value);
   return bRet;
@@ -168,9 +197,13 @@ bool skTreeNodeObject::getValue(const skString& name,const skString& attrib,skRV
       v=m_Node->label();
     }else{
       skTreeNode * child=m_Node->findChild(name);
+      if (child==0 && m_AddIfNotPresent){
+        child=new skTreeNode(name);
+        m_Node->addChild(child);
+      }
       if (child){
         bRet=true;
-        v=skRValue(new skTreeNodeObject(m_Location+s_colon+name,child,false),true);
+        v=skRValue(createTreeNodeObject(m_Location+s_colon+name,child,false),true);
       }else
         bRet=skExecutable::getValue(name,attrib,v);
   }
@@ -185,9 +218,9 @@ bool skTreeNodeObject::method(const skString& s,skRValueArray& args,skRValue& re
     // return an enumeration object for this element
     bRet=true;
     if (args.entries()==0)
-      ret=skRValue(new skTreeNodeObjectEnumerator(m_Node,getLocation()),true);
+      ret=skRValue(new skTreeNodeObjectEnumerator(this,getLocation()),true);
     else
-      ret=skRValue(new skTreeNodeObjectEnumerator(m_Node,getLocation(),args[0].str()),true);
+      ret=skRValue(new skTreeNodeObjectEnumerator(this,getLocation(),args[0].str()),true);
   }else{
     skString location=m_Location+s_colon+s;
     if (m_Node){
@@ -239,13 +272,13 @@ skString skTreeNodeObject::getLocation() const
 skExecutableIterator * skTreeNodeObject::createIterator(const skString& qualifier)
 //------------------------------------------
 {
-  return new skTreeNodeObjectEnumerator(m_Node,getLocation(),qualifier);
+  return new skTreeNodeObjectEnumerator(this,getLocation(),qualifier);
 }
 //------------------------------------------
 skExecutableIterator * skTreeNodeObject::createIterator()
 //------------------------------------------
 {
-  return new skTreeNodeObjectEnumerator(m_Node,getLocation());
+  return new skTreeNodeObjectEnumerator(this,getLocation());
 }
 //------------------------------------------
 skString skTreeNodeObject::getSource(const skString& location)
@@ -273,4 +306,24 @@ void skTreeNodeObject::getInstanceVariables(skRValueTable& table)
       table.insertKeyAndValue(new skString(name),new skRValue(new skTreeNodeObject(name,var,false)));
     }
   }
+}
+//------------------------------------------
+void skTreeNodeObject::setAddIfNotPresent(bool enable)
+//------------------------------------------
+{
+  m_AddIfNotPresent=enable;
+}
+//------------------------------------------
+bool skTreeNodeObject::getAddIfNotPresent()
+//------------------------------------------
+{
+  return m_AddIfNotPresent;
+}
+//------------------------------------------
+skTreeNodeObject * skTreeNodeObject::createTreeNodeObject(const skString& location,skTreeNode * node,bool created)
+//------------------------------------------
+{
+  skTreeNodeObject *  obj=new skTreeNodeObject(location,node,created);
+  obj->setAddIfNotPresent(getAddIfNotPresent());
+  return obj;
 }

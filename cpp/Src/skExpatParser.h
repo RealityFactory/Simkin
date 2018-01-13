@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skExpatParser.h,v 1.13 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skExpatParser.h,v 1.14 2003/01/24 09:16:27 simkin_cvs Exp $
 */
 
 #ifndef skEXPATPARSER_H

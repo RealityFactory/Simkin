@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNode.cpp,v 1.27 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skTreeNode.cpp,v 1.28 2003/01/30 14:36:15 simkin_cvs Exp $
 */
 
 #include <string.h>
@@ -683,7 +683,7 @@ skTreeNode * P_TreeNodeReader::parseTreeNode(skTreeNode * pparent)
 void P_TreeNodeReader::parseTreeNodeList(skTreeNode * pnode)
 //-----------------------------------------------------------------
 {
-  int loop=1;
+  bool loop=true;
   do{
     Lexeme lexeme=lex();
     switch(lexeme){
@@ -697,7 +697,7 @@ void P_TreeNodeReader::parseTreeNodeList(skTreeNode * pnode)
       error(skSTR("Expected right brace parsing sub-list"));
     case L_ERROR:
     case L_RBRACE:
-      loop=0;
+      loop=false;
     }
   }while (loop && m_Error==false);
 }
@@ -710,28 +710,29 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
   else{
     m_Pos=0;
     int c;
-    int loop=1;
+    bool loop=true;
+    m_LastLexeme=L_EOF;
     while (loop && !m_In.eof() && m_Error==false){
       c=m_In.get();
       if (c=='\n')
         m_LineNum++;
       switch (c){
       case '{':
-        addToLexText((unsigned char)c);
+        addToLexText(c);
         m_LastLexeme=L_LBRACE;
-        loop=0;
+        loop=false;
         break;
       case '}':
-        addToLexText((unsigned char)c);
+        addToLexText(c);
         m_LastLexeme=L_RBRACE;
-        loop=0;
+        loop=false;
         break;
       case EOF:
         m_LastLexeme=L_EOF;
-        loop=0;
+        loop=false;
         break;
       case '[':{
-        int textloop=1;
+        int textloop=true;
         int num_braces=1;
         m_LastLexeme=L_TEXT;
         while(textloop && !m_In.eof()){
@@ -740,29 +741,29 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
           case EOF:
 	          m_LastLexeme=L_ERROR;
 	          error(skSTR("Expected EOF in text string"));
-	          textloop=0;
+	          textloop=false;
 	          break;
           case '\\':
 	          // let any character through
 	          c=m_In.get();
-	          addToLexText((unsigned char)c);
+	          addToLexText(c);
 	          break;
           case '[':
 	          num_braces++;
-	          addToLexText((unsigned char)c);
+	          addToLexText(c);
 	          break;
           case ']':
 	          num_braces--;
 	          if (num_braces==0)
-	            textloop=0;
+	            textloop=false;
 	          else
-	            addToLexText((unsigned char)c);
+	            addToLexText(c);
 	          break;
           default:
-	            addToLexText((unsigned char)c);
+	            addToLexText(c);
           }
         }
-        loop=0;
+        loop=false;
         break;	
     }
     case '/':
@@ -775,24 +776,24 @@ P_TreeNodeReader::Lexeme P_TreeNodeReader::lex()
     default:
       if (c==':' || c=='-' || c=='.' || c=='/' || c=='\\' || c=='_' || c=='~' || ISALNUM(c)){
 	      m_LastLexeme=L_IDENT;
-	      addToLexText((unsigned char)c);
-	      int identloop=1;
+	      addToLexText(c);
+	      int identloop=true;
         while (identloop && !m_In.eof()){
           int peeked=m_In.peek();
 	        if (ISALNUM(peeked) || peeked=='\\' 
 	            || peeked=='_' || peeked=='~' || peeked=='-' 
 	            || peeked=='/' || peeked=='.' || peeked==':'){
 	          c=m_In.get();
-	          addToLexText((unsigned char)c);
+	          addToLexText(c);
 	        }else
-	          identloop=0;
+	          identloop=false;
         }
-	      loop=0;	
+	      loop=false;	
       }else
         if (!ISSPACE(c)){
 	        m_LastLexeme=L_ERROR;
 	        error(skSTR("Expected ~ _ or alpha numeric character"));
-	        loop=0;	
+	        loop=false;	
         }
       }
     }

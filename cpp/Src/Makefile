@@ -1,7 +1,7 @@
-# $Id: Makefile,v 1.14 2001/11/15 17:56:08 sdw Exp $
+# $Id: Makefile,v 1.16 2003/01/29 21:21:11 sdw Exp $
 
 CFLAGS = -c 
-CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src1_5_2/src -D_REENTRANT 
+CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src2_1_0/src -D_REENTRANT 
 #-instances=static
 CPP = g++ -fpic
 CC = gcc
@@ -15,11 +15,11 @@ CC = gcc
 
 lib_proj=Interpreter
 
-treenode_objects = skAlist.o skTreeNodeObject.o skTreeNodeObjectEnumerator.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skParser.o skExecutableIterator.o
+treenode_objects = skAlist.o skTreeNodeObject.o skTreeNodeObjectEnumerator.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skParser.o skExecutableIterator.o skStringBuffer.o skOutputDestination.o skInputSource.o skStackFrame.o skExecutableContext.o skEncodingUtils.o
 
-xerces_objects = skAlist.o skHashTable.o skString.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skXMLElementObject.o skXMLElementObjectEnumerator.o  skXMLExecutable.o skStringTokenizer.o skXMLErrorHandler.o skParser.o skExecutableIterator.o
+xerces_objects = skAlist.o skHashTable.o skString.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skXMLElementObject.o skXMLElementObjectEnumerator.o  skXMLExecutable.o skStringTokenizer.o skXMLErrorHandler.o skParser.o skExecutableIterator.o skStringBuffer.o skOutputDestination.o skInputSource.o skStackFrame.o skExecutableContext.o
 
-expat_objects = skAlist.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skTracer.o skParser.o skExecutableIterator.o skElement.o skElementExecutable.o skElementObject.o skElementObjectEnumerator.o skExpatParser.o skNode.o skStringTokenizer.o
+expat_objects = skAlist.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skTracer.o skParser.o skExecutableIterator.o skElement.o skElementExecutable.o skElementObject.o skElementObjectEnumerator.o skExpatParser.o skNode.o skStringTokenizer.o skStringBuffer.o skOutputDestination.o skInputSource.o skStackFrame.o skExecutableContext.o skTextNode.o skCDataNode.o
 
 Simkin_Xerces.a: skLang_tab.cpp $(xerces_objects) 
 	ar -r Simkin_Xerces.a  $(xerces_objects)

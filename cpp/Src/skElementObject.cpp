@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skElementObject.cpp,v 1.14 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skElementObject.cpp,v 1.16 2003/02/24 19:59:48 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -149,8 +149,14 @@ bool skElementObject::setValueAt(const skRValue& array_index,const skString& att
     child=findChild(m_Element,index);
     if (child==0){
       if (m_AddIfNotPresent){
-        child=new skElement(skSTR("array_element"));
-        m_Element->appendChild(child);
+        unsigned int num_children=countChildren(m_Element);
+        if (index>=num_children){
+          int num_to_add=index-num_children+1;
+          for (int i=0;i<num_to_add;i++){
+            child=new skElement(skSTR("array_element"));
+            m_Element->appendChild(child);
+          }
+        }
       }else
         bRet=false;
     }
@@ -241,8 +247,14 @@ bool skElementObject::getValueAt(const skRValue& array_index,const skString& att
     skElement * child=findChild(m_Element,index);
     if (child==0){
       if (m_AddIfNotPresent){
-        child=new skElement(skSTR("array_element"));
-        m_Element->appendChild(child);
+        unsigned int num_children=countChildren(m_Element);
+        if (index>=num_children){
+          int num_to_add=index-num_children+1;
+          for (int i=0;i<num_to_add;i++){
+            child=new skElement(skSTR("array_element"));
+            m_Element->appendChild(child);
+          }
+        }
       }else
         bRet=false;
     }
@@ -328,7 +340,8 @@ void skElementObject::setData(skElement * element,const skString& data)
   skNodeList& nodes=element->getChildNodes();
   skNodeList nodesToRemove;
   bool found=false;
-  for (unsigned int i=0;i<nodes.entries();i++){
+  unsigned int i=0;
+  for (i=0;i<nodes.entries();i++){
     skNode * node=nodes[i];
     skNode::NodeType type=node->getNodeType();
     if (type==skNode::CDATA_SECTION_NODE || type==skNode::TEXT_NODE){

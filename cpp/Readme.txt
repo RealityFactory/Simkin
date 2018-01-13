@@ -1,6 +1,20 @@
 Simkin for C++
 (c)1996-2003 Simon Whiteside
 
+Simkin Version 2.16
+Date: 24/2/2003
+-------------------
+
+* fixed bugs in parsing unicode TreeNode files containing errors (on Windows CE)
+* fixed bugs in file handling for Windows CE (in skInputFile)
+* added "AddIfNotPresent" flag to skTreeNodeObject for dynamically adding fields if they are not already present
+* fixed some bugs in "AddIfNotPresent" support in base classes
+* updated Linux makefiles
+* added more data type conversion information to the documentation (including values of "true") - see the page entitled "Simkin Script Syntax"/"Data Types"
+* added a new example called DynamicTreeNode showing how new fields can be added to a TreeNode object by scripts. This can be used to store dynamic data in arbitrary structures.
+* added an overview of the classes in the Simkin library to the documentation
+* moved to MSXML2 namespace for Microsoft XML classes
+
 Simkin Version 2.15
 Date: 23/1/2003
 -------------------

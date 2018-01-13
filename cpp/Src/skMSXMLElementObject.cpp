@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skMSXMLElementObject.cpp,v 1.2 2003/01/23 15:30:55 simkin_cvs Exp $
+  $Id: skMSXMLElementObject.cpp,v 1.3 2003/02/24 19:59:48 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -123,8 +123,14 @@ bool skMSXMLElementObject::setValueAt(const skRValue& array_index,const skString
   child=findChild(m_Element,index);
   if (child==0){
     if (m_AddIfNotPresent){
-      child=m_Element->ownerDocument->createElement(fromString("array_element"));
-      m_Element->appendChild(child);
+      unsigned int num_children=countChildren(m_Element);
+      if (index>=num_children){
+        int num_to_add=index-num_children+1;
+        for (int i=0;i<num_to_add;i++){
+          child=m_Element->ownerDocument->createElement(fromString("array_element"));
+          m_Element->appendChild(child);
+        }
+      }
     }else
       bRet=false;
   }
@@ -218,8 +224,14 @@ bool skMSXMLElementObject::getValueAt(const skRValue& array_index,const skString
   XMLElement child=findChild(m_Element,index);
   if (child==0){
     if (m_AddIfNotPresent){
-      child=m_Element->ownerDocument->createElement(fromString("array_element"));
-      m_Element->appendChild(child);
+      unsigned int num_children=countChildren(m_Element);
+      if (index>=num_children){
+        int num_to_add=index-num_children+1;
+        for (int i=0;i<num_to_add;i++){
+          child=m_Element->ownerDocument->createElement(fromString("array_element"));
+          m_Element->appendChild(child);
+        }
+      }
     }else
       bRet=false;
   }
@@ -284,7 +296,7 @@ skString skMSXMLElementObject::getData(const XMLElement& element)
   for (int i=0;i<nodes->length;i++){
     XMLNode node=nodes->Getitem(i);
     int type=node->nodeType;
-    if (type==MSXML::NODE_CDATA_SECTION || type == MSXML::NODE_TEXT){
+    if (type==MSXML2::NODE_CDATA_SECTION || type == MSXML2::NODE_TEXT){
       _variant_t v = node->nodeValue;
       if (v.vt == VT_BSTR)
 	      str += _bstr_t(v);
@@ -301,7 +313,7 @@ void skMSXMLElementObject::setData(XMLElement& element,const skString& data)
   for (int i=0;i<nodes->length;i++){
     XMLNode node=nodes->Getitem(i);
     int type=node->nodeType;
-    if (type==MSXML::NODE_CDATA_SECTION || type == MSXML::NODE_TEXT){
+    if (type==MSXML2::NODE_CDATA_SECTION || type == MSXML2::NODE_TEXT){
 			node->nodeValue = _variant_t( fromString(data) );
       found=true;
       break;
@@ -322,7 +334,7 @@ XMLElement skMSXMLElementObject::findChild(XMLElement& parent,int index)
       int element_count=0;
       for (int i=0;i<nodes->length;i++){
         XMLNode node=nodes->Getitem(i);
-        if (node->nodeType==MSXML::NODE_ELEMENT){
+        if (node->nodeType==MSXML2::NODE_ELEMENT){
 	        if (element_count==index){
 	          ret=node;
 	          break;
@@ -343,7 +355,7 @@ int skMSXMLElementObject::countChildren(XMLElement& parent)
     XMLNodeList nodes=parent->GetchildNodes();
     for (int i=0;i<nodes->length;i++){
       XMLNode node=nodes->Getitem(i);
-      if (node->nodeType==MSXML::NODE_ELEMENT){
+      if (node->nodeType==MSXML2::NODE_ELEMENT){
         count++;
       }
     }
@@ -360,7 +372,7 @@ XMLElement skMSXMLElementObject::findChild(XMLElement& parent,const skString& ta
     _bstr_t sTagName=fromString(tagname);
     for (int i=0;i<nodes->length;i++){
       XMLNode node=nodes->Getitem(i);
-      if (node->nodeType==MSXML::NODE_ELEMENT && node->nodeName==sTagName){
+      if (node->nodeType==MSXML2::NODE_ELEMENT && node->nodeName==sTagName){
         ret=node;
         break;
       }
@@ -564,7 +576,7 @@ void skMSXMLElementObject::getInstanceVariables(skRValueTable& table)
     for (int i=0;i<nodes->length;i++){
       XMLNode node=nodes->Getitem(i);
       int type=node->nodeType;
-      if (type==MSXML::NODE_ELEMENT){
+      if (type==MSXML2::NODE_ELEMENT){
         XMLElement element=node;
         skString name=toString(element->tagName);
         table.insertKeyAndValue(new skString(name),

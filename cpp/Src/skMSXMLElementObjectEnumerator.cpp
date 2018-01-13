@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skMSXMLElementObjectEnumerator.cpp,v 1.1 2003/01/23 14:22:09 simkin_cvs Exp $
+  $Id: skMSXMLElementObjectEnumerator.cpp,v 1.2 2003/02/24 19:59:48 simkin_cvs Exp $
 */
 
 #include "skMSXMLElementObjectEnumerator.h"
@@ -70,7 +70,7 @@ void skMSXMLElementObjectEnumerator::findNextNode()
     sTagName=skMSXMLElementObject::fromString(m_Tag);
   for (;m_NodeNum<nodes->length;m_NodeNum++){
     XMLNode node=nodes->Getitem(m_NodeNum);
-    if (node->nodeType==MSXML::NODE_ELEMENT && (m_Tag.length()==0 || node->nodeName==sTagName)){
+    if (node->nodeType==MSXML2::NODE_ELEMENT && (m_Tag.length()==0 || node->nodeName==sTagName)){
       break;
     }
   }
@@ -83,7 +83,7 @@ bool skMSXMLElementObjectEnumerator::next(skRValue& r)
   XMLNodeList nodes=m_Element->childNodes;
   if (m_NodeNum<nodes->length){
     XMLNode node=nodes->Getitem(m_NodeNum);
-    assert(node->nodeType==MSXML::NODE_ELEMENT);
+    assert(node->nodeType==MSXML2::NODE_ELEMENT);
     skMSXMLElementObject * obj=new skMSXMLElementObject(m_Location,(XMLElement)node);
     r=skRValue(obj,true);
     obj->setAddIfNotPresent(m_AddIfNotPresent);

@@ -20,7 +20,7 @@
 
   This file defines the interface for the class which controls the demo's view.
 
-  $Id: Demo_Controller.h,v 1.4 2003/01/20 23:07:01 simkin_cvs Exp $
+  $Id: Demo_Controller.h,v 1.5 2003/01/24 09:16:27 simkin_cvs Exp $
 */
 #ifndef CONTROLLER_H
 #define CONTROLLER_H

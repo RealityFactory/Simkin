@@ -16,13 +16,11 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skAlist.cpp,v 1.14 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skAlist.cpp,v 1.15 2003/02/24 19:59:48 simkin_cvs Exp $
 */
 #include "skAlist.h"
 
 
-const USize	skAList::DEFAULT_SIZE=0;				// so nothing is allocated until needed
-const USize	skAList::DEFAULT_GROWTH_INCREMENT=4;	// value of 0 means 'double in size'
 
 //-----------------------------------------------------------------
 void skAList::clearAndDestroy()

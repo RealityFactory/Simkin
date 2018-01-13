@@ -24,7 +24,7 @@
 00016 <span class="comment">    License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">* $Id: skAlist_8h-source.html,v 1.5 2003/01/23 15:31:03 simkin_cvs Exp $</span>
+00019 <span class="comment">* $Id: skAlist_8h-source.html,v 1.7 2003/02/24 20:05:01 simkin_cvs Exp $</span>
 00020 <span class="comment">*/</span>
 00021 
 00022 <span class="preprocessor">#ifndef skALIST_H</span>
@@ -35,90 +35,92 @@
 00027   
 00028 <span class="keyword">class  </span>CLASSEXPORT <a class="code" href="classskAList.html">skAList</a>;  
 00029 
-<a name="l00033"></a><a class="code" href="classskAListIterator.html">00033</a> <span class="keyword">class  </span>CLASSEXPORT <a class="code" href="classskAListIterator.html">skAListIterator</a> 
-00034 {       
-00035  <span class="keyword">public</span>:
-00039   <span class="keywordtype">void</span>  reset();
-00043   <span class="keyword">virtual</span> ~<a class="code" href="classskAListIterator.html">skAListIterator</a>();
-00044  <span class="keyword">protected</span>:
-00048   <a class="code" href="classskAListIterator.html">skAListIterator</a>(<span class="keyword">const</span> <a class="code" href="classskAList.html">skAList</a>&amp;);
-00052   <a class="code" href="classskAListIterator.html">skAListIterator</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskAListIterator.html">skAListIterator</a>&amp;);
-00056   <span class="keywordtype">void</span> * operator()();
-00057  <span class="keyword">private</span>:
-00061   USize m_Current;
-00065   <span class="keyword">const</span> <a class="code" href="classskAList.html">skAList</a>&amp; m_AList;
-00066 };    
-<a name="l00071"></a><a class="code" href="classskAList.html">00071</a> <span class="keyword">class  </span>CLASSEXPORT skAList 
-00072 {   
-00073  <span class="keyword">public</span>:
-00077   skAList();
-00083   skAList(USize initial_size,USize growth_increment);
-00087   <span class="keyword">virtual</span> ~skAList();       
-00091   <span class="keywordtype">void</span> clearAndDestroy();
-00095   <span class="keywordtype">void</span> clear();
-00099   USize entries() <span class="keyword">const</span>;
-00103   <span class="keywordtype">void</span> deleteElt(USize  n);
-00107   <span class="keywordtype">void</span> test() <span class="keyword">const</span>;
-00111   <span class="keywordtype">void</span> growTo(USize size);
-00112  <span class="keyword">protected</span>:
-00116   <span class="keywordtype">void</span> insert(<span class="keywordtype">void</span> *,USize index);
-00120   <span class="keywordtype">void</span> prepend(<span class="keywordtype">void</span> *);
-00124   <span class="keywordtype">void</span> append(<span class="keywordtype">void</span> *);
-00128   <span class="keywordtype">void</span> remove(<span class="keywordtype">void</span> *);
-00132   <span class="keywordtype">void</span> removeAndDestroy(<span class="keywordtype">void</span> *); 
-00136   <span class="keywordtype">void</span> * operator[](USize  n) <span class="keyword">const</span>;
-00140   <span class="keywordtype">int</span> index(<span class="keyword">const</span> <span class="keywordtype">void</span> *) <span class="keyword">const</span>;
-00144   <span class="keywordtype">bool</span> contains(<span class="keyword">const</span> <span class="keywordtype">void</span> *) <span class="keyword">const</span>;
-00148   <span class="keyword">virtual</span> <span class="keywordtype">void</span> deleteItem(<span class="keywordtype">void</span> *)=0;
-00149   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskAListIterator.html">skAListIterator</a>;
-00153   <span class="keywordtype">int</span> findElt(<span class="keyword">const</span> <span class="keywordtype">void</span> * i) <span class="keyword">const</span>;
-00157   <span class="keywordtype">void</span> grow();
-<a name="l00161"></a><a class="code" href="classskAList.html#n0">00161</a>   <span class="keywordtype">void</span> ** m_Array;
-<a name="l00165"></a><a class="code" href="classskAList.html#n1">00165</a>   USize m_ArraySize;
-<a name="l00169"></a><a class="code" href="classskAList.html#n2">00169</a>   USize m_Entries;
-<a name="l00173"></a><a class="code" href="classskAList.html#n3">00173</a>   USize m_GrowthIncrement;      
-00174 
-00175  <span class="keyword">private</span>:
-00179   <span class="keyword">static</span> <span class="keyword">const</span> USize    DEFAULT_SIZE;
-00183   <span class="keyword">static</span> <span class="keyword">const</span> USize    DEFAULT_GROWTH_INCREMENT;
-00187   skAList(<span class="keyword">const</span> skAList&amp;);
-00191   skAList&amp; operator=(<span class="keyword">const</span> skAList&amp;);
-00192 };    
-<a name="l00196"></a><a class="code" href="classskTAList.html">00196</a> <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">class </span>CLASSEXPORT skTAList : <span class="keyword">public</span> skAList
-00197 {
-00198  <span class="keyword">public</span>:
-00202   skTAList();
-00206   skTAList(USize initial_size,USize growth_increment);
-00210   <span class="keyword">virtual</span> ~skTAList();
-00214   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b0">insert</a>(T *,USize index);
-00218   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b1">prepend</a>(T *);
-00222   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b2">append</a>(T *);
-00226   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b3">remove</a>(T *);
-00230   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b4">removeAndDestroy</a>(T *);
-00234   T * <a class="code" href="classskAList.html#b5">operator[]</a>(USize  n) <span class="keyword">const</span>;
-00238   <span class="keywordtype">int</span> <a class="code" href="classskAList.html#b6">index</a>(<span class="keyword">const</span> T *) <span class="keyword">const</span>;
-00242   <span class="keywordtype">bool</span> <a class="code" href="classskAList.html#b7">contains</a>(<span class="keyword">const</span> T *) <span class="keyword">const</span>;
-00243  <span class="keyword">protected</span>:
-00247   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b8">deleteItem</a>(<span class="keywordtype">void</span> *);
-00248  <span class="keyword">private</span>:
-00252   <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp; l);
-00256   skTAList(<span class="keyword">const</span> <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp;);
-00257 };
-<a name="l00261"></a><a class="code" href="classskTAListIterator.html">00261</a> <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">class </span>CLASSEXPORT skTAListIterator : <span class="keyword">public</span> <a class="code" href="classskAListIterator.html">skAListIterator</a>
-00262 {       
-00263  <span class="keyword">public</span>:
-00267   skTAListIterator(<span class="keyword">const</span> <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp;);
-00271   T * <a class="code" href="classskAListIterator.html#b2">operator()</a>();
-00272 };    
-00273 
-00274 <span class="preprocessor">#include "skAlist.inl"</span>
+00030 <span class="keyword">const</span> USize     DEFAULT_SIZE=0;                         <span class="comment">// so nothing is allocated until needed</span>
+00031 <span class="keyword">const</span> USize     DEFAULT_GROWTH_INCREMENT=4;     <span class="comment">// value of 0 means 'double in size'</span>
+00032 
+00033 
+<a name="l00037"></a><a class="code" href="classskAListIterator.html">00037</a> <span class="keyword">class  </span>CLASSEXPORT <a class="code" href="classskAListIterator.html">skAListIterator</a> 
+00038 {       
+00039  <span class="keyword">public</span>:
+00043   <span class="keywordtype">void</span>  reset();
+00047   <span class="keyword">virtual</span> ~<a class="code" href="classskAListIterator.html">skAListIterator</a>();
+00048  <span class="keyword">protected</span>:
+00052   <a class="code" href="classskAListIterator.html">skAListIterator</a>(<span class="keyword">const</span> <a class="code" href="classskAList.html">skAList</a>&amp;);
+00056   <a class="code" href="classskAListIterator.html">skAListIterator</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskAListIterator.html">skAListIterator</a>&amp;);
+00060   <span class="keywordtype">void</span> * operator()();
+00061  <span class="keyword">private</span>:
+00065   USize m_Current;
+00069   <span class="keyword">const</span> <a class="code" href="classskAList.html">skAList</a>&amp; m_AList;
+00070 };    
+<a name="l00075"></a><a class="code" href="classskAList.html">00075</a> <span class="keyword">class  </span>CLASSEXPORT skAList 
+00076 {   
+00077  <span class="keyword">public</span>:
+00081   skAList();
+00087   skAList(USize initial_size,USize growth_increment);
+00091   <span class="keyword">virtual</span> ~skAList();       
+00095   <span class="keywordtype">void</span> clearAndDestroy();
+00099   <span class="keywordtype">void</span> clear();
+00103   USize entries() <span class="keyword">const</span>;
+00107   <span class="keywordtype">void</span> deleteElt(USize  n);
+00111   <span class="keywordtype">void</span> test() <span class="keyword">const</span>;
+00115   <span class="keywordtype">void</span> growTo(USize size);
+00116  <span class="keyword">protected</span>:
+00120   <span class="keywordtype">void</span> insert(<span class="keywordtype">void</span> *,USize index);
+00124   <span class="keywordtype">void</span> prepend(<span class="keywordtype">void</span> *);
+00128   <span class="keywordtype">void</span> append(<span class="keywordtype">void</span> *);
+00132   <span class="keywordtype">void</span> remove(<span class="keywordtype">void</span> *);
+00136   <span class="keywordtype">void</span> removeAndDestroy(<span class="keywordtype">void</span> *); 
+00140   <span class="keywordtype">void</span> * operator[](USize  n) <span class="keyword">const</span>;
+00144   <span class="keywordtype">int</span> index(<span class="keyword">const</span> <span class="keywordtype">void</span> *) <span class="keyword">const</span>;
+00148   <span class="keywordtype">bool</span> contains(<span class="keyword">const</span> <span class="keywordtype">void</span> *) <span class="keyword">const</span>;
+00152   <span class="keyword">virtual</span> <span class="keywordtype">void</span> deleteItem(<span class="keywordtype">void</span> *)=0;
+00153   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classskAListIterator.html">skAListIterator</a>;
+00157   <span class="keywordtype">int</span> findElt(<span class="keyword">const</span> <span class="keywordtype">void</span> * i) <span class="keyword">const</span>;
+00161   <span class="keywordtype">void</span> grow();
+<a name="l00165"></a><a class="code" href="classskAList.html#n0">00165</a>   <span class="keywordtype">void</span> ** m_Array;
+<a name="l00169"></a><a class="code" href="classskAList.html#n1">00169</a>   USize m_ArraySize;
+<a name="l00173"></a><a class="code" href="classskAList.html#n2">00173</a>   USize m_Entries;
+<a name="l00177"></a><a class="code" href="classskAList.html#n3">00177</a>   USize m_GrowthIncrement;      
+00178 
+00179  <span class="keyword">private</span>:
+00183   skAList(<span class="keyword">const</span> skAList&amp;);
+00187   skAList&amp; operator=(<span class="keyword">const</span> skAList&amp;);
+00188 };    
+<a name="l00192"></a><a class="code" href="classskTAList.html">00192</a> <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">class </span>CLASSEXPORT skTAList : <span class="keyword">public</span> skAList
+00193 {
+00194  <span class="keyword">public</span>:
+00198   skTAList();
+00202   skTAList(USize initial_size,USize growth_increment);
+00206   <span class="keyword">virtual</span> ~skTAList();
+00210   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b0">insert</a>(T *,USize index);
+00214   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b1">prepend</a>(T *);
+00218   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b2">append</a>(T *);
+00222   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b3">remove</a>(T *);
+00226   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b4">removeAndDestroy</a>(T *);
+00230   T * <a class="code" href="classskAList.html#b5">operator[]</a>(USize  n) <span class="keyword">const</span>;
+00234   <span class="keywordtype">int</span> <a class="code" href="classskAList.html#b6">index</a>(<span class="keyword">const</span> T *) <span class="keyword">const</span>;
+00238   <span class="keywordtype">bool</span> <a class="code" href="classskAList.html#b7">contains</a>(<span class="keyword">const</span> T *) <span class="keyword">const</span>;
+00239  <span class="keyword">protected</span>:
+00243   <span class="keywordtype">void</span> <a class="code" href="classskAList.html#b8">deleteItem</a>(<span class="keywordtype">void</span> *);
+00244  <span class="keyword">private</span>:
+00248   <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp; l);
+00252   skTAList(<span class="keyword">const</span> <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp;);
+00253 };
+<a name="l00257"></a><a class="code" href="classskTAListIterator.html">00257</a> <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">class </span>CLASSEXPORT skTAListIterator : <span class="keyword">public</span> <a class="code" href="classskAListIterator.html">skAListIterator</a>
+00258 {       
+00259  <span class="keyword">public</span>:
+00263   skTAListIterator(<span class="keyword">const</span> <a class="code" href="classskTAList.html">skTAList&lt;T&gt;</a>&amp;);
+00267   T * <a class="code" href="classskAListIterator.html#b2">operator()</a>();
+00268 };    
+00269 
+00270 <span class="preprocessor">#include "skAlist.inl"</span>
+00271 
+00272 <span class="preprocessor">#endif</span>
+00273 <span class="preprocessor"></span>
+00274 
 00275 
-00276 <span class="preprocessor">#endif</span>
-00277 <span class="preprocessor"></span>
-00278 
-00279 
-00280 
-</pre></div><hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:38 2003 for Simkin by
+00276 
+</pre></div><hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:02 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

@@ -1,0 +1,26 @@
+{
+main [(){
+
+// These scripts dynamically add fields to a global object called "Data"
+
+// add a field called "foo" to the data
+
+Data.foo="bar";
+trace(Data.foo);
+
+// add a field to foo, called "field"
+
+Data.foo.field="bar field";
+trace(Data.foo.field);
+
+// add an array item to the Data object
+
+Data[10]="Simkin";
+trace(Data[10]);
+
+// and another
+
+Data[11]="Language";
+trace(Data[11]);
+}]
+}

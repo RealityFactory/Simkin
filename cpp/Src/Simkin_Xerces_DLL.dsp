@@ -122,6 +122,15 @@ SOURCE=.\skLang_tab.cpp
 # Begin Source File
 
 SOURCE=.\skParser.cpp
+
+!IF  "$(CFG)" == "Simkin_Xerces_DLL - Win32 Release"
+
+# SUBTRACT CPP /O<none>
+
+!ELSEIF  "$(CFG)" == "Simkin_Xerces_DLL - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

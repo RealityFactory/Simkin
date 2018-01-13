@@ -157,6 +157,15 @@ SOURCE=.\skOutputDestination.cpp
 # Begin Source File
 
 SOURCE=.\skParser.cpp
+
+!IF  "$(CFG)" == "Simkin_Expat_DLL - Win32 Release"
+
+# ADD CPP /Od
+
+!ELSEIF  "$(CFG)" == "Simkin_Expat_DLL - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skParser.cpp,v 1.14 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skParser.cpp,v 1.15 2003/02/24 20:23:44 simkin_cvs Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
@@ -310,7 +310,7 @@ int skParser::lex(void * lvalp,void * llocp)
       }
       putbackchar(c);
       m_LexBuffer[yypos++]=0;
-      if (floating){
+      if (floating==true){
         yylval->floating=(float)(ATOF(m_LexBuffer));
         c=L_FLOAT;
       }else{

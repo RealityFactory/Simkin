@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTreeNodeObject.h,v 1.26 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skTreeNodeObject.h,v 1.27 2003/01/27 21:29:39 simkin_cvs Exp $
 */
 
 
@@ -84,6 +84,7 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
   /**
    * Sets a value within the node. The field name is matched to a child of the treenode with the same label.
    * If a match is found, the child's data is changed. 
+   * If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present
    * @param name - the name of the field
    * @param attribute - the attribute name is ignored
    * @param value - the value to be assigned to the child. If this is a TREENODE_TYPE object, the full treenode is copied
@@ -91,6 +92,7 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
   virtual bool setValue(const skString& name,const skString& attribute,const skRValue& value);
   /**
    * Sets a value within the nth node of the tree node. 
+   * If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present.
    * @param array_index - the identifier of the item - this might be a string, integer or any other legal value
    * @param attribute - the attribute name to set (may be blank)
    * @param value - the value to be set
@@ -100,11 +102,13 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
   /**
    * Retrieves a value from within the node. The field name is matched to a child of the treenode with the same label.
    * If a match is found, a new TreeNodeObject encapsulating the child is returned. 
+   * If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present
    */
   virtual bool getValue(const skString& name,const skString& attribute,skRValue& v);
   /**
    * Retrieves the nth value from within the node. If the array index falls within the range of the number of children of this node, 
    * a new TreeNodeObject encapsulating the child is returned. 
+   * If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present.
    */
   virtual bool getValueAt(const skRValue& array_index,const skString& attribute,skRValue& value);
   /**
@@ -150,12 +154,32 @@ class CLASSEXPORT skTreeNodeObject : public skExecutable
   * @param table a table to filled with references to the instance variables
   */
   virtual void getInstanceVariables(skRValueTable& table);
+  /** sets the flag controlling whether new nodes are created as they are accessed
+   * @param enable enables this feature (which by default is disabled)
+   */
+  virtual void setAddIfNotPresent(bool enable);
+  /** this returns the value of the flag controlling whether new nodes are created as they are accessed 
+   * @return true if the feature is enabled, otherwise false (the default)
+   */
+  virtual bool getAddIfNotPresent();
  protected:
+   friend class skTreeNodeObjectEnumerator;
+  /**
+   * This method creates a new  TreeNode object to wrap a node. Override this for special behaviour in derived classes. In this method, the newly created object inherits this object's m_AddIfNotPresent flag
+   * @param location the location of this element
+   * @param element the TreeNode to associate with the object
+   */
+  virtual skTreeNodeObject * createTreeNodeObject(const skString& location,skTreeNode * node,bool created);
   /**
    * the location the node came from
    */
   skString m_Location;
  private:
+   /**
+   * this variable controls whether new items are added to this node if they are not found, by default it is false,
+   * but can be modified using the setAddIfNotPresent() method
+  */
+  bool m_AddIfNotPresent;
   /**
    * the underlying node
    */

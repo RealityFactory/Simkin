@@ -69,6 +69,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "DynamicTreeNode"=.\examples\dynamic_treenode\DynamicTreeNode.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin_TreeNode
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "HelloWorld"=.\examples\helloworld\HelloWorld.dsp - Package Owner=<4>
 
 Package=<5>
@@ -347,6 +362,7 @@ Package=<5>
 
 Package=<3>
 {{{
+    {25959BEF-E700-11D2-A7AF-00C04F806200}
 }}}
 
 ###############################################################################

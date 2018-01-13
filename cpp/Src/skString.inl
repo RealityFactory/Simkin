@@ -16,7 +16,7 @@ Simon Whiteside
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-$Id: skString.inl,v 1.17 2003/01/15 21:09:32 simkin_cvs Exp $
+$Id: skString.inl,v 1.18 2003/01/29 10:36:37 sdw Exp $
 */
 
 #ifndef _STR_INL
@@ -59,7 +59,11 @@ extern P_String * blank_string;
 #define ISALPHA iswalpha
 #define ISDIGIT iswdigit
 #else
+#if defined __GNUC__
+#define STRCMPI strcasecmp
+#else
 #define STRCMPI strcmpi
+#endif
 #define STRCPY strcpy
 #define STRCAT strcat
 #define STRCMP strcmp

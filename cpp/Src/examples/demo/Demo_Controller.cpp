@@ -21,7 +21,7 @@
   This file implements the class which controls the behaviour of the
   view in the demo.
 
-  $Id: Demo_Controller.cpp,v 1.5 2003/01/20 23:07:01 simkin_cvs Exp $
+  $Id: Demo_Controller.cpp,v 1.6 2003/01/24 09:16:27 simkin_cvs Exp $
 */
 #include "Demo_Controller.h"
 #include "skTreeNode.h"

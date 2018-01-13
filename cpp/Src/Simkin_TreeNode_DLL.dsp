@@ -129,6 +129,15 @@ SOURCE=.\skOutputDestination.cpp
 # Begin Source File
 
 SOURCE=.\skParser.cpp
+
+!IF  "$(CFG)" == "Simkin_TreeNode_DLL - Win32 Release"
+
+# SUBTRACT CPP /O<none>
+
+!ELSEIF  "$(CFG)" == "Simkin_TreeNode_DLL - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

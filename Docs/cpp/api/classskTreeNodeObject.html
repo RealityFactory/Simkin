@@ -75,10 +75,20 @@ virtual <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valig
 <tr><td>&nbsp;</td><td><font size=-1><em>Returns the source code for the given method.</em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNodeObject.html#a20">getInstanceVariables</a> (<a class="el" href="classskRValueTable.html">skRValueTable</a> &amp;table)</td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>This method returns the instance variables for this object.</em> <a href="#a20"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNodeObject.html#a21">setAddIfNotPresent</a> (bool enable)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>sets the flag controlling whether new nodes are created as they are accessed</em> <a href="#a21"></a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual bool&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNodeObject.html#a22">getAddIfNotPresent</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>this returns the value of the flag controlling whether new nodes are created as they are accessed</em> <a href="#a22"></a><em></em></font><br><br></td></tr>
+<tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
+<tr><td nowrap align=right valign=top>virtual skTreeNodeObject *&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNodeObject.html#b0">createTreeNodeObject</a> (const <a class="el" href="classskString.html">skString</a> &amp;location, <a class="el" href="classskTreeNode.html">skTreeNode</a> *node, bool created)</td></tr>
+<tr><td>&nbsp;</td><td><font size=-1><em>This method creates a new TreeNode object to wrap a node.</em> <a href="#b0"></a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Attributes</h2></td></tr>
 <tr><td nowrap align=right valign=top><a name="n0" doxytag="skTreeNodeObject::m_Location"></a>
 <a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNodeObject.html#n0">m_Location</a></td></tr>
 <tr><td>&nbsp;</td><td><font size=-1><em>the location the node came from</em></font><br><br></td></tr>
+<tr><td colspan=2><br><h2>Friends</h2></td></tr>
+<tr><td nowrap align=right valign=top><a name="l0" doxytag="skTreeNodeObject::skTreeNodeObjectEnumerator"></a>
+class&nbsp;</td><td valign=bottom><a class="el" href="classskTreeNodeObjectEnumerator.html#l0">skTreeNodeObjectEnumerator</a></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This class gives an <a class="el" href="classskExecutable.html">skExecutable</a> wrapper to an <a class="el" href="classskTreeNode.html">skTreeNode</a> object The class implements methods from the Executable interface.
@@ -220,6 +230,89 @@ It will iterate over nodes with the given node label. <dl compact><dt><b>Paramet
 Reimplemented from <a class="el" href="classskExecutable.html#a14">skExecutable</a>.    </td>
   </tr>
 </table>
+<a name="b0" doxytag="skTreeNodeObject::createTreeNodeObject"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> skTreeNodeObject * skTreeNodeObject::createTreeNodeObject </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>location</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap><a class="el" href="classskTreeNode.html">skTreeNode</a> *&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>node</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap>&nbsp; <em>created</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [protected, virtual]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This method creates a new TreeNode object to wrap a node.
+<p>
+Override this for special behaviour in derived classes. In this method, the newly created object inherits this object's m_AddIfNotPresent flag <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>location</em>&nbsp;</td><td>the location of this element </td></tr>
+    <tr><td valign=top><em>element</em>&nbsp;</td><td>the TreeNode to associate with the object </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a name="a22" doxytag="skTreeNodeObject::getAddIfNotPresent"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> bool skTreeNodeObject::getAddIfNotPresent </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp;          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap><code> [virtual]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+this returns the value of the flag controlling whether new nodes are created as they are accessed
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>true if the feature is enabled, otherwise false (the default) </dd></dl>
+    </td>
+  </tr>
+</table>
 <a name="a20" doxytag="skTreeNodeObject::getInstanceVariables"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -301,7 +394,7 @@ Reimplemented from <a class="el" href="classskExecutable.html#a17">skExecutable<
 <p>
 Retrieves a value from within the node.
 <p>
-The field name is matched to a child of the treenode with the same label. If a match is found, a new TreeNodeObject encapsulating the child is returned. 
+The field name is matched to a child of the treenode with the same label. If a match is found, a new TreeNodeObject encapsulating the child is returned. If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a10">skExecutable</a>.    </td>
   </tr>
@@ -349,7 +442,7 @@ Reimplemented from <a class="el" href="classskExecutable.html#a10">skExecutable<
 <p>
 Retrieves the nth value from within the node.
 <p>
-If the array index falls within the range of the number of children of this node, a new TreeNodeObject encapsulating the child is returned. 
+If the array index falls within the range of the number of children of this node, a new TreeNodeObject encapsulating the child is returned. If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present. 
 <p>
 Reimplemented from <a class="el" href="classskExecutable.html#a11">skExecutable</a>.    </td>
   </tr>
@@ -417,6 +510,42 @@ It searches for a child whose label matches the method name, and tries to execut
 Reimplemented from <a class="el" href="classskExecutable.html#a12">skExecutable</a>.    </td>
   </tr>
 </table>
+<a name="a21" doxytag="skTreeNodeObject::setAddIfNotPresent"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> void skTreeNodeObject::setAddIfNotPresent </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">bool&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>&nbsp; <em>enable</em>          </td>
+          <td class="md" valign="top">)&nbsp;</td>
+          <td class="md" nowrap><code> [virtual]</code></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+sets the flag controlling whether new nodes are created as they are accessed
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>enable</em>&nbsp;</td><td>enables this feature (which by default is disabled) </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a name="a9" doxytag="skTreeNodeObject::setValue"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -460,7 +589,7 @@ Reimplemented from <a class="el" href="classskExecutable.html#a12">skExecutable<
 <p>
 Sets a value within the node.
 <p>
-The field name is matched to a child of the treenode with the same label. If a match is found, the child's data is changed. <dl compact><dt><b>Parameters:</b></dt><dd>
+The field name is matched to a child of the treenode with the same label. If a match is found, the child's data is changed. If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>name</em>&nbsp;</td><td>- the name of the field </td></tr>
     <tr><td valign=top><em>attribute</em>&nbsp;</td><td>- the attribute name is ignored </td></tr>
@@ -515,7 +644,7 @@ Reimplemented from <a class="el" href="classskExecutable.html#a8">skExecutable</
 <p>
 Sets a value within the nth node of the tree node.
 <p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
+If the m_AddIfNotPresent flag is true, a new item will be added if one is not already present. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign=top><em>array_index</em>&nbsp;</td><td>- the identifier of the item - this might be a string, integer or any other legal value </td></tr>
     <tr><td valign=top><em>attribute</em>&nbsp;</td><td>- the attribute name to set (may be blank) </td></tr>
@@ -530,7 +659,7 @@ Reimplemented from <a class="el" href="classskExecutable.html#a9">skExecutable</
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="skTreeNodeObject_8h-source.html">skTreeNodeObject.h</a><li>skTreeNodeObject.cpp</ul>
-<hr><address style="align: right;"><small>Generated on Thu Jan 23 15:25:40 2003 for Simkin by
+<hr><address style="align: right;"><small>Generated on Mon Feb 24 20:00:05 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3-rc1 </small></address>

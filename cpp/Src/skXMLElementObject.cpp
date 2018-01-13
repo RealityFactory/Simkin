@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skXMLElementObject.cpp,v 1.40 2003/01/23 15:30:55 simkin_cvs Exp $
+  $Id: skXMLElementObject.cpp,v 1.41 2003/02/24 19:59:48 simkin_cvs Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -131,8 +131,14 @@ bool skXMLElementObject::setValueAt(const skRValue& array_index,const skString& 
   child=findChild(m_Element,index);
   if (child.isNull()){
     if (m_AddIfNotPresent){
-      child=m_Element.getOwnerDocument().createElement(fromString("array_element"));
-      m_Element.appendChild(child);
+      unsigned int num_children=countChildren(m_Element);
+      if (index>=num_children){
+        int num_to_add=index-num_children+1;
+        for (int i=0;i<num_to_add;i++){
+          child=m_Element.getOwnerDocument().createElement(fromString("array_element"));
+          m_Element.appendChild(child);
+        }
+      }
     }else
       bRet=false;
   }
@@ -221,8 +227,14 @@ bool skXMLElementObject::getValueAt(const skRValue& array_index,const skString& 
   DOM_Element child=findChild(m_Element,index);
   if (child.isNull()){
     if (m_AddIfNotPresent){
-      child=m_Element.getOwnerDocument().createElement(fromString("array_element"));
-      m_Element.appendChild(child);
+      unsigned int num_children=countChildren(m_Element);
+      if (index>=num_children){
+        int num_to_add=index-num_children+1;
+        for (int i=0;i<num_to_add;i++){
+          child=m_Element.getOwnerDocument().createElement(fromString("array_element"));
+          m_Element.appendChild(child);
+        }
+      }
     }else
       bRet=false;
   }

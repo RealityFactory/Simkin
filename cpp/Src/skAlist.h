@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skAlist.h,v 1.14 2003/01/20 18:48:18 simkin_cvs Exp $
+* $Id: skAlist.h,v 1.15 2003/02/24 19:59:48 simkin_cvs Exp $
 */
 
 #ifndef skALIST_H
@@ -26,6 +26,10 @@
 #include "skGeneral.h"
   
 class  CLASSEXPORT skAList;  
+
+const USize	DEFAULT_SIZE=0;				// so nothing is allocated until needed
+const USize	DEFAULT_GROWTH_INCREMENT=4;	// value of 0 means 'double in size'
+
 
 /**
  * This class provides an interator for the list, it is subclassed to provide type-safety
@@ -173,14 +177,6 @@ class  CLASSEXPORT skAList
   USize m_GrowthIncrement;	
 
  private:
-  /**
-   * the default size for the list (0)
-   */
-  static const USize	DEFAULT_SIZE;
-  /**
-   * the default growth increment (4)
-   */
-  static const USize	DEFAULT_GROWTH_INCREMENT;
   /**
    * copy constructor is private to prevent copying at this level
    */

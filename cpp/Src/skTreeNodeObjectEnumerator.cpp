@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNodeObjectEnumerator.cpp,v 1.12 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skTreeNodeObjectEnumerator.cpp,v 1.13 2003/01/27 21:29:39 simkin_cvs Exp $
 */
 
 #include "skTreeNodeObjectEnumerator.h"
@@ -28,16 +28,16 @@ skLITERAL(next);
 skLITERAL(reset);
 
 //-----------------------------------------------------------------
-skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNode * element,const skString& location)
+skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNodeObject * obj,const skString& location)
   //-----------------------------------------------------------------
-  : m_Iter(*(element)),m_Location(location)
+  : m_Iter(*obj->getNode()),m_Location(location),m_Object(obj)
 {
   m_CurrentNode=m_Iter();
 }
 //-----------------------------------------------------------------
-skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNode * element,const skString& location,const skString& tag)
+skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNodeObject * obj,const skString& location,const skString& tag)
   //-----------------------------------------------------------------
-  : m_Iter(*(element)),m_Location(location)
+  : m_Iter(*obj->getNode()),m_Location(location),m_Object(obj)
 {
   // first wind forward to the first occurrence of the tag
   findNextNode();
@@ -81,7 +81,7 @@ bool skTreeNodeObjectEnumerator::next(skRValue& r)
 {
   bool ret=false;
   if (m_CurrentNode){
-    skTreeNodeObject * obj=new skTreeNodeObject(m_Location,m_CurrentNode,false);
+    skTreeNodeObject * obj=m_Object->createTreeNodeObject(m_Location,m_CurrentNode,false);
     r=skRValue(obj,true);
     if (m_Tag.length())
       findNextNode();

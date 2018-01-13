@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skOutputDestination.cpp,v 1.4 2003/01/20 18:48:18 simkin_cvs Exp $
+  $Id: skOutputDestination.cpp,v 1.5 2003/02/14 10:43:21 simkin_cvs Exp $
 */
 #include "skOutputDestination.h"
 
@@ -33,6 +33,11 @@ m_Out(0)
 #ifndef STREAMS_ENABLED
 #ifdef UNICODE_STRINGS
   m_Out=_wfopen(filename,skSTR("wb"));
+  // write out a unicode tag
+  if (m_Out){
+    fputc(0xFF,m_Out);
+    fputc(0xFE,m_Out);
+  }
 #else
   m_Out=fopen(filename,skSTR("w"));
 #endif
