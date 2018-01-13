@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skSHashTable.cpp,v 1.5 2003/04/24 10:19:43 simkin_cvs Exp $
+  $Id: skSHashTable.cpp,v 1.6 2003/07/01 12:06:05 sdw Exp $
 */
 #include "skSHashTable.h"
 
@@ -120,21 +120,23 @@ EXPORT_C int skSHashTableIterator::operator()()
 //---------------------------------------------------
 {
   int ret=0;
-  while (m_Slot<m_Table.m_Size){
-    if (m_ListIterator==0){
-      m_ListIterator=skNEW(skSHashEntryListIterator(m_Table.m_Slots[m_Slot]));
-    }
-    skSHashEntry * pentry=m_ListIterator->operator()();
-    if (pentry==0){
-      // no more in this slot, go to the next one
-      m_Slot++;
-      delete m_ListIterator;
-      m_ListIterator=0;
-    }else{
-      m_Value=pentry->m_Value;
-      m_Key=pentry->m_Key;
-      ret=1;
-      break;
+  if (m_Table.m_NumEntries){
+    while (m_Slot<m_Table.m_Size){
+      if (m_ListIterator==0){
+        m_ListIterator=skNEW(skSHashEntryListIterator(m_Table.m_Slots[m_Slot]));
+      }
+      skSHashEntry * pentry=m_ListIterator->operator()();
+      if (pentry==0){
+        // no more in this slot, go to the next one
+        m_Slot++;
+        delete m_ListIterator;
+        m_ListIterator=0;
+      }else{
+        m_Value=pentry->m_Value;
+        m_Key=pentry->m_Key;
+        ret=1;
+        break;
+      }
     }
   }
   return ret;

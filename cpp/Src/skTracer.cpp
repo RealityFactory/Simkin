@@ -16,9 +16,13 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skTracer.cpp,v 1.16 2003/04/01 22:19:14 simkin_cvs Exp $
+* $Id: skTracer.cpp,v 1.17 2003/11/20 16:24:22 sdw Exp $
 */
 #include "skTracer.h"
+#ifdef STL_STREAMS
+#include <iostream>
+using namespace std;
+#endif
 
 //------------------------------------------
 void skTracer::trace(const skString& s)

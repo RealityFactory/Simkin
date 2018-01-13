@@ -12,14 +12,23 @@ Simkin return Statement</H1>
 This statement allows you to return a value from a function. 
 <p>
 It is optional to add a return statement to a function - without one it is assumed that a "null" value is returned.<br>This will be interpreted as a numeric zero, a blank string or a null object, depending on the context.
+<p>You can also use return statement without a value to return from a function. In this case a "null" value is returned.
 <p>
-The statement has the following format:
+The statement has the following formats:
 <pre>
 return <i>expression</i>
 </pre>
 For example:
 <pre>
 return (x+5)/2;
+</pre>
+and 
+<pre>
+return
+</pre>
+For example:
+<pre>
+return;
 </pre>
 </BODY>
 </HTML>

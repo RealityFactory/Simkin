@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skParseNode.h,v 1.40 2003/04/19 13:22:24 simkin_cvs Exp $
+  * $Id: skParseNode.h,v 1.41 2003/11/01 10:17:27 sdw Exp $
   */
 
 #ifndef PARSENODE_H
@@ -734,6 +734,9 @@ class  skReturnNode : public skStatNode {
   inline skReturnNode(int linenum,skExprNode * expr) 
     : skStatNode(linenum),m_Expr(expr){
   }
+  inline skReturnNode(int linenum) 
+    : skStatNode(linenum),m_Expr(0){
+  }
   inline ~skReturnNode(){
     delete m_Expr;
   }
@@ -748,7 +751,10 @@ class  skReturnNode : public skStatNode {
   }
 #ifdef _DEBUG_SIZE
   virtual USize getSize() const {
-    return sizeof(this)+sizeof(void *)+m_Expr->getSize();
+    USize size=sizeof(this);
+    if (m_Expr)
+      size+=m_Expr->getSize();
+    retirn size;
   }
 #endif
 #ifndef EXECUTE_PARSENODES

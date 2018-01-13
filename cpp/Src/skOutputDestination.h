@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skOutputDestination.h,v 1.10 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skOutputDestination.h,v 1.11 2003/11/20 16:24:22 sdw Exp $
 */
 #ifndef skOutputDestination_h
 #define skOutputDestination_h
@@ -25,7 +25,12 @@
 #include <stdio.h>
 
 #ifdef STREAMS_ENABLED
+#ifdef STL_STREAMS
+#include <fstream>
+using std::ofstream;
+#else
 #include <fstream.h>
+#endif
 #endif
 
 /**

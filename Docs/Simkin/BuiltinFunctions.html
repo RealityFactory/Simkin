@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Built-in Functions</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Built-in Functions</H1>
+<hr>
+
+The following functions are available in all Simkin scripts.
+<p>
+There are comparatively few of these - applications embedding Simkin should provide a great deal more!
+
+<h2>String handling</h2>
+<ul>
+<li><code>length(&lt;value&gt;)</code>
+<br>this returns the length of the parameter (converted to a string)
+<br>For example:
+<pre>
+a="1.0";
+trace(length(a)); // will output "3" 
+</pre>
+</li>
+<li><code>charAt(&lt;value&gt;,&lt;pos&gt;)</code>
+<br>this returns the the character at position <code>pos</code> within the parameter <code>value</code>.
+<br><code>pos</code> starts at 0 for the first character.
+<br>For example:
+<pre>
+a="1.0";
+trace(charAt(a,2)); // will output "0" 
+</pre>
+</li>
+</ul>
+<h2>Debugging Aids</h2>
+<ul>
+<li><code>trace(&lt;value&gt;)</code>
+<br>this outputs a message to the tracer (as specified by the underlying application)
+<br>For example:
+<pre>
+a="1.0";
+trace(a); // will output "1.0" to the application tracer
+</pre>
+</li>
+</ul>
+<h2>Type Coercion Functions</h2>
+<p>
+<ul>
+<li><code>toInt(&lt;value&gt;)</code>
+<br>this returns a version of the parameter converted to an integer.
+<br>For example:
+<pre>
+a="1.0";
+trace(toInt(a)); // will output "1"
+</pre>
+</li>
+<li><code>toFloat(&lt;value&gt;)</code>
+<br>this returns a version of the parameter converted to a floating point value.
+<br>For example:
+<pre>
+a="1";
+trace(toFloat(a)); // will output "1.0000"
+</pre>
+</li>
+<li><code>toString(&lt;value&gt;)</code>
+<br>this returns a version of the parameter converted to a string.
+<br>For example:
+<pre>
+a="1.0";
+trace(toString(a)); // will output "1.0"
+</pre>
+</li>
+<li><code>toChar(&lt;value&gt;)</code>
+<br>this returns a version of the parameter converted to a character.
+<br>For example:
+<pre>
+a="1.0";
+trace(toChar(a)); // will output "1"
+</pre>
+</li>
+<li><code>toBool(&lt;value&gt;)</code>
+<br>this returns a version of the parameter converted to a boolean value.
+<br>For example:
+<pre>
+a="1.0";
+trace(toBool(a)); // will output "true"
+</pre>
+</li>
+<li><code>isObject(&lt;value&gt;)</code>
+<br>this returns true if the parameter is an object (as opposed to a number, string, character or boolean)
+<br>For example:
+<pre>
+a="1.0";
+trace(isObject(a)); // will output "false" 
+trace(isObject(self)); // will output "true" 
+</pre>
+</li>
+</ul>
+
+</BODY>
+</HTML>

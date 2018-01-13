@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.h,v 1.11 2003/04/23 14:34:51 simkin_cvs Exp $
+  $Id: skInputSource.h,v 1.12 2003/11/20 16:24:22 sdw Exp $
 */
 #ifndef skInputSource_h
 #define skInputSource_h
@@ -26,7 +26,13 @@
 #include <stdio.h>
 
 #ifdef STREAMS_ENABLED
+#ifdef STL_STREAMS
+#include <fstream>
+using std::istream;
+using std::ifstream;
+#else
 #include <fstream.h>
+#endif
 #endif
 
 /**

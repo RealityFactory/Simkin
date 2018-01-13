@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skConstants.cpp,v 1.4 2003/04/11 18:05:39 simkin_cvs Exp $
+  * $Id: skConstants.cpp,v 1.5 2003/11/20 17:20:24 sdw Exp $
   */
 
 
@@ -40,6 +40,11 @@ skLITERAL(numChildren);
 skLITERAL(enumerate);
 skLITERAL(label);
 skLITERAL(self);
+skLITERAL(toInt);
+skLITERAL(toFloat);
+skLITERAL(toString);
+skLITERAL(toChar);
+skLITERAL(toBool);
 skNAMED_LITERAL(leftbracket,skSTR("["));
 skNAMED_LITERAL(rightbracket,skSTR("]"));
 skNAMED_LITERAL(left_bracket,skSTR(" ["));

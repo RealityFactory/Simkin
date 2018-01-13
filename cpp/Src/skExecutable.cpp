@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skExecutable.cpp,v 1.41 2003/04/14 15:24:57 simkin_cvs Exp $
+  $Id: skExecutable.cpp,v 1.42 2003/11/20 17:20:24 sdw Exp $
 */
 #include "skExecutable.h"
 #include "skRValue.h"
@@ -113,7 +113,35 @@ EXPORT_C bool skExecutable::method(const skString& s,skRValueArray& args,skRValu
 //------------------------------------------
 {
   bool bRet=false;
-  if (s==s_trace){
+  // coercion methods
+  if (s==s_toInt){
+    if (args.entries()==1){
+      bRet=true;
+      r=args[0].intValue();
+    }
+#ifdef USE_FLOATING_POINT
+  }else if (s==s_toFloat){
+    if (args.entries()==1){
+      bRet=true;
+      r=args[0].floatValue();
+    }
+#endif
+  }else if (s==s_toString){
+    if (args.entries()==1){
+      bRet=true;
+      r=args[0].str();
+    }
+  }else if (s==s_toChar){
+    if (args.entries()==1){
+      bRet=true;
+      r=args[0].charValue();
+    }
+  }else if (s==s_toBool){
+    if (args.entries()==1){
+      bRet=true;
+      r=args[0].boolValue();
+    }
+  }else if (s==s_trace){
     if (args.entries()>0)
       ctxt.getInterpreter()->trace(skString::addStrings(args[0].str().ptr(),s_cr));
     bRet=true;

@@ -1,6 +1,13 @@
 Simkin for C++
 (c)1996-2003 Simon Whiteside
 
+Simkin version 2.21
+Date: 20/11/2003
+-------------------
+* added support for "return" statement with no return expression
+* added support for compiling with Visual Studio .NET
+* added type coercion functions and documentation on built-in functions
+
 Simkin Version 2.20
 Date: 27/5/2003
 -------------------

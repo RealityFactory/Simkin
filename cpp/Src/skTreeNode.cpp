@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skTreeNode.cpp,v 1.42 2003/04/23 14:34:51 simkin_cvs Exp $
+  $Id: skTreeNode.cpp,v 1.43 2003/11/20 16:24:22 sdw Exp $
 */
 
 #include <string.h>
@@ -25,7 +25,12 @@
 #include <stdio.h>
 #include "skOutputDestination.h"
 #ifdef STREAMS_ENABLED
+#ifdef STL_STREAMS
+#include <fstream>
+using std::ofstream;
+#else
 #include <fstream.h>
+#endif
 #endif
 #include <ctype.h>
 #include "skExecutableContext.h"

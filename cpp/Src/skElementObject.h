@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-* $Id: skElementObject.h,v 1.18 2003/04/19 13:22:23 simkin_cvs Exp $
+* $Id: skElementObject.h,v 1.19 2003/11/20 16:24:22 sdw Exp $
 */
 
 
@@ -27,7 +27,12 @@
 #include "skElement.h"
 
 #ifdef STREAMS_ENABLED
+#ifdef STL_STREAMS
+#include <ostream>
+using namespace std;
+#else
 #include <iostream.h>
+#endif
 #endif
 
 class skMethodTable;

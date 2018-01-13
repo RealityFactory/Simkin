@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInputSource.cpp,v 1.19 2003/04/24 10:19:43 simkin_cvs Exp $
+  $Id: skInputSource.cpp,v 1.20 2003/11/20 16:24:22 sdw Exp $
 */
 #include "skInputSource.h"
 #include "skStringBuffer.h"
@@ -24,6 +24,7 @@
 #include "skAsciiStringBuffer.h"
 #include "skEncodingUtils.h"
 #endif
+
 //-----------------------------------------------------------------
 EXPORT_C skInputSource::~skInputSource()
 //-----------------------------------------------------------------
@@ -46,7 +47,11 @@ EXPORT_C skInputFile::skInputFile(const skString& filename)
 //-----------------------------------------------------------------
 :
 #ifdef STREAMS_ENABLED
+#ifdef STL_STREAMS
+m_In(filename,ios::in)
+#else
 m_In(filename,ios::in|ios::nocreate)
+#endif
 #else
 m_In(0),m_Peeked(false),m_PeekedChar(0)
 #endif

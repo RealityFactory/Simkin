@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skInterpreterNode.cpp,v 1.7 2003/04/24 10:19:43 simkin_cvs Exp $
+  $Id: skInterpreterNode.cpp,v 1.8 2003/11/01 10:17:27 sdw Exp $
 */
 #include "skInterpreter.h"
 #ifdef EXECUTE_PARSENODES
@@ -197,7 +197,8 @@ void  skInterpreter::makeMethodCall(skStackFrame& frame,skRValue& robject,const 
 bool skInterpreter::executeReturnStat(skStackFrame& frame,skReturnNode * n,skRValue& r)
   //---------------------------------------------------
 {
-  r=evaluate(frame,n->getExpr());
+  if (n->getExpr())
+    r=evaluate(frame,n->getExpr());
   return true;
 }
 //---------------------------------------------------

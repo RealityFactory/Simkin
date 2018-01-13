@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skConstants.h,v 1.9 2003/04/14 15:24:57 simkin_cvs Exp $
+  * $Id: skConstants.h,v 1.10 2003/11/20 17:20:24 sdw Exp $
   */
 
 
@@ -52,6 +52,11 @@ xskLITERAL(tracing);
 xskLITERAL(Interpreter);
 xskLITERAL(debugBreak);
 xskLITERAL(breakpoint);
+xskLITERAL(toInt);
+xskLITERAL(toFloat);
+xskLITERAL(toString);
+xskLITERAL(toChar);
+xskLITERAL(toBool);
 
 xskNAMED_LITERAL(leftbracket,skSTR("["));
 xskNAMED_LITERAL(rightbracket,skSTR("]"));

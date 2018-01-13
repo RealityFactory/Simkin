@@ -16,7 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  * $Id: skString.h,v 1.39 2003/04/23 14:34:51 simkin_cvs Exp $
+  * $Id: skString.h,v 1.40 2003/11/20 16:24:22 sdw Exp $
   */
 
 
@@ -26,7 +26,14 @@
 #include "skGeneral.h"
 
 #ifdef STREAMS_ENABLED
+
+#ifdef STL_STREAMS
+#include <ostream>
+using namespace std;
+#else
 #include <iostream.h>
+#endif
+
 #endif
 #include <string.h>
 
@@ -463,7 +470,7 @@ CLASSEXPORT IMPORT_C skString operator+(const Char *& s1,const skString& s2);
 /*
  * A streaming operator to write a string to an output stream
  */
-CLASSEXPORT ostream& operator<<(ostream&,const skString&s);
+CLASSEXPORT ostream& operator<<(ostream& out,const skString& s);
 #endif
 /*
  * Some helper macros for declaring literal strings, and references to literal strings

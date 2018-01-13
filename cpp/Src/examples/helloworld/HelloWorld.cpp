@@ -38,7 +38,8 @@ void main(){
   skExecutableContext ctxt(&i);
 
   // create an XMLExecutable object with the xml string
-  skElementExecutable executable("Hello World",skInputString(g_XML),ctxt);
+  skInputString in(g_XML);
+  skElementExecutable executable("Hello World",in,ctxt);
 
   // call the "main" method
   skRValueArray args;

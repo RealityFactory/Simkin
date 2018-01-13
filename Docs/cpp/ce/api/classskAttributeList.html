@@ -24,16 +24,18 @@
 <tr><td>&nbsp;</td><td><em class="mdesc">This sets an attribute in this list.</em> <a href="#a0"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskAttributeList.html#a1">getAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name) const</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">This returns the value of an attribute.</em> <a href="#a1"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskAttributeList.html#a2">removeAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">This removes an attribute from the list.</em> <a href="#a2"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classskAttribute.html">skAttribute</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskAttributeList.html#a3">findAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name) const</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">this method finds a named attribute</em> <a href="#a3"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskString.html">skString</a>&nbsp;</td><td valign=bottom><a class="el" href="classskAttributeList.html#a2">getAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name, const <a class="el" href="classskString.html">skString</a> &amp;default_value) const</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This returns the value of an attribute.</em> <a href="#a2"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classskAttributeList.html#a3">removeAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">This removes an attribute from the list.</em> <a href="#a3"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classskAttribute.html">skAttribute</a> *&nbsp;</td><td valign=bottom><a class="el" href="classskAttributeList.html#a4">findAttribute</a> (const <a class="el" href="classskString.html">skString</a> &amp;name) const</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">this method finds a named attribute</em> <a href="#a4"></a><em></em><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This class holds a list of attributes - it is used by the Element class.
 <p>
 <hr><h2>Member Function Documentation</h2>
-<a name="a3" doxytag="skAttributeList::findAttribute"></a><p>
+<a name="a4" doxytag="skAttributeList::findAttribute"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -62,6 +64,53 @@ This class holds a list of attributes - it is used by the Element class.
 this method finds a named attribute
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>the attribute, or 0 if there was no attribute with that name </dd></dl>
+    </td>
+  </tr>
+</table>
+<a name="a2" doxytag="skAttributeList::getAttribute"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> <a class="el" href="classskString.html">skString</a> skAttributeList::getAttribute </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="md" nowrap>const <a class="el" href="classskString.html">skString</a> &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>default_value</em></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"> const</td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This returns the value of an attribute.
+<p>
+If the attribute does not exist, the default value is returned. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>name</em>&nbsp;</td><td>- the name of the attribute being accessed </td></tr>
+    <tr><td valign=top><em>default_value</em>&nbsp;</td><td>- the default value for the attribute </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>the value associated with the name, or a blank string. </dd></dl>
     </td>
   </tr>
 </table>
@@ -102,7 +151,7 @@ If the attribute does not exist, a blank string is returned. <dl compact><dt><b>
     </td>
   </tr>
 </table>
-<a name="a2" doxytag="skAttributeList::removeAttribute"></a><p>
+<a name="a3" doxytag="skAttributeList::removeAttribute"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -192,7 +241,7 @@ The attribute is added, if not already present. <dl compact><dt><b>Parameters:</
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="skAttribute_8h-source.html">skAttribute.h</a></ul>
-<hr><address style="align: right;"><small>Generated on Sat Apr 19 18:54:44 2003 for Simkin C++ for Windows CE by
+<hr><address style="align: right;"><small>Generated on Thu Nov 20 15:49:07 2003 for Simkin C++ for Windows CE by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>

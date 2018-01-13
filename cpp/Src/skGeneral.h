@@ -16,14 +16,19 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-  $Id: skGeneral.h,v 1.34 2003/04/23 14:34:51 simkin_cvs Exp $
+  $Id: skGeneral.h,v 1.35 2003/11/20 16:24:22 sdw Exp $
 */
 #ifndef skGENERAL_H
 #define skGENERAL_H
 
+#if defined(_MSC_VER)
+#if (_MSC_VER<=1300)
+#define USE_DEBUG_NEW
+#endif
+#endif
 
 #ifndef __SYMBIAN32__
-#if defined(_MSC_VER)
+#if defined(USE_DEBUG_NEW)
    #ifdef _DEBUG
       #define MYDEBUG_NEW   new( _NORMAL_BLOCK, __FILE__, __LINE__)
        // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
@@ -112,7 +117,7 @@ typedef unsigned int USize;
 #define EXECUTE_PARSENODES 1
 
 
-#if defined(_MSC_VER)
+#if defined(USE_DEBUG_NEW)
 #ifndef __SYMBIAN32__
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
@@ -124,7 +129,7 @@ typedef unsigned int USize;
 
 
 #ifndef __SYMBIAN32__
-#if defined(_MSC_VER)
+#if defined(USE_DEBUG_NEW)
    #ifdef _DEBUG
    #undef new
    #define new MYDEBUG_NEW
@@ -174,6 +179,9 @@ inline void ExitSystem()
 }
 #else
 #define STREAMS_ENABLED
+#if (_MSC_VER>1300)
+#define STL_STREAMS 1
+#endif
 #define EXCEPTIONS_DEFINED
 #include <assert.h>
 #endif

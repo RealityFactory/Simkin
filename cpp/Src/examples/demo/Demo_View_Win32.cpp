@@ -21,7 +21,7 @@
 
   This file implements the class View for the Windows platform
 
-  $Id: Demo_View_Win32.cpp,v 1.6 2003/01/07 11:53:41 simkin_cvs Exp $
+  $Id: Demo_View_Win32.cpp,v 1.8 2003/11/20 17:20:24 sdw Exp $
 */
 #if defined(WIN32) || defined(_WIN32_WCE)
 #include <windows.h>

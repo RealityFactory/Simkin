@@ -24,7 +24,7 @@
 00016 <span class="comment">  License along with this library; if not, write to the Free Software</span>
 00017 <span class="comment">  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 00018 <span class="comment"></span>
-00019 <span class="comment">  * $Id: skParseNode_8h-source.html,v 1.14 2003/05/27 17:41:56 simkin_cvs Exp $</span>
+00019 <span class="comment">  * $Id: skParseNode_8h-source.html,v 1.15 2003/11/20 17:20:22 sdw Exp $</span>
 00020 <span class="comment">  */</span>
 00021 
 00022 <span class="preprocessor">#ifndef PARSENODE_H</span>
@@ -619,442 +619,448 @@
 00734   <span class="keyword">inline</span> skReturnNode(<span class="keywordtype">int</span> linenum,skExprNode * expr) 
 00735     : skStatNode(linenum),m_Expr(expr){
 00736   }
-00737   <span class="keyword">inline</span> ~skReturnNode(){
-00738     <span class="keyword">delete</span> m_Expr;
+00737   <span class="keyword">inline</span> skReturnNode(<span class="keywordtype">int</span> linenum) 
+00738     : skStatNode(linenum),m_Expr(0){
 00739   }
-00740   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-00741     m_Expr=0;
+00740   <span class="keyword">inline</span> ~skReturnNode(){
+00741     <span class="keyword">delete</span> m_Expr;
 00742   }
-00743   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-00744     <span class="keywordflow">return</span> s_Return;
+00743   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+00744     m_Expr=0;
 00745   }
-00746   <span class="keyword">inline</span> skExprNode * getExpr(){
-00747     <span class="keywordflow">return</span> m_Expr;
+00746   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+00747     <span class="keywordflow">return</span> s_Return;
 00748   }
-00749 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-00750 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-00751     <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Expr-&gt;getSize();
-00752   }
-00753 <span class="preprocessor">#endif</span>
-00754 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-00755 <span class="preprocessor"></span> <span class="keyword">public</span>:
-00759   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
-00760 <span class="preprocessor">#endif</span>
-00761 <span class="preprocessor"></span> <span class="keyword">private</span>:
-00762   skExprNode * m_Expr;
-00763 };
-00764 <span class="keyword">class  </span>skWhileNode : <span class="keyword">public</span> skStatNode {
-00765  <span class="keyword">public</span>:
-00766   <span class="keyword">inline</span> skWhileNode(<span class="keywordtype">int</span> linenum,skExprNode * expr,skStatListNode * stat) 
-00767     : skStatNode(linenum),m_Expr(expr),m_Stats(stat){
-00768   }
-00769   <span class="keyword">inline</span> ~skWhileNode(){
-00770     <span class="keyword">delete</span> m_Expr;
-00771     <span class="keyword">delete</span> m_Stats;
-00772   }
-00773   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-00774     m_Expr=0;
-00775     m_Stats=0;
-00776   }
-00777   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-00778     <span class="keywordflow">return</span> s_While;
-00779   }
-00780   <span class="keyword">inline</span> skExprNode * getExpr(){
-00781     <span class="keywordflow">return</span> m_Expr;
+00749   <span class="keyword">inline</span> skExprNode * getExpr(){
+00750     <span class="keywordflow">return</span> m_Expr;
+00751   }
+00752 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+00753 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+00754     USize size=<span class="keyword">sizeof</span>(this);
+00755     <span class="keywordflow">if</span> (m_Expr)
+00756       size+=m_Expr-&gt;getSize();
+00757     retirn size;
+00758   }
+00759 <span class="preprocessor">#endif</span>
+00760 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+00761 <span class="preprocessor"></span> <span class="keyword">public</span>:
+00765   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+00766 <span class="preprocessor">#endif</span>
+00767 <span class="preprocessor"></span> <span class="keyword">private</span>:
+00768   skExprNode * m_Expr;
+00769 };
+00770 <span class="keyword">class  </span>skWhileNode : <span class="keyword">public</span> skStatNode {
+00771  <span class="keyword">public</span>:
+00772   <span class="keyword">inline</span> skWhileNode(<span class="keywordtype">int</span> linenum,skExprNode * expr,skStatListNode * stat) 
+00773     : skStatNode(linenum),m_Expr(expr),m_Stats(stat){
+00774   }
+00775   <span class="keyword">inline</span> ~skWhileNode(){
+00776     <span class="keyword">delete</span> m_Expr;
+00777     <span class="keyword">delete</span> m_Stats;
+00778   }
+00779   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+00780     m_Expr=0;
+00781     m_Stats=0;
 00782   }
-00783   <span class="keyword">inline</span> skStatListNode * getStats(){
-00784     <span class="keywordflow">return</span> m_Stats;
+00783   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+00784     <span class="keywordflow">return</span> s_While;
 00785   }
-00786 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-00787 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-00788     <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Expr-&gt;getSize()+m_Stats-&gt;getSize();
-00789   }
-00790 <span class="preprocessor">#endif</span>
-00791 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-00792 <span class="preprocessor"></span> <span class="keyword">public</span>:
-00796   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
-00797 <span class="preprocessor">#endif</span>
-00798 <span class="preprocessor"></span> <span class="keyword">private</span>:
-00799   skExprNode * m_Expr;
-00800   skStatListNode * m_Stats;
-00801 };
-00802 <span class="keyword">class  </span>skForEachNode : <span class="keyword">public</span> skStatNode {
-00803  <span class="keyword">public</span>:
-00804 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00805 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * id,skExprNode * expr,skStatListNode * stat) 
-00806     : skStatNode(linenum),m_Id(*id),m_Expr(expr),m_Stats(stat){
-00807   }
-00808   <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * qualifier,<a class="code" href="classskString.html">skString</a> * id,skExprNode * expr,skStatListNode * stat) 
-00809     : skStatNode(linenum),m_Id(*id),m_Qualifier(*qualifier),m_Expr(expr),m_Stats(stat){
-00810   }
-00811 <span class="preprocessor">#else</span>
-00812 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> id,skExprNode * expr,skStatListNode * stat) 
-00813     : skStatNode(linenum),m_Id(id),m_Qualifier(NOT_PRESENT_INDEX),m_Expr(expr),m_Stats(stat){
-00814   }
-00815   <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> qualifier,<span class="keywordtype">int</span> id,skExprNode * expr,skStatListNode * stat) 
-00816     : skStatNode(linenum),m_Id(id),m_Qualifier(qualifier),m_Expr(expr),m_Stats(stat){
-00817   }
-00818 <span class="preprocessor">#endif</span>
-00819 <span class="preprocessor"></span>  <span class="keyword">inline</span> ~skForEachNode(){
-00820     <span class="keyword">delete</span> m_Expr;
-00821     <span class="keyword">delete</span> m_Stats;
-00822   }
-00823   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-00824     m_Expr=0;
-00825     m_Stats=0;
-00826   }
-00827   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-00828     <span class="keywordflow">return</span> s_ForEach;
-00829   }
-00830   <span class="keyword">inline</span> skExprNode * getExpr(){
-00831     <span class="keywordflow">return</span> m_Expr;
+00786   <span class="keyword">inline</span> skExprNode * getExpr(){
+00787     <span class="keywordflow">return</span> m_Expr;
+00788   }
+00789   <span class="keyword">inline</span> skStatListNode * getStats(){
+00790     <span class="keywordflow">return</span> m_Stats;
+00791   }
+00792 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+00793 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+00794     <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Expr-&gt;getSize()+m_Stats-&gt;getSize();
+00795   }
+00796 <span class="preprocessor">#endif</span>
+00797 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+00798 <span class="preprocessor"></span> <span class="keyword">public</span>:
+00802   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+00803 <span class="preprocessor">#endif</span>
+00804 <span class="preprocessor"></span> <span class="keyword">private</span>:
+00805   skExprNode * m_Expr;
+00806   skStatListNode * m_Stats;
+00807 };
+00808 <span class="keyword">class  </span>skForEachNode : <span class="keyword">public</span> skStatNode {
+00809  <span class="keyword">public</span>:
+00810 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00811 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * id,skExprNode * expr,skStatListNode * stat) 
+00812     : skStatNode(linenum),m_Id(*id),m_Expr(expr),m_Stats(stat){
+00813   }
+00814   <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * qualifier,<a class="code" href="classskString.html">skString</a> * id,skExprNode * expr,skStatListNode * stat) 
+00815     : skStatNode(linenum),m_Id(*id),m_Qualifier(*qualifier),m_Expr(expr),m_Stats(stat){
+00816   }
+00817 <span class="preprocessor">#else</span>
+00818 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> id,skExprNode * expr,skStatListNode * stat) 
+00819     : skStatNode(linenum),m_Id(id),m_Qualifier(NOT_PRESENT_INDEX),m_Expr(expr),m_Stats(stat){
+00820   }
+00821   <span class="keyword">inline</span> skForEachNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> qualifier,<span class="keywordtype">int</span> id,skExprNode * expr,skStatListNode * stat) 
+00822     : skStatNode(linenum),m_Id(id),m_Qualifier(qualifier),m_Expr(expr),m_Stats(stat){
+00823   }
+00824 <span class="preprocessor">#endif</span>
+00825 <span class="preprocessor"></span>  <span class="keyword">inline</span> ~skForEachNode(){
+00826     <span class="keyword">delete</span> m_Expr;
+00827     <span class="keyword">delete</span> m_Stats;
+00828   }
+00829   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+00830     m_Expr=0;
+00831     m_Stats=0;
 00832   }
-00833   <span class="keyword">inline</span> skStatListNode * getStats(){
-00834     <span class="keywordflow">return</span> m_Stats;
+00833   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+00834     <span class="keywordflow">return</span> s_ForEach;
 00835   }
-00836 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00837 <span class="preprocessor"></span>  <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getId()<span class="keyword"> const</span>{
-00838     <span class="keywordflow">return</span> m_Id;
-00839   }
-00840   <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getQualifier()<span class="keyword"> const</span>{
-00841     <span class="keywordflow">return</span> m_Qualifier;
-00842   }
-00843 <span class="preprocessor">#endif</span>
-00844 <span class="preprocessor"></span><span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-00845 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-00846     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Expr-&gt;getSize()+m_Stats-&gt;getSize();
-00847 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00848 <span class="preprocessor"></span>    size+=m_Id.length()+m_Qualifier.length();
+00836   <span class="keyword">inline</span> skExprNode * getExpr(){
+00837     <span class="keywordflow">return</span> m_Expr;
+00838   }
+00839   <span class="keyword">inline</span> skStatListNode * getStats(){
+00840     <span class="keywordflow">return</span> m_Stats;
+00841   }
+00842 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00843 <span class="preprocessor"></span>  <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getId()<span class="keyword"> const</span>{
+00844     <span class="keywordflow">return</span> m_Id;
+00845   }
+00846   <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getQualifier()<span class="keyword"> const</span>{
+00847     <span class="keywordflow">return</span> m_Qualifier;
+00848   }
 00849 <span class="preprocessor">#endif</span>
-00850 <span class="preprocessor"></span>    <span class="keywordflow">return</span> size;
-00851   }
-00852 <span class="preprocessor">#endif</span>
-00853 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-00854 <span class="preprocessor"></span> <span class="keyword">public</span>:
-00858   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
-00859 <span class="preprocessor">#endif</span>
-00860 <span class="preprocessor"></span> <span class="keyword">private</span>:
-00861 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00862 <span class="preprocessor"></span>  <a class="code" href="classskString.html">skString</a> m_Id;
-00863   <a class="code" href="classskString.html">skString</a> m_Qualifier;
-00864 <span class="preprocessor">#else</span>
-00865 <span class="preprocessor"></span>  <span class="keywordtype">int</span> m_Id;
-00866   <span class="keywordtype">int</span> m_Qualifier;
-00867 <span class="preprocessor">#endif</span>
-00868 <span class="preprocessor"></span>  skExprNode * m_Expr;
-00869   skStatListNode * m_Stats;
-00870 };
-00871 <span class="keyword">class  </span>skForNode : <span class="keyword">public</span> skStatNode {
-00872  <span class="keyword">public</span>:
-00873 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00874 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * id,skExprNode * start_expr,skExprNode * end_expr,skStatListNode * stat) 
-00875     : skStatNode(linenum),m_Id(*id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(0){
-00876     m_Stats=stat;
-00877   }
-00878   <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> *id,skExprNode * start_expr,skExprNode * end_expr,skExprNode * step_expr,skStatListNode * stat) 
-00879     : skStatNode(linenum),m_Id(*id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(step_expr),m_Stats(stat){
-00880   }
-00881 <span class="preprocessor">#else</span>
-00882 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> id,skExprNode * start_expr,skExprNode * end_expr,skStatListNode * stat) 
-00883     : skStatNode(linenum),m_Id(id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(0){
-00884     m_Stats=stat;
-00885   }
-00886   <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> id,skExprNode * start_expr,skExprNode * end_expr,skExprNode * step_expr,skStatListNode * stat) 
-00887     : skStatNode(linenum),m_Id(id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(step_expr),m_Stats(stat){
-00888   }
-00889 <span class="preprocessor">#endif</span>
-00890 <span class="preprocessor"></span>  <span class="keyword">inline</span> ~skForNode(){
-00891     <span class="keyword">delete</span> m_StartExpr;
-00892     <span class="keyword">delete</span> m_EndExpr;
-00893     <span class="keyword">delete</span> m_StepExpr;
-00894     <span class="keyword">delete</span> m_Stats;
-00895   }
-00896   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-00897     m_StartExpr=0;
-00898     m_EndExpr=0;
-00899     m_StepExpr=0;
-00900     m_Stats=0;
+00850 <span class="preprocessor"></span><span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+00851 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+00852     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Expr-&gt;getSize()+m_Stats-&gt;getSize();
+00853 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00854 <span class="preprocessor"></span>    size+=m_Id.length()+m_Qualifier.length();
+00855 <span class="preprocessor">#endif</span>
+00856 <span class="preprocessor"></span>    <span class="keywordflow">return</span> size;
+00857   }
+00858 <span class="preprocessor">#endif</span>
+00859 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+00860 <span class="preprocessor"></span> <span class="keyword">public</span>:
+00864   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+00865 <span class="preprocessor">#endif</span>
+00866 <span class="preprocessor"></span> <span class="keyword">private</span>:
+00867 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00868 <span class="preprocessor"></span>  <a class="code" href="classskString.html">skString</a> m_Id;
+00869   <a class="code" href="classskString.html">skString</a> m_Qualifier;
+00870 <span class="preprocessor">#else</span>
+00871 <span class="preprocessor"></span>  <span class="keywordtype">int</span> m_Id;
+00872   <span class="keywordtype">int</span> m_Qualifier;
+00873 <span class="preprocessor">#endif</span>
+00874 <span class="preprocessor"></span>  skExprNode * m_Expr;
+00875   skStatListNode * m_Stats;
+00876 };
+00877 <span class="keyword">class  </span>skForNode : <span class="keyword">public</span> skStatNode {
+00878  <span class="keyword">public</span>:
+00879 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00880 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * id,skExprNode * start_expr,skExprNode * end_expr,skStatListNode * stat) 
+00881     : skStatNode(linenum),m_Id(*id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(0){
+00882     m_Stats=stat;
+00883   }
+00884   <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> *id,skExprNode * start_expr,skExprNode * end_expr,skExprNode * step_expr,skStatListNode * stat) 
+00885     : skStatNode(linenum),m_Id(*id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(step_expr),m_Stats(stat){
+00886   }
+00887 <span class="preprocessor">#else</span>
+00888 <span class="preprocessor"></span>  <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> id,skExprNode * start_expr,skExprNode * end_expr,skStatListNode * stat) 
+00889     : skStatNode(linenum),m_Id(id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(0){
+00890     m_Stats=stat;
+00891   }
+00892   <span class="keyword">inline</span> skForNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> id,skExprNode * start_expr,skExprNode * end_expr,skExprNode * step_expr,skStatListNode * stat) 
+00893     : skStatNode(linenum),m_Id(id),m_StartExpr(start_expr),m_EndExpr(end_expr),m_StepExpr(step_expr),m_Stats(stat){
+00894   }
+00895 <span class="preprocessor">#endif</span>
+00896 <span class="preprocessor"></span>  <span class="keyword">inline</span> ~skForNode(){
+00897     <span class="keyword">delete</span> m_StartExpr;
+00898     <span class="keyword">delete</span> m_EndExpr;
+00899     <span class="keyword">delete</span> m_StepExpr;
+00900     <span class="keyword">delete</span> m_Stats;
 00901   }
-00902   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-00903     <span class="keywordflow">return</span> s_For;
-00904   }
-00905   <span class="keyword">inline</span> skExprNode * getStartExpr(){
-00906     <span class="keywordflow">return</span> m_StartExpr;
+00902   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+00903     m_StartExpr=0;
+00904     m_EndExpr=0;
+00905     m_StepExpr=0;
+00906     m_Stats=0;
 00907   }
-00908   <span class="keyword">inline</span> skExprNode * getEndExpr(){
-00909     <span class="keywordflow">return</span> m_EndExpr;
+00908   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+00909     <span class="keywordflow">return</span> s_For;
 00910   }
-00911   <span class="keyword">inline</span> skExprNode * getStepExpr(){
-00912     <span class="keywordflow">return</span> m_StepExpr;
+00911   <span class="keyword">inline</span> skExprNode * getStartExpr(){
+00912     <span class="keywordflow">return</span> m_StartExpr;
 00913   }
-00914   <span class="keyword">inline</span> skStatListNode * getStats(){
-00915     <span class="keywordflow">return</span> m_Stats;
+00914   <span class="keyword">inline</span> skExprNode * getEndExpr(){
+00915     <span class="keywordflow">return</span> m_EndExpr;
 00916   }
-00917 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00918 <span class="preprocessor"></span>  <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getId()<span class="keyword"> const</span>{
-00919     <span class="keywordflow">return</span> m_Id;
-00920   }
-00921 <span class="preprocessor">#endif</span>
-00922 <span class="preprocessor"></span><span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-00923 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-00924     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_StartExpr-&gt;getSize()+m_EndExpr-&gt;getSize()+m_Stats-&gt;getSize();
-00925 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00926 <span class="preprocessor"></span>    size+=m_Id.length();
+00917   <span class="keyword">inline</span> skExprNode * getStepExpr(){
+00918     <span class="keywordflow">return</span> m_StepExpr;
+00919   }
+00920   <span class="keyword">inline</span> skStatListNode * getStats(){
+00921     <span class="keywordflow">return</span> m_Stats;
+00922   }
+00923 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00924 <span class="preprocessor"></span>  <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getId()<span class="keyword"> const</span>{
+00925     <span class="keywordflow">return</span> m_Id;
+00926   }
 00927 <span class="preprocessor">#endif</span>
-00928 <span class="preprocessor"></span>    <span class="keywordflow">if</span> (m_StepExpr)
-00929       size+=m_StepExpr-&gt;getSize();
-00930     <span class="keywordflow">return</span> size;
-00931   }
-00932 <span class="preprocessor">#endif</span>
-00933 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-00934 <span class="preprocessor"></span> <span class="keyword">public</span>:
-00938   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
-00939 <span class="preprocessor">#endif</span>
-00940 <span class="preprocessor"></span> <span class="keyword">private</span>:
-00941 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00942 <span class="preprocessor"></span>  <a class="code" href="classskString.html">skString</a> m_Id;
-00943 <span class="preprocessor">#else</span>
-00944 <span class="preprocessor"></span>  <span class="keywordtype">int</span> m_Id;
+00928 <span class="preprocessor"></span><span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+00929 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+00930     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_StartExpr-&gt;getSize()+m_EndExpr-&gt;getSize()+m_Stats-&gt;getSize();
+00931 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00932 <span class="preprocessor"></span>    size+=m_Id.length();
+00933 <span class="preprocessor">#endif</span>
+00934 <span class="preprocessor"></span>    <span class="keywordflow">if</span> (m_StepExpr)
+00935       size+=m_StepExpr-&gt;getSize();
+00936     <span class="keywordflow">return</span> size;
+00937   }
+00938 <span class="preprocessor">#endif</span>
+00939 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+00940 <span class="preprocessor"></span> <span class="keyword">public</span>:
+00944   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
 00945 <span class="preprocessor">#endif</span>
-00946 <span class="preprocessor"></span>  skExprNode * m_StartExpr;
-00947   skExprNode * m_EndExpr;
-00948   skExprNode * m_StepExpr;
-00949   skStatListNode * m_Stats;
-00950 };
-00951 <span class="keyword">class  </span>skAssignNode : <span class="keyword">public</span> skStatNode {
-00952  <span class="keyword">public</span>:
-00953 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
-00954 <span class="preprocessor"></span>  <span class="keyword">inline</span> skAssignNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist, <a class="code" href="classskString.html">skString</a> * attribute,skExprNode * expr) 
-00955     : skStatNode(linenum),m_Ids(idlist),m_Expr(expr){
-00956     m_Ids-&gt;setAttribute(attribute);
-00957   }
-00958 <span class="preprocessor">#else</span>
-00959 <span class="preprocessor"></span>  <span class="keyword">inline</span> skAssignNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist, <span class="keywordtype">int</span> attribute,skExprNode * expr) 
-00960     : skStatNode(linenum),m_Ids(idlist),m_Expr(expr){
-00961     m_Ids-&gt;setAttribute(attribute);
-00962   }
-00963 <span class="preprocessor">#endif</span>
-00964 <span class="preprocessor"></span>  <span class="keyword">inline</span> skAssignNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist, skExprNode * expr) 
-00965     : skStatNode(linenum),m_Ids(idlist),m_Expr(expr){
-00966   }
-00967   <span class="keyword">inline</span> ~skAssignNode(){
-00968     <span class="keyword">delete</span> m_Ids;
-00969     <span class="keyword">delete</span> m_Expr;
-00970   }
-00971   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-00972     m_Ids=0;
-00973     m_Expr=0;
-00974   }
-00975   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-00976     <span class="keywordflow">return</span> s_Assign;
-00977   }
-00978   <span class="keyword">inline</span> skExprNode * getExpr(){
-00979     <span class="keywordflow">return</span> m_Expr;
+00946 <span class="preprocessor"></span> <span class="keyword">private</span>:
+00947 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00948 <span class="preprocessor"></span>  <a class="code" href="classskString.html">skString</a> m_Id;
+00949 <span class="preprocessor">#else</span>
+00950 <span class="preprocessor"></span>  <span class="keywordtype">int</span> m_Id;
+00951 <span class="preprocessor">#endif</span>
+00952 <span class="preprocessor"></span>  skExprNode * m_StartExpr;
+00953   skExprNode * m_EndExpr;
+00954   skExprNode * m_StepExpr;
+00955   skStatListNode * m_Stats;
+00956 };
+00957 <span class="keyword">class  </span>skAssignNode : <span class="keyword">public</span> skStatNode {
+00958  <span class="keyword">public</span>:
+00959 <span class="preprocessor">#ifdef EXECUTE_PARSENODES</span>
+00960 <span class="preprocessor"></span>  <span class="keyword">inline</span> skAssignNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist, <a class="code" href="classskString.html">skString</a> * attribute,skExprNode * expr) 
+00961     : skStatNode(linenum),m_Ids(idlist),m_Expr(expr){
+00962     m_Ids-&gt;setAttribute(attribute);
+00963   }
+00964 <span class="preprocessor">#else</span>
+00965 <span class="preprocessor"></span>  <span class="keyword">inline</span> skAssignNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist, <span class="keywordtype">int</span> attribute,skExprNode * expr) 
+00966     : skStatNode(linenum),m_Ids(idlist),m_Expr(expr){
+00967     m_Ids-&gt;setAttribute(attribute);
+00968   }
+00969 <span class="preprocessor">#endif</span>
+00970 <span class="preprocessor"></span>  <span class="keyword">inline</span> skAssignNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist, skExprNode * expr) 
+00971     : skStatNode(linenum),m_Ids(idlist),m_Expr(expr){
+00972   }
+00973   <span class="keyword">inline</span> ~skAssignNode(){
+00974     <span class="keyword">delete</span> m_Ids;
+00975     <span class="keyword">delete</span> m_Expr;
+00976   }
+00977   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+00978     m_Ids=0;
+00979     m_Expr=0;
 00980   }
-00981   <span class="keyword">inline</span> skIdListNode * getIds(){
-00982     <span class="keywordflow">return</span> m_Ids;
+00981   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+00982     <span class="keywordflow">return</span> s_Assign;
 00983   }
-00984 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-00985 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-00986     <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Ids-&gt;getSize()+m_Expr-&gt;getSize();
-00987   }
-00988 <span class="preprocessor">#endif</span>
-00989 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-00990 <span class="preprocessor"></span> <span class="keyword">public</span>:
-00994   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
-00995 <span class="preprocessor">#endif</span>
-00996 <span class="preprocessor"></span> <span class="keyword">private</span>:
-00997   skIdListNode * m_Ids;
-00998   skExprNode * m_Expr;
-00999 };
-01000 <span class="keyword">class  </span>skMethodStatNode : <span class="keyword">public</span> skStatNode {
-01001  <span class="keyword">public</span>:
-01002   <span class="keyword">inline</span> skMethodStatNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist) 
-01003     : skStatNode(linenum),m_Ids(idlist){
-01004   }
-01005   <span class="keyword">inline</span> ~skMethodStatNode(){
-01006     <span class="keyword">delete</span> m_Ids;
-01007   }
-01008   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-01009     m_Ids-&gt;clear();
-01010     m_Ids=0;
-01011   }
-01012   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-01013     <span class="keywordflow">return</span> s_Method;
-01014   }
-01015   <span class="keyword">inline</span> skIdListNode * getIds(){
-01016     <span class="keywordflow">return</span> m_Ids;
+00984   <span class="keyword">inline</span> skExprNode * getExpr(){
+00985     <span class="keywordflow">return</span> m_Expr;
+00986   }
+00987   <span class="keyword">inline</span> skIdListNode * getIds(){
+00988     <span class="keywordflow">return</span> m_Ids;
+00989   }
+00990 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+00991 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+00992     <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Ids-&gt;getSize()+m_Expr-&gt;getSize();
+00993   }
+00994 <span class="preprocessor">#endif</span>
+00995 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+00996 <span class="preprocessor"></span> <span class="keyword">public</span>:
+01000   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+01001 <span class="preprocessor">#endif</span>
+01002 <span class="preprocessor"></span> <span class="keyword">private</span>:
+01003   skIdListNode * m_Ids;
+01004   skExprNode * m_Expr;
+01005 };
+01006 <span class="keyword">class  </span>skMethodStatNode : <span class="keyword">public</span> skStatNode {
+01007  <span class="keyword">public</span>:
+01008   <span class="keyword">inline</span> skMethodStatNode(<span class="keywordtype">int</span> linenum,skIdListNode * idlist) 
+01009     : skStatNode(linenum),m_Ids(idlist){
+01010   }
+01011   <span class="keyword">inline</span> ~skMethodStatNode(){
+01012     <span class="keyword">delete</span> m_Ids;
+01013   }
+01014   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+01015     m_Ids-&gt;clear();
+01016     m_Ids=0;
 01017   }
-01018 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-01019 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-01020     <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Ids-&gt;getSize();
-01021   }
-01022 <span class="preprocessor">#endif</span>
-01023 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-01024 <span class="preprocessor"></span>
-01027   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+01018   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+01019     <span class="keywordflow">return</span> s_Method;
+01020   }
+01021   <span class="keyword">inline</span> skIdListNode * getIds(){
+01022     <span class="keywordflow">return</span> m_Ids;
+01023   }
+01024 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+01025 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+01026     <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Ids-&gt;getSize();
+01027   }
 01028 <span class="preprocessor">#endif</span>
-01029 <span class="preprocessor"></span> <span class="keyword">private</span>:
-01030   skIdListNode * m_Ids;
-01031 };
-01032 <span class="keyword">class  </span>skLiteralNode : <span class="keyword">public</span> skExprNode {
-01033  <span class="keyword">public</span>:
-01034   <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * s) 
-01035     : skExprNode(linenum),m_String(s),m_Type(s_String){
-01036   }
-01037   <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> i)
-01038     : skExprNode(linenum),m_Int(i),m_Type(s_Integer){
-01039   }
-01040   <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,Char i)
-01041     : skExprNode(linenum),m_Char(i),m_Type(s_Character){
+01029 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+01030 <span class="preprocessor"></span>
+01033   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+01034 <span class="preprocessor">#endif</span>
+01035 <span class="preprocessor"></span> <span class="keyword">private</span>:
+01036   skIdListNode * m_Ids;
+01037 };
+01038 <span class="keyword">class  </span>skLiteralNode : <span class="keyword">public</span> skExprNode {
+01039  <span class="keyword">public</span>:
+01040   <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,<a class="code" href="classskString.html">skString</a> * s) 
+01041     : skExprNode(linenum),m_String(s),m_Type(s_String){
 01042   }
-01043 <span class="preprocessor">#ifdef USE_FLOATING_POINT</span>
-01044 <span class="preprocessor"></span>  <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">float</span> f)
-01045     : skExprNode(linenum),m_Float(f),m_Type(s_Float){
-01046   }
-01047 <span class="preprocessor">#endif</span>
-01048 <span class="preprocessor"></span>  <span class="keyword">inline</span> ~skLiteralNode(){
-01049     <span class="keywordflow">if</span> (m_Type==s_String)
-01050       <span class="keyword">delete</span> m_String;
-01051   }
-01052   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-01053     m_String=0;
-01054   }
-01055   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-01056     <span class="keywordflow">return</span> m_Type;
+01043   <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> i)
+01044     : skExprNode(linenum),m_Int(i),m_Type(s_Integer){
+01045   }
+01046   <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,Char i)
+01047     : skExprNode(linenum),m_Char(i),m_Type(s_Character){
+01048   }
+01049 <span class="preprocessor">#ifdef USE_FLOATING_POINT</span>
+01050 <span class="preprocessor"></span>  <span class="keyword">inline</span> skLiteralNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">float</span> f)
+01051     : skExprNode(linenum),m_Float(f),m_Type(s_Float){
+01052   }
+01053 <span class="preprocessor">#endif</span>
+01054 <span class="preprocessor"></span>  <span class="keyword">inline</span> ~skLiteralNode(){
+01055     <span class="keywordflow">if</span> (m_Type==s_String)
+01056       <span class="keyword">delete</span> m_String;
 01057   }
-01058   <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getString() {
-01059     <span class="keywordflow">return</span> * m_String;
+01058   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+01059     m_String=0;
 01060   }
-01061 <span class="preprocessor">#ifdef USE_FLOATING_POINT</span>
-01062 <span class="preprocessor"></span>  <span class="keyword">inline</span> <span class="keywordtype">float</span> getFloat(){
-01063     <span class="keywordflow">return</span> m_Float;
-01064   }
-01065 <span class="preprocessor">#endif</span>
-01066 <span class="preprocessor"></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> getInt(){
-01067     <span class="keywordflow">return</span> m_Int;
-01068   }
-01069   <span class="keyword">inline</span> Char getChar(){
-01070     <span class="keywordflow">return</span> m_Char;
-01071   }
-01072 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-01073 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-01074     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *);
-01075     <span class="keywordflow">if</span> (m_Type==s_String)
-01076       size+=<span class="keyword">sizeof</span>(skString)+m_String-&gt;length();
-01077     <span class="keywordflow">return</span> size;
-01078   }
-01079 <span class="preprocessor">#endif</span>
-01080 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-01081 <span class="preprocessor"></span>
-01084   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+01061   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+01062     <span class="keywordflow">return</span> m_Type;
+01063   }
+01064   <span class="keyword">inline</span> <a class="code" href="classskString.html">skString</a> getString() {
+01065     <span class="keywordflow">return</span> * m_String;
+01066   }
+01067 <span class="preprocessor">#ifdef USE_FLOATING_POINT</span>
+01068 <span class="preprocessor"></span>  <span class="keyword">inline</span> <span class="keywordtype">float</span> getFloat(){
+01069     <span class="keywordflow">return</span> m_Float;
+01070   }
+01071 <span class="preprocessor">#endif</span>
+01072 <span class="preprocessor"></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> getInt(){
+01073     <span class="keywordflow">return</span> m_Int;
+01074   }
+01075   <span class="keyword">inline</span> Char getChar(){
+01076     <span class="keywordflow">return</span> m_Char;
+01077   }
+01078 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+01079 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+01080     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *);
+01081     <span class="keywordflow">if</span> (m_Type==s_String)
+01082       size+=<span class="keyword">sizeof</span>(skString)+m_String-&gt;length();
+01083     <span class="keywordflow">return</span> size;
+01084   }
 01085 <span class="preprocessor">#endif</span>
-01086 <span class="preprocessor"></span> <span class="keyword">private</span>:
-01087   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_Type;
-01088   <span class="keyword">union </span>{
-01089     <a class="code" href="classskString.html">skString</a> * m_String;
-01090 <span class="preprocessor">#ifdef USE_FLOATING_POINT</span>
-01091 <span class="preprocessor"></span>    <span class="keywordtype">float</span> m_Float;
-01092 <span class="preprocessor">#endif</span>
-01093 <span class="preprocessor"></span>    <span class="keywordtype">int</span> m_Int;
-01094     Char m_Char;
-01095   };
-01096 };
-01097 <span class="keyword">class  </span>skOpNode : <span class="keyword">public</span> skExprNode {
-01098  <span class="keyword">public</span>:
-01099   <span class="keyword">inline</span> skOpNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> type,skExprNode * expr1,skExprNode * expr2)
-01100     : skExprNode(linenum),m_Expr1(expr1),m_Expr2(expr2),m_Type(type){
-01101   }
-01102   <span class="keyword">virtual</span> ~skOpNode(){
-01103     <span class="keyword">delete</span> m_Expr1;
-01104     <span class="keyword">delete</span> m_Expr2;
-01105   }
-01106   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
-01107     m_Expr1=0;
-01108     m_Expr2=0;
-01109   }
-01110   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
-01111     <span class="keywordflow">return</span> m_Type;
-01112   }
-01113   <span class="keyword">inline</span> skExprNode * getExpr1(){
-01114     <span class="keywordflow">return</span> m_Expr1;
+01086 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+01087 <span class="preprocessor"></span>
+01090   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+01091 <span class="preprocessor">#endif</span>
+01092 <span class="preprocessor"></span> <span class="keyword">private</span>:
+01093   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_Type;
+01094   <span class="keyword">union </span>{
+01095     <a class="code" href="classskString.html">skString</a> * m_String;
+01096 <span class="preprocessor">#ifdef USE_FLOATING_POINT</span>
+01097 <span class="preprocessor"></span>    <span class="keywordtype">float</span> m_Float;
+01098 <span class="preprocessor">#endif</span>
+01099 <span class="preprocessor"></span>    <span class="keywordtype">int</span> m_Int;
+01100     Char m_Char;
+01101   };
+01102 };
+01103 <span class="keyword">class  </span>skOpNode : <span class="keyword">public</span> skExprNode {
+01104  <span class="keyword">public</span>:
+01105   <span class="keyword">inline</span> skOpNode(<span class="keywordtype">int</span> linenum,<span class="keywordtype">int</span> type,skExprNode * expr1,skExprNode * expr2)
+01106     : skExprNode(linenum),m_Expr1(expr1),m_Expr2(expr2),m_Type(type){
+01107   }
+01108   <span class="keyword">virtual</span> ~skOpNode(){
+01109     <span class="keyword">delete</span> m_Expr1;
+01110     <span class="keyword">delete</span> m_Expr2;
+01111   }
+01112   <span class="keyword">inline</span> <span class="keywordtype">void</span> clear(){
+01113     m_Expr1=0;
+01114     m_Expr2=0;
 01115   }
-01116   <span class="keyword">inline</span> skExprNode * getExpr2(){
-01117     <span class="keywordflow">return</span> m_Expr2;
+01116   <span class="keyword">inline</span> <span class="keywordtype">int</span> getType(){
+01117     <span class="keywordflow">return</span> m_Type;
 01118   }
-01119 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-01120 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-01121     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Expr1-&gt;getSize();
-01122     <span class="keywordflow">if</span> (m_Expr2)
-01123       size+=m_Expr2-&gt;getSize();
-01124     <span class="keywordflow">return</span> size;
-01125   }
-01126 <span class="preprocessor">#endif</span>
-01127 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-01128 <span class="preprocessor"></span>
-01131   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+01119   <span class="keyword">inline</span> skExprNode * getExpr1(){
+01120     <span class="keywordflow">return</span> m_Expr1;
+01121   }
+01122   <span class="keyword">inline</span> skExprNode * getExpr2(){
+01123     <span class="keywordflow">return</span> m_Expr2;
+01124   }
+01125 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+01126 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+01127     USize size=<span class="keyword">sizeof</span>(this)+<span class="keyword">sizeof</span>(<span class="keywordtype">void</span> *)+m_Expr1-&gt;getSize();
+01128     <span class="keywordflow">if</span> (m_Expr2)
+01129       size+=m_Expr2-&gt;getSize();
+01130     <span class="keywordflow">return</span> size;
+01131   }
 01132 <span class="preprocessor">#endif</span>
-01133 <span class="preprocessor"></span> <span class="keyword">private</span>:
-01134   skExprNode * m_Expr1;
-01135   skExprNode * m_Expr2;
-01136   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_Type;
-01137 };
-<a name="l01142"></a><a class="code" href="classskMethodDefNode.html">01142</a> <span class="keyword">class  </span><a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> : <span class="keyword">public</span> <a class="code" href="classskParseNode.html">skParseNode</a> {
-01143  <span class="keyword">public</span>:
-<a name="l01145"></a><a class="code" href="classskMethodDefNode.html#a0">01145</a>   <span class="keyword">inline</span> <a class="code" href="classskMethodDefNode.html#a0">skMethodDefNode</a>(<span class="keywordtype">int</span> linenum,skStatListNode * stats) 
-01146     : <a class="code" href="classskParseNode.html">skParseNode</a>(linenum),m_Stats(stats),m_Params(0){
-01147   }
-<a name="l01149"></a><a class="code" href="classskMethodDefNode.html#a1">01149</a>   <span class="keyword">inline</span> <a class="code" href="classskMethodDefNode.html#a0">skMethodDefNode</a>(<span class="keywordtype">int</span> linenum,skIdListNode * params,skStatListNode * stats) 
-01150     : <a class="code" href="classskParseNode.html">skParseNode</a>(linenum),m_Stats(stats),m_Params(params){
-01151   }
-<a name="l01153"></a><a class="code" href="classskMethodDefNode.html#a2">01153</a>   <span class="keyword">inline</span> <a class="code" href="classskMethodDefNode.html#a2">~skMethodDefNode</a>(){
-01154     <span class="keyword">delete</span> m_Stats;
-01155     <span class="keyword">delete</span> m_Params;
-01156   }
-<a name="l01158"></a><a class="code" href="classskMethodDefNode.html#a3">01158</a>   <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classskMethodDefNode.html#a3">clear</a>(){
-01159     m_Stats=0;
-01160     m_Params=0;
-01161   }
-<a name="l01162"></a><a class="code" href="classskMethodDefNode.html#a4">01162</a>   <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="classskMethodDefNode.html#a4">getType</a>(){
-01163     <span class="keywordflow">return</span> s_MethodDef;
-01164   }
-01165   <span class="keyword">inline</span> skIdListNode * getParams(){
-01166     <span class="keywordflow">return</span> m_Params;
+01133 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+01134 <span class="preprocessor"></span>
+01137   <span class="keywordtype">void</span> compile(skCompiledCode&amp; compiled_code);
+01138 <span class="preprocessor">#endif</span>
+01139 <span class="preprocessor"></span> <span class="keyword">private</span>:
+01140   skExprNode * m_Expr1;
+01141   skExprNode * m_Expr2;
+01142   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_Type;
+01143 };
+<a name="l01148"></a><a class="code" href="classskMethodDefNode.html">01148</a> <span class="keyword">class  </span><a class="code" href="classskMethodDefNode.html">skMethodDefNode</a> : <span class="keyword">public</span> <a class="code" href="classskParseNode.html">skParseNode</a> {
+01149  <span class="keyword">public</span>:
+<a name="l01151"></a><a class="code" href="classskMethodDefNode.html#a0">01151</a>   <span class="keyword">inline</span> <a class="code" href="classskMethodDefNode.html#a0">skMethodDefNode</a>(<span class="keywordtype">int</span> linenum,skStatListNode * stats) 
+01152     : <a class="code" href="classskParseNode.html">skParseNode</a>(linenum),m_Stats(stats),m_Params(0){
+01153   }
+<a name="l01155"></a><a class="code" href="classskMethodDefNode.html#a1">01155</a>   <span class="keyword">inline</span> <a class="code" href="classskMethodDefNode.html#a0">skMethodDefNode</a>(<span class="keywordtype">int</span> linenum,skIdListNode * params,skStatListNode * stats) 
+01156     : <a class="code" href="classskParseNode.html">skParseNode</a>(linenum),m_Stats(stats),m_Params(params){
+01157   }
+<a name="l01159"></a><a class="code" href="classskMethodDefNode.html#a2">01159</a>   <span class="keyword">inline</span> <a class="code" href="classskMethodDefNode.html#a2">~skMethodDefNode</a>(){
+01160     <span class="keyword">delete</span> m_Stats;
+01161     <span class="keyword">delete</span> m_Params;
+01162   }
+<a name="l01164"></a><a class="code" href="classskMethodDefNode.html#a3">01164</a>   <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classskMethodDefNode.html#a3">clear</a>(){
+01165     m_Stats=0;
+01166     m_Params=0;
 01167   }
-01168   <span class="keyword">inline</span> <span class="keywordtype">void</span> setParams(skIdListNode * p){
-01169     m_Params=p;
+<a name="l01168"></a><a class="code" href="classskMethodDefNode.html#a4">01168</a>   <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="classskMethodDefNode.html#a4">getType</a>(){
+01169     <span class="keywordflow">return</span> s_MethodDef;
 01170   }
-01171   <span class="keyword">inline</span> skStatListNode * getStats(){
-01172     <span class="keywordflow">return</span> m_Stats;
+01171   <span class="keyword">inline</span> skIdListNode * getParams(){
+01172     <span class="keywordflow">return</span> m_Params;
 01173   }
-01174  <span class="keyword">private</span>:
-01176   skStatListNode * m_Stats;
-01178   skIdListNode * m_Params;
-01179   <a class="code" href="classskMethodDefNode.html#a0">skMethodDefNode</a>(<span class="keyword">const</span> <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>&amp; ) 
-01180     : <a class="code" href="classskParseNode.html">skParseNode</a>(0){
-01181   }
-01182   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>&amp;){
-01183     <span class="keywordflow">return</span> *<span class="keyword">this</span>;
-01184   }
-01185 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
-01186 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
-01187     <span class="keywordflow">return</span> m_Stats-&gt;getSize();
-01188   }
-01189 <span class="preprocessor">#endif</span>
-01190 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
-01191 <span class="preprocessor"></span> <span class="keyword">public</span>:
-01195   <span class="keywordtype">void</span> compile();
-01196   skCompiledCode&amp; getCompiledCode(){
-01197     <span class="keywordflow">return</span> m_Compiled;
-01198   }
-01199  <span class="keyword">private</span>:
-01200   skCompiledCode m_Compiled;
-01201 <span class="preprocessor">#endif</span>
-01202 <span class="preprocessor"></span>};
-01203 <span class="preprocessor">#include "skParseNode.inl"</span>
-01204 <span class="preprocessor">#endif</span>
-01205 <span class="preprocessor"></span>
-</pre></div><hr><address style="align: right;"><small>Generated on Tue May 27 18:40:10 2003 for Simkin by
+01174   <span class="keyword">inline</span> <span class="keywordtype">void</span> setParams(skIdListNode * p){
+01175     m_Params=p;
+01176   }
+01177   <span class="keyword">inline</span> skStatListNode * getStats(){
+01178     <span class="keywordflow">return</span> m_Stats;
+01179   }
+01180  <span class="keyword">private</span>:
+01182   skStatListNode * m_Stats;
+01184   skIdListNode * m_Params;
+01185   <a class="code" href="classskMethodDefNode.html#a0">skMethodDefNode</a>(<span class="keyword">const</span> <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>&amp; ) 
+01186     : <a class="code" href="classskParseNode.html">skParseNode</a>(0){
+01187   }
+01188   <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classskMethodDefNode.html">skMethodDefNode</a>&amp;){
+01189     <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+01190   }
+01191 <span class="preprocessor">#ifdef _DEBUG_SIZE</span>
+01192 <span class="preprocessor"></span>  <span class="keyword">virtual</span> USize getSize()<span class="keyword"> const </span>{
+01193     <span class="keywordflow">return</span> m_Stats-&gt;getSize();
+01194   }
+01195 <span class="preprocessor">#endif</span>
+01196 <span class="preprocessor"></span><span class="preprocessor">#ifndef EXECUTE_PARSENODES</span>
+01197 <span class="preprocessor"></span> <span class="keyword">public</span>:
+01201   <span class="keywordtype">void</span> compile();
+01202   skCompiledCode&amp; getCompiledCode(){
+01203     <span class="keywordflow">return</span> m_Compiled;
+01204   }
+01205  <span class="keyword">private</span>:
+01206   skCompiledCode m_Compiled;
+01207 <span class="preprocessor">#endif</span>
+01208 <span class="preprocessor"></span>};
+01209 <span class="preprocessor">#include "skParseNode.inl"</span>
+01210 <span class="preprocessor">#endif</span>
+01211 <span class="preprocessor"></span>
+</pre></div><hr><address style="align: right;"><small>Generated on Thu Nov 20 15:48:33 2003 for Simkin by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.3 </small></address>
