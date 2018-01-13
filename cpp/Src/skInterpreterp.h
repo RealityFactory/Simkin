@@ -1,14 +1,14 @@
 /**
 	Interpreter implementation class
-	$Id: skInterpreterp.h,v 1.18 2001/05/29 16:11:48 sdw Exp $
+	$Id: skInterpreterp.h,v 1.21 2001/06/19 14:02:46 sdw Exp $
 	Copyright 1996-2001
 	Simon Whiteside
 */
 
-class skTreeNode;
-#include "skHashTable.h"
 #include "skParseNode.h"
 
+#include "skHashTable.h"
+#include "skExecutableIterator.h"
 
 class skRValueTable: public skTHashTable<skString,skRValue>
 {
@@ -20,6 +20,7 @@ class skRValueTable: public skTHashTable<skString,skRValue>
 };
 
 const unsigned int MAX_LOCAL_VARS_CACHE=5;
+
 
 class P_Interpreter 
 {   
@@ -46,6 +47,7 @@ class P_Interpreter
     bool executeIfStat(skExecutable * obj,skRValueTable& var,skIfNode * n,skRValue& r);
     bool executeWhileStat(skExecutable * obj,skRValueTable& var,skWhileNode * n,skRValue& r);
     bool executeSwitchStat(skExecutable * obj,skRValueTable& var,skSwitchNode * n,skRValue& r);
+    bool executeForEachStat(skExecutable * obj,skRValueTable& var,skForEachNode * n,skRValue& r);
 
     // Misc runtime routines
 
@@ -53,7 +55,7 @@ class P_Interpreter
     skString checkIndirectId(skExecutable * obj,skRValueTable& var,const skString& name); // checks whether a field name includes the indirection character
     // tries to find a the value of the named variable
     skRValue findValue(skExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attribute); 
-    void runtimeError(const char * buffer,...); // creates and throws a skRuntimeException
+    void runtimeError(const skString& s); // creates and throws a skRuntimeException
     void followIdList(skExecutable * obj,skRValueTable& var,skIdListNode * idList,skRValue& object); // follows a dotted list of id's
 
     // extracts a value of the form foo[1] - first dereferencing foo
@@ -75,6 +77,7 @@ class P_Interpreter
     bool m_Tracing; // flag for tracing method calls
 
     skString m_Location; // location during script execution
+    int m_LineNum; // line number during script execution
     THREAD static skInterpreter * g_GlobalInterpreter;	//	used by clients - one per thread (on Windows only at the moment)
 
 };    

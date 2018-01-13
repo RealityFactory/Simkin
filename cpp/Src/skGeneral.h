@@ -2,12 +2,13 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skGeneral.h,v 1.6 2001/05/22 11:57:57 sdw Exp $
+  $Id: skGeneral.h,v 1.8 2001/06/13 16:48:21 sdw Exp $
 */
-#ifndef GENERAL_H
-#define GENERAL_H
+#ifndef skGENERAL_H
+#define skGENERAL_H
 
-#include <iostream.h>
+
+//#include <iostream.h>
 #include <stdlib.h>
 #include "assert.h"
 

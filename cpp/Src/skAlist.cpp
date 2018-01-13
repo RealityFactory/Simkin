@@ -2,8 +2,9 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skAlist.cpp,v 1.6 2001/03/05 16:46:28 sdw Exp $
+  $Id: skAlist.cpp,v 1.7 2001/06/13 16:48:21 sdw Exp $
 */
+#include <iostream.h>
 #include "skAlist.h"
 
 
@@ -36,7 +37,7 @@ void skAList::insert(void * p,USize index)
     assert(index<=m_Entries);
     assert(contains(p)==false);
     if (index>m_Entries)
-	throw skBoundsException("Invalid index to insert",__FILE__,__LINE__);
+	throw skBoundsException(skSTR("Invalid index to insert"),__FILE__,__LINE__);
 
     if (m_ArraySize==m_Entries)
 	grow();
@@ -90,7 +91,7 @@ void skAList::deleteElt(USize index)
 {
     assert(index<m_Entries);
     if (index>=m_Entries)
-	throw skBoundsException("Invalid index to deleteElt",__FILE__,__LINE__);
+	throw skBoundsException(skSTR("Invalid index to deleteElt"),__FILE__,__LINE__);
     deleteItem(m_Array[index]);
     for (USize x=index;x<m_Entries-1;x++)
 	m_Array[x]=m_Array[x+1];

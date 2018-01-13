@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skExecutable.h,v 1.16 2001/05/03 16:01:31 sdw Exp $
+* $Id: skExecutable.h,v 1.19 2001/06/19 14:02:46 sdw Exp $
 */
 
 #ifndef skEXECUTABLE_H
@@ -12,7 +12,7 @@
 
 class skRValueArray;
 class skRValue;
-
+class skExecutableIterator;
 
 
 /*
@@ -55,7 +55,7 @@ class skExecutable
   /**
    * returns a character equivalent of this object
    */
-  virtual char charValue() const;
+  virtual Char charValue() const;
   /**
    * returns a String equivalent of this object
    */
@@ -108,6 +108,17 @@ class skExecutable
    * This method compares this object with another object. The default implementation checks object pointers.
    */
   virtual bool equals(skExecutable * other_object) const;
+  /**
+   * This method returns an executable iterator used in foreach statements
+   * @param qualifier a value to qualify the iteration by
+   * @return an skExecutableIterator object that can be used to iterate over the result of the qualifier
+   */
+  virtual skExecutableIterator * createIterator(const skString& qualifier);
+  /**
+   * This method returns an executable iterator used in foreach statements
+   * @return an skExecutableIterator object that can be used to iterate over the components of this container
+   */
+  virtual skExecutableIterator * createIterator();
  private:
   /**
    * Executables can't be copied

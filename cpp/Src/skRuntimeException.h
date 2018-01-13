@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skRuntimeException.h,v 1.3 2001/03/05 16:46:28 sdw Exp $
+  $Id: skRuntimeException.h,v 1.5 2001/06/19 14:02:47 sdw Exp $
 */
 #ifndef SKRUNTIMEEXCEPTION_H
 #define SKRUNTIMEEXCEPTION_H
@@ -17,16 +17,29 @@ class skRuntimeException {
   /**
    * Constructor - receives information about the exception
    */
-  skRuntimeException(const skString& location,const skString& msg) 
-      : m_Location(location),m_Msg(msg){
+  skRuntimeException(const skString& location,int line_num,const skString& msg) 
+      : m_Location(location),m_Msg(msg),m_LineNum(line_num){
   }
   /**
    * this method returns a description of the exception
    */
   skString toString() const {
-    return m_Location+":"+m_Msg;
+    return m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR("-")+m_Msg;
   }
- private:
+   /**
+   * returns the location of the script
+   */
+  skString location() const{
+    return m_Location;
+  }
+  /**
+   * shows the line number where the runtime error occurred
+   */
+  int lineNum() const{
+    return m_LineNum;
+  }
+private:
+  int m_LineNum;
   skString m_Msg;
   skString m_Location;
 };

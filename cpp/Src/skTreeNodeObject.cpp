@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skTreeNodeObject.cpp,v 1.16 2001/05/04 11:09:18 sdw Exp $
+  $Id: skTreeNodeObject.cpp,v 1.18 2001/06/22 10:07:57 sdw Exp $
 */
 
 #include "skTreeNodeObject.h"
@@ -57,7 +57,7 @@ bool skTreeNodeObject::boolValue() const
   return m_Node->boolData();
 }
 //------------------------------------------
-char skTreeNodeObject::charValue() const
+Char skTreeNodeObject::charValue() const
 //------------------------------------------
 {
   return m_Node->data().at(0);
@@ -138,6 +138,10 @@ bool skTreeNodeObject::getValue(const skString& name,const skString& attrib,skRV
   if (name == "numChildren"){
     bRet=true;
     v=m_Node->numChildren();
+  }else
+  if (name == "label"){
+    bRet=true;
+    v=m_Node->label();
   }else{
     skTreeNode * child=m_Node->findChild(name);
     if (child){
@@ -207,5 +211,17 @@ skString skTreeNodeObject::getLocation() const
 //------------------------------------------
 {
   return m_Location;
+}
+//------------------------------------------
+skExecutableIterator * skTreeNodeObject::createIterator(const skString& qualifier)
+//------------------------------------------
+{
+  return new skTreeNodeObjectEnumerator(this,qualifier);
+}
+//------------------------------------------
+skExecutableIterator * skTreeNodeObject::createIterator()
+//------------------------------------------
+{
+  return new skTreeNodeObjectEnumerator(this);
 }
 

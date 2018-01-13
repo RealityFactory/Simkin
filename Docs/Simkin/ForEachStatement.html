@@ -1,0 +1,35 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Switch Statement</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin for each Statement</H1>
+<hr>
+<p>
+This statement allows you to iterate over a collection, with an optional qualified.
+<p>
+The statement has 2 main sections: 
+<ol>
+<li>the <code>for each</code> section specifies what to enumerate over, and which variable to bind each item to</li>
+<li>this is followed by a block of statements to be executed for each item</li>
+</ol>
+Here is an example of unqualified iteration:
+<pre>
+// looks at each item in the collection, the variable "item" will receive each item in the iteration
+for each item in collection {
+ trace(item.name);
+}
+</pre>
+In this example, a qualifier is added:
+<pre>
+// looks at each "simple" item in the collection, the variable "simple_item" will receive each item in the iteration
+for each simple simple_item in collection {
+ trace(item.name);
+}
+</pre>
+The underlying code interprets the qualifier in whatever way is appropriate to it.
+</BODY>
+</HTML>

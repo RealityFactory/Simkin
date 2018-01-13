@@ -2,10 +2,9 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skXMLErrorHandler.cpp,v 1.2 2001/03/05 16:46:29 sdw Exp $
+* $Id: skXMLErrorHandler.cpp,v 1.3 2001/06/13 16:48:21 sdw Exp $
 */
 #include "skXMLErrorHandler.h"
-#include <iostream.h>
 #include "dom/DOMString.hpp"
 #include <sax/SAXParseException.hpp>
 #include "skXMLElementObject.h"

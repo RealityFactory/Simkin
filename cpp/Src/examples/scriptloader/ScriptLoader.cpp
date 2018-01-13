@@ -9,10 +9,30 @@
 #include "skRValueArray.h"
 #include "skParseException.h"
 #include "skRuntimeException.h"
-#include "skExecutable.h"
+#include "skExecutableIterator.h"
 #include <util/PlatformUtils.hpp>
 #include <sax/SAXException.hpp>
 
+/**
+ * This small class can be used to trace calls into an iterator from a foreach statement in a script
+ */
+class skTestIterator : public skExecutableIterator {
+  int m_Count;
+public:
+  skTestIterator() : m_Count(0){
+  }
+  bool next(skRValue& v){
+    bool ret=false;
+    if (m_Count<10){
+      v=m_Count;
+      cout << "skTestIterator::next\n";
+      cout.flush();
+      m_Count++;
+      ret=true;
+    }
+    return ret;
+  }
+};
 /**
  * You can use this small class to trace calls into a C++ object from a script. The class supports the method "createObject" and an instance is put as a global variable called "Test". This means you can do the following in Simkin script:
  * <pre>
@@ -22,9 +42,19 @@
  * And watch a trace of the "getValue" function being called
  */
 
-class skTest : public skExecutable {
+class skTest : public skExecutable{
 public:
   skTest(){
+  }
+  skExecutableIterator * createIterator(const skString& qualifier){
+    cout << "skTest::createIterator qualified by " << qualifier <<"\n";
+    cout.flush();
+    return new skTestIterator();
+  }
+  skExecutableIterator * createIterator(){
+    cout << "skTest::createIterator\n";
+    cout.flush();
+    return new skTestIterator();
   }
   bool getValue(const skString& field_name,const skString& attribute,skRValue& value){
     cout << "skTest::getValue field_name=" << field_name << " attribute=" << attribute << "\n";
@@ -108,6 +138,7 @@ void main(int argc,char * argv[]){
       }catch(skRuntimeException e){
 	cout << e.toString();
       }catch(...){
+	cout << "unknown exception";
       }
     }
   }else

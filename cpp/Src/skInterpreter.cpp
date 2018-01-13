@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skInterpreter.cpp,v 1.35 2001/05/29 16:11:48 sdw Exp $
+  $Id: skInterpreter.cpp,v 1.39 2001/06/19 14:02:46 sdw Exp $
 */
 
 #include "skInterpreter.h"
@@ -11,20 +11,19 @@
 #include "skString.h"
 #include <stdio.h>
 #include "skRValueArray.h"
-#include <stdarg.h>
 #include "skStringList.h"
 #include "skParseException.h"
 #include "skRuntimeException.h"
 #include "skTracer.h"
 #include "skParser.h"
 
-LITERAL(true);
-LITERAL(false);
-LITERAL(null);
-LITERAL(self);
-LITERAL(tracing);
-LITERAL(Interpreter);
-LITERAL(DebugBreak);
+skLITERAL(true);
+skLITERAL(false);
+skLITERAL(null);
+skLITERAL(self);
+skLITERAL(tracing);
+skLITERAL(Interpreter);
+skLITERAL(debugBreak);
 
 
 skInterpreter * P_Interpreter::g_GlobalInterpreter;	//	used by client
@@ -73,6 +72,7 @@ bool P_Interpreter::executeStat(skExecutable * obj,skRValueTable& var,skStatNode
   //---------------------------------------------------
 {
   bool stop=false;
+  m_LineNum=pstat->m_LineNum;
   switch(pstat->getType()){
   case s_If:
     stop=executeIfStat(obj,var,(skIfNode*)pstat,r);break;
@@ -86,6 +86,8 @@ bool P_Interpreter::executeStat(skExecutable * obj,skRValueTable& var,skStatNode
     r=evalMethod(obj,var,((skMethodStatNode*)pstat)->m_Ids);break;
   case s_Switch:
     stop=executeSwitchStat(obj,var,(skSwitchNode*)pstat,r);break;
+  case s_ForEach:
+    stop=executeForEachStat(obj,var,(skForEachNode*)pstat,r);break;
   }
   return stop;
 }
@@ -167,7 +169,8 @@ void P_Interpreter::followIdList(skExecutable * obj,skRValueTable& var,skIdListN
       if (idNode->m_ArrayIndex)
 	extractFieldArrayValue(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,result);
       else
-	extractValue(object,name,g_BlankString,result);
+	if (extractValue(object,name,g_BlankString,result)==false)
+		runtimeError(skSTR("Cannot get field ")+name+skSTR("\n"));
     }else
       makeMethodCall(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,result);
     object=result;
@@ -203,11 +206,11 @@ void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValueTable& var,skRVal
     while ((expr=iter())!=0)
       args.append(evaluate(obj,var,expr));
     if (m_Tracing)
-      skTracer::trace("skInterpreter: %s()\n",(const char *)checked_method_name);
+		skTracer::trace(m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR(": ")+checked_method_name+skSTR("()\n"));
     // call to this object
     bool bRet=robject.obj()->method(checked_method_name,args,ret);	
     if (bRet==false)
-      runtimeError("Method %s not found\n",(const char *)checked_method_name);
+      runtimeError(skSTR("Method ")+ checked_method_name+skSTR(" not found\n"));
     // case foo()[i]
     if (array_index){
       skRValue array_value;
@@ -222,7 +225,7 @@ void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValueTable& var,skRVal
       }
     }
   }else{
-    runtimeError("Cannot call Method %s on a non-object\n",(const char *)checked_method_name);
+    runtimeError(skSTR("Cannot call Method ")+checked_method_name+skSTR(" on a non-object\n"));
   }
 }
 //---------------------------------------------------
@@ -284,6 +287,33 @@ bool P_Interpreter::executeSwitchStat(skExecutable * obj,skRValueTable& var,skSw
   return bRet;
 }
 //---------------------------------------------------
+bool P_Interpreter::executeForEachStat(skExecutable * obj,skRValueTable& var,skForEachNode * n,skRValue& r)
+  //---------------------------------------------------
+{
+  bool bRet=false;
+  skString checked_id=checkIndirectId(obj,var,n->m_Id);
+  skRValue expr=evaluate(obj,var,n->m_Expr);
+  if (expr.type()==skRValue::T_Object){
+    skExecutableIterator * iterator=0;
+    if (n->m_Qualifier.length())
+      iterator=expr.obj()->createIterator(n->m_Qualifier);
+    else
+      iterator=expr.obj()->createIterator();
+    if (iterator){
+      skRValue value;
+      while ((iterator->next(value) && bRet==false)){
+	addLocalVariable(var,checked_id,value);
+	if (n->m_Stats){
+	  bRet=executeStats(obj,var,n->m_Stats,r);
+	}
+      }
+      delete iterator;
+    }
+  }else
+    runtimeError(skSTR("Cannot apply foreach to a non-executable object\n"));
+  return bRet;
+}
+//---------------------------------------------------
 skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const skString& name,skExprNode * array_index,const skString& attrib)
   //---------------------------------------------------
 {              
@@ -303,7 +333,8 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
 	if (array_index){
 	  extractArrayValue(obj,var,caller,array_index,attrib,r);
 	}else
-	  extractValue(caller,g_BlankString,attrib,r);
+	  if (extractValue(caller,g_BlankString,attrib,r)==false)
+		  runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
       }else
 	r=obj;
     }else{
@@ -318,7 +349,8 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
 	  if (array_index){
 	    extractArrayValue(obj,var,r,array_index,attrib,result);
 	  }else
-	    extractValue(r,g_BlankString,attrib,result);
+	    if (extractValue(r,g_BlankString,attrib,result)==false)
+			runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
 	  r=result;
 	}
       }else{
@@ -340,11 +372,12 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
 		extractArrayValue(obj,var,r,array_index,attrib,result);
 		r=result;
 	      }else
-		extractValue(r,g_BlankString,attrib,result);
-		r=result;
+		if (extractValue(r,g_BlankString,attrib,result)==false)
+			runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
+	      r=result;
 	    }
 	  }else
-	    runtimeError("Field %s not found\n",(const char *)valueName);
+	    runtimeError(skSTR("Field ")+valueName+skSTR("  not found\n"));
 	}	
       }	
     }
@@ -371,9 +404,9 @@ bool P_Interpreter::extractArrayValue(skExecutable * obj,skRValueTable& var,skRV
     skRValue rExpr=evaluate(obj,var,array_index);
     found=robject.obj()->getValueAt(rExpr,attrib,ret);
     if (found==false)
-      runtimeError("Cannot get an array member\n");
+      runtimeError(skSTR("Cannot get an array member\n"));
   }else
-    runtimeError("Cannot get an array member from a non-object\n");
+    runtimeError(skSTR("Cannot get an array member from a non-object\n"));
   return found;
 }
 //---------------------------------------------------
@@ -382,9 +415,9 @@ bool P_Interpreter::extractValue(skRValue& obj,const skString& name,const skStri
 {
   bool found=false;
   if (obj.type()==skRValue::T_Object){
-      found=obj.obj()->getValue(name,attrib,ret);
+    found=obj.obj()->getValue(name,attrib,ret);
   }else
-    runtimeError("Cannot get field %s from a non-object\n",(const char *)name);
+    runtimeError(skSTR("Cannot get field ")+name+skSTR("  from a non-object\n"));
   return found;
 }
 //---------------------------------------------------
@@ -411,10 +444,10 @@ void P_Interpreter::executeAssignStat(skExecutable * obj,skRValueTable& var,skAs
 	}else{
 	  if (n->m_Ids->m_Attribute.length()>0){
 	    // e.g. "field:name"
-	    caller=findValue(obj,var,field_name,0,g_BlankString);
-	    inserted=insertValue(caller,g_BlankString,n->m_Ids->m_Attribute,value);
+	    caller=obj;
+	    inserted=insertValue(caller,field_name,n->m_Ids->m_Attribute,value);
 	    if (inserted==false)
-	      runtimeError("Setting attribute %s on %s failed\n",(const char *)n->m_Ids->m_Attribute,(const char *)field_name);
+	      runtimeError(skSTR("Setting attribute ")+n->m_Ids->m_Attribute+skSTR(" on ")+field_name+skSTR(" failed\n"));
 	  }else
 	    inserted=insertValue(caller,field_name,n->m_Ids->m_Attribute,value);
 	}
@@ -430,9 +463,9 @@ void P_Interpreter::executeAssignStat(skExecutable * obj,skRValueTable& var,skAs
     if (idNode->m_ArrayIndex){
       skRValue array_field;
       if (extractValue(robject,field_name,g_BlankString,array_field)){
-	  insertArrayValue(obj,var,array_field,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
+	insertArrayValue(obj,var,array_field,idNode->m_ArrayIndex,n->m_Ids->m_Attribute,value);
       }else{
-	runtimeError("Cannot find field %s\n",(const char *)field_name);
+	runtimeError(skSTR("Cannot find field ")+field_name+skSTR("\n"));
       }
     }else
       insertValue(robject,field_name,n->m_Ids->m_Attribute,value);
@@ -447,9 +480,9 @@ bool P_Interpreter::insertArrayValue(skExecutable * obj,skRValueTable& var,skRVa
     skRValue rExpr=evaluate(obj,var,array_index);
     found=robject.obj()->setValueAt(rExpr,attr,value);
     if (found==false)
-      runtimeError("Setting array member failed\n");
+      runtimeError(skSTR("Setting array member failed\n"));
   }else
-    runtimeError("Cannot set an array member on a non-object\n");
+    runtimeError(skSTR("Cannot set an array member on a non-object\n"));
   return found;
 }
 //---------------------------------------------------
@@ -460,7 +493,7 @@ bool P_Interpreter::insertValue(skRValue& robject,const skString& name, const sk
   if (robject.type()==skRValue::T_Object){
     found=robject.obj()->setValue(name,attr,value);
   }else
-    runtimeError("Cannot set field %s on a non-object\n",(const char *)name);
+    runtimeError(skSTR("Cannot set field ")+name+skSTR("  on a non-object\n"));
   return found;
 }
 //---------------------------------------------------
@@ -469,6 +502,7 @@ void  skInterpreter::executeParseTree(const skString& location,skExecutable * ob
 {      
   skString old_location=pimp->m_Location;
   pimp->m_Location=location;
+  int old_line_num=pimp->m_LineNum;
   if (pExecuteNode){
     skRValueTable * pvars;
     if (pimp->m_StackDepth<MAX_LOCAL_VARS_CACHE)
@@ -490,6 +524,7 @@ void  skInterpreter::executeParseTree(const skString& location,skExecutable * ob
       pvars->clearAndDestroy();
   }
   pimp->m_Location=old_location;
+  pimp->m_LineNum=old_line_num;
 }
 //---------------------------------------------------
 skMethodDefNode * skInterpreter::parseString(const skString& location,const skString& code)
@@ -515,11 +550,11 @@ skMethodDefNode * skInterpreter::parseExternalParams(const skString& location,sk
   // fix up the parameters
   if (methNode){
     if (methNode->m_Params==0)
-      methNode->m_Params=new skIdListNode();
+      methNode->m_Params=new skIdListNode(0);
     else
       methNode->m_Params->m_Ids.clear();
     for (unsigned int i=0;i<paramNames.entries();i++)
-      methNode->m_Params->addId(new skIdNode(paramNames[i],0,0));
+      methNode->m_Params->addId(new skIdNode(0,paramNames[i],0,0));
   }
   return methNode;
 }
@@ -530,6 +565,7 @@ void skInterpreter::executeStringExternalParams(const skString& location,skExecu
   skMethodDefNode * parseNode=parseExternalParams(location,paramNames,code);
   skString old_location=pimp->m_Location;
   pimp->m_Location=location;
+  int old_line_num=pimp->m_LineNum;
   if (parseNode)
     executeParseTree(location,obj,parseNode,args,r);
   // give the parse node back to the caller if they want it
@@ -538,6 +574,7 @@ void skInterpreter::executeStringExternalParams(const skString& location,skExecu
   else
     delete parseNode;
   pimp->m_Location=old_location;
+  pimp->m_LineNum=old_line_num;
 }
 //---------------------------------------------------
 void skInterpreter::executeString(const skString& location,skExecutable * obj,const skString& code,skRValueArray& args,skRValue& r,skMethodDefNode** keepParseNode)
@@ -546,6 +583,7 @@ void skInterpreter::executeString(const skString& location,skExecutable * obj,co
   skMethodDefNode * parseNode=parseString(location,code);
   skString old_location=pimp->m_Location;
   pimp->m_Location=location;
+  int old_line_num=pimp->m_LineNum;
   if (parseNode)
     executeParseTree(location,obj,parseNode,args,r);
   // give the parse node back to the caller if they want it
@@ -554,6 +592,7 @@ void skInterpreter::executeString(const skString& location,skExecutable * obj,co
   else
     delete parseNode;
   pimp->m_Location=old_location;
+  pimp->m_LineNum=old_line_num;
 }
 //---------------------------------------------------
 skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNode * n)
@@ -581,9 +620,10 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	  if (extractValue(robject,method_name,g_BlankString,array_field))
 	    extractArrayValue(obj,var,array_field,idNode->m_ArrayIndex,ids->m_Attribute,r);
 	  else
-	    runtimeError("Cannot get field %s\n",(const char *)method_name);
+	    runtimeError(skSTR("Cannot get field ")+method_name+skSTR("\n"));
 	}else
-	  extractValue(robject,method_name,ids->m_Attribute,r);
+	  if (extractValue(robject,method_name,ids->m_Attribute,r)==false)
+		  runtimeError(skSTR("Cannot get field ")+method_name+skSTR("\n"));
       }else
 	makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
     }
@@ -607,19 +647,19 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
     int item1Type=item1.type();
     switch(n->getType()){
     case s_Not:
-      r=skRValue((bool)(!evaluate(obj,var,opNode->m_Expr1).boolValue()));
+      r=skRValue((bool)(!item1.boolValue()));
       break;
     case s_And:
-      r=skRValue((bool)(evaluate(obj,var,opNode->m_Expr1).boolValue() && evaluate(obj,var,opNode->m_Expr2).boolValue()));
+      r=skRValue((bool)(item1.boolValue() && evaluate(obj,var,opNode->m_Expr2).boolValue()));
       break;
     case s_Or:
-      r=skRValue((bool)(evaluate(obj,var,opNode->m_Expr1).boolValue() || evaluate(obj,var,opNode->m_Expr2).boolValue()));
+      r=skRValue((bool)(item1.boolValue() || evaluate(obj,var,opNode->m_Expr2).boolValue()));
       break;
     case s_Equals:
-      r=skRValue(evaluate(obj,var,opNode->m_Expr1) == evaluate(obj,var,opNode->m_Expr2));
+      r=skRValue((bool)(item1 == evaluate(obj,var,opNode->m_Expr2)));
       break;
     case s_NotEquals:{
-      bool equals=evaluate(obj,var,opNode->m_Expr1) == evaluate(obj,var,opNode->m_Expr2);
+      bool equals=item1 == evaluate(obj,var,opNode->m_Expr2);
       if (equals)
 	r=false;
       else
@@ -633,7 +673,7 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	r=skRValue((-item1.intValue()));
       break;
     case s_Concat:
-      r=skRValue((evaluate(obj,var,opNode->m_Expr1).str() + evaluate(obj,var,opNode->m_Expr2).str()));
+      r=skRValue(item1.str() + evaluate(obj,var,opNode->m_Expr2).str());
       break;
     default:{
 	skRValue item2=evaluate(obj,var,opNode->m_Expr2);
@@ -667,7 +707,7 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	    if (bottom)
 	      r=skRValue((int)(top/bottom));
 	    else
-	      runtimeError("Divide by zero error");
+	      runtimeError(skSTR("Divide by zero error"));
 	    break;
 	  }
 	  case s_Mult:
@@ -706,7 +746,7 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	    if (bottom)
 	      r=skRValue((float)(top/bottom));
 	    else
-	      runtimeError("Divide by zero error");
+	      runtimeError(skSTR("Divide by zero error"));
 	    break;
 	  }
 	  case s_Mult:
@@ -731,18 +771,20 @@ bool skInterpreter::setValue(const skString& s,const skString& attrib,const skRV
     pimp->m_Tracing=v.boolValue();
     bRet=true;
   }else
+#ifdef WIN32
+  if (s==s_debugBreak){
+	  _asm int 03h;
+	  bRet=true;
+  }else
+#endif
     bRet=skExecutable::setValue(s,attrib,v);
   return bRet;
 }
 //------------------------------------------
-void P_Interpreter::runtimeError(const char * buffer,...)
+void P_Interpreter::runtimeError(const skString& msg)
   //------------------------------------------
 {
-  char msg[1024];
-  va_list marker;
-  va_start( marker, buffer);
-  vsprintf(msg,buffer,marker);
-  throw skRuntimeException(m_Location,msg);
+  throw skRuntimeException(m_Location,m_LineNum,msg);
 }
 //------------------------------------------
 skRValueTable::skRValueTable(unsigned short  size)

@@ -2,17 +2,17 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skString.h,v 1.9 2001/03/05 16:46:28 sdw Exp $
+* $Id: skString.h,v 1.11 2001/06/13 16:48:21 sdw Exp $
 */
 
 
 #ifndef skSTRING_H
 #define skSTRING_H
+
+#include <iostream.h>
 #include "skGeneral.h"
 
 class P_String;
-
-#include <iostream.h>
 
 /**
  * This class encapsulates a null-terminated 8-bit c-string
@@ -222,8 +222,16 @@ ostream& operator<<(ostream&,const skString&s);
 /*
  * Some helper macros for declaring literal strings, and references to literal strings
  */
-#define LITERAL(s) skString s_##s=skString::literal(#s)
-#define xLITERAL(s) extern skString s_##s
+#define skLITERAL(s) skString s_##s=skString::literal(#s)
+#define xskLITERAL(s) extern skString s_##s
+#define skSTR(s) skString(s)
+typedef char Char;
+inline float ATOF(const Char * c){
+  return (float) atof(c);
+}
+inline int ATOI(const Char * c){
+  return atoi(c);
+}
 
 #include "skString.inl"
 

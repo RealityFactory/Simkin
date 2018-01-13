@@ -1,7 +1,20 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.09
+Date: 22nd June 2001
+-------------------
+
+* added "label" field to TreeNodes
+* minor change in assignment code e.g. field:attribute=value;
+* added "for each in " statement. This is supported in the skTreeNodeObject and skXMLElementObject classes.
+* inlined skRValue methods
+* reinstated ">" and "<" as symbols for greater than and less than. These cannot be used in XML files, but can be in other sources, also "&" can be used in place of "#"
+* introduced typedef'ed Char type, to allow for unicode builds
+* added line numbers to RuntimeExceptions
+
 Simkin Version 2.08
+Date: 1st June 2001
 -------------------
 
 * bug fix in array index operator for cases a=foo[0] and foo[0]=a

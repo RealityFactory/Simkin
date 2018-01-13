@@ -2,12 +2,13 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skTreeNodeObjectEnumerator.h,v 1.3 2001/03/05 16:46:28 sdw Exp $
+  $Id: skTreeNodeObjectEnumerator.h,v 1.4 2001/06/22 10:07:57 sdw Exp $
 */
 #ifndef TREENODEOBJECTENUMERATOR_H
 #define TREENODEOBJECTENUMERATOR_H
 
 #include "skExecutable.h"
+#include "skExecutableIterator.h"
 #include "skTreeNode.h"
 
 class skTreeNodeObject;
@@ -16,7 +17,7 @@ class skTreeNodeObject;
  * This class enumerates the elements in an TreeNodeObject 
  * 
 */
-class skTreeNodeObjectEnumerator : public skExecutable{
+class skTreeNodeObjectEnumerator : public skExecutable, public skExecutableIterator{
  public:
   /**
    * This constructor is for an enumerator that gives *all* the child elements of this element
@@ -31,6 +32,10 @@ class skTreeNodeObjectEnumerator : public skExecutable{
    * returns the next object in the enumeration - or null if there are no more
      */
   bool method(const skString& s,skRValueArray& args,skRValue& r);
+  /**
+   * This method implements the method in skExecutableIterator
+   */
+  bool next(skRValue&);
  private:
   void findNextNode();
 

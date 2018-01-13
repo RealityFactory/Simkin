@@ -13,6 +13,7 @@ This is a description of the Simkin grammar in EBNF format:
 compound_statement: "{" (&lt;statement&gt;)* "}"
 statement:  "if" "(" &lt;expression&gt; ")" &lt;compound_statement&gt; ["else" &lt;compound_statement&gt;]
          |  "while" "(" &lt;expression&gt; ")" &lt;compound_statement&gt;
+	 |  "for" "each"  [ &lt;id&gt; ] &lt;id&gt; "in" &lt;expression&gt; &lt;compound_statement&gt;
          |  "switch" "(" &lt;expression&gt; ")" "{"
               ("case" &lt;expression&gt; &lt;compound_statement&gt;)* 
               [ "default" &lt;compound_statement&gt; ] "}" ";"

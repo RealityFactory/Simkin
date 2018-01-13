@@ -1,7 +1,7 @@
 /*
   Copyright 1996-2001
   Simon Whiteside
-  $Id: skParser.h,v 1.1 2001/05/22 10:22:53 sdw Exp $
+  $Id: skParser.h,v 1.3 2001/06/18 08:45:33 sdw Exp $
 */
 
 #ifndef skPARSER_H
@@ -48,15 +48,17 @@ class skParser {
   /**
    * this adds a compile error message to the list of messages 
    */
-  void appendError(char * msg);
+  void appendError(const skString& msg);
   /** 
       This returns the current compile error list
    */
   const skCompileErrorList& getErrList();
   /**
    * This message returns the next token in the stream
+   * @param lvalp pointer to the YYSTYPE (token structure)
+   * @param lloc pointer to the YYLTYPE (token position structure)
    */
-  int lex(void * lvalp); // returns a token
+  int lex(void * lvalp,void * lloc); // returns a token
   /**
    * returns the next character to be lexed (might be a put-back character)
    */
@@ -86,7 +88,7 @@ class skParser {
    skParseNodeList		m_TempNodes;
    skCompileErrorList	m_ErrList;
    
-   char m_LexBuffer[MAXYYTEXT]; //  used by lexical analyser to hold the current token
+   Char m_LexBuffer[MAXYYTEXT]; //  used by lexical analyser to hold the current token
    skString m_InputBuffer; // the buffer read by the lexer
    int m_PutBack; // character to be put back
    int m_LineNum; // linenumber being lexed

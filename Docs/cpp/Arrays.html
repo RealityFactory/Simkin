@@ -13,22 +13,22 @@ Simkin supports a special syntax to make accessing collections more convenient. 
 var=array[1];
 </pre>
 As with other features in Simkin, the interpreter is agnostic about the underlying object model of the application. The implementation of a collection is left to the C++ classes within the application.
-<p>When the interpreter encounters an array index operator <b>[ ]</b> in a script, it translates this into calls to the <a href="api/class_skExecutable.html#a9">setValueAt</a> and <a href="api/class_skExecutable.html#a11">getValueAt</a> methods exposed through the <a href="api/class_skExecutable.html">skExecutable</a> base class.
-<p>For example the following results in a call to <a href="api/class_skExecutable.html#a9">setValueAt</a>:
+<p>When the interpreter encounters an array index operator <code>[ ]</code> in a script, it translates this into calls to the <a href="api/class_skExecutable.html#a9"><code>setValueAt</code></a> and <a href="api/class_skExecutable.html#a11"><code>getValueAt</code></a> methods exposed through the <a href="api/class_skExecutable.html">skExecutable</a> base class.
+<p>For example the following results in a call to <a href="api/class_skExecutable.html#a9"><code>setValueAt</code></a>:
 <pre>
 array[1]="foo";
 </pre>
-and this example results in a call to <a href="api/class_skExecutable.html#a11">getValueAt</a>:
+and this example results in a call to <a href="api/class_skExecutable.html#a11"><code>getValueAt</code></a>:
 <pre>
 var=array[1];
 </pre>
-<p>The script syntax allows for arbitrary expressions within the <b>[ ]</b>, so for example the following are legal syntax:
+<p>The script syntax allows for arbitrary expressions within the <code>[ ]</code>, so for example the following are legal syntax:
 <pre>
 var=array[1];
 var=array["key"];
 </pre>
 This means that the underlying C++ classes can expose collections which are keyed on any kind of value - so that ordinary Vectors, and Hashtables or Associative Arrays can all be supported.
 <p>
-Simkin is supplied with two classes which have array index support, <a href="api/class_skTreeNodeObject.html">skTreeNodeObject</a> and <a href="api/class_skXMLElementObject.html">skXMLElementObject</a>. These both convert the array index to a numeric value before using it as an index into their collection. They also both assume the index is <b>zero based</b>. Both classes also support a field called <b>numChildren</b> which returns the number of elements in each collection.
+Simkin is supplied with two classes which have array index support, <a href="api/class_skTreeNodeObject.html">skTreeNodeObject</a> and <a href="api/class_skXMLElementObject.html">skXMLElementObject</a>. These both convert the array index to a numeric value before using it as an index into their collection. They also both assume the index is <b>zero based</b>. Both classes also support a field called <code>numChildren</code> which returns the number of elements in each collection.
 </body>
 </html>

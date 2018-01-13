@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Supporting the for each statement</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Supporting the <code>for each</code> statement</H1>
+<hr>
+Simkin supports a special syntax to make iterating over collections more convenient. For example:
+<pre>
+for each item in collection {
+	  trace(item.name);
+}
+</pre>
+As with other features in Simkin, the interpreter is agnostic about the underlying object model of the application. The implementation of a collection is left to the C++ classes within the application.
+<p>When the interpreter encounters the <code>for each</code> statement, it calls the <code>createIterator</code> method on the underlying <a href="api/class_skExecutable.html">skExecutable</a> class.
+<p>
+This function should return a new class which is an instance of a class derived from the <a href="api/class_skExecutableIterator.html">skExecutableIterator</a> class.
+<p>The <code>for each</code> statement has two forms: 
+<ol>
+<li><i>unqualified</i> - this means the scripter wants to iterate over <i>all</i> members of the collection, e.g.:
+<pre>
+for each person in group {
+	  trace(person.name);
+}
+</pre>
+</li>
+<li><i>qualified</i> - the scripter wants to apply a filter to the iteration. This is specified as an identifier, which is passed to the <code>createIterator</code> function. You can interpreter this in any way you choose. e.g.:
+<pre>
+for each Manager employee in company {
+	  trace(employee.name);
+}
+</pre>
+</li>
+</ol>
+Once the <code>createIterator</code> method returns an iterator object, the Interpreter repeatedly calls the <code>next</code> method on the iterator until <code>false</code> is returned.
+<p>When the iteration is completed, the Interpreter will use <code>delete</code> to destroy the iterator.
+</body>
+</html>

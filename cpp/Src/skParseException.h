@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skParseException.h,v 1.4 2001/03/05 16:46:28 sdw Exp $
+  $Id: skParseException.h,v 1.5 2001/06/13 16:48:21 sdw Exp $
 */
 #ifndef SKPARSEEXCEPTION_H
 #define SKPARSEEXCEPTION_H
@@ -25,8 +25,8 @@ class skCompileError
   /**
    * Constructor which is passed information about the error
    */
-  skCompileError(skString location,int line_num,const skString& msg)
-    : m_Location(location),m_LineNum(line_num),m_Msg(msg){
+  skCompileError(skString location,int line_num,const skString& msg,const skString& lex_buffer)
+    : m_Location(location),m_LineNum(line_num),m_Msg(msg),m_LexBuffer(lex_buffer){
   }
   /**
    * returns the location of the script, as passed into the parse() function
@@ -47,14 +47,21 @@ class skCompileError
     return m_Msg;
   }
   /**
+   * returns the lex buffer being handled at the time 
+   */
+  skString lexBuffer() const{
+    return m_LexBuffer;
+  }
+  /**
    * this method returns a string representation of the whole error
    */
   skString toString() const {
-    return m_Location+":"+skString::from(m_LineNum)+":"+m_Msg;
+    return m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR(":")+m_Msg+skSTR(" near \"")+m_LexBuffer+skSTR("\"");
   }
  private:
   int m_LineNum;
   skString m_Location;
+  skString m_LexBuffer;
   skString m_Msg;
 };
 /**
@@ -85,7 +92,7 @@ class skParseException {
   skString toString() const {
     skString ret;
     for (unsigned int i=0;i<m_Errors.entries();i++)
-      ret+=m_Errors[i].toString()+"\n";
+      ret+=m_Errors[i].toString()+skSTR("\n");
     return ret;
   }
  private:

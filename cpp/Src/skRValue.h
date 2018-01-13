@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skRValue.h,v 1.9 2001/03/05 16:46:28 sdw Exp $
+* $Id: skRValue.h,v 1.12 2001/06/19 14:02:47 sdw Exp $
 */
 #ifndef skRVALUE_H
 #define skRVALUE_H
@@ -44,7 +44,7 @@ class skRValue
   /**
    * Constructor with a character
    */
-  skRValue(char c);
+  skRValue(Char c);
   /**
    * Constructor with an integer
    */
@@ -76,7 +76,7 @@ class skRValue
   /**
    * returns a character representation of the value, converting if necessary
    */
-  char	charValue()  const;		
+  Char	charValue()  const;		
   /**
    * returns a boolean representation of the value, converting if necessary
    */
@@ -116,13 +116,13 @@ class skRValue
    */
   union {
     skObjectRef * m_ObjectRef;	
-    char m_Char;
+    Char m_Char;
     int	m_Int;
     float m_Float;
     bool m_Bool;
   }m_Value;
 };                              
-
+#include "skRValue.inl"
 #endif
 
 

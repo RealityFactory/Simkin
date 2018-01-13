@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skValist.h,v 1.4 2001/03/05 16:46:28 sdw Exp $
+* $Id: skValist.h,v 1.6 2001/06/13 16:48:21 sdw Exp $
 */
 
 #ifndef skVALIST_H
@@ -114,28 +114,28 @@ template <class T> class skTVAList
    */
   USize m_GrowthIncrement;
 };        
-const int TVALIST_DEFAULT_SIZE = 0;					// so array not allocated until needed
-const int TVALIST_DEFAULT_GROWTH_INCREMENT = 4;	// value of 0 means 'double in size'
+const int skTVALIST_DEFAULT_SIZE = 0;					// so array not allocated until needed
+const int skTVALIST_DEFAULT_GROWTH_INCREMENT = 4;	// value of 0 means 'double in size'
 
 #ifdef __gnuc__
-#define TVALIST_PRE template <class T> 
+#define skTVALIST_PRE template <class T> 
 #else
-#define TVALIST_PRE template <class T> 
+#define skTVALIST_PRE template <class T> 
 #endif
 
 
 //-----------------------------------------------------------------
-TVALIST_PRE inline skTVAList<T>::skTVAList()
+skTVALIST_PRE inline skTVAList<T>::skTVAList()
      //-----------------------------------------------------------------
-  :m_ArraySize(TVALIST_DEFAULT_SIZE),m_GrowthIncrement(TVALIST_DEFAULT_GROWTH_INCREMENT),m_Entries(0)
+  :m_ArraySize(skTVALIST_DEFAULT_SIZE),m_GrowthIncrement(skTVALIST_DEFAULT_GROWTH_INCREMENT),m_Entries(0)
 {
-  if(TVALIST_DEFAULT_SIZE != 0)
-    m_Array=new T[TVALIST_DEFAULT_SIZE];
+  if(skTVALIST_DEFAULT_SIZE != 0)
+    m_Array=new T[skTVALIST_DEFAULT_SIZE];
   else
     m_Array = 0;		// don't allocate space until needed
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline skTVAList<T>::skTVAList(USize initial_size,USize growth_increment)
+skTVALIST_PRE inline skTVAList<T>::skTVAList(USize initial_size,USize growth_increment)
      //-----------------------------------------------------------------
   :m_ArraySize(initial_size),m_GrowthIncrement(growth_increment),m_Entries(0)
 {
@@ -145,7 +145,7 @@ TVALIST_PRE inline skTVAList<T>::skTVAList(USize initial_size,USize growth_incre
     m_Array = 0;		// don't allocate space until needed
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline skTVAList<T>::skTVAList(const skTVAList& l)
+skTVALIST_PRE inline skTVAList<T>::skTVAList(const skTVAList& l)
      //-----------------------------------------------------------------
   : m_ArraySize(l.m_ArraySize),m_Entries(l.m_Entries),m_GrowthIncrement(l.m_GrowthIncrement)
 {
@@ -157,14 +157,14 @@ TVALIST_PRE inline skTVAList<T>::skTVAList(const skTVAList& l)
     m_Array = 0;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline skTVAList<T>::~skTVAList()
+skTVALIST_PRE inline skTVAList<T>::~skTVAList()
      //-----------------------------------------------------------------
 {
   if(m_Array)
     delete [] m_Array;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline void skTVAList<T>::clear()
+skTVALIST_PRE inline void skTVAList<T>::clear()
      //-----------------------------------------------------------------
 {
   m_Entries=0;
@@ -174,13 +174,13 @@ TVALIST_PRE inline void skTVAList<T>::clear()
   m_ArraySize=0;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline USize skTVAList<T>::entries() const
+skTVALIST_PRE inline USize skTVAList<T>::entries() const
      //-----------------------------------------------------------------
 {
   return m_Entries;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE void skTVAList<T>::deleteElt(USize  n)
+skTVALIST_PRE void skTVAList<T>::deleteElt(USize  n)
      //-----------------------------------------------------------------
 {
   assert(n<m_Entries);
@@ -191,7 +191,7 @@ TVALIST_PRE void skTVAList<T>::deleteElt(USize  n)
   m_Entries--;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE void skTVAList<T>::insert(const T &t,USize index)
+skTVALIST_PRE void skTVAList<T>::insert(const T &t,USize index)
      //-----------------------------------------------------------------
 {
   assert(index<=m_Entries);
@@ -207,7 +207,7 @@ TVALIST_PRE void skTVAList<T>::insert(const T &t,USize index)
   m_Entries++;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE void skTVAList<T>::prepend(const T &t)
+skTVALIST_PRE void skTVAList<T>::prepend(const T &t)
      //-----------------------------------------------------------------
 {
   if (m_ArraySize==m_Entries)
@@ -218,7 +218,7 @@ TVALIST_PRE void skTVAList<T>::prepend(const T &t)
   m_Array[0]=t;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline void skTVAList<T>::append(const T &t)
+skTVALIST_PRE inline void skTVAList<T>::append(const T &t)
      //-----------------------------------------------------------------
 {
   if (m_ArraySize==m_Entries)
@@ -227,7 +227,7 @@ TVALIST_PRE inline void skTVAList<T>::append(const T &t)
   m_Entries++;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE void skTVAList<T>::remove(const T &t)
+skTVALIST_PRE void skTVAList<T>::remove(const T &t)
      //-----------------------------------------------------------------
 {
   int index = findElt(t);
@@ -240,28 +240,28 @@ TVALIST_PRE void skTVAList<T>::remove(const T &t)
   }
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline T& skTVAList<T>::operator[](USize  n) const
+skTVALIST_PRE inline T& skTVAList<T>::operator[](USize  n) const
      //-----------------------------------------------------------------
 {
   assert(n<m_Entries);
   if (n>=m_Entries)
-    throw skBoundsException("Invalid index to []",__FILE__,__LINE__);
+    throw skBoundsException(skSTR("Invalid index to []"),__FILE__,__LINE__);
   return m_Array[n];
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline int skTVAList<T>::index(const T &t) const
+skTVALIST_PRE inline int skTVAList<T>::index(const T &t) const
      //-----------------------------------------------------------------
 {
   return (USize)findElt(t);
 }
 //-----------------------------------------------------------------
-TVALIST_PRE inline bool skTVAList<T>::contains(const T &t) const
+skTVALIST_PRE inline bool skTVAList<T>::contains(const T &t) const
      //-----------------------------------------------------------------
 {
   return (bool)(findElt(t) >= 0);
 }
 //-----------------------------------------------------------------
-TVALIST_PRE skTVAList<T>& skTVAList<T>::operator=(const skTVAList<T>& l)
+skTVALIST_PRE skTVAList<T>& skTVAList<T>::operator=(const skTVAList<T>& l)
      //-----------------------------------------------------------------
 {
   if (&l!=this){
@@ -282,7 +282,7 @@ TVALIST_PRE skTVAList<T>& skTVAList<T>::operator=(const skTVAList<T>& l)
 }
 // Returns -1 if not found.
 //-----------------------------------------------------------------
-TVALIST_PRE inline int skTVAList<T>::findElt(const T &t) const
+skTVALIST_PRE inline int skTVAList<T>::findElt(const T &t) const
      //-----------------------------------------------------------------
 {
   for (USize index=0;index<m_Entries;index++){
@@ -292,7 +292,7 @@ TVALIST_PRE inline int skTVAList<T>::findElt(const T &t) const
   return -1;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE void skTVAList<T>::grow()
+skTVALIST_PRE void skTVAList<T>::grow()
      //-----------------------------------------------------------------
 {
   if(m_GrowthIncrement != 0)
@@ -313,7 +313,7 @@ TVALIST_PRE void skTVAList<T>::grow()
   m_Array=new_array;
 }
 //-----------------------------------------------------------------
-TVALIST_PRE void skTVAList<T>::growTo(USize new_size)
+skTVALIST_PRE void skTVAList<T>::growTo(USize new_size)
      //-----------------------------------------------------------------
 {
   if (new_size>m_ArraySize){

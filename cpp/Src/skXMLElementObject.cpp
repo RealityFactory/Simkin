@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObject.cpp,v 1.24 2001/06/01 10:54:44 sdw Exp $
+  $Id: skXMLElementObject.cpp,v 1.29 2001/06/22 10:07:57 sdw Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -16,12 +16,12 @@
 #include "skMethodTable.h"
 #include "skInterpreter.h"
 
-static skString s_true="true";
+xskLITERAL(true);
 
 #include "dom/DOM_NamedNodeMap.hpp"
 ostream& operator<<(ostream& target, const DOMString& toWrite);
-LITERAL(function);
-LITERAL(name);
+skLITERAL(function);
+skLITERAL(name);
 
 //------------------------------------------
 skXMLElementObject::skXMLElementObject(const skString& scriptLocation,DOM_Element elem)
@@ -82,7 +82,7 @@ bool skXMLElementObject::boolValue() const
   return ret;
 }
 //------------------------------------------
-char skXMLElementObject::charValue() const
+Char skXMLElementObject::charValue() const
   //------------------------------------------
 {
   skString value=getData(m_Element);
@@ -554,4 +554,16 @@ bool skXMLElementObject::getAddIfNotPresent()
 //------------------------------------------
 {
   return m_AddIfNotPresent;
+}
+//------------------------------------------
+skExecutableIterator * skXMLElementObject::createIterator(const skString& qualifier)
+//------------------------------------------
+{
+  return new skXMLElementObjectEnumerator(this,qualifier);
+}
+//------------------------------------------
+skExecutableIterator * skXMLElementObject::createIterator()
+//------------------------------------------
+{
+  return new skXMLElementObjectEnumerator(this);
 }

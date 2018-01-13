@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skTreeNodeObject.h,v 1.16 2001/05/08 11:39:33 sdw Exp $
+* $Id: skTreeNodeObject.h,v 1.17 2001/06/22 10:07:57 sdw Exp $
 */
 
 
@@ -21,6 +21,7 @@ class skMethodTable;
  * The methods getValue, setValue and method all search for matching child labels within the TreeNode document. Only the first matching label is used.  
  * <p>The class supports the following fields:<ul>
  * <li>"numChildren" - returns number of children of this node</li>
+ * <li>"label" - returns label for this node</li>
  * <li>enumerate([label]) - returns an skTreeNodeObjectEnumerator which enumerates over the child nodes of this node. If no label is passed the enumerator lists all the children. A label can be passed to show only children with the matching label.</li>
  * </ul>
 */
@@ -116,6 +117,15 @@ class skTreeNodeObject : public skExecutable
    * This function returns the location associated with this object (typically a file name)
    */
   skString getLocation() const;
+  /**
+   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over nodes with the given node label.
+   * @param qualifier node label - only nodes with this label will appear in the iteration
+   */
+  skExecutableIterator * createIterator(const skString& qualifier);
+  /**
+   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over *all* children of this node
+   */
+  skExecutableIterator * createIterator();
  protected:
   /**
    * the location the node came from

@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skXMLElementObject.h,v 1.24 2001/06/01 10:54:44 sdw Exp $
+* $Id: skXMLElementObject.h,v 1.26 2001/06/22 10:07:57 sdw Exp $
 */
 
 
@@ -80,7 +80,7 @@ class skXMLElementObject : public skExecutable {
   /**
    * @return the first character of the element text data 
    */
-  char charValue() const;
+  Char charValue() const;
   /**
    * @return the value of the element text data as a string
    */
@@ -225,6 +225,15 @@ class skXMLElementObject : public skExecutable {
    * the location that the XML document came from
    */
   skString m_ScriptLocation;
+  /**
+   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over elements with the given tag.
+   * @param qualifier tag - only elements with this tag will appear in the iteration
+   */
+  skExecutableIterator * createIterator(const skString& qualifier);
+  /**
+   * This function returns an skExecutableIterator object which is used in the for each statement. It will iterate over *all* children of this element
+   */
+  skExecutableIterator * createIterator();
  private:
   /**
    * the underlying document

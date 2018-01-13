@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skTreeNodeObjectEnumerator.cpp,v 1.2 2001/03/05 16:46:28 sdw Exp $
+  $Id: skTreeNodeObjectEnumerator.cpp,v 1.5 2001/06/22 10:07:57 sdw Exp $
 */
 
 #include "skTreeNodeObjectEnumerator.h"
@@ -12,14 +12,14 @@
 
 //-----------------------------------------------------------------
 skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNodeObject * element)
-//-----------------------------------------------------------------
+  //-----------------------------------------------------------------
   : m_Iter(*(element->getNode())),m_Object(element)
 {
   m_CurrentNode=m_Iter();
 }
 //-----------------------------------------------------------------
 skTreeNodeObjectEnumerator::skTreeNodeObjectEnumerator(skTreeNodeObject * element,const skString& tag)
-//-----------------------------------------------------------------
+  //-----------------------------------------------------------------
   : m_Iter(*(element->getNode())),m_Tag(tag),m_Object(element)
 {
   // first wind forward to the first occurrence of the tag
@@ -31,19 +31,13 @@ bool skTreeNodeObjectEnumerator::method(const skString& s,skRValueArray& args,sk
 {
   bool bRet=false;
   if (s=="next"){
-    if (m_CurrentNode){
-      r=skRValue(new skTreeNodeObject(m_Object->getLocation(),m_CurrentNode,false),true);
-      if (m_Tag.length())
-	findNextNode();
-      else
-	m_CurrentNode=m_Iter();
-    }else
+    if (next(r)==false)
       r=skRValue(&skInterpreter::g_Null);
     bRet=true;
   }else if (s=="reset"){
     m_Iter.reset();
     if (m_Tag.length())
-	findNextNode();
+      findNextNode();
     else
       m_CurrentNode=m_Iter();
     bRet=true;
@@ -56,7 +50,7 @@ bool skTreeNodeObjectEnumerator::method(const skString& s,skRValueArray& args,sk
  */ 
 //------------------------------------------
 void skTreeNodeObjectEnumerator::findNextNode()
-//------------------------------------------
+  //------------------------------------------
 {
   m_CurrentNode=0;
   while ((m_CurrentNode=m_Iter())!=0){
@@ -64,4 +58,18 @@ void skTreeNodeObjectEnumerator::findNextNode()
       break;
   }
 }
-
+//------------------------------------------
+bool skTreeNodeObjectEnumerator::next(skRValue& r)
+  //------------------------------------------
+{
+  bool ret=false;
+  if (m_CurrentNode){
+    r=skRValue(new skTreeNodeObject(m_Object->getLocation(),m_CurrentNode,false),true);
+    if (m_Tag.length())
+      findNextNode();
+    else
+      m_CurrentNode=m_Iter();
+    ret=true;
+  }
+  return ret;
+}

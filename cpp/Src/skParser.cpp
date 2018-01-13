@@ -1,21 +1,22 @@
 /*
   Copyright 1996-2001
   Simon Whiteside
-  $Id: skParser.cpp,v 1.1 2001/05/22 10:22:53 sdw Exp $
+  $Id: skParser.cpp,v 1.5 2001/06/19 14:02:47 sdw Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
 #include <ctype.h>
+#include "skTracer.h"
 
 extern int yyparse (void *);
 
 // define DEBUGLEXER to get a verbose output of the workings of the lexer
 //#define _DEBUGLEXER
 #ifdef _DEBUGLEXER
-#define DB(t) skTracer::trace("%d: %s\n",m_Pos,t);
-#define DBN(t,n) skTracer::trace("%d: %s - %s\n",m_Pos,t,(const char *)n);
-#define DBI(t,n) skTracer::trace("%d: %s - %d\n",m_Pos,t,n);
-#define DBC(t,c) skTracer::trace("%d: %s - (%d) %c \n",m_Pos,t,(int)c,(char)c);
+#define DB(t) skTracer::trace(skString::from(m_Pos)+skSTR(":")+skSTR(t)+skSTR("\n"));
+#define DBN(t,n) skTracer::trace(skString::from(m_Pos)+skSTR(":")+skSTR(t)+skSTR("\n")+n+skSTR("\n")); 
+#define DBI(t,n) skTracer::trace(skString::from(m_Pos)+skSTR(":")+skSTR(t)+skSTR("\n")+skString::from(n)+skSTR("\n")); 
+#define DBC(t,c) skTracer::trace(skString::from(m_Pos)+skSTR(":")+skSTR(t)+skSTR("\n")+skString(c,1)+skSTR("\n")); 
 #else
 #define DB(t) 
 #define DBN(t,n) 
@@ -27,18 +28,21 @@ struct KeyWord{
   int			m_Token;
 };
 KeyWord keywords[]={
-  {new skString("while"),L_WHILE},
-  {new skString("if"),L_IF},
-  {new skString("else"),L_ELSE},
-  {new skString("or"),L_OR},
-  {new skString("and"),L_AND},
-  {new skString("not"),L_NOT},
-  {new skString("return"),L_RETURN},
-  {new skString("lt"),L_LT},
-  {new skString("gt"),L_GT},
-  {new skString("switch"),L_SWITCH},
-  {new skString("case"),L_CASE},
-  {new skString("default"),L_DEFAULT}
+  {new skSTR("each"),L_EACH},
+  {new skSTR("in"),L_IN},
+  {new skSTR("for"),L_FOR},
+  {new skSTR("while"),L_WHILE},
+  {new skSTR("if"),L_IF},
+  {new skSTR("else"),L_ELSE},
+  {new skSTR("or"),L_OR},
+  {new skSTR("and"),L_AND},
+  {new skSTR("not"),L_NOT},
+  {new skSTR("return"),L_RETURN},
+  {new skSTR("lt"),L_LT},
+  {new skSTR("gt"),L_GT},
+  {new skSTR("switch"),L_SWITCH},
+  {new skSTR("case"),L_CASE},
+  {new skSTR("default"),L_DEFAULT}
 };
 const int NUMKEYS=sizeof(keywords)/sizeof(KeyWord);
 const int MAX_ARGS=256;
@@ -52,7 +56,7 @@ inline int skParser::nextChar()
     c=m_PutBack;
     m_PutBack=0;
   }else{
-    c=((const char *)m_InputBuffer)[m_Pos++];
+    c=m_InputBuffer.at(m_Pos++);
   }
   return c;
 }
@@ -92,12 +96,14 @@ skParser::~skParser()
   clearTempNodes();
 }
 //------------------------------------------
-int skParser::lex(void * lvalp)
+int skParser::lex(void * lvalp,void * llocp)
   //------------------------------------------
   // Lexical Analyser
 {
   YYSTYPE * yylval=(YYSTYPE *)lvalp;
+  YYLTYPE * yylloc=(YYLTYPE *)llocp;
   int c=0;
+  yylloc->first_line=m_LineNum;
   int yypos=0;
   m_LexBuffer[0]=0;
   while (!eof()){
@@ -138,6 +144,14 @@ int skParser::lex(void * lvalp)
     // character--------------------------------------------
     if (c=='\''){
       c=nextChar();
+      if (c=='\''){
+	// this copes with '' - a blank string
+	m_LexBuffer[yypos]=0;
+	c=L_STRING;
+	yylval->string=new skString(m_LexBuffer);
+	DBN("string",*yylval->string);
+	break;
+      }
       if (c=='\\'){
 	c=nextChar();
 	if (c=='n')
@@ -146,10 +160,38 @@ int skParser::lex(void * lvalp)
 	  if (c=='t')
 	    c='\t';
       }
-      nextChar();
-      yylval->character=c;
-      c=L_CHARACTER;
-      DBN("character",yylval->character);
+      int next_c=nextChar();
+      if (next_c=='\''){
+	// this copes with 'c' where c is a single character
+	yylval->character=c;
+	c=L_CHARACTER;
+	DBC("character",yylval->character);
+      }else{
+	// for backwards compatibility cope with 'xxx' as a string
+	m_LexBuffer[yypos++]=c;
+	putbackchar(next_c);
+	while (!eof()){
+	  c=nextChar();
+	  if (c=='\\'){
+	    c=nextChar();
+	    if (c=='n')
+	      c='\n';
+	    else
+	      if (c=='t')
+		c='\t';
+	  }else
+	    if (c=='\'')
+	      break;
+	  if (yypos<MAXYYTEXT-2)
+	    m_LexBuffer[yypos++]=c;
+	  else
+	    break;
+	}
+	m_LexBuffer[yypos]=0;
+	c=L_STRING;
+	yylval->string=new skString(m_LexBuffer);
+	DBN("string",*yylval->string);
+      }
       break;
     }
     // string--------------------------------------------
@@ -236,10 +278,10 @@ int skParser::lex(void * lvalp)
       putbackchar(c);
       m_LexBuffer[yypos++]=0;
       if (floating){
-	yylval->floating=(float)(atof(m_LexBuffer));
+	yylval->floating=(float)(ATOF(m_LexBuffer));
 	c=L_FLOAT;
       }else{
-	yylval->integer=atoi(m_LexBuffer);
+	yylval->integer=ATOI(m_LexBuffer);
 	c=L_INTEGER;
       }
       DBI("integer",(yylval->integer));
@@ -308,10 +350,11 @@ void  skParser::addParseNode(skParseNode* pNode)
   m_TempNodes.append(pNode); 
 }
 //---------------------------------------------------
-void  skParser::appendError(char * msg)
+void  skParser::appendError(const skString& msg)
 //---------------------------------------------------
 {
-  //    m_ErrList.append(pErr);
+  skCompileError pErr(m_Location,m_LineNum,msg,m_LexBuffer);
+  m_ErrList.append(pErr);
 }
 //---------------------------------------------------
 const skCompileErrorList&  skParser::getErrList()
@@ -333,16 +376,16 @@ void  skParser::clearTempNodes()
   m_TempNodes.clear();
 }
 //------------------------------------------
-int yylex(YYSTYPE * lvalp, void* context)
+int yylex(YYSTYPE * lvalp, void * yylloc,void* context)
   //------------------------------------------
 {
   // this global function is called by the generated yyparse() function to produce the next token
-  return ((skParser *)context)->lex((void *)lvalp);
+  return ((skParser *)context)->lex((void *)lvalp,(void *)yylloc);
 }
 //------------------------------------------
-void real_yyerror(char * msg, void* context)
+void real_yyerror(char *  msg, void* context)
   //------------------------------------------
 { 
   // this global function is called by the generated yyparse() function if there is an error
-  ((skParser *)context)->appendError(msg);
+  ((skParser *)context)->appendError(skSTR("Parse error"));
 }

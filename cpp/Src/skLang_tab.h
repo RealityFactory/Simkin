@@ -1,5 +1,5 @@
 typedef union{
-  char		character; 
+  Char		character; 
   int		integer; 
   float		floating;
   skStatListNode * statListNode;
@@ -13,6 +13,23 @@ typedef union{
   skString * string;
   skMethodDefNode * methodDef;
 } YYSTYPE;
+
+#ifndef YYLTYPE
+typedef
+  struct yyltype
+    {
+      int timestamp;
+      int first_line;
+      int first_column;
+      int last_line;
+      int last_column;
+      char *text;
+   }
+  yyltype;
+
+#define YYLTYPE yyltype
+#endif
+
 #define	L_CHARACTER	257
 #define	L_INTEGER	258
 #define	L_FLOAT	259
@@ -30,5 +47,8 @@ typedef union{
 #define	L_SWITCH	271
 #define	L_DEFAULT	272
 #define	L_CASE	273
-#define	UNARY	274
+#define	L_FOR	274
+#define	L_EACH	275
+#define	L_IN	276
+#define	UNARY	277
 

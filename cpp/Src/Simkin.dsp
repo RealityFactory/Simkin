@@ -93,6 +93,10 @@ SOURCE=.\skExecutable.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skExecutableIterator.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skHashTable.cpp
 # End Source File
 # Begin Source File

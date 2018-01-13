@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
- * $Id: skParseNode.h,v 1.16 2001/05/08 14:21:51 sdw Exp $
+ * $Id: skParseNode.h,v 1.21 2001/06/19 14:02:47 sdw Exp $
 */
 
 #ifndef PARSENODE_H
@@ -39,13 +39,15 @@ static const int s_Case=28;
 static const int s_Switch=29;
 static const int s_Id=30;
 static const int s_NotEquals=31;
+static const int s_ForEach=32;
 
 /**
  * This is the base class for Simkin parse nodes
  */
 class skParseNode {
  public:
-  skParseNode(){
+  skParseNode(int linenum){
+	  m_LineNum=linenum;
   }
   virtual ~skParseNode(){
   }
@@ -54,6 +56,7 @@ class skParseNode {
   }
   virtual void clear(){
   }
+  int m_LineNum;
  private:
   skParseNode(const skParseNode& ){
   }
@@ -66,12 +69,14 @@ class skParseNodeList : public skTAList<skParseNode>{
 typedef  skTAListIterator<skParseNode> skParseNodeListIterator;
 class skStatNode : public skParseNode {
  public:
+  skStatNode(int linenum) : skParseNode(linenum){
+  }
   virtual ~skStatNode(){
   }
 };
 class skExprNode : public skParseNode {
  public:
-  skExprNode(){
+  skExprNode(int linenum) : skParseNode(linenum){
   }
   virtual ~skExprNode(){
   }
@@ -82,6 +87,8 @@ typedef skTAListIterator<skStatNode> skStatListIterator;
 class skStatListNode : public skParseNode {
  public:
   skStatList m_Stats;
+  skStatListNode(int linenum): skParseNode(linenum){
+  }
   inline ~skStatListNode(){
     m_Stats.clearAndDestroy();
   }
@@ -100,6 +107,8 @@ typedef skTAListIterator<skExprNode> skExprListIterator;
 class skExprListNode : public skParseNode {
  public:
   skExprList m_Exprs;
+  skExprListNode(int linenum): skParseNode(linenum){
+  }
   inline ~skExprListNode(){
     m_Exprs.clearAndDestroy();
   }
@@ -118,7 +127,7 @@ class skIdNode : public skExprNode {
   skString m_Id;
   skExprListNode * m_Exprs;
   skExprNode * m_ArrayIndex;
-  inline skIdNode(skString id,skExprNode * arrayIndex,skExprListNode * exprs){
+  inline skIdNode(int linenum,skString id,skExprNode * arrayIndex,skExprListNode * exprs) : skExprNode(linenum){
     m_Id=id;
     m_Exprs=exprs;
     m_ArrayIndex=arrayIndex;
@@ -141,7 +150,7 @@ class skIdListNode : public skExprNode {
  public:
   skIdNodeList m_Ids;
   skString m_Attribute;
-  inline skIdListNode(){
+  inline skIdListNode(int linenum) : skExprNode(linenum){
   }
   inline ~skIdListNode(){
   }
@@ -168,7 +177,7 @@ class skCaseNode : public skParseNode {
  public:
   skExprNode * m_Expr;
   skStatListNode * m_Stats;
-  inline skCaseNode(skExprNode * expr,skStatListNode * stat){
+  inline skCaseNode(int linenum,skExprNode * expr,skStatListNode * stat) : skParseNode(linenum){
     m_Expr=expr;
     m_Stats=stat;
   }
@@ -189,6 +198,8 @@ typedef skTAListIterator<skCaseNode> skCaseListIterator;
 class skCaseListNode : public skParseNode {
  public:
   skCaseList m_Cases;
+  inline skCaseListNode(int linenum) : skParseNode(linenum){
+  }
   inline ~skCaseListNode(){
     m_Cases.clearAndDestroy();
   }
@@ -207,7 +218,7 @@ class skSwitchNode : public skStatNode {
   skExprNode * m_Expr;
   skCaseListNode * m_Cases;
   skStatListNode * m_Default;
-  inline skSwitchNode(skExprNode * expr,skCaseListNode * cases,skStatListNode * defaultStat){
+  inline skSwitchNode(int linenum,skExprNode * expr,skCaseListNode * cases,skStatListNode * defaultStat) : skStatNode(linenum){
     m_Expr=expr;
     m_Cases=cases;
     m_Default=defaultStat;
@@ -231,7 +242,7 @@ class skIfNode : public skStatNode {
   skExprNode * m_Expr;
   skStatListNode * m_Stats;
   skStatListNode * m_Else;
-  inline skIfNode(skExprNode * expr,skStatListNode * stat,skStatListNode * elseStat){
+  inline skIfNode(int linenum,skExprNode * expr,skStatListNode * stat,skStatListNode * elseStat) : skStatNode(linenum){
     m_Expr=expr;
     m_Stats=stat;
     m_Else=elseStat;
@@ -253,7 +264,7 @@ class skIfNode : public skStatNode {
 class skReturnNode : public skStatNode {
  public:
   skExprNode * m_Expr;
-  inline skReturnNode(skExprNode * expr){
+  inline skReturnNode(int linenum,skExprNode * expr) : skStatNode(linenum){
     m_Expr=expr;
   }
   inline ~skReturnNode(){
@@ -270,7 +281,7 @@ class skWhileNode : public skStatNode {
  public:
   skExprNode * m_Expr;
   skStatListNode * m_Stats;
-  inline skWhileNode(skExprNode * expr,skStatListNode * stat){
+  inline skWhileNode(int linenum,skExprNode * expr,skStatListNode * stat) : skStatNode(linenum){
     m_Expr=expr;
     m_Stats=stat;
   }
@@ -286,11 +297,40 @@ class skWhileNode : public skStatNode {
     return s_While;
   }
 };
+class skForEachNode : public skStatNode {
+ public:
+  skString m_Id;
+  skString m_Qualifier;
+  skExprNode * m_Expr;
+  skStatListNode * m_Stats;
+  inline skForEachNode(int linenum,skString id,skExprNode * expr,skStatListNode * stat) : skStatNode(linenum){
+    m_Id=id;
+    m_Expr=expr;
+    m_Stats=stat;
+  }
+  inline skForEachNode(int linenum,skString qualifier,skString id,skExprNode * expr,skStatListNode * stat) : skStatNode(linenum){
+    m_Id=id;
+    m_Qualifier=qualifier;
+    m_Expr=expr;
+    m_Stats=stat;
+  }
+  inline ~skForEachNode(){
+    delete m_Expr;
+    delete m_Stats;
+  }
+  inline void clear(){
+    m_Expr=0;
+    m_Stats=0;
+  }
+  inline int getType(){
+    return s_ForEach;
+  }
+};
 class skAssignNode : public skStatNode {
  public:
   skIdListNode * m_Ids;
   skExprNode * m_Expr;
-  inline skAssignNode(skIdListNode * idlist, skString * attribute,skExprNode * expr){
+  inline skAssignNode(int linenum,skIdListNode * idlist, skString * attribute,skExprNode * expr) : skStatNode(linenum){
     m_Ids=idlist;
     if (attribute)
       m_Ids->m_Attribute=*attribute;
@@ -312,7 +352,7 @@ class skAssignNode : public skStatNode {
 class skMethodStatNode : public skStatNode {
  public:
   skIdListNode * m_Ids;
-  inline skMethodStatNode(skIdListNode * idlist){
+  inline skMethodStatNode(int linenum,skIdListNode * idlist) : skStatNode(linenum){
     m_Ids=idlist;
   }
   inline ~skMethodStatNode(){
@@ -332,22 +372,22 @@ class skLiteralNode : public skExprNode {
   union {
     float m_Float;
     int m_Int;
-    char m_Char;
+    Char m_Char;
     skString * m_String;
   };
-  inline skLiteralNode(skString * s){
+  inline skLiteralNode(int linenum,skString * s) : skExprNode(linenum){
     m_String=s;
     m_Type=s_String;
   }
-  inline skLiteralNode(int i){
+  inline skLiteralNode(int linenum,int i): skExprNode(linenum){
     m_Int=i;
     m_Type=s_Integer;
   }
-  inline skLiteralNode(char i){
+  inline skLiteralNode(int linenum,Char i): skExprNode(linenum){
     m_Char=i;
     m_Type=s_Character;
   }
-  inline skLiteralNode(float f){
+  inline skLiteralNode(int linenum,float f): skExprNode(linenum){
     m_Float=f;
     m_Type=s_Float;
   }
@@ -367,7 +407,7 @@ class skOpNode : public skExprNode {
   skExprNode * m_Expr1;
   skExprNode * m_Expr2;
   int m_Type;
-  inline skOpNode(int type,skExprNode * expr1,skExprNode * expr2){
+  inline skOpNode(int linenum,int type,skExprNode * expr1,skExprNode * expr2): skExprNode(linenum){
     m_Expr1=expr1;
     m_Expr2=expr2;
     m_Type=type;
@@ -392,11 +432,11 @@ class skMethodDefNode : public skParseNode {
  public:
   skStatListNode * m_Stats;
   skIdListNode * m_Params;
-  inline skMethodDefNode(skStatListNode * stats){
+  inline skMethodDefNode(int linenum,skStatListNode * stats) : skParseNode(linenum){
     m_Stats=stats;
     m_Params=0;
   }
-  inline skMethodDefNode(skIdListNode * params,skStatListNode * stats){
+  inline skMethodDefNode(int linenum,skIdListNode * params,skStatListNode * stats) : skParseNode(linenum){
     m_Stats=stats;
     m_Params=params;
   }
@@ -409,13 +449,11 @@ class skMethodDefNode : public skParseNode {
     m_Params=0;
   }
  private:
-  skMethodDefNode(const skMethodDefNode& ){
+  skMethodDefNode(const skMethodDefNode& ) : skParseNode(0){
   }
   skMethodDefNode& operator=(const skMethodDefNode&){
     return *this;
   }
 };
 #endif
-
-
 

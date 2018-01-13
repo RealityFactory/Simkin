@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObjectEnumerator.cpp,v 1.3 2001/03/05 16:46:29 sdw Exp $
+  $Id: skXMLElementObjectEnumerator.cpp,v 1.4 2001/06/22 10:07:57 sdw Exp $
 */
 
 #include "skXMLElementObjectEnumerator.h"
@@ -33,13 +33,8 @@ bool skXMLElementObjectEnumerator::method(const skString& s,skRValueArray& args,
 {
   bool bRet=false;
   if (s=="next"){
+    if (next(r)==false)
       r=skRValue(&skInterpreter::g_Null);
-      DOM_NodeList nodes=m_Element->getElement().getChildNodes();
-      if (m_NodeNum<nodes.getLength()){
-	  r=skRValue(new skXMLElementObject(m_Element->getLocation(),*(DOM_Element *)&(nodes.item(m_NodeNum))),true);
-	  m_NodeNum++;
-	  findNextNode();
-      }
     bRet=true;
   }else if (s=="reset"){
     m_NodeNum=0;
@@ -66,5 +61,19 @@ void skXMLElementObjectEnumerator::findNextNode()
       break;
     }
   }
+}
+//------------------------------------------
+bool skXMLElementObjectEnumerator::next(skRValue& r)
+  //------------------------------------------
+{
+  bool ret=false;
+  DOM_NodeList nodes=m_Element->getElement().getChildNodes();
+  if (m_NodeNum<nodes.getLength()){
+    r=skRValue(new skXMLElementObject(m_Element->getLocation(),*(DOM_Element *)&(nodes.item(m_NodeNum))),true);
+    m_NodeNum++;
+    findNextNode();
+    ret=true;
+  }
+  return ret;
 }
 

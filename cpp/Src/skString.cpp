@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skString.cpp,v 1.7 2001/03/05 16:46:28 sdw Exp $
+  $Id: skString.cpp,v 1.8 2001/06/13 16:54:09 sdw Exp $
 */
 
 #include <string.h>
@@ -251,7 +251,6 @@ skString skString::literal(const char * s)
 {
   return skString((const unsigned char * )s,1);
 }
-#include <iostream.h>
 //-----------------------------------------------------------------
 ostream& operator<<(ostream& out,const skString& s)
   //-----------------------------------------------------------------

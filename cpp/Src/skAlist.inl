@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skAlist.inl,v 1.7 2001/03/05 16:46:28 sdw Exp $
+  $Id: skAlist.inl,v 1.8 2001/06/13 16:48:21 sdw Exp $
 */
 #include "skBoundsException.h"
 
@@ -40,7 +40,7 @@ inline void * skAList::operator[](USize  n) const
 {
     assert(n<m_Entries);
     if (n>=m_Entries)
-	throw skBoundsException("Invalid index in []",__FILE__,__LINE__);
+	throw skBoundsException(skSTR("Invalid index in []"),__FILE__,__LINE__);
     return m_Array[n];
 }
 //-----------------------------------------------------------------
