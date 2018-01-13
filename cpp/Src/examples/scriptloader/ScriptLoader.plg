@@ -3,14 +3,110 @@
 <pre>
 <h1>Build Log</h1>
 <h3>
+--------------------Configuration: Simkin - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "k:\temp\RSP845.tmp" with contents
+[
+/nologo /MDd /W3 /GX /Z7 /Od /I "f:\source\xerces-c-src1_3_0\src" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "PLATFORM_WIN32" /Fp".\Debug/Simkin.pch" /YX /Fo".\Debug/" /Fd".\Debug/" /FD /c 
+"F:\source\Simkin\cpp\Src\skAlist.cpp"
+"F:\source\Simkin\cpp\Src\skExecutable.cpp"
+"F:\source\Simkin\cpp\Src\skExecutableIterator.cpp"
+"F:\source\Simkin\cpp\Src\skHashTable.cpp"
+"F:\source\Simkin\cpp\Src\skInterpreter.cpp"
+"F:\source\Simkin\cpp\Src\skLang_tab.cpp"
+"F:\source\Simkin\cpp\Src\skParser.cpp"
+"F:\source\Simkin\cpp\Src\skRValue.cpp"
+"F:\source\Simkin\cpp\Src\skScriptedExecutable.cpp"
+"F:\source\Simkin\cpp\Src\skString.cpp"
+"F:\source\Simkin\cpp\Src\skStringTokenizer.cpp"
+"F:\source\Simkin\cpp\Src\skTracer.cpp"
+"F:\source\Simkin\cpp\Src\skTreeNode.cpp"
+"F:\source\Simkin\cpp\Src\skTreeNodeObject.cpp"
+"F:\source\Simkin\cpp\Src\skTreeNodeObjectEnumerator.cpp"
+"F:\source\Simkin\cpp\Src\skXMLElementObject.cpp"
+"F:\source\Simkin\cpp\Src\skXMLElementObjectEnumerator.cpp"
+"F:\source\Simkin\cpp\Src\skXMLErrorHandler.cpp"
+"F:\source\Simkin\cpp\Src\skXMLExecutable.cpp"
+]
+Creating command line "cl.exe @k:\temp\RSP845.tmp" 
+Creating temporary file "k:\temp\RSP846.tmp" with contents
+[
+/nologo /out:".\Debug\Simkin.lib" 
+.\Debug\skAlist.obj
+.\Debug\skExecutable.obj
+.\Debug\skExecutableIterator.obj
+.\Debug\skHashTable.obj
+.\Debug\skInterpreter.obj
+.\Debug\skLang_tab.obj
+.\Debug\skParser.obj
+.\Debug\skRValue.obj
+.\Debug\skScriptedExecutable.obj
+.\Debug\skString.obj
+.\Debug\skStringTokenizer.obj
+.\Debug\skTracer.obj
+.\Debug\skTreeNode.obj
+.\Debug\skTreeNodeObject.obj
+.\Debug\skTreeNodeObjectEnumerator.obj
+.\Debug\skXMLElementObject.obj
+.\Debug\skXMLElementObjectEnumerator.obj
+.\Debug\skXMLErrorHandler.obj
+.\Debug\skXMLExecutable.obj
+"\source\xerces-c-src1_3_0\Build\Win32\VC6\Debug\xerces-c_1D.lib"
+]
+Creating command line "link.exe -lib @k:\temp\RSP846.tmp"
+<h3>Output Window</h3>
+Compiling...
+skAlist.cpp
+skExecutable.cpp
+skExecutableIterator.cpp
+skHashTable.cpp
+skInterpreter.cpp
+skLang_tab.cpp
+skParser.cpp
+skRValue.cpp
+skScriptedExecutable.cpp
+skString.cpp
+skStringTokenizer.cpp
+skTracer.cpp
+skTreeNode.cpp
+skTreeNodeObject.cpp
+skTreeNodeObjectEnumerator.cpp
+skXMLElementObject.cpp
+F:\source\Simkin\cpp\Src\skXMLElementObject.cpp(308) : warning C4018: '<' : signed/unsigned mismatch
+skXMLElementObjectEnumerator.cpp
+F:\source\Simkin\cpp\Src\skXMLElementObjectEnumerator.cpp(58) : warning C4018: '<' : signed/unsigned mismatch
+F:\source\Simkin\cpp\Src\skXMLElementObjectEnumerator.cpp(71) : warning C4018: '<' : signed/unsigned mismatch
+skXMLErrorHandler.cpp
+skXMLExecutable.cpp
+Creating library...
+<h3>
 --------------------Configuration: ScriptLoader - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
+Creating temporary file "k:\temp\RSP848.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\\" /I "f:\source\xerces-c-src1_3_0\src" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/ScriptLoader.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"F:\source\Simkin\cpp\Src\examples\scriptloader\ScriptLoader.cpp"
+]
+Creating command line "cl.exe @k:\temp\RSP848.tmp" 
+Creating temporary file "k:\temp\RSP849.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/ScriptLoader.pdb" /debug /machine:I386 /out:"Debug/ScriptLoader.exe" /pdbtype:sept 
+.\Debug\ScriptLoader.obj
+\source\Simkin\cpp\Src\Debug\Simkin.lib
+"\source\xerces-c-src1_3_0\Build\Win32\VC6\Debug\xerces-c_1D.lib"
+]
+Creating command line "link.exe @k:\temp\RSP849.tmp"
+<h3>Output Window</h3>
+Compiling...
+ScriptLoader.cpp
+Linking...
 
 
 
 <h3>Results</h3>
-ScriptLoader.exe - 0 error(s), 0 warning(s)
+ScriptLoader.exe - 0 error(s), 3 warning(s)
 </pre>
 </body>
 </html>

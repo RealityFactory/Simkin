@@ -1,7 +1,7 @@
 /*
   Copyright 1996-2001
   Simon Whiteside
-  $Id: skParser.cpp,v 1.5 2001/06/19 14:02:47 sdw Exp $
+  $Id: skParser.cpp,v 1.6 2001/06/29 09:17:04 sdw Exp $
 */
 #include "skParser.h"
 #include "skLang_tab.h"
@@ -42,7 +42,11 @@ KeyWord keywords[]={
   {new skSTR("gt"),L_GT},
   {new skSTR("switch"),L_SWITCH},
   {new skSTR("case"),L_CASE},
-  {new skSTR("default"),L_DEFAULT}
+  {new skSTR("default"),L_DEFAULT},
+  {new skSTR("le"),L_LE},
+  {new skSTR("ge"),L_GE},
+  {new skSTR("to"),L_TO},
+  {new skSTR("step"),L_STEP}
 };
 const int NUMKEYS=sizeof(keywords)/sizeof(KeyWord);
 const int MAX_ARGS=256;

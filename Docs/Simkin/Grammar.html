@@ -14,6 +14,7 @@ compound_statement: "{" (&lt;statement&gt;)* "}"
 statement:  "if" "(" &lt;expression&gt; ")" &lt;compound_statement&gt; ["else" &lt;compound_statement&gt;]
          |  "while" "(" &lt;expression&gt; ")" &lt;compound_statement&gt;
 	 |  "for" "each"  [ &lt;id&gt; ] &lt;id&gt; "in" &lt;expression&gt; &lt;compound_statement&gt;
+	 |  "for" &lt;id&gt; "=" &lt;expression&gt; "to  &lt;expression&gt; [ "step" &lt;expression&gt; ]  &lt;compound_statement&gt;
          |  "switch" "(" &lt;expression&gt; ")" "{"
               ("case" &lt;expression&gt; &lt;compound_statement&gt;)* 
               [ "default" &lt;compound_statement&gt; ] "}" ";"
@@ -28,8 +29,15 @@ expression: &lt;expression&gt; "or" &lt;expression&gt;
          | &lt;expression&gt; "=" &lt;expression&gt;
          | &lt;expression&gt; "!=" &lt;expression&gt;
          | &lt;expression&gt; "lt" &lt;expression&gt;
+         | &lt;expression&gt; "&lt;" &lt;expression&gt;
+         | &lt;expression&gt; "le" &lt;expression&gt;
+         | &lt;expression&gt; "&lt=;" &lt;expression&gt;
          | &lt;expression&gt; "gt" &lt;expression&gt;
+         | &lt;expression&gt; "&gt" &lt;expression&gt;
+         | &lt;expression&gt; "ge" &lt;expression&gt;
+         | &lt;expression&gt; "&gt=" &lt;expression&gt;
          | &lt;expression&gt; "#" &lt;expression&gt;
+         | &lt;expression&gt; "&" &lt;expression&gt;
          | &lt;expression&gt; "+" &lt;expression&gt;
          | &lt;expression&gt; "-" &lt;expression&gt;
          | &lt;expression&gt; "/" &lt;expression&gt;
@@ -51,6 +59,10 @@ id_list:  &lt;id&gt; [ "(" &lt;expression_list&gt; ")" ]<br> ["[" &lt;expression
 Here are the lexical tokens, described as regular expressions:
 <pre>
 &lt;integer&gt;: "0" | (["1"-"9"] (["0"-"9"])*) 
+&lt;character&gt;: "\'" (~["\"","\\","\n","\r"] | 
+	           "\\" (["n","t","b","r","f","\\","\'","\""] | 
+                   ["0"-"7"] (["0"-"7"])? | 
+                   ["0"-"3"] ["0"-"7"] ["0"-"7"])) "\'" 
 &lt;string&gt;: "\"" (~["\"","\\","\n","\r"] 
               | "\\" (["n","t","b","r","f","\\","\'","\""] 
               | ["0"-"7"] (["0"-"7"])? 

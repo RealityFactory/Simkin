@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skInterpreter.h,v 1.17 2001/03/05 16:46:28 sdw Exp $
+* $Id: skInterpreter.h,v 1.18 2001/06/29 09:17:04 sdw Exp $
 */
 #ifndef skINTERPRETER_H
 #define skINTERPRETER_H
@@ -15,7 +15,8 @@ class skRValueArray;
 class skParseNode;
 class skStringList;
 class skMethodDefNode;
-
+class skTraceCallback;
+class skStatementStepper;
 
 /**
  * This class parses and executes Simkin script, and holds a list of
@@ -136,6 +137,27 @@ class skInterpreter : public skExecutable
    */
   static void setInterpreter(skInterpreter *);
     
+  //------------------------
+  // Tracing methods
+  //------------------------
+
+  /** output a message to the current trace output
+   * @param msg the message to show
+   */
+  void trace(const skString& msg);
+  /** this method sets an object to receive trace messages. Pass 0 to fall back to standard mechanism (using skTracer)
+   * @param callback the callback object, or 0 to fall back to using skTracer
+   */
+  void setTraceCallback(skTraceCallback * callback);
+
+  /** this method sets an object to be called each time a statement is executed.
+   * @param stepper the stepper object, or 0 to clear
+   */
+  void setStatementStepper(skStatementStepper * stepper);
+
+  /** creates and throws a skRuntimeException */
+  void runtimeError(const skString& msg); 
+
   //---------------------------
   // Constructor and Destructor
   //---------------------------

@@ -2,13 +2,14 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skExecutable.cpp,v 1.19 2001/06/19 14:02:46 sdw Exp $
+  $Id: skExecutable.cpp,v 1.20 2001/06/29 09:17:04 sdw Exp $
 */
 #include <iostream.h>
 #include "skExecutable.h"
 #include "skRValue.h"
 #include "skRValueArray.h"
 #include "skTracer.h"
+#include "skInterpreter.h"
 
 skLITERAL(trace);
 skLITERAL(isObject);
@@ -102,7 +103,7 @@ bool skExecutable::method(const skString& s,skRValueArray& args,skRValue& r)
 {
   bool bRet=false;
   if (s==s_trace){
-    skTracer::trace(args[0].str()+skSTR("\n"));
+    skInterpreter::getInterpreter()->trace(args[0].str()+skSTR("\n"));
     bRet=true;
   }else  if (s==s_isObject){
     if (args.entries()==1){

@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin For Statement</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin for Statement</H1>
+<hr>
+<p>
+This statement allows you step through the a set of statements a certain number of times.
+<p>
+The statement has 2 main sections: 
+<ol>
+<li>the <code>for</code> section specifies the start and end values, and optionally, the step value. The <code>for</code> loop will start at the start value, and end at the end value minus the step value. If a step value is not given it is assumed to be <code>1</code>.<p></li>
+<li>this is followed by a block of statements to be executed for time through the loop</li>
+</ol>
+<p>
+Here are some examples:
+<pre>
+for i=1 to 10 {
+trace(i);
+}
+</pre>
+This will print out:
+<pre>
+1 2 3 4 5 6 7 8 9
+</pre>
+This one steps <b>downwards</b>:
+<pre>
+for i=10 to 0 step -1 {
+trace(i);
+}
+</pre>
+This will print out:
+<pre>
+10 9 8 7 6 5 4 3 2 1
+</pre>
+
+</BODY>
+</HTML>

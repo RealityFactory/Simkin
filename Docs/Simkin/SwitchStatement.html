@@ -1,0 +1,36 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Switch Statement</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Switch Statement</H1>
+<hr>
+<p>
+This statement allows you to branch to different blocks of code depending on the value of an expression.
+<p>
+The statement has 3 main sections: an expression is given within a "switch" keyword. Then a series of "case" statements follow, each of which specifies a test expression followed by some statements to execute if the switch and case expression match.
+<p>
+Finally you can specify a "default" set of statements to execute.
+<p>For example:
+<pre>
+i=0;
+j=1;
+switch(i){
+  case j-1 {
+  i=i+1;
+ }
+ default {
+  j=j-1;
+ }
+}
+</pre>
+will match the first case, and
+<pre>
+i=i+1;
+</pre>
+will be executed.
+</BODY>
+</HTML>

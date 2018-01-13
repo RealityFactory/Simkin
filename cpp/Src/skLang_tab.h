@@ -50,5 +50,9 @@ typedef
 #define	L_FOR	274
 #define	L_EACH	275
 #define	L_IN	276
-#define	UNARY	277
+#define	L_TO	277
+#define	L_STEP	278
+#define	L_LE	279
+#define	L_GE	280
+#define	UNARY	281
 

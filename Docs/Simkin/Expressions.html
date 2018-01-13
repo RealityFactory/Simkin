@@ -11,30 +11,32 @@ Simkin Expressions</H1>
 <p>
 <table border>
 <tr><th>Type</th><th>Description</th><th>Example</th></tr>
-<tr><td>literal</td><td>a literal value of one of the built-in <a href="DataTypes.html">data types</a><td>"Simon", 100</td></tr>
-<tr><td>self</td><td>a reference to the object owning the method</a><td>anotherObject.register(<b>self</b>)</td></tr>
-<tr><td>null</td><td>an object meaning "nothing"</a></td><td>if (node=<b>null</b>)</td></tr>
-<tr><td>identifier</td><td>this is the name of a variable or method, see below for scoping rules</td><td>MyVariable</td></tr>
-<tr><td>indirection</td><td>you can prepend the identifier with @ to provide <a href="Scope.html#Indirection">indirection</a></td><td>@MyVariable</td></tr>
-<tr><td>attribute</td><td>this accesses an attribute in another object</td><td>Account:Balance</td>
-<tr><td>field</td><td>this accesses a field or method in another object, or a sub-item within a field</td><td>Account.getPerson().Surname</td></tr>
-<tr><td>self method call</td><td>calling a method on the current object and using the return value</td><td>sendMessage(message)</td></tr>
-<tr><td>not</td><td>negates an expression</td><td>not Overdrawn</td></tr>
-<tr><td>and</td><td>logical and</td><td>Overdrawn and WithinRedZone</td></tr>
-<tr><td>or</td><td>logical or</td><td>DepositAccount or CurrentAccount</td></tr>
-<tr><td>equality</td><td>equality test</td><td>Name="Simon"</td></tr>
-<tr><td>inequality</td><td>inequality test</td><td>Name!="Simon"</td></tr>
-<tr><td>less than</td><td>integer less than</td><td>a lt b</td></tr>
-<tr><td>greater than</td><td>integer greater than</td><td>a gt b</td></tr>
-<tr><td>subtract</td><td>integer subtract</td><td>12 - 1</td></tr>
-<tr><td>add</td><td>integer addition</td><td>12 + 1</td></tr>
-<tr><td>minus</td><td>integer inversion</td><td>- 1</td></tr>
-<tr><td>times</td><td>integer multiplication</td><td>12 * 1</td></tr>
-<tr><td>divide</td><td>integer division</td><td>12 / 1</td></tr>
-<tr><td>modulus</td><td>integer modulus</td><td>12 % 1</td></tr>
-<tr><td>concatenation</td><td>adding two strings together</td><td>"First Name " # " Surname"</td></tr>
-<tr><td>subexpression</td><td>for grouping expressions and enforcing precedence</td><td>(4+1)+5</td></tr>
-<tr><td>array index</td><td>for accessing child objects (indices start from 0)</td><td>a=f[6]</td></tr>
+<tr><td>literal</td><td>a literal value of one of the built-in <a href="DataTypes.html">data types</a><td><code>"Simon"</code>, <code>100</code></td></tr>
+<tr><td>self</td><td>a reference to the object owning the method</a><td><code>anotherObject.register(<b>self</b>)</code></td></tr>
+<tr><td>null</td><td>an object meaning "nothing"</a></td><td><code>if (node=<b>null</b>)</code></td></tr>
+<tr><td>identifier</td><td>this is the name of a variable or method, see below for scoping rules</td><td><code>MyVariable</code></td></tr>
+<tr><td>indirection</td><td>you can prepend the identifier with @ to provide <a href="Scope.html#Indirection">indirection</a></td><td><code>@MyVariable</code></td></tr>
+<tr><td>attribute</td><td>this accesses an attribute in another object.<br><small>note: this is not supported for TreeNode objects</small></td><td><code>Account:Balance</code></td>
+<tr><td>field</td><td>this accesses a field or method in another object, or a sub-item within a field</td><td><code>Account.getPerson().Surname</code></td></tr>
+<tr><td>self method call</td><td>calling a method on the current object and using the return value</td><td><code>sendMessage(message)</code></td></tr>
+<tr><td>not</td><td>negates an expression</td><td><code><b>not</b> Overdrawn</code></td></tr>
+<tr><td>and</td><td>logical and</td><td><code>Overdrawn <b>and</b> WithinRedZone</code></td></tr>
+<tr><td>or</td><td>logical or</td><td><code>DepositAccount <b>or</b> CurrentAccount<code></td></tr>
+<tr><td>equality</td><td>equality test</td><td><code>Name<b>=</b>"Simon"</code></td></tr>
+<tr><td>inequality</td><td>inequality test</td><td><code>Name<b>!=</b>"Simon"</code></td></tr>
+<tr><td>less than</td><td>integer less than</td><td><code>a <b>lt</b> b</code> or <code>a <b>&lt;</b> b</td></tr>
+<tr><td>less than or equal to</td><td>integer less than or equal to</td><td><code>a <b>le</b> b</code> or <code>a <b>&lt;=</b> b</td></tr>
+<tr><td>greater than</td><td>integer greater than</td><td><code>a <b>gt</b> b</code> or <code>a <b>&gt;</b> b</code></td></tr>
+<tr><td>greater than or equal to</td><td>integer greater than or equal to</td><td><code>a <b>ge</b> b</code> or <code>a <b>&gt;=</b> b</code></td></tr>
+<tr><td>subtract</td><td>integer subtract</td><td><code>12 <b>-</b> 1</code></td></tr>
+<tr><td>add</td><td>integer addition</td><td><code>12 <b>+</b> 1</code></td></tr>
+<tr><td>minus</td><td>integer inversion</td><td><code><b>-</b> 1<code></td></tr>
+<tr><td>times</td><td>integer multiplication</td><td><code>12 <b>*</b> 1</code></td></tr>
+<tr><td>divide</td><td>integer division</td><td><code>12 <b>/</b> 1</code></td></tr>
+<tr><td>modulus</td><td>integer modulus</td><td><code>12 <b>%</b> 1</code></td></tr>
+<tr><td>concatenation</td><td>adding two strings together</td><td><code>"First Name " <b>#</b> " Surname"</code> or <code>"First Name " <b>&amp;</b> " Surname"</code></td></tr>
+<tr><td>subexpression</td><td>for grouping expressions and enforcing precedence</td><td><code><b>(</b>4+1<b>)</b>+5<code></td></tr>
+<tr><td>array index</td><td>for accessing child objects (indices start from 0)</td><td><code>a=f<b>[</b>6<b>]</b></code></td></tr>
 </table>
 </BODY>
 </HTML>

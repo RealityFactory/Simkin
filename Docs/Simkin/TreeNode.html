@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>TreeNode Format</TITLE>
+</HEAD>
+<BODY>
+<H1>
+TreeNode Format</H1>
+<hr>
+Simkin script can be stored within any convenient mechanism.
+<p>The distrubution includes classes that show how it can be stored within XML files, or within a format called "TreeNode".
+<p>The TreeNode format is hierarchical textual format which echoes that used in many applications.
+<p>The advantages of using the TreeNode format over XML are:
+<ul>
+<li>A 3rd party XML library (such as Xerces for C++ or jaxp for Java) is not required - all TreeNode classes are included in the distribution</li>
+<li>Simkin script is slightly simpler in TreeNode files</li>
+<li>The TreeNode classes seem to operate faster than XML ones, and the memory footprint is smaller</li>
+</ul>
+The TreeNode format is a recursive definition. Each TreeNode item is composed of:
+<ol>
+<li>a label - this is alphanumeric, but may also include the following characters:
+<ul>
+<li>: - colon</li>
+<li>- - minus sign</li>
+<li>. - dot</li>
+<li>/ - forward slash</li>
+<li>\ - back slash</li>
+<li>_ - underscore</li>
+<li>~ - tilde</li>
+</ul>
+This makes it possible to store path names without spaces as a label.<p>Simkin methods use the label to store the method name.
+<p>
+</li>
+<li>data - this is arbitrary text, including spaces and line endings, within the delimeters "[" and "]". You use "\[" and "\]" to quote these delimeters within the text. Whitespace in the text is preserved.<p>
+Simkin methods are stored within the data for an item.<p></li>
+<li>children - this is a list of descendents of the item, which are themselves items. The list is delimeted by "{" and "}"</li>
+</ol>
+Each element is optional.
+<p>A TreeNode "file" is an item with no label or data, but a list of items.
+<p>Here are some examples:
+<p>A TreeNode file with a single item, with the label "field" but no data or children:
+<pre>
+{
+ field
+}
+</pre>
+<p>A TreeNode file with a single item, with the label "field", data "value" and a single child with the label "child":
+<pre>
+{
+ field [value]
+ {
+  child
+ }
+}
+</pre>
+<p>A TreeNode file with a field "field" and a Simkin method "method":
+<pre>
+{
+ field [value]
+ method [(){
+ }]
+}
+</pre>
+
+  </body>
+</html>

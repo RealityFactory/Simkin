@@ -13,15 +13,23 @@ Simkin Data Types</H1>
 <p>
 <table border>
 <tr><th>Type<th>Description<th>Example</th></tr>
-<tr><td>self<td>a reference to the object owning the script<td>self.field="Hello";</td></tr>
-<tr><td>boolean<td>a truth value<td>true or false</td></tr>
-<tr><td>integer<td>a signed number<td>32</td></tr>
-<tr><td>float<td>a signed floating point number<td>32.33</td></tr>
-<tr><td>character<td>a single character.Use "\" to quote characters<td>'m', '\''</td></tr></td></tr>
-<tr><td>string<td>an arbitrary length piece of text.You can embed any text except ".To use " put a slash and then a quote \".<td>"He said \"Goodbye\" and left."</td></tr>
-<tr><td>boolean<td>a true or false object represented<td><b>false</b> or <b>true</b>, 0 or 1</td></tr>
-<tr><td>object<td>another Simkin object with methods and fields<td>MyObject</td></tr>
-<tr><td>XML element<td>an XML element object<td>&lt;element&gt;&lt;subelement&gt;Value1&lt;/subelement&gt;&lt;/element&gt;</td></tr>
+<tr><td>self</td><td>a reference to the object owning the script<td><code><b>self</b>.field="Hello";</code></td></tr>
+<tr><td>boolean</td><td>a truth value<td><code><b>true</b> or <b>false</b></code></td></tr>
+<tr><td>integer</td><td>a signed number<td><code><b>32</b></code></td></tr>
+<tr><td>float</td><td>a signed floating point number<td><code><b>32.33</b></code></td></tr>
+<tr><td>character</td><td>a single character.Use "\" to quote characters<td><code>'m'</code>, <code>'\''</code></td></tr>
+<tr><td>string</td><td>an arbitrary length piece of text.You can embed any text except ".To use " put a slash and then a quote \".<td><code><b>"He said \"Goodbye\" and left."</b></code></td></tr>
+<tr><td>boolean</td><td>a true or false object represented<td><b>false</b> or <b>true</b>, 0 or 1</td></tr>
+<tr><td>object</td><td>another Simkin object with methods and fields<td><code><b>MyObject</b></code></td></tr>
+<tr><td>XML element</td><td>an XML element object<td><code><b>&lt;element&gt;&lt;subelement&gt;Value1&lt;/subelement&gt;&lt;/element&gt;</b></code></td></tr>
+<tr><td>TreeNode</td><td>a TreeNode Object</td><td>
+<pre>
+ label [data] 
+ {
+  child_label [child_data]
+ }
+</pre>
+</td></tr>
 </table>
 <p>
 There are some built-in functions which are used with these types:

@@ -9,8 +9,38 @@
 Method and Field Names in Simkin Scripts</H1>
 <hr>
 <p>
-Methods are defined using the <b>Function</b> tag. The name of a method is defined as the value of the <b>name</b> attribute of the function element. The name must follow the rules allowed for the values of attributes.
+<h2>XML Version</h2>
+Methods are defined using the <b>function</b> tag. The name of a method is defined as the value of the <b>name</b> attribute of the function element. The name must follow the rules allowed for the values of attributes.
 <p>
 Field names are specified as elements with tags, their names depend on the document's rules for tag names.
+<p>
+For example:
+<pre>
+&lt;object&gt;
+ &lt;field&gt;
+  &lt;value name="Name"/&gt;
+ &lt;/field&gt;
+  &lt;function name="function" params="a,b"&gt;
+   trace(a # b # field.value:name);
+ &lt;/function&gt;
+&lt;/object&gt;
+</pre>
+<h2>TreeNode Version</h2>
+Methods are defined using the usual TreeNode syntax. The method name is the label for a TreeNode item, and the code is contained within the data for the item.
+<p>
+Other nodes within the same TreeNode are accessible via their label names.
+<p>For example:
+<pre>
+{
+ field {
+  value {
+   name [Name]
+  }
+ }
+ function [(a,b){
+  trace(a # b # field.value.name);
+ }]
+}
+</pre>
 </body>
 </html>

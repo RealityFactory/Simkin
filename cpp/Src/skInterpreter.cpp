@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skInterpreter.cpp,v 1.39 2001/06/19 14:02:46 sdw Exp $
+  $Id: skInterpreter.cpp,v 1.41 2001/07/05 09:52:47 sdw Exp $
 */
 
 #include "skInterpreter.h"
@@ -16,6 +16,9 @@
 #include "skRuntimeException.h"
 #include "skTracer.h"
 #include "skParser.h"
+#include "skTraceCallback.h"
+#include "skStatementStepper.h"
+
 
 skLITERAL(true);
 skLITERAL(false);
@@ -30,6 +33,16 @@ skInterpreter * P_Interpreter::g_GlobalInterpreter;	//	used by client
 skString g_BlankString;
 skNull skInterpreter::g_Null;
 
+
+//------------------------------------------
+inline void P_Interpreter::trace(const skString& msg)
+  //------------------------------------------
+{
+  if (m_TraceCallback!=0)
+    m_TraceCallback->trace(msg);
+  else
+    skTracer::trace(msg);
+}
 //---------------------------------------------------
 skInterpreter::skInterpreter()
   //---------------------------------------------------
@@ -41,7 +54,7 @@ skInterpreter::skInterpreter()
 //---------------------------------------------------
 P_Interpreter::P_Interpreter()
   //---------------------------------------------------
-  : m_Tracing(false),m_StackDepth(0)
+  : m_Tracing(false),m_StackDepth(0),m_TraceCallback(0),m_StatementStepper(0)
 {
 }
 //---------------------------------------------------
@@ -73,22 +86,28 @@ bool P_Interpreter::executeStat(skExecutable * obj,skRValueTable& var,skStatNode
 {
   bool stop=false;
   m_LineNum=pstat->m_LineNum;
-  switch(pstat->getType()){
-  case s_If:
-    stop=executeIfStat(obj,var,(skIfNode*)pstat,r);break;
-  case s_While:
-    stop=executeWhileStat(obj,var,(skWhileNode*)pstat,r);break;
-  case s_Return:
-    stop=executeReturnStat(obj,var,(skReturnNode*)pstat,r);break;
-  case s_Assign:
-    executeAssignStat(obj,var,(skAssignNode*)pstat);break;
-  case s_Method:
-    r=evalMethod(obj,var,((skMethodStatNode*)pstat)->m_Ids);break;
-  case s_Switch:
-    stop=executeSwitchStat(obj,var,(skSwitchNode*)pstat,r);break;
-  case s_ForEach:
-    stop=executeForEachStat(obj,var,(skForEachNode*)pstat,r);break;
-  }
+  int stat_type=pstat->getType();
+  if (m_StatementStepper)
+    stop=(m_StatementStepper->statementExecuted(m_Location,m_LineNum,obj,var,stat_type)==false);
+  if (stop==false)
+    switch(stat_type){
+    case s_If:
+      stop=executeIfStat(obj,var,(skIfNode*)pstat,r);break;
+    case s_While:
+      stop=executeWhileStat(obj,var,(skWhileNode*)pstat,r);break;
+    case s_Return:
+      stop=executeReturnStat(obj,var,(skReturnNode*)pstat,r);break;
+    case s_Assign:
+      executeAssignStat(obj,var,(skAssignNode*)pstat);break;
+    case s_Method:
+      r=evalMethod(obj,var,((skMethodStatNode*)pstat)->m_Ids);break;
+    case s_Switch:
+      stop=executeSwitchStat(obj,var,(skSwitchNode*)pstat,r);break;
+    case s_ForEach:
+      stop=executeForEachStat(obj,var,(skForEachNode*)pstat,r);break;
+    case s_For:
+      stop=executeForStat(obj,var,(skForNode*)pstat,r);break;
+    }
   return stop;
 }
 //---------------------------------------------------
@@ -97,13 +116,17 @@ bool P_Interpreter::executeStats(skExecutable * obj,skRValueTable& var,skStatLis
 {
   bool bRet=false;
   if (n){
-    skStatListIterator iter(n->m_Stats);
-    skStatNode * node=0;
-    while ((node=iter())!=0){
-      bRet=executeStat(obj,var,node,r);
-      // break out if stop has been passed back
-      if (bRet)
-	break;
+    if (m_StatementStepper)
+      bRet=(m_StatementStepper->compoundStatementExecuted(m_Location,m_LineNum,obj,var)==false);
+    if (bRet==false){
+      skStatListIterator iter(n->m_Stats);
+      skStatNode * node=0;
+      while ((node=iter())!=0){
+	bRet=executeStat(obj,var,node,r);
+	// break out if stop has been passed back
+	if (bRet)
+	  break;
+      }
     }
   }
   return bRet;
@@ -153,7 +176,7 @@ void P_Interpreter::followIdList(skExecutable * obj,skRValueTable& var,skIdListN
   // skip down the id.id.id list, resolving each as we go along, we exclude the final id in the list
   skIdNode * idNode=idList->m_Ids[0];
   skString name=idNode->m_Id;
-  //  skTracer::trace("followIdList: %s - %d ids\n",(const char *)name,idList->m_Ids.entries());
+  //  trace("followIdList: %s - %d ids\n",(const char *)name,idList->m_Ids.entries());
   if (idNode->m_Exprs==0)
     object=findValue(obj,var,name,idNode->m_ArrayIndex,g_BlankString);
   else{
@@ -163,14 +186,14 @@ void P_Interpreter::followIdList(skExecutable * obj,skRValueTable& var,skIdListN
   for (unsigned int i=1;i<idList->m_Ids.entries()-1;i++){
     idNode=idList->m_Ids[i];
     name=idNode->m_Id;
-    //    skTracer::trace("followIdList: %d: %s\n",i,(const char *)name);
+    //    trace("followIdList: %d: %s\n",i,(const char *)name);
     skRValue result;
     if (idNode->m_Exprs==0){
       if (idNode->m_ArrayIndex)
 	extractFieldArrayValue(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,result);
       else
 	if (extractValue(object,name,g_BlankString,result)==false)
-		runtimeError(skSTR("Cannot get field ")+name+skSTR("\n"));
+	  runtimeError(skSTR("Cannot get field ")+name+skSTR("\n"));
     }else
       makeMethodCall(obj,var,object,name,idNode->m_ArrayIndex,g_BlankString,idNode->m_Exprs,result);
     object=result;
@@ -206,7 +229,7 @@ void  P_Interpreter::makeMethodCall(skExecutable * obj,skRValueTable& var,skRVal
     while ((expr=iter())!=0)
       args.append(evaluate(obj,var,expr));
     if (m_Tracing)
-		skTracer::trace(m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR(": ")+checked_method_name+skSTR("()\n"));
+      trace(m_Location+skSTR(":")+skString::from(m_LineNum)+skSTR(": ")+checked_method_name+skSTR("()\n"));
     // call to this object
     bool bRet=robject.obj()->method(checked_method_name,args,ret);	
     if (bRet==false)
@@ -308,9 +331,55 @@ bool P_Interpreter::executeForEachStat(skExecutable * obj,skRValueTable& var,skF
 	}
       }
       delete iterator;
-    }
+    }else
+      runtimeError(skSTR("Object could not create an iterator, in a foreach statement\n"));
   }else
     runtimeError(skSTR("Cannot apply foreach to a non-executable object\n"));
+  return bRet;
+}
+//---------------------------------------------------
+bool P_Interpreter::executeForStat(skExecutable * obj,skRValueTable& var,skForNode * n,skRValue& r)
+  //---------------------------------------------------
+{
+  bool bRet=false;
+  skString checked_id=checkIndirectId(obj,var,n->m_Id);
+  skRValue start_expr=evaluate(obj,var,n->m_StartExpr);
+  int start_value=start_expr.intValue();
+  skRValue end_expr=evaluate(obj,var,n->m_EndExpr);
+  int end_value=end_expr.intValue();
+  int step_value=1;
+  if (n->m_StepExpr){
+    skRValue step_expr=evaluate(obj,var,n->m_StepExpr);
+    step_value=step_expr.intValue();
+  }
+  if (step_value>0){
+    if (end_value>start_value){
+      for (int i=start_value;i<end_value;i+=step_value){
+	addLocalVariable(var,checked_id,i);
+	if (n->m_Stats){
+	  bRet=executeStats(obj,var,n->m_Stats,r);
+	  if (bRet)
+	    break;
+	}
+      }
+    }else
+      runtimeError(skSTR("End value is not greater than the start value in a for statement\n"));
+  }else{
+    if (step_value<0){
+      if (start_value>end_value){
+	for (int i=start_value;i>end_value;i+=step_value){
+	  addLocalVariable(var,checked_id,i);
+	  if (n->m_Stats){
+	    bRet=executeStats(obj,var,n->m_Stats,r);
+	    if (bRet)
+	      break;
+	  }
+	}
+      }else
+	runtimeError(skSTR("Start value is not greater than the end value in a for statement\n"));
+    }else
+      runtimeError(skSTR("Cannot use a zero step increment in a for statement\n"));
+  }
   return bRet;
 }
 //---------------------------------------------------
@@ -334,7 +403,7 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
 	  extractArrayValue(obj,var,caller,array_index,attrib,r);
 	}else
 	  if (extractValue(caller,g_BlankString,attrib,r)==false)
-		  runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
+	    runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
       }else
 	r=obj;
     }else{
@@ -350,7 +419,7 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
 	    extractArrayValue(obj,var,r,array_index,attrib,result);
 	  }else
 	    if (extractValue(r,g_BlankString,attrib,result)==false)
-			runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
+	      runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
 	  r=result;
 	}
       }else{
@@ -373,7 +442,7 @@ skRValue P_Interpreter::findValue(skExecutable * obj,skRValueTable& var,const sk
 		r=result;
 	      }else
 		if (extractValue(r,g_BlankString,attrib,result)==false)
-			runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
+		  runtimeError(skSTR("Cannot get attribute ")+attrib+skSTR("\n"));
 	      r=result;
 	    }
 	  }else
@@ -504,24 +573,16 @@ void  skInterpreter::executeParseTree(const skString& location,skExecutable * ob
   pimp->m_Location=location;
   int old_line_num=pimp->m_LineNum;
   if (pExecuteNode){
-    skRValueTable * pvars;
-    if (pimp->m_StackDepth<MAX_LOCAL_VARS_CACHE)
-      pvars=&pimp->m_LocalVars[pimp->m_StackDepth];
-    else	
-      pvars=new skRValueTable;
+    skRValueTable vars;
     // fix up parameters
     if (pExecuteNode->m_Params){
       for (unsigned int i=0;i<pExecuteNode->m_Params->m_Ids.entries();i++)
 	if (i<args.entries())
-	  pimp->addLocalVariable(*pvars,pExecuteNode->m_Params->m_Ids[i]->m_Id,args[i]);
+	  pimp->addLocalVariable(vars,pExecuteNode->m_Params->m_Ids[i]->m_Id,args[i]);
     }
     pimp->m_StackDepth++;
-    pimp->executeStats(obj,*pvars,pExecuteNode->m_Stats,r);
+    pimp->executeStats(obj,vars,pExecuteNode->m_Stats,r);
     pimp->m_StackDepth--;
-    if (pimp->m_StackDepth>=MAX_LOCAL_VARS_CACHE)
-      delete pvars;
-    else
-      pvars->clearAndDestroy();
   }
   pimp->m_Location=old_location;
   pimp->m_LineNum=old_line_num;
@@ -612,6 +673,7 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	makeMethodCall(obj,var,caller,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
       }
     }else{
+      method_name=checkIndirectId(obj,var,method_name);
       skRValue robject;
       followIdList(obj,var,ids,robject);
       if (idNode->m_Exprs==0){
@@ -623,7 +685,7 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	    runtimeError(skSTR("Cannot get field ")+method_name+skSTR("\n"));
 	}else
 	  if (extractValue(robject,method_name,ids->m_Attribute,r)==false)
-		  runtimeError(skSTR("Cannot get field ")+method_name+skSTR("\n"));
+	    runtimeError(skSTR("Cannot get field ")+method_name+skSTR("\n"));
       }else
 	makeMethodCall(obj,var,robject,method_name,idNode->m_ArrayIndex,ids->m_Attribute,idNode->m_Exprs,r);
     }
@@ -692,8 +754,20 @@ skRValue P_Interpreter::evaluate(skExecutable * obj,skRValueTable& var,skExprNod
 	    else
 	      r=skRValue(false);
 	    break;
+	  case s_MoreEqual:
+	    if (val1>=val2)
+	      r=skRValue(true);
+	    else
+	      r=skRValue(false);
+	    break;
 	  case s_Less:
 	    if (val1<val2)
+	      r=skRValue(true);
+	    else
+	      r=skRValue(false);
+	    break;
+	  case s_LessEqual:
+	    if (val1<=val2)
 	      r=skRValue(true);
 	    else
 	      r=skRValue(false);
@@ -772,13 +846,19 @@ bool skInterpreter::setValue(const skString& s,const skString& attrib,const skRV
     bRet=true;
   }else
 #ifdef WIN32
-  if (s==s_debugBreak){
-	  _asm int 03h;
-	  bRet=true;
-  }else
+    if (s==s_debugBreak){
+      _asm int 03h;
+      bRet=true;
+    }else
 #endif
-    bRet=skExecutable::setValue(s,attrib,v);
+      bRet=skExecutable::setValue(s,attrib,v);
   return bRet;
+}
+//------------------------------------------
+void skInterpreter::runtimeError(const skString& msg)
+  //------------------------------------------
+{
+  pimp->runtimeError(msg);
 }
 //------------------------------------------
 void P_Interpreter::runtimeError(const skString& msg)
@@ -787,20 +867,22 @@ void P_Interpreter::runtimeError(const skString& msg)
   throw skRuntimeException(m_Location,m_LineNum,msg);
 }
 //------------------------------------------
-skRValueTable::skRValueTable(unsigned short  size)
+void skInterpreter::trace(const skString& msg)
   //------------------------------------------
-  : skTHashTable<skString,skRValue>(size)
 {
+  pimp->trace(msg);
 }
 //------------------------------------------
-skRValueTable::skRValueTable()
+void skInterpreter::setTraceCallback(skTraceCallback * callback)
   //------------------------------------------
 {
+  pimp->m_TraceCallback=callback;
 }
 //------------------------------------------
-skRValueTable::~skRValueTable()
+void skInterpreter::setStatementStepper(skStatementStepper * stepper)
   //------------------------------------------
 {
+  pimp->m_StatementStepper=stepper;
 }
 
 

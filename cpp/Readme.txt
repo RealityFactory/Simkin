@@ -1,6 +1,16 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.10
+Date: 5/7/2001
+-------------------
+
+* removed local variable cache - could cause problems if exceptions are thrown
+* added skTraceCallback to capture all tracing output
+* added skStatementStepper to be called for each statement executed
+* added new operators "less than or equal", le and '<=' and "more than or equal", ge and '>='
+* added a new "for" statement, e.g. "for x=1 to 10 step 5"
+
 Simkin Version 2.09
 Date: 22nd June 2001
 -------------------

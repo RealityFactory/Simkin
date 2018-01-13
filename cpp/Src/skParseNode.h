@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
- * $Id: skParseNode.h,v 1.21 2001/06/19 14:02:47 sdw Exp $
+ * $Id: skParseNode.h,v 1.22 2001/06/29 09:17:04 sdw Exp $
 */
 
 #ifndef PARSENODE_H
@@ -40,6 +40,9 @@ static const int s_Switch=29;
 static const int s_Id=30;
 static const int s_NotEquals=31;
 static const int s_ForEach=32;
+static const int s_LessEqual=33;
+static const int s_MoreEqual=34;
+static const int s_For=35;
 
 /**
  * This is the base class for Simkin parse nodes
@@ -324,6 +327,43 @@ class skForEachNode : public skStatNode {
   }
   inline int getType(){
     return s_ForEach;
+  }
+};
+class skForNode : public skStatNode {
+ public:
+  skString m_Id;
+  skExprNode * m_StartExpr;
+  skExprNode * m_EndExpr;
+  skExprNode * m_StepExpr;
+  skStatListNode * m_Stats;
+  inline skForNode(int linenum,skString id,skExprNode * start_expr,skExprNode * end_expr,skStatListNode * stat) : skStatNode(linenum){
+    m_Id=id;
+    m_StartExpr=start_expr;
+    m_EndExpr=end_expr;
+    m_StepExpr=0;
+    m_Stats=stat;
+  }
+  inline skForNode(int linenum,skString id,skExprNode * start_expr,skExprNode * end_expr,skExprNode * step_expr,skStatListNode * stat) : skStatNode(linenum){
+    m_Id=id;
+    m_StartExpr=start_expr;
+    m_EndExpr=end_expr;
+    m_StepExpr=step_expr;
+    m_Stats=stat;
+  }
+  inline ~skForNode(){
+    delete m_StartExpr;
+    delete m_EndExpr;
+    delete m_StepExpr;
+    delete m_Stats;
+  }
+  inline void clear(){
+    m_StartExpr=0;
+    m_EndExpr=0;
+    m_StepExpr=0;
+    m_Stats=0;
+  }
+  inline int getType(){
+    return s_For;
   }
 };
 class skAssignNode : public skStatNode {
