@@ -1,0 +1,43 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Inherits - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "k:\temp\RSPBF.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\\" /I "f:\source\xerces-c-src1_3_0\src" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Inherits.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"F:\source\Simkin\cpp\Src\examples\inherits\Inherits.cpp"
+"F:\source\Simkin\cpp\Src\examples\inherits\InheritsExecutable.cpp"
+"F:\source\Simkin\cpp\Src\examples\inherits\InheritsElement.cpp"
+]
+Creating command line "cl.exe @k:\temp\RSPBF.tmp" 
+Creating temporary file "k:\temp\RSPC0.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Inherits.pdb" /debug /machine:I386 /out:"Debug/Inherits.exe" /pdbtype:sept 
+.\Debug\Inherits.obj
+.\Debug\InheritsExecutable.obj
+.\Debug\InheritsElement.obj
+\source\Simkin\cpp\Src\Debug\Simkin.lib
+"\source\xerces-c-src1_3_0\Build\Win32\VC6\Debug\xerces-c_1D.lib"
+]
+Creating command line "link.exe @k:\temp\RSPC0.tmp"
+<h3>Output Window</h3>
+Compiling...
+InheritsElement.cpp
+f:\source\simkin\cpp\src\examples\inherits\inheritselement.cpp(45) : warning C4018: '<' : signed/unsigned mismatch
+f:\source\simkin\cpp\src\examples\inherits\inheritselement.cpp(63) : warning C4018: '<' : signed/unsigned mismatch
+Skipping... (no relevant changes detected)
+Inherits.cpp
+InheritsExecutable.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+Inherits.exe - 0 error(s), 2 warning(s)
+</pre>
+</body>
+</html>

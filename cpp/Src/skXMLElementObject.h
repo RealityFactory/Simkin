@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-* $Id: skXMLElementObject.h,v 1.21 2001/05/14 07:40:20 sdw Exp $
+* $Id: skXMLElementObject.h,v 1.23 2001/05/22 11:57:58 sdw Exp $
 */
 
 
@@ -205,8 +205,13 @@ class skXMLElementObject : public skExecutable {
    * This method updates the associated element and clears the parse tree cache
    * @param elem - the new Element
    */
-  void setElement(DOM_Element element);
- protected:
+  virtual void setElement(DOM_Element element);
+  /**
+   * This method creates a new XML Element object to wrap an element. Override this for special behaviour in derived classes
+   * @param location the location of this element
+   * @param element the DOM element to associate with the object
+   */
+  virtual skXMLElementObject * createXMLElementObject(const skString& location,DOM_Element element);
   /**
    * the location that the XML document came from
    */

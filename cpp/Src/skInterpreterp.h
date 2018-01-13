@@ -1,8 +1,10 @@
-/*
+/**
 	Interpreter implementation class
+	$Id: skInterpreterp.h,v 1.16 2001/05/22 10:56:38 sdw Exp $
+	Copyright 1996-2001
+	Simon Whiteside
 */
 
-const int MAXYYTEXT=256;
 class skTreeNode;
 #include "skHashTable.h"
 #include "skParseNode.h"
@@ -55,20 +57,6 @@ class P_Interpreter
     bool extractValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name,skExprNode * array_index,const skString& attrib,skRValue& ret) ;
     bool insertValue(skExecutable * obj,skRValueTable& var,skRValue& robject,const skString& name, skExprNode * array_index,const skString& attr,const skRValue& value);
 
-    // Parsing and lexing routines
-
-    int lex(); // returns a token
-    int nextChar(); // returns the next character to be lexed (might be a put-back character)
-    void putbackchar(int i); // puts the given character back
-    bool eof(); // returns true if the eof the stream has been reached
-    void cleanupTempNodes(); // deletes the parse tree if an error occurs during parsing
-	
-    char m_LexBuffer[MAXYYTEXT]; //  used by lexical analyser to hold the current token
-    skString m_InputBuffer; // the buffer read by the lexer
-    int m_PutBack; // character to be put back
-    int m_LineNum; // linenumber being lexed
-    unsigned int m_Pos; //  position in the line
-
     // Variables
     skRValueTable m_GlobalVars; // the global variables
     skRValueTable m_LocalVars[MAX_LOCAL_VARS_CACHE]; // a pool of local variable tables
@@ -76,9 +64,8 @@ class P_Interpreter
     bool m_Tracing; // flag for tracing method calls
 
     skString m_Location; // location during script execution
-    static skString g_Location; // location during parsing
-    static skInterpreter * g_Interpreter;	//	for parsing functions, yyparse is a global - yuk!
-    static skInterpreter * g_GlobalInterpreter;	//	used by clients - could have one per thread?
+    THREAD static skInterpreter * g_GlobalInterpreter;	//	used by clients - one per thread (on Windows only at the moment)
+
 };    
 
 //---------------------------------------------------

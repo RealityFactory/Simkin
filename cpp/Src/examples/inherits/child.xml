@@ -1,0 +1,9 @@
+<object>
+<another_object>
+<value>Child Value</value>
+<inherits>parent.xml</inherits>
+</another_object>
+<function name="main">
+a=another_object.parent();
+</function>
+</object>

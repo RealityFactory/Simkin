@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.8 2001/05/03 16:01:30 sdw Exp $
+# $Id: Makefile,v 1.9 2001/05/22 10:22:53 sdw Exp $
 
 CFLAGS = -c 
 CPPFLAGS = -c -g -ggdb -Dlinux -fimplicit-templates -I/usr/share/xerces-c-src1_4_0/src -D_REENTRANT 
@@ -15,14 +15,14 @@ CC = gcc
 
 lib_proj=Interpreter
 
-objects = skAlist.o skTreeNodeObject.o skTreeNodeObjectEnumerator.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skXMLElementObject.o skXMLElementObjectEnumerator.o  skXMLExecutable.o skStringTokenizer.o skXMLErrorHandler.o
+objects = skAlist.o skTreeNodeObject.o skTreeNodeObjectEnumerator.o skHashTable.o skString.o skTreeNode.o  skLang_tab.o skExecutable.o skInterpreter.o skRValue.o skScriptedExecutable.o skTracer.o skXMLElementObject.o skXMLElementObjectEnumerator.o  skXMLExecutable.o skStringTokenizer.o skXMLErrorHandler.o skParser.o
 
 skInterpreter.a: skLang_tab.cpp $(objects) 
 	ar -r skInterpreter.a  $(objects)
 	ranlib skInterpreter.a
 
 skLang_tab.cpp: skLang.y
-	byacc -bskLang -d -v skLang.y
+	bison -bskLang -d -v skLang.y
 	mv skLang.tab.c skLang_tab.cpp
 	mv skLang.tab.h skLang_tab.h
 
@@ -80,14 +80,13 @@ skHashTable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
 skHashTable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
 skInterpreter.c.o: skAlist.h skAlist.inl skBoundsException.h skExecutable.h
 skInterpreter.c.o: skGeneral.h skHashTable.h skHashTable.inl skInterpreter.h
-skInterpreter.c.o: skInterpreterp.h skLang_tab.h skNull.h skParseException.h
-skInterpreter.c.o: skParseNode.h skRuntimeException.h skRValueArray.h
-skInterpreter.c.o: skRValue.h skString.h skString.inl skStringList.h
-skInterpreter.c.o: skTracer.h skValist.h /usr/include/alloca.h
-skInterpreter.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
-skInterpreter.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
-skInterpreter.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
-skInterpreter.c.o: /usr/include/ctype.h /usr/include/endian.h
+skInterpreter.c.o: skInterpreterp.h skNull.h skParseException.h skParseNode.h
+skInterpreter.c.o: skParser.h skRuntimeException.h skRValueArray.h skRValue.h
+skInterpreter.c.o: skString.h skString.inl skStringList.h skTracer.h
+skInterpreter.c.o: skValist.h /usr/include/alloca.h /usr/include/assert.h
+skInterpreter.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
+skInterpreter.c.o: /usr/include/bits/sigset.h /usr/include/bits/types.h
+skInterpreter.c.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
 skInterpreter.c.o: /usr/include/features.h /usr/include/g++-3/iostream.h
 skInterpreter.c.o: /usr/include/g++-3/streambuf.h /usr/include/_G_config.h
 skInterpreter.c.o: /usr/include/gconv.h /usr/include/libio.h
@@ -97,21 +96,28 @@ skInterpreter.c.o: /usr/include/sys/types.h /usr/include/time.h
 skInterpreter.c.o: /usr/include/wchar.h /usr/include/xlocale.h
 skInterpreter.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
 skInterpreter.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
-skLang_tab.c.o: skAlist.h skAlist.inl skBoundsException.h skGeneral.h
-skLang_tab.c.o:  skLang.y skosfcn.h skParseNode.h skString.h
-skLang_tab.c.o: skString.inl skStringList.h skValist.h /usr/include/alloca.h
-skLang_tab.c.o: /usr/include/assert.h /usr/include/bits/pthreadtypes.h
-skLang_tab.c.o: /usr/include/bits/sched.h /usr/include/bits/sigset.h
-skLang_tab.c.o: /usr/include/bits/types.h /usr/include/bits/waitstatus.h
-skLang_tab.c.o: /usr/include/endian.h /usr/include/features.h
-skLang_tab.c.o: /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h
-skLang_tab.c.o: /usr/include/_G_config.h /usr/include/gconv.h
-skLang_tab.c.o: /usr/include/libio.h /usr/include/stdlib.h
-skLang_tab.c.o: /usr/include/string.h /usr/include/sys/select.h
-skLang_tab.c.o: /usr/include/sys/types.h /usr/include/time.h
-skLang_tab.c.o: /usr/include/wchar.h /usr/include/xlocale.h
+skLang_tab.c.o: skLang.y /usr/include/bits/pthreadtypes.h
+skLang_tab.c.o: /usr/include/bits/sched.h /usr/include/bits/types.h
+skLang_tab.c.o: /usr/include/features.h /usr/include/_G_config.h
+skLang_tab.c.o: /usr/include/gconv.h /usr/include/libio.h /usr/include/stdio.h
+skLang_tab.c.o: /usr/include/wchar.h /usr/lib/bison.simple
 skLang_tab.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
 skLang_tab.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
+skParser.c.o: skAlist.h skAlist.inl skBoundsException.h skGeneral.h
+skParser.c.o: skLang_tab.h skParseException.h skParseNode.h skParser.h
+skParser.c.o: skString.h skString.inl skStringList.h skValist.h
+skParser.c.o: /usr/include/alloca.h /usr/include/assert.h
+skParser.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
+skParser.c.o: /usr/include/bits/sigset.h /usr/include/bits/types.h
+skParser.c.o: /usr/include/bits/waitstatus.h /usr/include/ctype.h
+skParser.c.o: /usr/include/endian.h /usr/include/features.h
+skParser.c.o: /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h
+skParser.c.o: /usr/include/_G_config.h /usr/include/gconv.h
+skParser.c.o: /usr/include/libio.h /usr/include/stdlib.h /usr/include/string.h
+skParser.c.o: /usr/include/sys/select.h /usr/include/sys/types.h
+skParser.c.o: /usr/include/time.h /usr/include/wchar.h /usr/include/xlocale.h
+skParser.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
+skParser.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
 skRValue.c.o: skExecutable.h skGeneral.h skRValue.h skString.h skString.inl
 skRValue.c.o: /usr/include/alloca.h /usr/include/assert.h
 skRValue.c.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h
@@ -272,32 +278,6 @@ skXMLElementObject.c.o: /usr/include/sys/types.h /usr/include/time.h
 skXMLElementObject.c.o: /usr/include/wchar.h /usr/include/xlocale.h
 skXMLElementObject.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
 skXMLElementObject.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Attr.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CDATASection.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CharacterData.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Comment.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentFragment.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Document.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentType.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DOMImplementation.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Entity.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_EntityReference.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NamedNodeMap.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeFilter.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeIterator.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeList.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Notation.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_ProcessingInstruction.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Range.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Text.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_TreeWalker.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_XMLDecl.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
-skXMLElementObject.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
 skXMLElementObjectEnumerator.c.o: skExecutable.h skGeneral.h skInterpreter.h
 skXMLElementObjectEnumerator.c.o: skNull.h skRValue.h skString.h skString.inl
 skXMLElementObjectEnumerator.c.o: skXMLElementObjectEnumerator.h
@@ -320,13 +300,6 @@ skXMLElementObjectEnumerator.c.o: /usr/include/sys/types.h /usr/include/time.h
 skXMLElementObjectEnumerator.c.o: /usr/include/wchar.h /usr/include/xlocale.h
 skXMLElementObjectEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
 skXMLElementObjectEnumerator.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
-skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
-skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
-skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeList.hpp
-skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
-skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
-skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
-skXMLElementObjectEnumerator.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
 skXMLErrorHandler.c.o: skExecutable.h skGeneral.h skString.h skString.inl
 skXMLErrorHandler.c.o: skXMLElementObject.h skXMLErrorHandler.h
 skXMLErrorHandler.c.o: /usr/include/alloca.h /usr/include/assert.h
@@ -343,17 +316,6 @@ skXMLErrorHandler.c.o: /usr/include/time.h /usr/include/wchar.h
 skXMLErrorHandler.c.o: /usr/include/xlocale.h
 skXMLErrorHandler.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
 skXMLErrorHandler.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/sax/ErrorHandler.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/sax/SAXException.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/sax/SAXParseException.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLString.hpp
-skXMLErrorHandler.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLUni.hpp
 skXMLExecutable.c.o: skExecutable.h skGeneral.h skString.h skString.inl
 skXMLExecutable.c.o: skXMLElementObject.h skXMLErrorHandler.h
 skXMLExecutable.c.o: skXMLExecutable.h /usr/include/alloca.h
@@ -371,77 +333,3 @@ skXMLExecutable.c.o: /usr/include/time.h /usr/include/wchar.h
 skXMLExecutable.c.o: /usr/include/xlocale.h
 skXMLExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h
 skXMLExecutable.c.o: /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Attr.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CDATASection.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_CharacterData.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Comment.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentFragment.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Document.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DocumentType.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_DOMImplementation.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Element.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Entity.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_EntityReference.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeFilter.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Node.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeIterator.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_NodeList.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Notation.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_ProcessingInstruction.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Range.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOMString.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_Text.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_TreeWalker.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/dom/DOM_XMLDecl.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/LocalFileInputSource.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/MemBufInputSource.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLAttDef.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLAttDefList.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLAttr.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLContentModel.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLDocumentHandler.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLElementDecl.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLEntityDecl.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLEntityHandler.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLErrorReporter.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLNotationDecl.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLRefInfo.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLValidator.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/framework/XMLValidityCodes.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/parsers/DOMParser.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/sax/ErrorHandler.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/sax/InputSource.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ArrayIndexOutOfBoundsException.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/Compilers/GCCDefs.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/EmptyStackException.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/HashBase.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/HashXMLCh.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/IllegalArgumentException.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/KeyValuePair.c
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/KeyValuePair.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/NameIdPool.c
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/NameIdPool.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/NoSuchElementException.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/Platforms/Linux/LinuxDefs.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefHashTableOf.c
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefHashTableOf.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefVectorOf.c
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RefVectorOf.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/RuntimeException.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/StringPool.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueStackOf.c
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueStackOf.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueVectorOf.c
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/ValueVectorOf.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XercesDefs.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLEnumerator.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLException.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLExceptMsgs.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLMsgLoader.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLString.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/util/XMLUni.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DocTypeHandler.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDAttDef.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDElementDecl.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDEntityDecl.hpp
-skXMLExecutable.c.o: /usr/share/xerces-c-src1_4_0/src/validators/DTD/DTDValidator.hpp

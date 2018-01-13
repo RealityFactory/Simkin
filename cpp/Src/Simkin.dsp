@@ -105,6 +105,10 @@ SOURCE=.\skLang_tab.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\skParser.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\skRValue.cpp
 # End Source File
 # Begin Source File

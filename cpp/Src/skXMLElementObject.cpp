@@ -2,7 +2,7 @@
   Copyright 1996-2001
   Simon Whiteside
 
-  $Id: skXMLElementObject.cpp,v 1.19 2001/05/14 09:27:40 sdw Exp $
+  $Id: skXMLElementObject.cpp,v 1.22 2001/05/22 12:24:10 sdw Exp $
 */
 
 #include "skStringTokenizer.h"
@@ -192,7 +192,7 @@ bool skXMLElementObject::getValueAt(const skRValue& array_index,const skString& 
     bRet=false;
   if (bRet==true){
     if (attribute.length()==0)
-      value=skRValue(new skXMLElementObject(m_ScriptLocation+"["+skString::from(index)+"]",child),true);
+      value=skRValue(createXMLElementObject(m_ScriptLocation+"["+skString::from(index)+"]",child),true);
     else{
       DOMString attrName=fromString(attribute);
       DOMString attrValue=child.getAttribute(attrName);
@@ -201,6 +201,12 @@ bool skXMLElementObject::getValueAt(const skRValue& array_index,const skString& 
   }else
     bRet=skExecutable::getValueAt(array_index,attribute,value);
   return bRet;
+}
+//------------------------------------------
+skXMLElementObject * skXMLElementObject::createXMLElementObject(const skString& location,DOM_Element element)
+//------------------------------------------
+{
+  return new skXMLElementObject(location,element);
 }
 //------------------------------------------
 bool skXMLElementObject::getValue(const skString& name,const skString& attrib,skRValue& v) 
@@ -220,7 +226,7 @@ bool skXMLElementObject::getValue(const skString& name,const skString& attrib,sk
     }
     if (bRet==true){
       if (attrib.length()==0)
-	v=skRValue(new skXMLElementObject(m_ScriptLocation+":"+name,child),true);
+	v=skRValue(createXMLElementObject(m_ScriptLocation+":"+name,child),true);
       else{
 	DOMString attrName=fromString(attrib);
 	DOMString attrValue=child.getAttribute(attrName);
@@ -335,9 +341,7 @@ DOM_Element skXMLElementObject::findChild(DOM_Element parent,const skString& tag
       DOM_Node node=nodes.item(i);
       int type=node.getNodeType();
       DOMString nodeName=node.getNodeName();
-      //    skString sNodeName=skString::fromBuffer((unsigned char *)(nodeName.transcode()));
       DOMString nodeValue=node.getNodeValue();
-      //    skString sNodeValue=skString::fromBuffer((unsigned char *)(nodeValue.transcode()));
       if (type==DOM_Node::ELEMENT_NODE)
 	if (nodeName.equals(sTagName)){
 	  DOM_Element thisElement=*(DOM_Element *)&node;

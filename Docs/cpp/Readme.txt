@@ -1,6 +1,15 @@
 Simkin for C++
 (c)2000-2001 Simon Whiteside
 
+Simkin Version 2.07
+Date: 22nd May 2001
+-------------------
+
+* added a new example called Inherits, which shows how you can support inheritance within Simkin scripts
+* made the interpreter re-entrant by using the pure_parser option in bison - added a new class called skParser to help with this
+* on Windows, one interpreter is now created per thread (Any advice on non-Windows equivalents??)
+  (many thanks to Rich Goldstein, MD <rich@wima-nj.com> for help on this)
+
 Simkin Version 2.06
 Date: 14th May 2001
 -------------------
