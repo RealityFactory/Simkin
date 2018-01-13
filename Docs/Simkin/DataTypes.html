@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Data Types</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Data Types</H1>
+<hr>
+<p>
+<p>These are the Simkin data types:
+<p>
+<table border>
+<tr><th>Type<th>Description<th>Example</th></tr>
+<tr><td>self<td>a reference to the object owning the script<td>self.field="Hello";</td></tr>
+<tr><td>boolean<td>a truth value<td>true or false</td></tr>
+<tr><td>integer<td>a signed number<td>32</td></tr>
+<tr><td>float<td>a signed floating point number<td>32.33</td></tr>
+<tr><td>character<td>a single character.Use "\" to quote characters<td>'m', '\''</td></tr></td></tr>
+<tr><td>string<td>an arbitrary length piece of text.You can embed any text except ".To use " put a slash and then a quote \".<td>"He said \"Goodbye\" and left."</td></tr>
+<tr><td>boolean<td>a true or false object represented<td><b>false</b> or <b>true</b>, 0 or 1</td></tr>
+<tr><td>object<td>another Simkin object with methods and fields<td>MyObject</td></tr>
+<tr><td>XML element<td>an XML element object<td>&lt;element&gt;&lt;subelement&gt;Value1&lt;/subelement&gt;&lt;/element&gt;</td></tr>
+</table>
+<p>
+There are some built-in functions which are used with these types:
+<ul>
+<li>isObject(&lt;variable&gt;) - returns true if the variable represents an object
+<li>length(&lt;variable&gt;) - returns length of string value
+<li>charAt(&lt;variable&gt;,&lt;index&gt;) - returns nth character in a string (the first character is index 0)
+</ul>
+<p>
+Variables are used without declarations. The type of a variable is implied by its value, and Simkin will convert to different types as required.
+<p>For example:
+<pre>
+name="Simon";
+value=4;
+trace(name+value);
+</pre>
+will produce:
+<pre>
+4
+</pre>
+and 
+<pre>
+trace(name # value);
+</pre>
+will produce
+<pre>
+Simon4
+</pre>
+
+</BODY>
+</HTML>
+
+
+

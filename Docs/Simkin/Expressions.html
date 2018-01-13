@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Expressions</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Expressions</H1>
+<p>Simkin supports the following expression types:
+<p>
+<table border>
+<tr><th>Type</th><th>Description</th><th>Example</th></tr>
+<tr><td>literal</td><td>a literal value of one of the built-in <a href="DataTypes.html">data types</a><td>"Simon", 100</td></tr>
+<tr><td>self</td><td>a reference to the object owning the method</a><td>anotherObject.register(<b>self</b>)</td></tr>
+<tr><td>null</td><td>an object meaning "nothing"</a></td><td>if (node=<b>null</b>)</td></tr>
+<tr><td>identifier</td><td>this is the name of a variable or method, see below for scoping rules</td><td>MyVariable</td></tr>
+<tr><td>indirection</td><td>you can prepend the identifier with @ to provide <a href="Scope.html#Indirection">indirection</a></td><td>@MyVariable</td></tr>
+<tr><td>attribute</td><td>this accesses an attribute in another object</td><td>Account:Balance</td>
+<tr><td>field</td><td>this accesses a field or method in another object, or a sub-item within a field</td><td>Account.getPerson().Surname</td></tr>
+<tr><td>self method call</td><td>calling a method on the current object and using the return value</td><td>sendMessage(message)</td></tr>
+<tr><td>not</td><td>negates an expression</td><td>not Overdrawn</td></tr>
+<tr><td>and</td><td>logical and</td><td>Overdrawn and WithinRedZone</td></tr>
+<tr><td>or</td><td>logical or</td><td>DepositAccount or CurrentAccount</td></tr>
+<tr><td>equality</td><td>equality test</td><td>Name="Simon"</td></tr>
+<tr><td>inequality</td><td>inequality test</td><td>Name!="Simon"</td></tr>
+<tr><td>less than</td><td>integer less than</td><td>a lt b</td></tr>
+<tr><td>greater than</td><td>integer greater than</td><td>a gt b</td></tr>
+<tr><td>subtract</td><td>integer subtract</td><td>12 - 1</td></tr>
+<tr><td>add</td><td>integer addition</td><td>12 + 1</td></tr>
+<tr><td>minus</td><td>integer inversion</td><td>- 1</td></tr>
+<tr><td>times</td><td>integer multiplication</td><td>12 * 1</td></tr>
+<tr><td>divide</td><td>integer division</td><td>12 / 1</td></tr>
+<tr><td>modulus</td><td>integer modulus</td><td>12 % 1</td></tr>
+<tr><td>concatenation</td><td>adding two strings together</td><td>"First Name " # " Surname"</td></tr>
+<tr><td>subexpression</td><td>for grouping expressions and enforcing precedence</td><td>(4+1)+5</td></tr>
+</table>
+</BODY>
+</HTML>

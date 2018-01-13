@@ -1,0 +1,6 @@
+body {background:white;font-family:helvetica;font-size:11pt}
+td {background:#dddddd;font-family:helvetica;font-size:11pt}
+td.white {background:white;font-family:helvetica;font-size:11pt}
+table {background:#dddddd;font-family:helvetica}
+table.white {background:white;font-family:helvetica}
+pre {background:#dddddd}

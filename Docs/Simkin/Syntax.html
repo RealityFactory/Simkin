@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Script Syntax</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Script Syntax</H1>
+<hr>
+<p>The general format of a method in Simkin within an XML file is:
+<p>
+<pre>
+     &lt;function name="MethodName" params="parameters"&gt;
+     	&lt;code statements&gt;
+     &lt;/function&gt;
+</pre>
+<p>for example:
+<pre>
+     &lt;function name="Print" params="s"&gt;
+      System.Print(s);
+     &lt;/function&gt;
+</pre>
+Within a TreeNode file the format is:
+<pre>
+     &lt;MethodName&gt; [ (&lt;params&gt;) {
+     	&lt;code statements&gt;
+     } ]
+</pre>
+<p>for example:
+<pre>
+     Print [ (s){
+      System.Print(s);
+     } ]
+</pre>
+<p>Here are some aspects of Simkin syntax:
+<ol>
+<li><a href="Names.html">Method and Field Name rules</a></li>
+<li><a href="Quoting.html">Quoting</a></li>
+<li><a href="Statements.html">Statements</a></li>
+<li><a href="Expressions.html">Expressions</a></li>
+<li><a href="Comments.html">Comments</a></li>
+<li><a href="DataTypes.html">Data Types</a></li>
+<li><a href="Scope.html">Scope</a></li>
+<li><a href="Grammar.html">Full Language Grammar</a>
+</ol>
+</BODY>
+</HTML>

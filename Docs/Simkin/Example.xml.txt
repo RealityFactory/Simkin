@@ -1,0 +1,42 @@
+<example>
+
+<comment>
+This is an example Simkin script, it will show some of the
+main elements of the language
+</comment>
+
+<comment>This field is an member variable of the object owning the script</comment>
+
+<InstanceField attribute="value">InstanceData</InstanceField>
+
+<comment>Here is a more complex member variable</comment>
+
+<InstanceStruct>
+<Field1>Field1 Data</Field1>
+<Field2>Field2 Data</Field2>
+</InstanceStruct>
+
+<comment>Here is a method which takes two parameters</comment>
+
+<function name="Method1" params="a,b">
+  return (a+b);
+</function>
+
+<comment>This method iterates over the characters in a string looking for the first 'm', returning -1 if not found</comment>
+
+<function name="Method2" params="s">
+ length=length(s);	//	call built-in function length()
+ index=0;
+ while (index lt length){
+  if (charAt(s,index)='m'){	//	call another built-in function charAt()
+    return index;
+  }else{
+    index=index+1;
+    index=index/1;
+    index=index*1;
+    index=index%1;
+  }
+ }
+ return -1;
+</function>
+</example>

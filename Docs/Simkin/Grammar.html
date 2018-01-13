@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Script Grammar</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Script Grammar</H1>
+<hr>
+This is a description of the Simkin grammar in EBNF format:
+<pre>
+compound_statement: "{" (&lt;statement&gt;)* "}"
+statement:  "if" "(" &lt;expression&gt; ")" &lt;compound_statement&gt; ["else" &lt;compound_statement&gt;]
+         |  "while" "(" &lt;expression&gt; ")" &lt;compound_statement&gt;
+         |  "switch" "(" &lt;expression&gt; ")" "{"
+              ("case" &lt;expression&gt; &lt;compound_statement&gt;)* 
+              [ "default" &lt;compound_statement&gt; ] "}" ";"
+         |  "return" &lt;expression&gt; ";"
+         |  &lt;id_list&gt; [ ":" &lt;id&gt; ] "=" &lt;expression&gt; ";"
+         |  &lt;id_list&gt; "(" &lt;expression_list&gt; ")" ";"
+         | ";"
+
+expression_list: &lt;expression&gt; ( "," &lt;expression&gt; )*
+expression: &lt;expression&gt; "or" &lt;expression&gt;
+         | &lt;expression&gt; "and" &lt;expression&gt;
+         | &lt;expression&gt; "=" &lt;expression&gt;
+         | &lt;expression&gt; "!=" &lt;expression&gt;
+         | &lt;expression&gt; "lt" &lt;expression&gt;
+         | &lt;expression&gt; "gt" &lt;expression&gt;
+         | &lt;expression&gt; "#" &lt;expression&gt;
+         | &lt;expression&gt; "+" &lt;expression&gt;
+         | &lt;expression&gt; "-" &lt;expression&gt;
+         | &lt;expression&gt; "/" &lt;expression&gt;
+         | &lt;expression&gt; "*" &lt;expression&gt;
+         | &lt;expression&gt; "%" &lt;expression&gt;
+         | "-" &lt;expression&gt;
+         | "not" &lt;expression&gt;
+         |  &lt;id_list&gt; [ ":" &lt;id&gt; ] 
+         | &lt;string&gt;
+         | &lt;integer&gt;
+         | &lt;float&gt;
+         | "true"
+         | "false"
+         | "self"
+         | "null"
+         | "(" &lt;expression&gt; ")"
+id_list:  &lt;id&gt; [ "(" &lt;expression_list&gt; ")" ] ( "." &lt;id&gt; [ "(" &lt;expression_list&gt; ")" ])*
+</pre>
+Here are the lexical tokens, described as regular expressions:
+<pre>
+&lt;integer&gt;: "0" | (["1"-"9"] (["0"-"9"])*) 
+&lt;string&gt;: "\"" (~["\"","\\","\n","\r"] 
+              | "\\" (["n","t","b","r","f","\\","\'","\""] 
+              | ["0"-"7"] (["0"-"7"])? 
+              | ["0"-"3"] ["0"-"7"] ["0"-"7"]))* "\"" 
+&lt;float&gt;: ((["0"-"9"])+ "." (["0"-"9"])* 
+              | (["0"-"9"])* "." (["0"-"9"])+) ("e" (["-","+"])? (["0"-"9"])+)? 
+&lt;id&gt;: ["@","$","A"-"Z","_","a"-"z"] ( ["@","$","A"-"Z","_","a"-"z"] 
+              | ["0"-"9"] )*
+</pre>
+
+</BODY>
+</HTML>
+

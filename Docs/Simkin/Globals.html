@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Globals</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Globals</H1>
+<hr>
+
+All Simkin objects support certain functions connected with variables, please see
+the <a href=DataTypes.html>data types page</a> for more information.
+<p>
+Simkin currently comes with a single global object - <b>Interpreter</b>, which represents the Simkin
+language engine.
+<p>
+This object supports the following field:
+<p>
+tracing (boolean)	-	set this to <b>true</b>, and a trace of the methods called will be printed out
+<p>
+For example:
+<pre>
+Interpreter.tracing=true;
+</pre>
+switches tracing on, while this:
+<pre>
+Interpreter.tracing=false;
+</pre>
+switches tracing off.
+</BODY>
+</HTML>

@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Using Simkin</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Using Simkin with your C++ application</H1>
+<hr>
+Simkin for C++ is distributed in source code format. It has been written in C++
+using templates.
+<P>Typically you build Simkin into a library to link with your application.
+<p>We supply some example project files which build a static library.
+<ul>
+<LI>
+Makefile - for use with Linux and gcc</LI>
+<LI>
+Simkin.mcp - for use with CodeWarrior on MacOS (this does not include the XML files)</LI>
+<LI>
+Simkin.dsw - workspace for use with Visual C++ on Windows </LI>
+</UL>
+in all cases, you will have to add the correct include and libraries for your Xerces-C distribution.
+<p>
+Simkin source files and classes are all prefixed with "sk" to prevent name
+clashes with classes in your own application.
+<p>
+The classes within Simkin that interact with XML use the Xerces-C library from the Apache Foundation. 
+<p>This library is *not* included in the Simkin distribution, it can be obtained from <a href="http://xml.apache.org/xerces-c">http://xml.apache.org/xerces-c</a>
+<p>The classes (<a href="api/skXMLElementObject.html">skXMLElementObject</a> and <a href="api/skXMLExecutable.html">skXMLExecutable</a>) can be reimplemented to use a different XML library, without affecting the rest of the interpreter, which does not itself require any XML libraries.
+<p><small>Notes:
+<ul>
+<li>Visual C++ for Windows: you need to build your applications with Code Generation set to "Multithreaded DLL" when using the Xerces-c library</li>
+</ul>
+</small>
+</BODY>
+</HTML>

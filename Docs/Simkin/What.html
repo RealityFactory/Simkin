@@ -1,0 +1,34 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>What is Simkin?</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+What is Simkin?</H1>
+<hr>
+<p>
+Simkin is a scripting language that be added to your application.
+<p>You use the language to offer a way of customizing the way the application works.
+<p>The "scripter" writes Simkin script which transparently calls other Simkin script, or methods within the host language of your application.
+<p>For example:
+<pre>
+<function name="sendEmail" params="person">
+person.sendEmail("Hello There");
+</function>
+</pre>
+Here the scripter has made use of the method <b>sendEmail</b>. This might be a another Simkin method, or it might be a method in C++ or Java.
+<p>Every Simkin object actually corresponds to an object in the underlying application.
+<p>
+Simkin scripts can "see" other C++ objects if they implement a particular interface, <a href="../cpp/api/skExecutable.html">skExecutable</a>. 
+<p>In Java, Simkin scripts can see all the public methods or fields of other objects, using Java introspection. (The interface <a href="../java/api/simkin/Executable.html">Executable</a> can be used for special behaviour).
+<p>As well as making C++ or Java methods available to Simkin scripts, you can "attach" a script to an object, extending the object's functionality and data.
+<p>If you do want to attach a script to an object, the script can come from a variety of sources:
+<ul>
+<li>you can store it within XML files (deriving from <a href="../cpp/api/skXMLExecutable.html">skXMLExecutable<a> or <a href="../java/api/simkin/XMLExecutable.html">XMLExecutable</a> gives you this for free)<br>&nbsp;</li> 
+<li>you can store it within hierachical <a href="../java/api/simkin/TreeNode.html">TreeNode</a> or <a href="../cpp/api/skTreeNode.html">skTreeNode</a> files (deriving from <a href="../cpp/api/skScriptedExecutable.html">skScriptedExecutable<a> or <a href="../java/api/simkin/ScriptedExecutable.html">ScriptedExecutable</a> gives you this for free)<br>&nbsp;</li> 
+<li>you can store it within a database (you can extend <a href="../cpp/api/skExecutable.html">skExecutable<a> or <a href="../java/api/simkin/ExecutableRoot.html">ExecutableRoot</a> as a starting point and add database access).</li>
+<ul>
+ </body>
+</html>

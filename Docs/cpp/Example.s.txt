@@ -1,0 +1,38 @@
+{
+	[	This is an example Simkin script, it will show some of the
+		main elements of the language
+	]
+
+
+	InstanceField [InstanceData]	[This field is an member variable of the object
+					 owning the script]
+
+
+	InstanceStruct			[Here is a more complex member variable]
+	{
+		Field1 [Field1 Data]
+		Field2 [Field2 Data]
+	}
+
+	[Here is a method which takes two parameters]
+
+	Method1 [(a,b){
+		return (a+b);
+	}]
+
+	[This method iterates over the characters in a string 
+	 looking for the first 'm', returning -1 if not found
+	]
+	Method2 [(s){
+		length=Length(s);	//	call built-in function
+		index=0;
+		while (index<length){
+			if (CharAt(s,index)="m"){	//	call another built-in function
+				return index;
+			}else{
+				index=index+1;
+			}
+		}
+		return -1;
+	}]
+}

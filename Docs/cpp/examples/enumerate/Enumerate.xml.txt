@@ -1,0 +1,23 @@
+<myobject>
+<function name="main">
+ trace("Here are all the tags in this file:");
+ enumerator=enumerate();
+ node=enumerator.next();
+ while (node!=null){
+  trace(node.nodename);
+  node=enumerator.next();
+ }
+ trace("Here are all the client tags in this file:");
+ enumerator=enumerate("client");
+ node=enumerator.next();
+ while (node!=null){
+  trace(node);
+  node=enumerator.next();
+ }
+</function>
+<name>Simon</name>
+<company>Lateral Arts</company>
+<client>Redfig</client>
+<client>Oilspace</client>
+<client>Herculeez</client>
+</myobject>

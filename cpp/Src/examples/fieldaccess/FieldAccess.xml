@@ -1,0 +1,13 @@
+<myobject>
+<Personal Debit="200.564" BankAssets="129.04">
+<Name>Simon Whiteside</Name>
+<Address>19 Allenby Road</Address>
+<City>London</City>
+</Personal>
+<function name="main">
+ trace("My name is " # Personal.Name # " and I live at " # Personal.Address # " in " # Personal.City);
+ trace("The balance of my assets and debits is: $" # (Personal:BankAssets-Personal:Debit));
+</function>
+</myobject>
+		
+	

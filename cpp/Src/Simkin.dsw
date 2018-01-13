@@ -1,0 +1,116 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "Demo"=.\examples\demo\Demo.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name XercesLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Demo_XML"=.\examples\demo_xml\Demo_XML.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name XercesLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "HelloWorld"=.\examples\helloworld\HelloWorld.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name XercesLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ScriptLoader"=.\examples\scriptloader\ScriptLoader.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Simkin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name XercesLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Simkin"=.\Simkin.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name XercesLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "XercesLib"="..\..\..\xerces-c-src1_3_0\Projects\Win32\VC6\xerces-all\XercesLib\XercesLib.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

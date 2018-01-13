@@ -1,0 +1,55 @@
+//	this example shows an example implementation of the Scriptable Person class
+
+bool ScriptablePerson::getValue(const skString& fieldName, const String& attribute, skRValue& value)
+{
+	bool ret=false;
+	if (fieldName=="Name"){
+		value=m_Name;
+		ret=true;		//	return true, means we recognize the field
+	}else
+	if (fieldName=="EmailAddress"){
+		value=m_EmailAddress;
+		ret=true;		
+	}else
+	//	call to base class which will look for the field in the data stored in the object's
+	//	script file
+		ret=skXMLExecutable::getValue(fieldName,attribute,value);
+	return ret;
+}
+
+bool ScriptablePerson::setValue (const skString& fieldName, const skString& attribute, const skRValue& value)
+{
+	bool ret=false;
+	if (fieldName=="Name"){
+		m_Name=value;
+		ret=true;		//	return true, means we recognize the field
+	}else
+	if (fieldName=="EmailAddress"){
+		m_EmailAddress=value;
+		ret=true;		
+	}else
+	//	call to base class which will look for the field in the data stored in the object's
+	//	script file
+		ret=skXMLExecutable::getValue(fieldName,value);
+	return ret;
+}
+
+
+bool ScriptablePerson::method(const skString& methodName, skRValueArray& arguments,skRValue& returnValue)
+{
+	bool ret=false;
+	if (methodName=="SendEmail"){
+		ret=true;	//	we have recognized the method name
+		//	assume we have been passed two arguments - the subject and text of the message
+		if (arguments.Entries()==2){
+			skString subject=arguments[0].str();	//	extract the first argument as a string
+			skString text=arguments[1].str();	//	extract the second argument as a string
+			//	call a function here to send the email: contained in some other library
+			CallOurEmailFunction(m_EmailAddress,subject,text);
+		}else
+			error("ScriptablePerson expects two arguments to SendEmail: subject, address");
+	}else
+		//	otherwise pass the method up where it can be looked for in the object's script
+		ret=skXMLExecutable::method(methodName,arguments,returnValue);
+	return ret;
+}

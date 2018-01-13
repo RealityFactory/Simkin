@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Scriptable Person class</TITLE>
+</HEAD>
+<BODY>
+<PRE>
+bool ScriptablePerson::<A NAME="getValue">getValue</a> (const skString& fieldName,const skString& attribute,skRValue&  value)
+{
+    if (fieldName=="Name"){    
+// the field "Name" is visible to Simkin scripts
+        value=m_Name;
+        return true;                       
+//    this means "field found"
+    }else
+        return skXMLExecutable::getValue(fieldName,attribute,value);
+}
+bool ScriptablePerson::<A NAME="setValue">setValue</a> (const skString& fieldName, const skString& attribute,const skRValue& value)
+{
+    if (fieldName=="Name"){    
+//   the field "Name" is visible to Simkin scripts
+        m_Name=value;
+        return true;                       
+//    this means "field found"
+    }else
+        return skXMLExecutable::setValue(fieldName,attribute,value);
+}
+<P>bool ScriptablePerson::<A NAME="method">method</a> (const skString& methodName, skRValueArray& arguments,skRValue& returnValue)
+{
+    if (methodName=="Mail"){
+        skString message=args[0].str();
+        returnValue=MyEmailClass::sendEmail(m_EmailAddress,message);
+        //    call my email class to actually send the message
+        return true;
+    }else
+        return skXMLExecutable::method(methodName,arguments,returnValue);
+}
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Writing Simkin Scripts</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Writing Simkin Scripts</H1>
+<hr>
+Simkin script can be placed within an XML document, a <a href="../java/api/simkin/TreeNode.html">TreeNode</a> or <a href="../cpp/api/skTreeNode.html">skTreeNode</a> file or from some other source, such as a database.
+<p>Using Simkin, your script can call other methods within the document, or within other C++ or Java objects. It can also manipulate the data elements of the document.
+<p>XML or TreeNode documents can contain a mixture of data elements and script elements. 
+<p>Slightly different syntax is used in the two different formats. 
+<p>Here's a method in an XML document:
+<pre>
+&lt;function name="method" params="arg"&gt;
+self.foo();
+&lt;/function&gt;
+</pre>
+Here's a method in a TreeNode file:
+<pre>
+method [(arg){
+self.foo();
+}]
+</pre>
+In XML the parameters are defined within the <b>params</b> attribute, in TreeNode, they are declared within "(" ")"
+<p>Here's a more detailed example in XML:
+<pre>
+&lt;myobject&gt;
+&lt;Field1&gt;Value&lt;/Field1&gt;
+&lt;function name="Method" params="arg"&gt;
+trace("Hello World"); 
+trace("Field1=" # Field1);
+trace(arg);
+&lt;/function&gt;
+&lt;/myobject&gt;
+</pre>
+In this example the XML file contains a data element called "Field1" and a function called "Method". 
+<p>The data field can be any standard XML field. The function element has two attributes:
+<ul>
+<li><b>name</b> - the name of the method
+<li><b>params</b> - a list of parameters to the method (separated by commas)
+</ul>
+The text within the element contains Simkin script as a series of statements separated by ";".
+<p>In the example the method calls another method called "trace". This is actually a method within the underlying C++ or Java application.
+<p>The example also retrieves the "value" of the field "Field1". This is the text that exists between the opening and closing of the "Field1" tag. The "#" operator adds two strings together.
+<p>You can also access attributes and sub-tags of elements:
+<pre>
+&lt;myobject&gt;
+&lt;Field1 attribute="value"&gt;
+&lt;SubField1&gt;
+MyValue
+&lt;/SubField1&gt;
+&lt;/Field1&gt;
+&lt;function name="Method"&gt;
+trace("Field1:attribute=" # Field1:attribute);
+trace("Field1.SubField1=" # Field1.SubField1);
+&lt;/function&gt;
+&lt;/myobject&gt;
+</pre>
+<br>The Simkin <a href=Syntax.html>Syntax</a> is a very simple, like JavaScript, and contains statements such as "if" and "while", and operators for doing mathematics and string manipulation.
+<br><br>Simkin script can call into methods implemented either in C++ or Java or in Simkin script itself.
+<br><br>Please see this example script <a href="Example.xml.txt">Example.xml</a>
+<br>Here is the equivalent in TreeNode: <a href="Example.s.txt">Example.s</a>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Using Simkin</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Embedding Simkin in your application</H1>
+<hr>
+Simkin hooks directly into your C++ application.
+<P>First, you need to create an instance of the skInterpreter class. This
+is usually done at the beginning of your application:
+<BR> 
+<PRE>void main()
+{
+ skInterpreter::setInterpreter(new skInterpreter);
+
+// application code ....
+
+// remember to delete the interpreter at the end of everything
+ delete skInterpreter::getInterpreter();
+ skInterpreter::setInterpreter(0);
+}</PRE>
+
+<P><BR>To expose fields and methods in your C++ classes you derive from
+the Simkin base classes <a href="api/skExecutable.html">skExecutable</a>:
+<P>For example (click on the highlighted method to see its implementation):
+<PRE>class Person : public skExecutable
+{
+public:
+    bool <A HREF="Person.html#getValue">getValue</A> (const skString& fieldName, const skString& attribute, skRValue& value);
+    // returns a field's value
+
+    bool <A HREF="Person.html#setValue">setValue</A> (const skString& fieldName, const skString& attribute, const skRValue& value);
+    // sets a field's value
+
+    bool <A HREF="Person.html#method">method</A> (const skString& methodName, skRValueArray& arguments,skRValue& returnValue);
+    // calls a method in this object
+private:
+    skString m_Name;
+    skString m_EmailAddress;
+};</PRE>
+You can also derive from <a href="api/skXMLExecutable.html">skXMLExecutable</a> or <a href="api/skScriptedExecutable.html">skScriptedExecutable</a>. These classes load a Simkin
+script from files.
+<P>Their versions of "getValue", "setValue" and "method" find their values
+and behaviour from the Simkin script file. You can override these to add
+your own specialized C++ behaviour.
+<P>For example (click on the highlighted method to see its implementation):
+<PRE>class ScriptablePerson : public skXMLExecutable
+{
+public:
+    bool <A HREF="ScriptablePerson.html#getValue">getValue</A> (const skString& fieldName, const skString& attribute,skRValue&; value);
+    // returns a field's value
+
+    bool <A HREF="ScriptablePerson.html#setValue">setValue</A> (const skString& fieldName, const skString& attribute,const skRValue& value);
+    // sets a field's value
+
+    bool <A HREF="ScriptablePerson.html#method">method</A> (const skString& methodName, skRValueArray& arguments,skRValue& returnValue);
+    // calls a method in this object
+private:
+    skString m_Name;
+    skString m_EmailAddress;
+};</PRE>
+Please see <A HREF="Example.cpp.txt">Example.cpp</A> which shows
+all of this.
+</BODY>
+</HTML>

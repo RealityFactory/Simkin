@@ -1,0 +1,44 @@
+<simple>
+This is an example Simkin script, it will show some of the main elements of the language
+
+This field is an member variable of the object owning the script
+	
+<InstanceField>InstanceData</InstanceField>
+
+Here is a more complex member variable
+	
+<InstanceStruct>
+<Field1>Field1 Data</Field1>
+<Field2>Field2 Data</Field2>
+</InstanceStruct>
+	
+Here is a method which takes two parameters
+
+<function name="Method1" params="a,b">
+ return (a+b);
+</function>
+
+This method iterates over the characters in a string looking for the first 'm', returning -1 if not found
+
+<function name="Method2" params="s">
+//	call built-in function  
+ length=length(s);	
+ index=0;
+ while (index lt length){
+  if (charAt(s,index)='m'){	
+//	call another built-in function
+   return index;
+  }else{
+   index=index+1;
+  }
+ }
+ return -1;
+</function>
+<function name="main">
+// Interpreter.Tracing=true; // uncomment this to get tracing
+ i=Method2("Simon");
+ trace("Index of m in Simon is: " # i);
+ i=true;
+ trace(i);
+</function>
+</simple>

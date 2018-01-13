@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<link rel=stylesheet type="text/css" href="styles.css">
+<TITLE>Simkin Scope</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Simkin Scope</H1>
+<hr>
+<p>
+In Simkin, identifiers identify the following types of things:
+<p>
+<ol>
+<li>local variables - these are visible only within the current function</li>
+<li>instance variables - these belong to the current object</li>
+<li>global variables - these are visible to any script</li>
+</ol>
+
+<p><a name=Indirection>If an identifier begins with a @</a>, then the value of the variable
+whose name follows is used as the identifier's value.
+<p>For example:
+<pre>
+myvar="Name"; 
+trace(@myvar);		// this will produce the contents of the variable Name
+
+mymethod="Show"; 
+@mymethod();		// calls the method Show
+</pre>
+</BODY>
+</HTML>
