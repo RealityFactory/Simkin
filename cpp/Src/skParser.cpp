@@ -571,7 +571,7 @@ int yylex(YYSTYPE * lvalp, void * yylloc,void* context)
  * Symbian Note: a leaving function
  */
 //------------------------------------------
-void real_yyerror(Char *  msg, void* context)
+void real_yyerror(const Char *  msg, void* context)
 //------------------------------------------
 { 
   // this global function is called by the generated yyparse() function if there is an error

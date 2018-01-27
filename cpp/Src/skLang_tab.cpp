@@ -84,7 +84,7 @@ typedef union{
 } YYSTYPE;
 
 int yylex(YYSTYPE * lvalp,void * yylloc, void* context);
-void real_yyerror(Char * msg, void* context);
+void real_yyerror(const Char * msg, void* context);
 #define yyerror(x) real_yyerror(x, YYPARSE_PARAM)
 
 #ifndef YYLTYPE

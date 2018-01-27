@@ -185,6 +185,9 @@ inline void ExitSystem()
 #if (_MSC_VER>1300)
 #define STL_STREAMS 1
 #endif
+#if !defined (WIN32) && !defined(__SYMBIAN32__)
+#define STL_STREAMS 1
+#endif
 #define EXCEPTIONS_DEFINED
 #include <assert.h>
 #endif

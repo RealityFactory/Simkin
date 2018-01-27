@@ -92,7 +92,7 @@ inline  skString::skString()
 //---------------------------------------------------
 inline P_String::P_String()
   //---------------------------------------------------
-  : m_PString(skSTR(""))
+  : m_PString((Char*)skSTR(""))
 {
   s.m_Hash=0;
   s.m_RefCount=1;
